@@ -9,5 +9,62 @@
   "see": "/demo/ 에서 조합마다 다른 이름·메뉴의 사이트가 열립니다",
   "mounts": "/demo/ (demo)",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "runs": [
+      {
+        "say": "조립 예시 하나(「게임놀이터」)를 따로 찍어 봅니다(본 사이트는 건드리지 않고 임시 폴더에 만듭니다)",
+        "cmd": [
+          "demo.py",
+          "--only",
+          "games",
+          "--out",
+          "{out}/demo_games"
+        ],
+        "cwd": "repo",
+        "show": "stdout",
+        "timeout": 180,
+        "expect": {
+          "contains": "게임놀이터"
+        }
+      },
+      {
+        "say": "다른 조합(「한입 매거진」)도 따로 찍어 봅니다",
+        "cmd": [
+          "demo.py",
+          "--only",
+          "magazine",
+          "--out",
+          "{out}/demo_magazine"
+        ],
+        "cwd": "repo",
+        "show": "stdout",
+        "timeout": 180,
+        "expect": {
+          "contains": "한입 매거진"
+        }
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "조립 예시는 demos/demos.json 의 조합마다 이름·소개·켠 키트가 다른 사이트를 따로 찍은 것이다",
+      "까닭": "같은 하네스로 다른 종류의 사이트가 나온다는 것을 보여 주려는 것입니다",
+      "모르면": "한 사이트에 키트를 전부 켜면 된다고 오해합니다",
+      "근거": "demo.py 맨 위 설명, demos/demos.json"
+    },
+    {
+      "알것": "본 사이트를 build 한 뒤 python demo.py 를 돌려야 /demo/ 아래에 예시가 생긴다",
+      "까닭": "demo.py 가 docs/demo/<이름>/ 에 따로 찍어 넣기 때문입니다",
+      "모르면": "build 만 돌리면 메뉴의 「조립 예시」가 404 가 됩니다",
+      "근거": "demo.py"
+    },
+    {
+      "알것": "예시 사이트는 본 사이트와 내용이 겹쳐 검색에 안 나가게(noindex) 만든다",
+      "까닭": "중복 내용이 본 사이트 검색 순위를 해치지 않게 하려는 것입니다",
+      "모르면": "검색에 예시가 떠서 본 사이트와 겹쳐 보입니다",
+      "근거": "demo.py 맨 위 설명"
+    }
+  ],
+  "try_change": "demos/demos.json 의 한 조합에서 name(사이트 이름)을 바꾸고 python demo.py --only games --out 임시폴더 를 돌려, 찍힌 사이트 이름이 바뀌는지 보세요(끝나면 되돌리세요)."
 }

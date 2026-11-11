@@ -12,6 +12,12 @@
       python run.py 올리기전                  구문 검사 + 장·키트·조립·사이클 명령을 한 번씩 실제로 돌려 보기(올리기 전 필수)
       python run.py 진도 [보기|기록 글]        어디까지 했는지
       python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
+      python run.py 묶음 [이름]               기능 지도의 여덟 묶음(이름 없으면 목록). 이름을 주면 그 묶음 키트를 켜서 붙이고 하나씩 시험
+      python run.py 켜기 계산기 [용어 …]       키트를 켜고 다시 찍어 메뉴·쪽에 생겼는지 한 줄로 확인(끄기 도 같은 모양)
+      python run.py 지금                      내 사이트에 지금 켜져 있는 것 목록과 메뉴
+      python run.py 전부 [--yes]              묻지 않고 여덟 묶음을 끝까지(묻는 자리는 기본값: 켜 둔다)
+      python run.py 독자 [설정 키=값 …]        독자.json(수업 눈높이) 보기·고치기      python run.py 복습   진도·헷갈린 것에서 물음 3개
+      python run.py 혼동 <키트> <적을 말>       헷갈려 한 것을 진도에 적기
 옵션: --headless(창 없이) --slow 초(단계 간격) --shots 폴더(단계마다 화면을 png 로 저장, 사이클은 단계 결과 쪽) · 보이는 창 위치는 환경변수 SELFTEST_POS=2000,100
 설명: 이 파일은 얇은 껍데기다 — 실제 일은 doctor.py·selftest.py·know.py·mix.py·demo.py·run_daily.py 가 한다. 올리기·메일 발송·로그인은 하지 않는다."""
 import glob, json, os, subprocess, sys, time
@@ -114,6 +120,237 @@ def info_on():
     if os.path.exists(lp):
         S.update(json.load(open(lp, encoding='utf-8')))
     return bool((S.get('parts') or {}).get('info', True))
+
+
+
+GFILE = os.path.join(HERE, 'groups.json')
+READER = os.path.join(HERE, '독자.json')
+
+
+def gload():
+    return json.load(open(GFILE, encoding='utf-8'))
+
+
+def kit_json(name):
+    p = os.path.join(HERE, 'kits', name, 'kit.json')
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else None
+
+
+def own_part(kj):
+    """이 키트를 켜고 끌 때 바꾸는 부품(site.json parts 의 키): 키트 이름이 부품이면 그것, 아니면 kit.json parts 의 첫 번째."""
+    S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+    if kj['name'] in S['parts']:
+        return kj['name']
+    return (kj.get('parts') or [None])[0]
+
+
+def set_parts(names, on):
+    """site.json(과 site.local.json 에 parts 가 있으면 그쪽도)의 parts 를 바꾼다."""
+    for f in ('site.json', 'site.local.json'):
+        fp = os.path.join(HERE, f)
+        if not os.path.exists(fp):
+            continue
+        d = json.load(open(fp, encoding='utf-8'))
+        if f == 'site.local.json' and 'parts' not in d:
+            continue
+        for n in names:
+            d.setdefault('parts', {})[n] = on
+        json.dump(d, open(fp, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+
+
+def eff_parts():
+    S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+    lp = os.path.join(HERE, 'site.local.json')
+    parts = dict(S.get('parts') or {})
+    if os.path.exists(lp):
+        parts.update(json.load(open(lp, encoding='utf-8')).get('parts') or {})
+    return parts
+
+
+def rebuild_local():
+    out = os.path.join(HERE, 'site_local')
+    env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
+    r = subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    return out, (r.stdout.strip().splitlines() or [''])[-1], r.returncode
+
+
+def menu_of(out):
+    """site_local 첫 화면의 메뉴 칸(이름)과 모든 링크 주소."""
+    import re as _re
+    ip = os.path.join(out, 'index.html')
+    h = open(ip, encoding='utf-8').read() if os.path.exists(ip) else ''
+    nav = _re.search(r'<nav class="menu">(.*?)</nav>', h, _re.S)
+    labels = _re.findall(r'<a href="[^"]*">([^<]+)</a>', nav.group(1)) if nav else []
+    return labels, set(_re.findall(r'href="(/[^"]*)"', h))
+
+
+def find_kit(word):
+    sys.path.insert(0, HERE); import selftest as T
+    k = T.resolve(word)
+    return kit_json(k['name']) if k else None
+
+
+def toggle(words, on):
+    G = gload()['paths']
+    if not words:
+        print('사용: python run.py ' + ('켜기' if on else '끄기') + ' 계산기 [용어 …]'); return 1
+    rc = 0
+    for w in words:
+        kj = find_kit(w)
+        if not kj:
+            print(f'「{w}」 키트를 찾지 못했습니다(python run.py 키트 로 목록)'); rc = 1; continue
+        op = own_part(kj)
+        if not op:
+            print(f'「{kj["title"]}」 은(는) 사이트 화면에 붙는 기능이 아니라 돌려서 파일을 만드는 도구라 켜고 끌 것이 없습니다. python run.py 키트 {kj["name"]} 로 돌려 보세요.'); continue
+        before_labels, _ = menu_of(os.path.join(HERE, 'site_local')) if os.path.isdir(os.path.join(HERE, 'site_local')) else ([], set())
+        set_parts(list(kj.get('parts') or [op]) if on else [op], on)
+        out, last, rcb = rebuild_local()
+        if rcb != 0:
+            print(f'✗ 다시 찍기에 실패했습니다: {last}'); rc = 1; continue
+        labels, links = menu_of(out)
+        path = G.get(kj['name'])
+        present = ('/' + path in links) if path else None
+        name = kj.get('title', kj['name'])
+        if path is None:
+            print(f'{"✓" if on else "✓"} 「{name}」 {"켰습니다" if on else "껐습니다"}(화면에 따로 쪽이 생기지 않는 기능입니다). 지금 메뉴: {" · ".join(labels)}')
+        elif on:
+            print(('✓' if present else '△') + f' 「{name}」 켰습니다 — ' + ('쪽 /' + path + ' 이 사이트 링크에 생겼습니다' if present else '링크가 첫 화면에 보이지 않습니다(자료가 비어 있거나 메뉴 밖일 수 있음)') + f'. 지금 메뉴: {" · ".join(labels)}')
+        else:
+            print(('✓' if not present else '△') + f' 「{name}」 껐습니다 — ' + ('메뉴·링크에서 빠졌습니다' if not present else '아직 링크가 남아 있습니다(다른 기능이 같은 쪽을 쓸 수 있음)') + f'. 지금 메뉴: {" · ".join(labels)}')
+        prog_group_toggle(kj['name'], on)
+    return rc
+
+
+def prog_group_toggle(kit, on):
+    d = prog_load(); d.setdefault('toggles', {})[kit] = '켬' if on else '끔'
+    d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': f'{"켜기" if on else "끄기"} {kit}'}); d['last'] = d['done'][-1]['what']
+    json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+
+
+def now_list():
+    G = gload(); P = eff_parts(); out = os.path.join(HERE, 'site_local')
+    if not os.path.isdir(out):
+        rebuild_local()
+    labels, _ = menu_of(out)
+    on_kits = []
+    for g in G['groups']:
+        for kn in g['kits']:
+            kj = kit_json(kn)
+            if kj and own_part(kj) and P.get(own_part(kj)):
+                on_kits.append((g['name'], kj.get('title', kn)))
+    print('지금 내 사이트에 켜져 있는 것:', len(on_kits), '개')
+    cur = None
+    for gn, t in on_kits:
+        if gn != cur:
+            print(f'  [{gn}]', end=' '); cur = gn
+        print(t, end=' · ')
+    print('\n메뉴(첫 화면 위):', ' · '.join(labels) or '(없음)')
+    print('내 PC 에서 열려면: python serve.py --open')
+
+
+def group_find(word):
+    G = gload()['groups']
+    if word.isdigit() and 1 <= int(word) <= len(G):
+        return G[int(word) - 1]
+    w = word.replace(' ', '')
+    return next((g for g in G if w in (g['key'], g['name'].replace(' ', '')) or (w and w in g['name'].replace(' ', ''))), None)
+
+
+def run_group(g, headless_flags):
+    print(f'━━ 묶음 「{g["name"]}」 ━━\n{g["intro"]}\n', flush=True)
+    kits_ = [kit_json(k) for k in g['kits']]; kits_ = [k for k in kits_ if k]
+    # ㉠ 화면에 붙는 키트를 한꺼번에 켜서 내 PC 사이트에 붙인다
+    ons = []
+    for kj in kits_:
+        op = own_part(kj)
+        if op:
+            ons += list(kj.get('parts') or [op])
+    if ons:
+        set_parts(sorted(set(ons)), True); out, last, rcb = rebuild_local()
+        print(f'㉠ 이 묶음의 화면 기능을 내 사이트에 붙였습니다({last})', flush=True)
+    labels, _ = menu_of(os.path.join(HERE, 'site_local'))
+    print('   메뉴:', ' · '.join(labels), '\n', flush=True)
+    ok = skip = bad = 0
+    sys.path.insert(0, HERE); import selftest as T
+    for n, kj in enumerate(kits_, 1):
+        print(f'── ({n}/{len(kits_)}) {kj.get("title", kj["name"])} ──', flush=True)
+        for m in (kj.get('must_know') or [])[:1]:
+            print('㉢ 설명:', m.get('알것', ''), flush=True)
+        r = subprocess.run(PY + ['selftest.py', kj['name']] + headless_flags, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace')
+        outp = r.stdout.strip()
+        print('\n'.join('   ' + l for l in outp.splitlines()[-9:]), flush=True)
+        if '건너뜀' in outp and '단계 가운데' not in outp:
+            skip += 1
+        elif r.returncode == 0:
+            ok += 1
+        else:
+            bad += 1
+        if kj.get('try_change'):
+            print('㉣ 해 볼 일:', kj['try_change'], flush=True)
+        print(f'   ㉤ 이 기능은 켜 둘까요, 끌까요?  →  끄려면 python run.py 끄기 {kj["name"]}', flush=True)
+    print(f'\n묶음 「{g["name"]}」 결과: 통과 {ok} · 건너뜀 {skip} · 안 됨 {bad}', flush=True)
+    now_list()
+    d = prog_load(); d.setdefault('groups', {})[g['key']] = {'t': time.strftime('%Y-%m-%d %H:%M'), 'ok': ok, 'skip': skip, 'bad': bad}
+    d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': f'묶음 {g["name"]}(통과 {ok}·건너뜀 {skip}·안 됨 {bad})'}); d['last'] = d['done'][-1]['what']
+    json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    return 0 if bad == 0 else 1
+
+
+def reader_cmd(rest):
+    d = json.load(open(READER, encoding='utf-8')) if os.path.exists(READER) else {}
+    if rest and rest[0] == '설정':
+        for kv in rest[1:]:
+            if '=' in kv:
+                k, v = kv.split('=', 1); d[k.strip()] = v.strip()
+        json.dump(d, open(READER, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); print('독자.json 에 적었습니다')
+    print('독자.json:', json.dumps(d, ensure_ascii=False) if d else '(아직 없음 — 과외.md 의 「처음에 독자를 묻는다」 를 따라 한 번 묻고 `python run.py 독자 설정 해본것=… 만들고싶은것=… 시간=…` 로 적습니다)')
+    return 0
+
+
+def review_cmd():
+    import random
+    d = prog_load(); G = gload(); pool = []
+    seen = [x['what'] for x in d['done'] if x['what'].startswith('키트 ')]
+    names = [w.split()[1] for w in seen if len(w.split()) > 1]
+    for c in d.get('confused', [])[-6:]:
+        kj = kit_json(c['kit'])
+        if kj:
+            pool += [(0, kj, m) for m in (kj.get('must_know') or [])[:2]]
+    for nm in names[-6:]:
+        kj = kit_json(nm)
+        if kj:
+            pool += [(1, kj, m) for m in (kj.get('must_know') or [])]
+    if not pool:
+        print('아직 복습할 진도가 없습니다. python run.py 키트 계산기 처럼 한 가지를 먼저 해 보세요.'); return 0
+    pool.sort(key=lambda x: x[0]); picked, used = [], set()
+    for pr, kj, m in pool:
+        if m['알것'] in used:
+            continue
+        used.add(m['알것']); picked.append((kj, m))
+        if len(picked) == 3:
+            break
+    print('복습 물음 3개(답은 독자가 먼저 말하게 하고, 이 줄 아래 「정답 메모」는 에이전트만 봅니다):')
+    for i, (kj, m) in enumerate(picked, 1):
+        print(f'Q{i}. [{kj.get("title", kj["name"])}] 「{m["알것"][:40]}」 를 모르면 어떤 일이 생길까요?')
+    print('— 정답 메모(에이전트용) —')
+    for i, (kj, m) in enumerate(picked, 1):
+        print(f'A{i}. {m.get("모르면", "")} (까닭: {m.get("까닭", "")})')
+    return 0
+
+
+def confuse_cmd(rest):
+    if len(rest) < 2:
+        print('사용: python run.py 혼동 <키트> <헷갈려 한 말>'); return 1
+    d = prog_load(); d.setdefault('confused', []).append({'t': time.strftime('%Y-%m-%d %H:%M'), 'kit': rest[0], 'what': ' '.join(rest[1:])})
+    json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); print('적었습니다'); return 0
+
+
+def all_cmd():
+    G = gload(); rc = 0
+    fl = FLAGS if FLAGS else ['--headless']
+    for g in G['groups']:
+        rc |= run_group(g, fl)
+    print('\n━━ 여덟 묶음을 끝까지 돌았습니다(묻는 자리는 기본값: 통과한 기능은 켜 둠) ━━'); now_list(); return rc
 
 
 def find_demo(word):
@@ -256,6 +493,29 @@ def main():
         else:
             print('옮기려면 독자에게 먼저 묻고: python run.py 예제정리 --yes')
         return 0
+    if cmd in ('켜기', 'on'):
+        return toggle(rest, True)
+    if cmd in ('끄기', 'off'):
+        return toggle(rest, False)
+    if cmd in ('지금', 'now'):
+        now_list(); return 0
+    if cmd in ('묶음', 'group'):
+        G = gload()['groups']
+        if not rest:
+            print('기능 지도의 여덟 묶음:'); [print(f'  {i}. {g["name"]} ({len(g["kits"])}개) — {g["intro"][:40]}') for i, g in enumerate(G, 1)]
+            print('\n사용: python run.py 묶음 도구와자료  (또는 번호)'); return 0
+        g = group_find(' '.join(rest))
+        if not g:
+            print('묶음을 찾지 못했습니다: python run.py 묶음'); return 1
+        return run_group(g, FLAGS or ['--headless'])
+    if cmd in ('전부', 'all'):
+        return all_cmd()
+    if cmd in ('독자', 'reader'):
+        return reader_cmd(rest)
+    if cmd in ('복습', 'review'):
+        return review_cmd()
+    if cmd in ('혼동', 'confused'):
+        return confuse_cmd(rest)
     if cmd in ('알기', 'know'):
         return sh(['know.py'] + rest)
     if cmd in ('진도', 'progress'):

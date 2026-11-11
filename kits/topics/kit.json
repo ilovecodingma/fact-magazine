@@ -9,5 +9,60 @@
   "see": "/topics/ 에서 주제를 누르면 소개와 글 목록이 나옵니다",
   "mounts": "푸터 링크와 /topics/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "주제는 topics.json 의 한 덩어리(key·name·intro·items)다",
+      "까닭": "key 는 주소로, name·intro 는 화면 글로 쓰이기 때문입니다",
+      "모르면": "key 를 비우거나 겹치면 쪽이 덮어써집니다",
+      "근거": "kits/topics/data/topics.json"
+    },
+    {
+      "알것": "항목의 url 은 이 사이트 안에 실제로 있는 쪽 주소를 적는다",
+      "까닭": "허브는 링크만 걸 뿐 쪽을 만들어 주지는 않기 때문입니다",
+      "모르면": "없는 쪽을 적으면 눌렀을 때 없는 쪽이 열립니다(예: /glossary/ 쪽은 용어 키트가 켜져 있어야 열림)",
+      "근거": "kits/topics/data/topics.json"
+    },
+    {
+      "알것": "주제 목록 쪽(/topics/)은 푸터 링크로만 이어지고 메뉴에는 없다",
+      "까닭": "키트 쪽 링크는 푸터에 모으는 규칙이기 때문입니다",
+      "모르면": "메뉴에서 못 찾는다고 고장이라 여깁니다",
+      "근거": "kits/topics/kit.json(mounts), kitpages.py"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "주제 목록을 엽니다",
+        "goto": "topics/",
+        "expect": {
+          "sel": ".gl a",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "첫 주제를 누르면 소개 글이 나옵니다",
+        "click": ".gl a",
+        "expect": {
+          "sel": ".dek",
+          "regex": ".{5,}"
+        }
+      },
+      {
+        "say": "주제 안에 항목(제목·한 줄 설명)이 줄지어 있습니다",
+        "expect": {
+          "sel": ".tp",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "항목마다 눌러 갈 링크가 있습니다",
+        "expect": {
+          "sel": ".tp b a",
+          "min_count": 1
+        }
+      }
+    ]
+  },
+  "try_change": "kits/topics/data/topics.json 의 첫 주제 intro 문장을 바꿔 python build.py 를 돌린 뒤 그 주제 쪽 맨 위 소개가 바뀌는지 보세요."
 }

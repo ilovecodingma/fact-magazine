@@ -9,5 +9,64 @@
   "see": "/faq/ 에서 질문을 누르면 답이 펴집니다",
   "mounts": "푸터 링크와 /faq/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "질문·답은 faq.json 에 {q, a} 로 한 건씩 적는다",
+      "까닭": "빌드가 목록을 순서대로 접었다 펴는 칸으로 바꾸기 때문입니다",
+      "모르면": "q 나 a 를 빠뜨리면 빈 칸이 생깁니다",
+      "근거": "kits/faq/data/faq.json"
+    },
+    {
+      "알것": "접었다 펴는 일은 서버 없이 브라우저의 details 기능이 한다",
+      "까닭": "details 는 글자만으로 펴고 접는 기본 부품이기 때문입니다",
+      "모르면": "자바스크립트를 따로 짜야 한다고 오해합니다",
+      "근거": "kitpages.py 의 faq(details 부품)"
+    },
+    {
+      "알것": "같은 질문·답이 검색용 구조 데이터(JSON-LD)로도 찍히므로, 쪽에 보이는 답과 같아야 한다",
+      "까닭": "검색 엔진은 보이는 글과 구조 데이터가 같은지 보기 때문입니다",
+      "모르면": "화면과 구조 데이터가 달라지는 일을 막아 줍니다(둘 다 faq.json 한 곳에서 나옴)",
+      "근거": "kitpages.py 의 faq, kits/faq/data/faq.json"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "자주 묻는 질문 쪽을 엽니다",
+        "goto": "faq/",
+        "expect": {
+          "sel": "details.fq",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "처음에는 답이 접혀 있습니다",
+        "eval": "document.querySelector('details.fq').open",
+        "equals": false
+      },
+      {
+        "say": "질문을 누르면 답이 펴집니다",
+        "click": "details.fq summary"
+      },
+      {
+        "say": "질문을 누르면 답이 펴집니다 (결과 확인)",
+        "eval": "document.querySelector('details.fq').open",
+        "equals": true
+      },
+      {
+        "say": "펴진 답 글이 보입니다",
+        "expect": {
+          "sel": "details.fq p",
+          "regex": ".{5,}"
+        }
+      },
+      {
+        "say": "쪽 안에 검색용 질문·답 구조 데이터(FAQPage)가 함께 들어 있습니다",
+        "eval": "JSON.parse(document.querySelector('script[type=\"application/ld+json\"]').textContent)['@type']",
+        "equals": "FAQPage"
+      }
+    ]
+  },
+  "try_change": "kits/faq/data/faq.json 에 {\"q\": \"내 질문?\", \"a\": \"내 답.\"} 한 줄을 더하고 python build.py 후 질문이 늘었는지 보세요."
 }

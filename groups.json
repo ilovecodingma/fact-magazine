@@ -1,0 +1,28 @@
+{
+  "_설명": "기능 지도의 여덟 묶음. kits = 이 묶음의 키트(차례대로 시험), path = 켰을 때 사이트에 생기는 쪽(메뉴·푸터에서 찾아 확인, 비우면 화면 쪽이 없는 키트), off_ok = 끄면 안 되는 필수가 아닌지. python run.py 묶음 <이름> / 켜기 <키트> / 끄기 <키트> / 지금 / 전부 가 이 파일을 읽는다.",
+  "groups": [
+    {"key": "소식", "name": "소식과 글", "intro": "뉴스 제목을 모아 묶고, 공식 자료로 확인한 노트·호·글·연재를 싣는 기능입니다.",
+     "kits": ["news", "issue", "posts", "novel", "toon", "video", "topics"]},
+    {"key": "도구", "name": "도구와 자료", "intro": "계산기·용어·일정·질문·링크처럼 자료 파일 하나로 쪽이 만들어지는 기능입니다.",
+     "kits": ["calc", "glossary", "compare", "schedule", "dday", "faq", "links", "notice", "timeline", "wiki", "gallery", "ledger", "recipes"]},
+    {"key": "놀거리", "name": "놀 거리", "intro": "게임·퀴즈·설문·오늘의 추천처럼 방문자가 직접 눌러 보는 기능입니다.",
+     "kits": ["games", "quiz", "survey", "today", "rank"]},
+    {"key": "내보내기", "name": "묶어 내보내기", "intro": "글과 노트를 전자책·PDF·한 장 요약·카드·쇼츠·메일로 묶어 내보내는 기능입니다.",
+     "kits": ["ebook", "pdf", "onepage", "cards", "widget", "shorts", "mail"]},
+    {"key": "찾기", "name": "찾기와 보기", "intro": "검색·글자 크기·읽는 시간·태그·관련 글·앱 설치처럼 읽는 사람을 돕는 기능입니다.",
+     "kits": ["search", "prefs", "readtime", "notfound", "tags", "related", "pwa"]},
+    {"key": "운영", "name": "운영", "intro": "상태 점검·문의 답장 초안·조립 예시처럼 사이트를 굴리는 기능입니다.",
+     "kits": ["status", "inbox", "demo"]},
+    {"key": "키워드", "name": "키워드와 글감", "intro": "검색창 자동완성으로 글감을 모으고, 겹침·질문형·단기 중기 장기로 가려 다음 글을 정하는 기능입니다.",
+     "kits": ["trends", "keyword-autocomplete", "keyword-questions", "keyword-overlap", "keyword-tiers", "keyword-titles", "keyword-next3", "keyword-urlcheck"]},
+    {"key": "알리기", "name": "글 다듬기와 알리기", "intro": "글을 점검·다듬고, 블로그·알림 문구·카드·쇼츠 문구로 알리는 기능입니다(올리지는 않고 파일만 만듭니다).",
+     "kits": ["content-check", "content-outline", "content-titles", "content-sitecopy", "promo", "promo-blog", "promo-notice", "promo-shorts", "promo-instacard", "promo-week"]}
+  ],
+  "paths": {
+    "news": "", "issue": "issue/", "posts": "post/", "novel": "novel/", "toon": "toon/", "video": "video/", "topics": "topics/",
+    "calc": "calc/", "glossary": "glossary/", "compare": "compare/", "schedule": "schedule/", "dday": "dday/", "faq": "faq/", "links": "links/", "notice": "changes/", "timeline": "timeline/", "wiki": "wiki/", "gallery": "gallery/", "ledger": "ledger/", "recipes": "recipes/",
+    "games": "games/", "quiz": "quiz/", "survey": "survey/", "today": "today/", "rank": "rank/",
+    "ebook": "ebook/", "pdf": "pdf/", "onepage": "onepage/", "cards": "cards/", "widget": "widget/",
+    "search": "search/", "tags": "tags/", "pwa": "app/", "status": "status/", "demo": "demo/", "trends": "trends/"
+  }
+}

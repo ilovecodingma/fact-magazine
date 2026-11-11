@@ -42,5 +42,43 @@
       "모르면": "인쇄용 쪽 주소를 따로 찾게 됩니다",
       "근거": "build.py 의 issue_pages"
     }
-  ]
+  ],
+  "selftest": {
+    "extra_parts": [
+      "info"
+    ],
+    "steps": [
+      {
+        "say": "잡지 쪽을 엽니다",
+        "goto": "issue/",
+        "expect": {
+          "sel": ".gl a",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "호 목록에서 첫 호를 누릅니다",
+        "click": ".gl a",
+        "expect": {
+          "sel": "h1",
+          "regex": "제\\d+호"
+        }
+      },
+      {
+        "say": "호 안에 확인 노트 줄이 모여 있습니다",
+        "expect": {
+          "sel": ".tp .v",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "인쇄용 PDF 내려받기 링크가 있습니다",
+        "expect": {
+          "sel": "a[href$='.pdf']",
+          "min_count": 1
+        }
+      }
+    ]
+  },
+  "try_change": "notes/ 의 노트 한 건의 date 를 다른 날짜로 바꾸고 build → issue → build 순서로 돌려, /issue/ 목록에 호가 하나 더 생기는지 보세요."
 }

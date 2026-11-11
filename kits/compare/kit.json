@@ -9,5 +9,71 @@
   "see": "/compare/ 에서 열 제목을 누르면 정렬되고 위 칸에 글자를 치면 줄이 걸러집니다",
   "mounts": "푸터 링크와 /compare/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "표는 table.json 의 columns(열 이름)와 rows(줄)로 되어 있고, 줄마다 칸 수가 열 수와 같아야 한다",
+      "까닭": "빌드가 열 순서대로 칸을 맞춰 넣기 때문입니다",
+      "모르면": "칸이 모자라면 표가 한 칸씩 밀려 보입니다",
+      "근거": "kits/compare/data/table.json"
+    },
+    {
+      "알것": "정렬은 브라우저가 한다: 숫자 칸은 크기순, 글자 칸은 가나다순",
+      "까닭": "쪽 안의 자바스크립트가 보여 주는 값으로 줄을 다시 줄 세우기 때문입니다",
+      "모르면": "「1,000」이나 「10」 같은 값이 숫자로 정렬되는 이유를 몰라 순서를 의심합니다",
+      "근거": "kitpages.py 의 compare(정렬 스크립트)"
+    },
+    {
+      "알것": "비교표의 값은 예시이고 조건은 서비스마다 다르다",
+      "까닭": "이 키트의 예시 값은 시험용으로 만든 것이기 때문입니다",
+      "모르면": "예시 값을 사실로 믿고 서비스를 고릅니다",
+      "근거": "kits/compare/data/table.json 의 desc, 쪽 아래 안내 문구"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "비교표 쪽을 엽니다",
+        "goto": "compare/",
+        "expect": {
+          "sel": "#tb tbody tr",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "맨 오른쪽 열 제목(숫자 칸)을 눌러 정렬합니다",
+        "click": "#tb th[data-c='4']"
+      },
+      {
+        "say": "맨 오른쪽 열 제목(숫자 칸)을 눌러 정렬합니다 (결과 확인)",
+        "eval": "(function(){var r=document.querySelectorAll('#tb tbody tr');return +r[0].cells[4].textContent<=+r[r.length-1].cells[4].textContent})()",
+        "equals": true
+      },
+      {
+        "say": "거르기 칸에 표에 없는 글자를 넣으면 모든 줄이 숨습니다",
+        "type": [
+          "#ft",
+          "zzzz없는글자"
+        ]
+      },
+      {
+        "say": "거르기 칸에 표에 없는 글자를 넣으면 모든 줄이 숨습니다 (결과 확인)",
+        "eval": "[].filter.call(document.querySelectorAll('#tb tbody tr'),function(r){return r.style.display!=='none'}).length",
+        "equals": 0
+      },
+      {
+        "say": "거르기 칸에 한 글자(a)만 넣으면 그 글자가 든 줄이 남습니다",
+        "type": [
+          "#ft",
+          "a"
+        ]
+      },
+      {
+        "say": "거르기 칸에 한 글자(a)만 넣으면 그 글자가 든 줄이 남습니다 (결과 확인)",
+        "eval": "[].filter.call(document.querySelectorAll('#tb tbody tr'),function(r){return r.style.display!=='none'}).length>0",
+        "equals": true
+      }
+    ]
+  },
+  "try_change": "kits/compare/data/table.json 의 rows 에 한 줄을 더(칸 수는 columns 와 같게) 적고 python build.py 를 돌려 표에 줄이 늘었는지 보세요."
 }

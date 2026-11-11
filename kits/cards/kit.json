@@ -41,5 +41,37 @@
       "모르면": "날짜의 숫자가 큰 숫자로 찍힙니다(처음에 「11월」의 11 이 찍혔음)",
       "근거": "기록\\개발.md 17번"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "카드 그림 쪽을 엽니다",
+        "goto": "cards/",
+        "expect": {
+          "sel": "h1",
+          "contains": "공유용 카드 그림"
+        }
+      },
+      {
+        "say": "카드 그림이 2장 이상 나옵니다",
+        "expect": {
+          "sel": ".tp img",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "PNG 내려받기 링크가 붙어 있습니다",
+        "expect": {
+          "sel": ".tp .ln",
+          "contains": "PNG 내려받기"
+        }
+      },
+      {
+        "say": "첫 그림 파일을 실제로 열어 보면 있습니다(응답 200)",
+        "eval": "fetch(document.querySelector('.tp img').getAttribute('src')).then(r=>r.status)",
+        "equals": 200
+      }
+    ]
+  },
+  "try_change": "notes/ 의 노트 하나(예: notes/2026-11-11-export.json)의 제목에서 숫자를 바꾼 뒤 python card.py 를 돌려 cards/ 의 그림 속 큰 숫자가 같이 바뀌는지 열어 보세요(끝나면 되돌리세요)."
 }

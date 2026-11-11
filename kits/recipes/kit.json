@@ -29,5 +29,53 @@
    "모르면": "인쇄물에 메뉴·푸터가 섞인다",
    "근거": "kitpages.py recipes 의 @media print"
   }
- ]
+ ],
+ "selftest": {
+  "steps": [
+   {
+    "say": "요리법 쪽을 엽니다",
+    "goto": "recipes/",
+    "expect": {
+     "sel": "#td",
+     "contains": "오늘의 추천"
+    }
+   },
+   {
+    "say": "요리 목록이 나옵니다",
+    "expect": {
+     "sel": ".rc",
+     "min_count": 2
+    }
+   },
+   {
+    "say": "거르기 칸에 없는 재료를 치면 모든 줄이 숨습니다",
+    "type": [
+     "#rq",
+     "zzzz없는재료"
+    ]
+   },
+   {
+    "say": "거르기 칸에 없는 재료를 치면 모든 줄이 숨습니다 (결과 확인)",
+    "eval": "[].filter.call(document.querySelectorAll('.rc'),function(l){return l.style.display!=='none'}).length",
+    "equals": 0
+   },
+   {
+    "say": "요리 하나를 열면 만드는 순서(번호 목록)가 나옵니다",
+    "goto": "recipes/",
+    "click": ".rc a",
+    "expect": {
+     "sel": ".page ol li",
+     "min_count": 2
+    }
+   },
+   {
+    "say": "「인쇄 한 장으로 보기」 버튼이 있습니다",
+    "expect": {
+     "sel": "button",
+     "contains": "인쇄"
+    }
+   }
+  ]
+ },
+ "try_change": "kits/recipes/data/recipes.json 에 요리 한 건(name·ingredients·steps)을 더하고 python build.py 후 /recipes/ 에 새 쪽이 생기는지 보세요."
 }

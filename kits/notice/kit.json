@@ -9,5 +9,65 @@
   "see": "첫 화면 위에 노란 공지 한 줄이 뜨고 「바뀐 내역」에서 날짜순 목록이 보입니다",
   "mounts": "푸터 링크와 /changes/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "첫 화면 공지는 notice.md 의 첫 줄이다",
+      "까닭": "빌드가 그 줄만 읽어 첫 화면 위에 띄우기 때문입니다",
+      "모르면": "여러 줄을 적어도 첫 줄만 보여 당황합니다",
+      "근거": "kits/notice/data/notice.md"
+    },
+    {
+      "알것": "바뀐 내역은 changes.json 에 {date, title, body} 로 적고 최근 날짜가 위에 온다",
+      "까닭": "빌드가 날짜를 거꾸로 정렬하기 때문입니다",
+      "모르면": "날짜 모양(YYYY-MM-DD)이 틀리면 순서가 어긋납니다",
+      "근거": "kits/notice/data/changes.json, kitpages.py 의 notice"
+    },
+    {
+      "알것": "비슷한 제목이 겹치는지 python dupcheck.py 로 점검할 수 있다",
+      "까닭": "같은 소식을 두 번 올리는 일을 막으려는 점검이기 때문입니다",
+      "모르면": "같은 내용의 내역이 여러 줄 쌓입니다",
+      "근거": "dupcheck.py, kits/notice/README.md"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "첫 화면을 엽니다",
+        "goto": "",
+        "expect": {
+          "sel": ".notice",
+          "regex": ".{5,}"
+        }
+      },
+      {
+        "say": "공지 한 줄 옆에 「바뀐 내역」 링크가 있습니다",
+        "expect": {
+          "sel": ".notice a[href$='/changes/']",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "그 링크를 누르면 바뀐 내역 쪽이 열립니다",
+        "click": ".notice a[href$='/changes/']",
+        "expect": {
+          "sel": "h1",
+          "contains": "바뀐 내역"
+        }
+      },
+      {
+        "say": "바뀐 내역마다 날짜가 있습니다",
+        "expect": {
+          "sel": ".tp .lb",
+          "regex": "\\d{4}-\\d{2}-\\d{2}"
+        }
+      },
+      {
+        "say": "내역은 최근 날짜가 위에 오는 순서입니다",
+        "eval": "(function(){var d=[].map.call(document.querySelectorAll('.tp .lb'),function(e){return e.textContent});return d.length>0&&d.every(function(x,i){return i==0||d[i-1]>=x})})()",
+        "equals": true
+      }
+    ]
+  },
+  "try_change": "kits/notice/data/notice.md 의 첫 줄을 바꿔 python build.py 를 돌린 뒤 첫 화면 위 노란 줄이 바뀌는지 보세요."
 }

@@ -9,5 +9,55 @@
   "see": "/dday/ 에서 날짜마다 「D-12 (12일 남음)」처럼 나옵니다",
   "mounts": "푸터 링크 또는 글 쪽 안",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "날짜는 YYYY-MM-DD 모양(예: 2026-12-25)과 제목으로 dates.json 에 적는다",
+      "까닭": "쪽 안의 계산 코드가 이 모양을 날짜로 읽기 때문입니다",
+      "모르면": "모양이 틀리면 「NaN」 같은 이상한 글자가 나옵니다",
+      "근거": "kits/dday/data/dates.json"
+    },
+    {
+      "알것": "며칠 남았는지는 빌드가 아니라 보는 사람의 브라우저가 열 때마다 계산한다",
+      "까닭": "빌드는 날짜만 찍고 계산은 쪽 안의 자바스크립트가 하기 때문입니다",
+      "모르면": "날마다 다시 빌드해야 한다고 오해해 시간을 씁니다",
+      "근거": "kitpages.py 의 dday"
+    },
+    {
+      "알것": "「오늘」은 보는 사람 컴퓨터의 날짜다",
+      "까닭": "브라우저는 자기 컴퓨터의 시계로 오늘을 정하기 때문입니다",
+      "모르면": "컴퓨터 시계가 틀리면 남은 날도 틀려 보입니다",
+      "근거": "kitpages.py 의 dday 계산 스크립트(new Date())"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "디데이 쪽을 엽니다",
+        "goto": "dday/",
+        "expect": {
+          "sel": ".dd",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "카드마다 「D-며칠」·「오늘입니다」·「며칠 지났어요」 중 하나가 계산되어 나옵니다",
+        "eval": "document.querySelectorAll('.dn').length>0&&[].every.call(document.querySelectorAll('.dn'),function(e){return /^(D-\\d+ \\(\\d+일 남음\\)|오늘입니다|\\d+일 지났어요)$/.test(e.textContent)})",
+        "equals": true
+      },
+      {
+        "say": "계산 결과가 화면에 글자로 보입니다",
+        "expect": {
+          "sel": ".dn",
+          "regex": "D-\\d+|오늘입니다|지났어요"
+        }
+      },
+      {
+        "say": "지난 날짜의 카드는 흐리게 보입니다(남은 날짜만 또렷)",
+        "eval": "[].every.call(document.querySelectorAll('.dd'),function(e){var p=/지났어요/.test(e.querySelector('.dn').textContent);return p===(e.style.opacity==='0.5')})",
+        "equals": true
+      }
+    ]
+  },
+  "try_change": "kits/dday/data/dates.json 에 내 기념일 하나({\"date\": \"2027-03-01\", \"title\": \"내 기념일\"})를 더하고 python build.py 후 카드가 늘었는지 보세요."
 }

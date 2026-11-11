@@ -29,5 +29,28 @@
       "모르면": "주제 낱말이 없으면 아무것도 보여 주지 않습니다",
       "근거": "kits/trends/data/config.json, 기록\\개발.md 14번(오늘 10개가 모두 걸러졌음)"
     }
-  ]
+  ],
+  "selftest": {
+    "needs": [
+      "internet"
+    ],
+    "steps": [
+      {
+        "say": "인기 키워드 쪽(/trends/)을 엽니다",
+        "goto": "trends/",
+        "expect": {
+          "sel": "h1",
+          "contains": "인기 키워드"
+        }
+      },
+      {
+        "say": "쪽 안에 구글 트렌드 기준이라는 안내가 있는지 봅니다(목록이 비어도 안내가 나옵니다)",
+        "expect": {
+          "sel": "main",
+          "regex": "구글 트렌드"
+        }
+      }
+    ]
+  },
+  "try_change": "kits/trends/data/config.json 의 topic_words 에 내 주제 낱말(예: 「전기요금」)을 하나 더 넣고 다시 빌드해 목록이 어떻게 바뀌는지 보세요."
 }

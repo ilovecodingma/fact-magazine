@@ -125,11 +125,19 @@ def has_display():
 
 
 def free_port(start):
-    for p in range(start, start + 50):
+    """비어 있는 포트(연결도 안 되고 묶어 볼 수도 있는 것). 여러 시험이 동시에 돌아도 겹치지 않게 시작 번호를 흩뿌린다."""
+    import random
+    base = start + random.randint(0, 300)
+    for p in range(base, base + 100):
         s = socket.socket(); s.settimeout(0.2)
         busy = s.connect_ex(('127.0.0.1', p)) == 0; s.close()
-        if not busy:
-            return p
+        if busy:
+            continue
+        t = socket.socket()
+        try:
+            t.bind(('127.0.0.1', p)); t.close(); return p
+        except OSError:
+            t.close()
     return start
 
 
@@ -150,6 +158,9 @@ def build_site(kit, out):
     LOOK = {'calc': ('한입 계산소', '숫자를 넣으면 바로 계산해 주는 작은 가게', 'shop'), 'glossary': ('한입 용어 사전', '어려운 말을 짧게 풀어 줍니다', 'doc'), 'quiz': ('한입 퀴즈 놀이터', '풀면서 배우는 작은 퀴즈', 'play'), 'search': ('한입 찾기', '사이트 안 글을 낱말로 찾습니다', 'card'), 'status': ('한입 상태판', '수집과 점검 결과를 한눈에', 'one')}
     nm, tg, th = LOOK.get(kit['name'], ('한입 ' + kit.get('title', kit['name']), '키트 시험용 사이트', 'card'))
     env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', SITE_EXTRAS='{}', PARTS=json.dumps(parts), OUT_DIR=out, TOPIC_KEYWORDS='', SITE_NAME=nm, SITE_TAGLINE=tg, SITE_THEME=th)
+    if st.get('extras'):
+        env['SITE_EXTRAS'] = json.dumps(st['extras'], ensure_ascii=False)   # 예: 영상 모음 키트의 예시 영상 주소
+    env.update({k: str(v) for k, v in (st.get('env') or {}).items()})
     r = subprocess.run([sys.executable, '-X', 'utf8', os.path.join(HERE, 'build.py')], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
     return r.returncode == 0, r.stdout + r.stderr
 
@@ -157,6 +168,13 @@ def build_site(kit, out):
 class Quiet(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
+
+    def send_error(self, code, message=None, explain=None):   # 없는 주소에는 404.html(길 안내)을 보여 준다(실제 호스팅처럼)
+        p = os.path.join(self.directory, '404.html')
+        if code == 404 and os.path.exists(p):
+            body = open(p, 'rb').read(); self.send_response(404); self.send_header('Content-Type', 'text/html; charset=utf-8'); self.send_header('Content-Length', str(len(body))); self.end_headers(); self.wfile.write(body)
+        else:
+            super().send_error(code, message, explain)
 
 
 def start_server(directory):
@@ -175,10 +193,81 @@ HILITE_JS = r"""(function(s){var e=document.querySelector(s);if(!e)return false;
 CENTER_JS = r"""(function(s){var e=document.querySelector(s);if(!e)return null;e.scrollIntoView({block:'center'});var r=e.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})(%s)"""
 
 
+
+def text_png(br, title, blocks, out):
+    """글을 읽기 좋은 쪽으로 그려 찍는다(폴더 목록·파일 경로가 화면에 나오지 않게). blocks = [(소제목, 글)]"""
+    import html as H
+    body = ''.join(f'<h2>{H.escape(h)}</h2><pre>{H.escape(t)}</pre>' for h, t in blocks)
+    doc = ('<!doctype html><meta charset="utf-8"><title>' + H.escape(title) + '</title><style>body{margin:0;background:#f6f4ef;font:17px/1.7 "Malgun Gothic",system-ui,sans-serif;color:#111}'
+           'main{max-width:900px;margin:0 auto;padding:28px 24px}h1{font-size:26px;border-bottom:3px double #111;padding-bottom:10px}h2{font-size:15px;color:#b5532a;margin:22px 0 6px}'
+           'pre{white-space:pre-wrap;word-break:break-word;font:inherit;background:#fff;border:1px solid #ddd;border-radius:10px;padding:14px 16px;margin:0}</style><main><h1>' + H.escape(title) + '</h1>' + body + '</main>')
+    f = os.path.join(tempfile.mkdtemp(), 't.html'); open(f, 'w', encoding='utf-8').write(doc)
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', 'file:///' + f.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+
+
+def internet_ok():
+    for u in ('https://www.naver.com', 'https://www.google.com'):
+        try:
+            urllib.request.urlopen(u, timeout=4); return True
+        except Exception:
+            continue
+    return False
+
+
+def missing_needs(needs):
+    """selftest.needs 의 항목(ffmpeg·internet) 가운데 이 PC 에 없는 것의 안내 문구. 다 있으면 ''"""
+    for n in needs:
+        if n == 'ffmpeg' and not (os.environ.get('FFMPEG') or shutil.which('ffmpeg')):
+            return 'ffmpeg 가 있으면 됩니다(윈도우 `winget install Gyan.FFmpeg`)'
+        if n == 'internet' and not internet_ok():
+            return '인터넷이 연결되어 있으면 됩니다(자동완성 서비스에 천천히 요청)'
+    return ''
+
+
+def run_script_kit(kit):
+    """화면이 없는 키트: 키트 폴더를 임시 폴더에 복사해 예시 입력으로 돌리고, 나온 파일을 보여 준다(저장소 파일은 건드리지 않는다).
+    selftest.runs = [{say, cmd:[스크립트, 인자…]({out}=임시 키트 폴더), cwd:'kit'|'repo', show:'결과.md'|'stdout', expect:{contains|regex|min_chars}, timeout}]"""
+    name = kit['name']; st = kit['selftest']
+    print(f'\n■ {kit.get("title", name)} — 자가 시험(예시 입력으로 돌려 결과를 읽습니다)')
+    work = os.path.join(tempfile.mkdtemp(prefix='selftest_'), 'kit'); shutil.copytree(os.path.join(HERE, 'kits', name), work)
+    br = find_browser(); passed = total = 0
+    for i, r in enumerate(st['runs'], 1):
+        total += 1; say = r.get('say', '')
+        cwd = HERE if r.get('cwd') == 'repo' else work
+        cmd = [sys.executable, '-X', 'utf8'] + [a.replace('{out}', work) for a in r['cmd']]
+        try:
+            p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=r.get('timeout', 120), env=dict(os.environ, PYTHONIOENCODING='utf-8'))
+            shp = r.get('show', 'stdout').replace('{out}', work)
+            text = p.stdout if shp == 'stdout' else (open(os.path.join(cwd, shp), encoding='utf-8').read() if os.path.exists(os.path.join(cwd, shp)) else '')
+            good = p.returncode == 0; ex = r.get('expect') or {}
+            if 'contains' in ex: good = good and ex['contains'] in text
+            if 'regex' in ex: good = good and bool(re.search(ex['regex'], text))
+            if 'min_chars' in ex: good = good and len(text.strip()) >= ex['min_chars']
+            res = re.sub(r'\s+', ' ', text).strip()[:70] or (p.stderr.strip()[-70:] or '(출력 없음)')
+        except Exception as e:
+            good = False; res = '오류: ' + repr(e)[:80]; text = res
+        passed += 1 if good else 0
+        print(f'  {"✓" if good else "✗"} {i}. {say[:60]}  → {res}')
+        if SHOTS and br:
+            os.makedirs(SHOTS, exist_ok=True)
+            safe = lambda t: re.sub(r'[\\/:*?"<>|\s]+', '_', t).strip('_')[:40]
+            text_png(br, f'{kit.get("title", name)} — {say}', [('결과', '\n'.join(text.strip().splitlines()[:40]))], os.path.join(SHOTS, f'{safe(name)}_{i:02d}_{safe(say)}.png'))
+    print(f'  → {total}단계 가운데 {passed}단계 통과' + ('' if passed == total else '  ※ ✗ 단계의 「본 값」을 보고 이유를 알려 주세요'))
+    return (passed, total)
+
+
 def run_kit(kit, headless, slow):
     name = kit['name']; st = kit.get('selftest')
     if not st:
         print(f'– {name}: selftest 가 아직 없습니다(건너뜀)'); return None
+    if st.get('skip'):
+        print(f'– {kit.get("title", name)}: 건너뜀: {st["skip"]}'); return ('skip', st['skip'])
+    if st.get('needs'):
+        miss = missing_needs(st['needs'])
+        if miss:
+            print(f'– {kit.get("title", name)}: 건너뜀: {miss}'); return ('skip', miss)
+    if st.get('runs'):
+        return run_script_kit(kit)
     out = os.path.join(tempfile.mkdtemp(prefix='selftest_'), 'site')
     print(f'\n■ {kit.get("title", name)} — 자가 시험')
     ok, log = build_site(kit, out)
@@ -222,10 +311,6 @@ def run_kit(kit, headless, slow):
                 if step.get('reload'):
                     pg.call('Page.reload'); time.sleep(1.6 + slow * 0.3)
                     pg.ev(BANNER_JS % json.dumps(f'[{i}/{len(st["steps"])}] {say}', ensure_ascii=False))
-                if 'eval' in step:   # 화면 안에서 식을 풀어 본 값이 기대와 같은지(예: 서비스 워커가 준비됐는지)
-                    val = pg.ev(step['eval']); res = str(val)[:70]
-                    if 'equals' in step:
-                        good = val == step['equals']
                 if step.get('installable'):   # 브라우저가 「설치할 수 있는 앱」으로 보는지
                     errs = pg.call('Page.getInstallabilityErrors').get('installabilityErrors', [])
                     good = not errs; res = '설치 가능' if good else '설치 막는 것: ' + ', '.join(e.get('errorId', '?') for e in errs)
@@ -253,6 +338,10 @@ def run_kit(kit, headless, slow):
                         if txt is not None:
                             pg.ev(f'document.querySelector({json.dumps(sel)}).select&&document.querySelector({json.dumps(sel)}).select()'); pg.call('Input.insertText', text=txt)
                 time.sleep(step.get('wait', 0.4) + slow * 0.3)
+                if 'eval' in step:   # 화면 안에서 식을 풀어 본 값이 기대와 같은지(예: 서비스 워커가 준비됐는지)
+                    val = pg.ev(step['eval']); res = str(val)[:70]
+                    if 'equals' in step:
+                        good = val == step['equals']
                 ex = step.get('expect')
                 if ex and ('{N' in json.dumps(ex, ensure_ascii=False)):
                     nq = len(json.load(open(os.path.join(HERE, 'kits', 'quiz', 'data', 'quiz.json'), encoding='utf-8'))['questions'])
@@ -370,7 +459,7 @@ def main():
         if not k:
             print(f'「{n}」 키트를 찾지 못했습니다'); continue
         r = run_kit(k, headless, slow)
-        if r:
+        if r and not isinstance(r[0], str):
             tp += r[0]; tt += r[1]
     if len(names) > 1:
         print(f'\n전체: {tt}단계 가운데 {tp}단계 통과')

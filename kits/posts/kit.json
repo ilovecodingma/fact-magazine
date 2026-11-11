@@ -10,5 +10,60 @@
   "mounts": "posts/ · 메뉴 「글」",
   "server": "불필요",
   "minutes": "5",
-  "existing": true
+  "existing": true,
+  "must_know": [
+    {
+      "알것": "글은 posts/ 폴더의 마크다운 파일이고, 맨 위 `# ` 한 줄이 제목이다",
+      "까닭": "빌드가 첫 줄을 제목으로 읽어 목록과 쪽 이름을 만들기 때문입니다",
+      "모르면": "제목 줄이 없으면 목록에 이름 없는 글이 생깁니다",
+      "근거": "posts/isa-tax-free-limit.md, build.py"
+    },
+    {
+      "알것": "파일 이름이 곧 주소다(isa-tax-free-limit.md → /post/isa-tax-free-limit/)",
+      "까닭": "주소는 파일 이름에서 그대로 만들어지기 때문입니다",
+      "모르면": "나중에 파일 이름을 바꾸면 이미 퍼진 링크가 깨집니다",
+      "근거": "posts/ 폴더, build.py"
+    },
+    {
+      "알것": "글을 더하거나 고친 뒤에는 python build.py 를 다시 돌려야 화면에 나온다",
+      "까닭": "정적 사이트는 빌드 때 쪽을 한꺼번에 찍어 두는 방식이기 때문입니다",
+      "모르면": "글을 고쳤는데 사이트가 그대로라고 오해합니다",
+      "근거": "kits/posts/README.md(켜기: python mix.py posts 후 python build.py)"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "글 목록을 엽니다",
+        "goto": "post/",
+        "expect": {
+          "sel": ".gl a",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "목록의 첫 글을 누릅니다",
+        "click": ".gl a",
+        "expect": {
+          "sel": ".art h1",
+          "regex": ".{3,}"
+        }
+      },
+      {
+        "say": "글 본문 문단이 나옵니다",
+        "expect": {
+          "sel": ".art p",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "글 쪽에 소제목(h3)이 있어 읽을 거리가 갖춰졌습니다",
+        "expect": {
+          "sel": ".art h3",
+          "min_count": 1
+        }
+      }
+    ]
+  },
+  "try_change": "posts/ 폴더에 새 파일(예: 내첫글.md)을 만들어 맨 위 줄을 「# 내 첫 글」로 쓰고 python build.py 를 돌려 /post/ 목록에 뜨는지 보세요."
 }

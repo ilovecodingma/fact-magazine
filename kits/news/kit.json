@@ -54,5 +54,47 @@
       "모르면": "본문 복제 문제가 생깁니다",
       "근거": "CLAUDE.md 하지 않을 것, collect.py"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "첫 화면을 엽니다",
+        "goto": "",
+        "expect": {
+          "sel": ".lead h2",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "확인 노트마다 판정 딱지(확인됨 등)가 붙어 있는지 봅니다",
+        "expect": {
+          "sel": ".v",
+          "min_count": 3
+        }
+      },
+      {
+        "say": "맨 위 확인 노트를 눌러 엽니다",
+        "click": ".lead a",
+        "expect": {
+          "sel": ".art h1",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "노트 쪽에 판정과 날짜 줄이 있습니다",
+        "expect": {
+          "sel": ".by",
+          "regex": "확인됨|일부만 확인됨|아직 확인 안 됨"
+        }
+      },
+      {
+        "say": "노트 쪽에 「확인한 사실」 칸이 있습니다",
+        "expect": {
+          "sel": ".art",
+          "contains": "확인한 사실"
+        }
+      }
+    ]
+  },
+  "try_change": "notes/ 의 확인 노트 하나에서 summary 한 줄을 고쳐 python build.py 를 다시 돌린 뒤 첫 화면 큰 글에 바뀐 문장이 뜨는지 보세요."
 }

@@ -323,8 +323,8 @@ def content_pages():
                 prev = f'<a href="{BASE}novel/{slug}/{eps[k-1][0]}/">← 이전 화</a>' if k > 0 else '<span></span>'
                 nxt = f'<a href="{BASE}novel/{slug}/{eps[k+1][0]}/">다음 화 →</a>' if k + 1 < len(eps) else '<span></span>'
                 ctl = ('<div class="fz"><button type="button" data-d="-1">가-</button><button type="button" data-d="1">가+</button></div>'
-                       '<script>(function(){var a=document.querySelector(".nv"),k="fm_fz",v=17;try{v=+localStorage.getItem(k)||17}catch(e){}function s(){a.style.fontSize=v+"px"}s();'
-                       'document.querySelectorAll(".fz button").forEach(function(b){b.onclick=function(){v=Math.max(14,Math.min(26,v+(+b.dataset.d)*2));try{localStorage.setItem(k,v)}catch(e){}s()}})})()</script>')
+                       '<script>document.addEventListener("DOMContentLoaded",function(){var a=document.querySelector(".nv"),k="fm_fz",v=17;try{v=+localStorage.getItem(k)||17}catch(e){}function s(){a.style.fontSize=v+"px"}s();'
+                       'document.querySelectorAll(".fz button").forEach(function(b){b.onclick=function(){v=Math.max(14,Math.min(26,v+(+b.dataset.d)*2));try{localStorage.setItem(k,v)}catch(e){}s()}})})</script>')
                 urls.append(page(f'novel/{slug}/{n}', f'{first_h1(t, n + "화")} — {title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'^#.*$', '', t, flags=re.M)).strip()[:140],
                                  f'<article class="art"><span class="lb">{E(title)}</span>{ctl}<div class="nv">{md(t).replace('<h2>', '<h1>', 1).replace('</h2>', '</h1>', 1)}</div><div class="by">{prev}<a href="{BASE}novel/{slug}/">목차</a>{nxt}</div></article>'))
             cards += f'<a href="{BASE}novel/{slug}/"><span class="lb">연재 소설</span><h3>{E(title)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", intro, flags=re.M)).strip()[:100])}</p></a>'

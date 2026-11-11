@@ -37,5 +37,37 @@
       "모르면": "옛 내용의 책이 공개됩니다",
       "근거": "일반"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "전자책 쪽을 엽니다",
+        "goto": "ebook/",
+        "expect": {
+          "sel": "h1",
+          "contains": "전자책"
+        }
+      },
+      {
+        "say": "PDF 내려받기 링크가 하나 이상 있습니다",
+        "expect": {
+          "sel": ".tp a[href$='.pdf']",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "파일 크기(KB)가 함께 적혀 있습니다",
+        "expect": {
+          "sel": ".tp .ln",
+          "regex": "PDF 내려받기 · \\d+KB"
+        }
+      },
+      {
+        "say": "링크를 실제로 열어 보면 파일이 있습니다(응답 200)",
+        "eval": "fetch(document.querySelector(\".tp a[href$='.pdf']\").getAttribute('href')).then(r=>r.status)",
+        "equals": 200
+      }
+    ]
+  },
+  "try_change": "posts/ 폴더에 짧은 글(.md) 하나를 더하고 python ebook.py 와 python build.py 를 돌려, /ebook/ 의 PDF 크기가 달라지는지 보세요."
 }

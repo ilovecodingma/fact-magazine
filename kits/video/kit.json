@@ -10,5 +10,72 @@
   "mounts": "extras.videos · 메뉴 「영상」",
   "server": "불필요",
   "minutes": "5",
-  "existing": true
+  "existing": true,
+  "must_know": [
+    {
+      "알것": "영상 목록은 site.local.json 의 extras.videos 에 {url, title} 로 적는다",
+      "까닭": "영상은 글 파일이 아니라 사이트 설정에서 읽기 때문입니다",
+      "모르면": "다른 곳에 적으면 /video/ 가 비어 있습니다",
+      "근거": "site.local.json, build.py"
+    },
+    {
+      "알것": "주소는 youtu.be/ID, youtube.com/watch?v=ID, youtube.com/shorts/ID 모양이어야 한다",
+      "까닭": "빌드가 이 모양에서 11글자 영상 번호를 뽑아 칸을 만들기 때문입니다",
+      "모르면": "다른 모양의 주소는 조용히 빠져서 영상이 안 보입니다",
+      "근거": "build.py(영상 주소를 읽는 줄)"
+    },
+    {
+      "알것": "영상 칸은 보는 사람이 재생할 때 유튜브에 접속한다(빌드는 접속하지 않는다)",
+      "까닭": "칸은 유튜브 주소를 가리키는 틀일 뿐이기 때문입니다",
+      "모르면": "빌드가 되었다고 영상이 재생된다고 단정하면 안 됩니다",
+      "근거": "build.py, kits/video/README.md"
+    }
+  ],
+  "selftest": {
+    "extras": {
+      "videos": [
+        {
+          "url": "https://youtu.be/dQw4w9WgXcQ",
+          "title": "예시 영상"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "say": "영상 쪽을 엽니다",
+        "goto": "video/",
+        "expect": {
+          "sel": "h1",
+          "contains": "영상"
+        }
+      },
+      {
+        "say": "영상 칸(iframe)이 생겼는지 봅니다",
+        "expect": {
+          "sel": "iframe",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "영상 제목이 보입니다",
+        "expect": {
+          "sel": ".tp b",
+          "contains": "예시 영상"
+        }
+      },
+      {
+        "say": "영상은 개인정보를 덜 남기는 youtube-nocookie 주소로 넣습니다",
+        "eval": "document.querySelector('iframe').src.indexOf('youtube-nocookie.com/embed/')>0",
+        "equals": true
+      },
+      {
+        "say": "「유튜브에서 보기」 링크가 있습니다",
+        "expect": {
+          "sel": ".ln a[href*='youtu.be']",
+          "min_count": 1
+        }
+      }
+    ]
+  },
+  "try_change": "site.local.json 의 extras.videos 에 내 영상 주소({\"url\": \"https://youtu.be/…\", \"title\": \"제목\"})를 한 줄 더하고 python build.py 를 돌려 영상 칸이 늘어나는지 보세요."
 }

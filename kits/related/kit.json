@@ -9,5 +9,64 @@
   "see": "글 쪽 맨 아래에 「관련 글」이 나옵니다(태그가 붙은 글이 둘 이상일 때)",
   "mounts": "푸터 링크 또는 글 쪽 안",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "steps": [
+      {
+        "say": "글 쪽을 엽니다",
+        "goto": "post/isa-tax-free-limit/",
+        "expect": {
+          "sel": "h1",
+          "contains": "ISA"
+        }
+      },
+      {
+        "say": "글 아래에 「관련 글」 소제목이 나옵니다",
+        "expect": {
+          "sel": ".art h2",
+          "contains": "관련 글"
+        }
+      },
+      {
+        "say": "관련 글 목록에 연금저축 글이 들어 있습니다(둘 다 「세금·저축」 태그)",
+        "expect": {
+          "sel": ".art ul.rp",
+          "contains": "연금저축"
+        }
+      },
+      {
+        "say": "관련 글을 눌러 그 글로 이동합니다",
+        "click": ".art ul.rp a",
+        "expect": {
+          "sel": "h1",
+          "contains": "연금저축"
+        }
+      }
+    ],
+    "extra_parts": [
+      "posts",
+      "tags"
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "관련 글은 같은 태그(가중치 3)와 겹치는 낱말(가중치 0.2)로 점수를 매겨 높은 3개를 보여 준다",
+      "까닭": "사람이 일일이 고르지 않아도 되는 단순한 규칙이기 때문입니다",
+      "모르면": "태그가 없으면 낱말 겹침만으로 정해져 엉뚱한 글이 나올 수 있습니다",
+      "근거": "kitpages.py 의 related_html"
+    },
+    {
+      "알것": "점수가 0.5 이하이면 관련 글을 보여 주지 않는다",
+      "까닭": "억지로 채우면 관련 없는 글을 권하게 되기 때문입니다",
+      "모르면": "글이 한두 개뿐인 사이트에서 관련 글이 안 나와 고장으로 압니다",
+      "근거": "kitpages.py 의 related_html(s > 0.5)"
+    },
+    {
+      "알것": "관련 글은 태그 키트의 자료(kits/tags/data/post_tags.json)와 같이 쓸 때 가장 잘 맞는다",
+      "까닭": "태그가 가장 강한 관련 단서이기 때문입니다",
+      "모르면": "태그를 안 적으면 관련 글이 빈약해집니다",
+      "근거": "kitpages.py 의 items, related_html"
+    }
+  ],
+  "try_change": "kits/tags/data/post_tags.json 에서 pension-savings-irp-tax-credit 글의 태그를 모두 지우고 python build.py 후 ISA 글 아래 관련 글이 어떻게 달라지는지 보세요(끝나면 되돌리세요)."
 }

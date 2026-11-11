@@ -9,5 +9,68 @@
   "see": "/gallery/ 에서 그림을 누르면 화면 가득 크게 보입니다",
   "mounts": "푸터 링크와 /gallery/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "must_know": [
+    {
+      "알것": "그림은 kits/gallery/data/ 폴더에 넣은 png·jpg·svg·webp 파일이 전부 나온다",
+      "까닭": "빌드가 폴더의 그림 파일을 이름순으로 읽기 때문입니다",
+      "모르면": "다른 종류 파일은 조용히 빠집니다",
+      "근거": "kitpages.py 의 gallery, kits/gallery/data/"
+    },
+    {
+      "알것": "그림 설명은 captions.json 에 「파일이름: 설명」 으로 적는다",
+      "까닭": "큰 그림 아래 글과 그림의 대체 글(alt)로 쓰이기 때문입니다",
+      "모르면": "설명이 없으면 눈이 불편한 분께 그림이 무엇인지 전해지지 않습니다",
+      "근거": "kits/gallery/data/captions.json"
+    },
+    {
+      "알것": "크게 보기는 서버 없이 브라우저 안에서 그림을 덮어 보여 주는 방식이다(닫기: 화면 누르기·Esc)",
+      "까닭": "쪽 안의 작은 코드가 어두운 판 위에 그림을 띄우기 때문입니다",
+      "모르면": "그림이 안 뜨면 서버 문제라고 오해합니다",
+      "근거": "kitpages.py 의 gallery(크게 보기 스크립트)"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "사진첩을 엽니다",
+        "goto": "gallery/",
+        "expect": {
+          "sel": "a.gi",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "처음에는 큰 그림 창이 닫혀 있습니다",
+        "eval": "getComputedStyle(document.getElementById('lb')).display",
+        "equals": "none"
+      },
+      {
+        "say": "작은 그림을 누르면 화면 가득 크게 열립니다",
+        "click": "a.gi"
+      },
+      {
+        "say": "작은 그림을 누르면 화면 가득 크게 열립니다 (결과 확인)",
+        "eval": "getComputedStyle(document.getElementById('lb')).display",
+        "equals": "flex"
+      },
+      {
+        "say": "크게 열린 그림 아래에 설명 글이 나옵니다",
+        "expect": {
+          "sel": "#lc",
+          "regex": ".+"
+        }
+      },
+      {
+        "say": "화면을 누르면 닫힙니다",
+        "click": "#lb"
+      },
+      {
+        "say": "화면을 누르면 닫힙니다 (결과 확인)",
+        "eval": "getComputedStyle(document.getElementById('lb')).display",
+        "equals": "none"
+      }
+    ]
+  },
+  "try_change": "kits/gallery/data/captions.json 에서 그림 하나의 설명 글자를 바꾸고 python build.py 를 돌려 작은 그림 아래 글이 바뀌는지 보세요."
 }

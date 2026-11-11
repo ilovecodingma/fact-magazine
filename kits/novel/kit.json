@@ -10,5 +10,76 @@
   "mounts": "novels/ · 메뉴 「연재」",
   "server": "불필요",
   "minutes": "5",
-  "existing": true
+  "existing": true,
+  "must_know": [
+    {
+      "알것": "작품은 novels/<작품폴더>/ 안에 소개.md 와 01.md, 02.md … 로 둔다",
+      "까닭": "소개 파일은 작품 쪽에, 번호 파일은 회차 목록에 쓰이기 때문입니다",
+      "모르면": "번호 없이 이름을 지으면 회차 순서가 뒤섞입니다",
+      "근거": "novels/퇴근계산서/소개.md, novels/퇴근계산서/01.md"
+    },
+    {
+      "알것": "회차 순서는 파일 이름의 숫자가 정한다(01, 02, 03)",
+      "까닭": "빌드가 파일 이름을 순서대로 읽어 이전·다음 화를 이어 주기 때문입니다",
+      "모르면": "9화 다음에 10화가 오려면 두 자리 숫자로 맞춰야 합니다",
+      "근거": "novels/퇴근계산서/, build.py"
+    },
+    {
+      "알것": "글자 크기는 읽는 사람의 브라우저에 저장된다(14~26px 사이)",
+      "까닭": "버튼이 브라우저 저장소(localStorage)에 크기를 적어 두기 때문입니다",
+      "모르면": "다른 기기에서는 처음 크기로 보이니 고장이라고 오해합니다",
+      "근거": "1화 쪽의 글자 크기 스크립트(fm_fz), build.py"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "연재 목록을 엽니다",
+        "goto": "novel/",
+        "expect": {
+          "sel": ".gl a",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "작품을 누르면 회차 목록이 나옵니다",
+        "click": ".gl a",
+        "expect": {
+          "sel": ".rp li",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "1화를 누르면 글 제목에 「화」가 들어 있습니다",
+        "click": ".rp li a",
+        "expect": {
+          "sel": ".nv h1",
+          "regex": "\\d+화"
+        }
+      },
+      {
+        "say": "처음 글자 크기는 17px 입니다",
+        "eval": "document.querySelector('.nv').style.fontSize",
+        "equals": "17px"
+      },
+      {
+        "say": "「가+」 를 한 번 누르면 19px 로 커집니다",
+        "click": ".fz button[data-d='1']"
+      },
+      {
+        "say": "「가+」 를 한 번 누르면 19px 로 커집니다 (결과 확인)",
+        "eval": "document.querySelector('.nv').style.fontSize",
+        "equals": "19px"
+      },
+      {
+        "say": "「다음 화」 링크를 누르면 2화가 열립니다",
+        "click": ".by a[href$='02/']",
+        "expect": {
+          "sel": ".nv h1",
+          "regex": "2화"
+        }
+      }
+    ]
+  },
+  "try_change": "novels/ 의 작품 폴더에 04.md 를 만들어 맨 위를 「# 4화. 내 제목」으로 쓰고 python build.py 를 돌려 회차 목록에 4화가 생기는지 보세요."
 }

@@ -9,5 +9,59 @@
   "see": "/today/ 에 오늘 날씨 한 줄과 추천 3개가 나옵니다(날씨를 못 불러오면 평소 추천)",
   "mounts": "푸터 링크와 /today/",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "steps": [
+      {
+        "say": "오늘의 추천 쪽을 엽니다",
+        "goto": "today/",
+        "expect": {
+          "sel": "h1",
+          "contains": "오늘의 추천"
+        }
+      },
+      {
+        "say": "날씨 한 줄(기온·정보 출처·만든 시각)이 나옵니다",
+        "expect": {
+          "sel": ".dek",
+          "contains": "날씨 정보"
+        }
+      },
+      {
+        "say": "추천이 3개 나옵니다",
+        "expect": {
+          "sel": ".tp",
+          "min_count": 3
+        }
+      },
+      {
+        "say": "각 추천에 짧은 설명 한 줄이 붙어 있습니다",
+        "expect": {
+          "sel": ".tp .ln",
+          "min_count": 3
+        }
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "추천 목록은 자료 파일(kits/today/data/items.json)에 날씨 종류별로 적는다",
+      "까닭": "날씨가 바뀌어도 같은 틀에서 목록만 골라 보여 주기 때문입니다",
+      "모르면": "목록을 바꾸고 싶을 때 코드를 고치게 됩니다",
+      "근거": "kits/today/data/items.json"
+    },
+    {
+      "알것": "날씨는 무료 서비스(Open-Meteo)에서 빌드할 때 가져온다. 못 가져오면 「무난한 날」 추천으로 넘어간다",
+      "까닭": "인터넷이 끊겨도 쪽이 비지 않게 하려는 것입니다",
+      "모르면": "날씨가 안 맞는다고 놀라거나, 오프라인에서 빌드가 실패한다고 오해합니다",
+      "근거": "kitpages.py 의 today"
+    },
+    {
+      "알것": "추천은 쪽을 만든 시각(빌드 시각) 기준이므로 새 추천을 보이려면 다시 빌드해야 한다",
+      "까닭": "정적 쪽은 빌드한 순간의 내용을 그대로 담기 때문입니다",
+      "모르면": "어제 만든 날씨가 오늘도 그대로 보입니다",
+      "근거": "kitpages.py 의 today, kits/today/data/config.json(위치)"
+    }
+  ],
+  "try_change": "kits/today/data/items.json 의 「평소」 목록에 내 추천 한 줄을 더하거나, kits/today/data/config.json 의 place·lat·lon 을 내 동네로 바꿔 python build.py 를 다시 돌려 보세요."
 }

@@ -35,5 +35,33 @@
       "모르면": "방문자가 예시를 실제 일정으로 믿습니다",
       "근거": "demos/town/kits/schedule/data/events.json"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "일정 쪽을 엽니다",
+        "goto": "schedule/",
+        "expect": {
+          "sel": "h2",
+          "contains": "다가오는 일정"
+        }
+      },
+      {
+        "say": "모든 일정이 「다가오는」 칸이나 「지난」 칸으로 나뉘어 들어갔는지 봅니다",
+        "eval": "document.querySelectorAll('.ev').length>0&&document.querySelectorAll('.ev').length===document.querySelectorAll('#up .ev, #pa .ev').length",
+        "equals": true
+      },
+      {
+        "say": "지난 칸의 일정은 모두 오늘보다 앞 날짜입니다",
+        "eval": "[].every.call(document.querySelectorAll('#pa .ev'),function(e){return new Date(e.dataset.d+'T00:00:00')<new Date(new Date().setHours(0,0,0,0))})",
+        "equals": true
+      },
+      {
+        "say": "다가오는 칸의 일정은 모두 오늘 이후 날짜입니다",
+        "eval": "[].every.call(document.querySelectorAll('#up .ev'),function(e){return new Date(e.dataset.d+'T00:00:00')>=new Date(new Date().setHours(0,0,0,0))})",
+        "equals": true
+      }
+    ]
+  },
+  "try_change": "kits/schedule/data/events.json 에 날짜를 내일로 한 일정(「예시」라고 적기)을 하나 더하고 python build.py 후 /schedule/ 의 다가오는 칸에 뜨는지 보세요."
 }

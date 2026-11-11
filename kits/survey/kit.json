@@ -9,5 +9,69 @@
   "see": "/survey/ 에서 고르고 쪽을 새로 열어도 내 선택이 남아 있습니다",
   "mounts": "푸터 링크 또는 글 쪽 안",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "steps": [
+      {
+        "say": "설문 쪽을 엽니다",
+        "goto": "survey/",
+        "expect": {
+          "sel": "h1",
+          "contains": "작은 설문 예시"
+        }
+      },
+      {
+        "say": "처음에는 고른 것이 없다는 안내가 나옵니다",
+        "expect": {
+          "sel": "#sm",
+          "contains": "아직 고른 것이 없습니다"
+        }
+      },
+      {
+        "say": "첫 질문에서 두 번째 보기를 누릅니다",
+        "click": "input[name=s0][value='1']",
+        "expect": {
+          "sel": "#sm",
+          "contains": "내 선택 1개"
+        }
+      },
+      {
+        "say": "둘째 질문에서 세 번째 보기를 누릅니다",
+        "click": "input[name=s1][value='2']",
+        "expect": {
+          "sel": "#sm",
+          "contains": "내 선택 2개"
+        }
+      },
+      {
+        "say": "쪽을 새로 열어도 내 선택 2개가 남아 있는지 봅니다",
+        "reload": true,
+        "expect": {
+          "sel": "#sm",
+          "contains": "내 선택 2개"
+        }
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "설문 문항은 자료 파일(kits/survey/data/survey.json)에 질문과 보기로 적는다",
+      "까닭": "화면 코드와 내용을 나눠 두어 파일만 고치면 설문이 바뀌기 때문입니다",
+      "모르면": "코드를 직접 고치다 화면이 깨집니다",
+      "근거": "kits/survey/data/survey.json"
+    },
+    {
+      "알것": "고른 답은 이 브라우저(localStorage)에만 저장되고 어디로도 보내지지 않는다",
+      "까닭": "정적 사이트라 답을 받을 서버가 없기 때문입니다",
+      "모르면": "「모두의 결과」가 모이는 줄 알고 통계를 발표합니다(실제로는 한 사람의 선택뿐)",
+      "근거": "kitpages.py 의 survey, 넘김\\서버가_필요한_것.md"
+    },
+    {
+      "알것": "모두의 결과를 모으려면 방문자의 선택을 받는 서버가 따로 필요하다",
+      "까닭": "이 키트는 보여 주고 기억하는 데까지만 하기 때문입니다",
+      "모르면": "서버 없이 투표 집계를 약속하게 됩니다",
+      "근거": "kitpages.py 의 survey 안내 문구"
+    }
+  ],
+  "try_change": "kits/survey/data/survey.json 의 첫 질문(q)과 보기(options)를 내 주제로 바꾸고 python build.py 로 /survey/ 를 다시 열어 보세요."
 }

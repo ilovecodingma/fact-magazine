@@ -48,5 +48,26 @@
       "모르면": "승인 없이 올라갑니다",
       "근거": "런북.md 10절, 넘김\\README.md"
     }
-  ]
+  ],
+  "selftest": {
+    "needs": [
+      "ffmpeg"
+    ],
+    "runs": [
+      {
+        "say": "예시 노트(notes/예시-수출.json)로 세로 영상을 만들어 봅니다(shorts/ 에 mp4 한 편이 생깁니다)",
+        "cmd": [
+          "shorts.py",
+          "notes/예시-수출.json"
+        ],
+        "cwd": "repo",
+        "show": "stdout",
+        "timeout": 300,
+        "expect": {
+          "regex": "->.*\\.mp4"
+        }
+      }
+    ]
+  },
+  "try_change": "notes/예시-수출.json 의 question(질문) 한 줄을 바꿔 python shorts.py notes/예시-수출.json 을 다시 돌려, 영상 첫 장면의 글이 바뀌는지 shorts/ 의 mp4 를 열어 보세요."
 }

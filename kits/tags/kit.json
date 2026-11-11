@@ -9,5 +9,63 @@
   "see": "/tags/ 에서 태그를 누르면 그 태그가 붙은 글·노트가 나옵니다",
   "mounts": "푸터 링크 또는 글 쪽 안",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "steps": [
+      {
+        "say": "태그 목록 쪽을 엽니다",
+        "goto": "tags/",
+        "expect": {
+          "sel": "h1",
+          "contains": "태그별로 보기"
+        }
+      },
+      {
+        "say": "태그가 3개 이상 나옵니다",
+        "expect": {
+          "sel": ".rp li",
+          "min_count": 3
+        }
+      },
+      {
+        "say": "「#세금」 태그를 누릅니다",
+        "click": ".rp a[href$='/tags/세금/']",
+        "expect": {
+          "sel": "h1",
+          "contains": "#세금"
+        }
+      },
+      {
+        "say": "그 태그가 붙은 글이 2개 이상 나옵니다",
+        "expect": {
+          "sel": ".tp",
+          "min_count": 2
+        }
+      }
+    ],
+    "extra_parts": [
+      "posts"
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "글의 태그는 kits/tags/data/post_tags.json 에, 확인 노트의 태그는 노트 파일의 tags 에 적는다",
+      "까닭": "글(마크다운)에는 태그 칸이 없어 따로 모아 두기 때문입니다",
+      "모르면": "글을 새로 쓰고 post_tags.json 에 안 적으면 그 글은 태그 쪽에 안 나옵니다",
+      "근거": "kits/tags/data/post_tags.json, kitpages.py 의 items"
+    },
+    {
+      "알것": "태그마다 쪽이 만들어지고, 글이 3개 미만인 태그 쪽은 검색에 안 나가게(noindex) 한다",
+      "까닭": "내용이 얇은 쪽이 검색 품질을 떨어뜨리지 않게 하려는 것입니다",
+      "모르면": "태그를 너무 잘게 쪼개면 검색에 안 잡히는 쪽만 늘어납니다",
+      "근거": "kitpages.py 의 tags(noindex=len(L) < 3)"
+    },
+    {
+      "알것": "태그 이름이 같아야 한 묶음이 된다(「세금」과 「세금 제도」는 다른 태그)",
+      "까닭": "낱말 하나하나를 그대로 구분하기 때문입니다",
+      "모르면": "비슷한 이름을 섞어 쓰면 같은 주제가 여러 쪽으로 흩어집니다",
+      "근거": "kitpages.py 의 tags"
+    }
+  ],
+  "try_change": "kits/tags/data/post_tags.json 에서 isa-tax-free-limit 글의 태그에 \"예시\" 를 하나 더하고 python build.py 후 /tags/ 에 #예시 가 생기는지 보세요."
 }

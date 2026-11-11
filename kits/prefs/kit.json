@@ -9,5 +9,59 @@
   "see": "푸터의 단추를 누르면 글자와 바탕이 바뀌고 새로 열어도 유지됩니다",
   "mounts": "푸터 링크 또는 글 쪽 안",
   "server": "불필요",
-  "minutes": "5"
+  "minutes": "5",
+  "selftest": {
+    "steps": [
+      {
+        "say": "처음 화면의 푸터에 보기 설정 단추가 3개 있습니다",
+        "goto": "",
+        "expect": {
+          "sel": ".prefs button",
+          "min_count": 3
+        }
+      },
+      {
+        "say": "「어두운 바탕 켜기/끄기」를 누릅니다",
+        "click": ".prefs button[data-th]",
+        "wait": 0.3
+      },
+      {
+        "say": "바탕이 어두운 모드(dark)로 바뀌었는지 봅니다",
+        "eval": "document.documentElement.getAttribute('data-theme')",
+        "equals": "dark"
+      },
+      {
+        "say": "「글자 크게」를 누릅니다",
+        "click": ".prefs button[data-fz='0.1']",
+        "wait": 0.3
+      },
+      {
+        "say": "쪽을 새로 열어도 어두운 바탕이 유지되는지 봅니다",
+        "reload": true,
+        "eval": "document.documentElement.getAttribute('data-theme')",
+        "equals": "dark"
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "보기 설정(글자 작게·크게, 어두운 바탕)은 푸터의 단추 세 개로 바꾸고 이 브라우저에만 기억한다",
+      "까닭": "서버나 계정 없이 방문자 취향을 지키려는 것입니다",
+      "모르면": "다른 기기에서는 설정이 따라오지 않습니다",
+      "근거": "build.py 의 PREFS_UI, PREF_HEAD"
+    },
+    {
+      "알것": "저장은 브라우저의 localStorage(작은 저장 칸)에 fm_fz(글자 크기)·fm_theme(바탕)로 한다",
+      "까닭": "새로 열어도 유지되도록 쪽 맨 위에서 먼저 읽어 적용하기 때문입니다",
+      "모르면": "브라우저 데이터를 지우면 설정도 사라집니다",
+      "근거": "build.py 의 PREF_HEAD"
+    },
+    {
+      "알것": "글자 크기는 0.8~1.5배 안에서만 바뀐다",
+      "까닭": "너무 작거나 커서 읽을 수 없게 되는 것을 막으려는 것입니다",
+      "모르면": "한도가 있는 줄 모르고 단추가 안 먹는다고 오해합니다",
+      "근거": "build.py 의 PREFS_UI(Math.max .8, Math.min 1.5)"
+    }
+  ],
+  "try_change": "푸터의 「글자 크게」를 여러 번 눌러 글자가 1.5배에서 멈추는지 확인해 보세요(상한은 build.py 의 Math.min(1.5,…) 에 적혀 있습니다)."
 }

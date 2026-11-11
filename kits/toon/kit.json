@@ -10,5 +10,59 @@
   "mounts": "toons/ · 메뉴 「웹툰」",
   "server": "불필요",
   "minutes": "5",
-  "existing": true
+  "existing": true,
+  "must_know": [
+    {
+      "알것": "작품은 toons/<작품>/meta.json 과 회차 폴더(01/)로 되어 있다",
+      "까닭": "meta.json 이 제목·소개를, 회차 폴더가 컷 그림을 담기 때문입니다",
+      "모르면": "meta.json 이 없으면 작품 쪽이 만들어지지 않습니다",
+      "근거": "toons/이름없는돈/meta.json"
+    },
+    {
+      "알것": "컷은 회차 폴더 안의 번호 순서(01.svg, 02.svg …)로 이어진다",
+      "까닭": "빌드가 파일 이름 순서대로 위에서 아래로 쌓기 때문입니다",
+      "모르면": "번호가 어긋나면 컷 순서가 뒤바뀝니다",
+      "근거": "toons/이름없는돈/01/01.svg"
+    },
+    {
+      "알것": "그림 파일은 직접 그린 SVG(글자·도형)만 쓴다",
+      "까닭": "남의 그림을 가져오면 저작권 문제가 생기기 때문입니다",
+      "모르면": "저작권이 있는 그림을 올려 곤란해질 수 있습니다",
+      "근거": "toons/이름없는돈/meta.json 소개 문구(글자와 도형으로 그린 그림)"
+    }
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "웹툰 목록을 엽니다",
+        "goto": "toon/",
+        "expect": {
+          "sel": ".gl a",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "작품을 누르면 회차 목록이 나옵니다",
+        "click": ".gl a",
+        "expect": {
+          "sel": ".rp li",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "1화를 누르면 컷 그림이 세로로 이어집니다",
+        "click": ".rp li a",
+        "expect": {
+          "sel": ".art img",
+          "min_count": 2
+        }
+      },
+      {
+        "say": "그림마다 설명 글(alt)이 붙어 있습니다",
+        "eval": "[].every.call(document.querySelectorAll('.art img'),function(i){return i.alt.length>0})",
+        "equals": true
+      }
+    ]
+  },
+  "try_change": "toons/ 작품 폴더의 meta.json 에서 제목 글자를 바꿔 python build.py 를 돌린 뒤 /toon/ 목록의 제목이 바뀌는지 보세요."
 }
