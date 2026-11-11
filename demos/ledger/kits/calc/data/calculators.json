@@ -1,0 +1,69 @@
+[
+ {
+  "slug": "monthly-left",
+  "title": "이번 달 남은 돈 계산기",
+  "desc": "수입에서 지출을 빼고 하루에 쓸 수 있는 금액을 봅니다(예시).",
+  "inputs": [
+   {
+    "id": "inc",
+    "label": "이번 달 수입(예시)",
+    "unit": "원",
+    "default": 2500000
+   },
+   {
+    "id": "out",
+    "label": "지금까지 지출(예시)",
+    "unit": "원",
+    "default": 1480000
+   },
+   {
+    "id": "days",
+    "label": "남은 날짜",
+    "unit": "일",
+    "default": 12
+   }
+  ],
+  "vars": [],
+  "results": [
+   {
+    "label": "남은 돈",
+    "format": "won",
+    "expr": "inc-out"
+   },
+   {
+    "label": "하루에 쓸 수 있는 돈",
+    "format": "won",
+    "expr": "(inc-out)/days"
+   }
+  ],
+  "note": "단순 계산입니다."
+ },
+ {
+  "slug": "split-bill",
+  "title": "나눠 내기 계산기",
+  "desc": "공동 지출을 인원수로 나눕니다(예시).",
+  "inputs": [
+   {
+    "id": "t",
+    "label": "총 금액(예시)",
+    "unit": "원",
+    "default": 64000
+   },
+   {
+    "id": "n",
+    "label": "인원",
+    "unit": "명",
+    "default": 4
+   }
+  ],
+  "vars": [],
+  "results": [
+   {
+    "label": "1인당",
+    "format": "won",
+    "expr": "t/n"
+   }
+  ],
+  "note": "나누어떨어지지 않으면 조금 달라질 수 있습니다."
+ }
+]

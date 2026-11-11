@@ -142,6 +142,8 @@ def page(path, title, desc, body, noindex=False):
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     PREF_HEAD = '<script>try{var d=document.documentElement,t=localStorage.getItem("fm_theme"),z=localStorage.getItem("fm_fz");if(t)d.setAttribute("data-theme",t);if(z)d.style.setProperty("--fz",z)}catch(e){}</script>' if part('prefs', False) else ''
     PREFS_UI = ('<p class="prefs">보기 설정: <button type="button" data-fz="-0.1">글자 작게</button><button type="button" data-fz="0.1">글자 크게</button><button type="button" data-th="1">어두운 바탕 켜기/끄기</button></p><script>(function(){var d=document.documentElement;document.querySelectorAll(".prefs button").forEach(function(b){b.onclick=function(){try{if(b.dataset.th){var t=d.getAttribute("data-theme")==="dark"?"light":"dark";d.setAttribute("data-theme",t);localStorage.setItem("fm_theme",t)}else{var z=Math.max(.8,Math.min(1.5,(parseFloat(d.style.getPropertyValue("--fz"))||1)+parseFloat(b.dataset.fz)));d.style.setProperty("--fz",z);localStorage.setItem("fm_fz",z)}}catch(e){}}})})()</script>') if part('prefs', False) else ''
+    PWA_HEAD = f'<link rel="manifest" href="{BASE}manifest.webmanifest"><meta name="theme-color" content="{E(ACCENT)}"><link rel="apple-touch-icon" href="{BASE}icon-192.png">' if part('pwa', False) else ''
+    PWA_REG = f'<script>if("serviceWorker" in navigator){{navigator.serviceWorker.register("{BASE}sw.js",{{scope:"{BASE}"}}).catch(function(){{}})}}</script>' if part('pwa', False) else ''
     items = [('오늘' if part('info') else '처음', BASE)]   # 메뉴 후보(앞에서부터 보여 주고 5칸을 넘으면 「더 보기」에 접는다)
     if load_games():
         items.append(('게임', BASE + 'games/'))
@@ -180,12 +182,12 @@ def page(path, title, desc, body, noindex=False):
         GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
-{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PREF_HEAD}</head><body class="th-{THEME}" style="--ac:{E(ACCENT)}">
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{PREF_HEAD}</head><body class="th-{THEME}" style="--ac:{E(ACCENT)}">
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer></body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not explicit_noindex:   # 조립 예시(DEMO)도 사이트 안 검색에는 들어간다(검색 엔진용 noindex 와 별개)
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
@@ -606,6 +608,53 @@ def extras_html():
     return f'<section class="sec"><h2>영상 · 게임 · 추천</h2><div class="ex-grid">{"".join(cols)}</div></section>' if cols else ''
 
 
+def _png(size, rgb):
+    """아이콘 PNG 를 파이썬 기본 기능(zlib)만으로 그린다: 색 바탕에 흰 고리와 가운데 점(모양 아이콘)."""
+    import zlib, struct
+    cx = cy = size / 2; R1, R2, R3 = size * .34, size * .22, size * .09
+    rows = []
+    for y in range(size):
+        row = bytearray([0])
+        for x in range(size):
+            d = ((x + .5 - cx) ** 2 + (y + .5 - cy) ** 2) ** .5
+            col = (255, 255, 255) if (R2 <= d <= R1 or d <= R3) else rgb
+            row += bytes(col)
+        rows.append(bytes(row))
+    raw = b''.join(rows)
+    ck = lambda t, b: struct.pack('>I', len(b)) + t + b + struct.pack('>I', zlib.crc32(t + b) & 0xffffffff)
+    return b'\x89PNG\r\n\x1a\n' + ck(b'IHDR', struct.pack('>IIBBBBB', size, size, 8, 2, 0, 0, 0)) + ck(b'IDAT', zlib.compress(raw, 9)) + ck(b'IEND', b'')
+
+
+def write_pwa():
+    """홈 화면에 추가되는 앱처럼: manifest + 아이콘 + 서비스 워커(오프라인에서도 열림). 서버가 필요 없다."""
+    h = ACCENT.lstrip('#'); rgb = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)) if len(h) == 6 else (17, 17, 17)
+    for sz in (192, 512):
+        open(os.path.join(OUT, f'icon-{sz}.png'), 'wb').write(_png(sz, rgb))
+    short = S['name'][:12]
+    open(os.path.join(OUT, 'manifest.webmanifest'), 'w', encoding='utf-8').write(json.dumps({'name': S['name'], 'short_name': short, 'description': S['tagline'], 'start_url': BASE, 'scope': BASE, 'display': 'standalone', 'background_color': '#ffffff', 'theme_color': ACCENT,
+        'icons': [{'src': f'{BASE}icon-192.png', 'sizes': '192x192', 'type': 'image/png', 'purpose': 'any'}, {'src': f'{BASE}icon-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'any'}]}, ensure_ascii=False))
+    files = []
+    for dp, dn, fn in os.walk(OUT):
+        for f in fn:
+            rel = os.path.relpath(os.path.join(dp, f), OUT).replace(os.sep, '/')
+            if f == 'index.html':
+                files.append(BASE + (rel[:-10] if rel != 'index.html' else ''))
+            elif f in ('style.css', 'search.json', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png') or rel.endswith(('.svg', '.js', '.json')) and f != 'sw.js':
+                files.append(BASE + rel)
+    import hashlib
+    hm = hashlib.md5()
+    for u in sorted(files):   # 내용이 바뀌면 버전이 바뀌어 옛 저장본을 버린다
+        rp = os.path.join(OUT, u[len(BASE):] or '', 'index.html') if u.endswith('/') or u == BASE else os.path.join(OUT, u[len(BASE):])
+        hm.update(u.encode())
+        if os.path.isfile(rp):
+            hm.update(open(rp, 'rb').read())
+    ver = hm.hexdigest()[:8]
+    sw = ('const V="app-%s",A=%s;self.addEventListener("install",function(e){e.waitUntil(caches.open(V).then(function(c){return c.addAll(A)}).then(function(){return self.skipWaiting()}))});'
+          'self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k!==V}).map(function(k){return caches.delete(k)}))}).then(function(){return self.clients.claim()}))});'
+          'self.addEventListener("fetch",function(e){if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(function(r){return r||fetch(e.request)}))});') % (ver, json.dumps(files))
+    open(os.path.join(OUT, 'sw.js'), 'w', encoding='utf-8').write(sw)
+
+
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
@@ -698,6 +747,8 @@ def main():
     if not DEMO:
         feed(notes)
     write_search_index()
+    if part('pwa', False):
+        write_pwa()
     if DEMO:
         print(f'데모 쪽 {len(urls)}개 -> ' + (os.path.relpath(OUT, HERE) if OUT.startswith(HERE) else os.path.basename(OUT))); return
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다

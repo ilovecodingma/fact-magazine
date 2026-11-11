@@ -452,7 +452,7 @@ def notfound(B):
 
 
 ORDER += [('tags', tags), ('dday', dday), ('survey', survey), ('ledger', ledger), ('cards', cards_page), ('onepage', onepage_page), ('notfound', notfound)]
-FOOT4 = {'recipes': ('요리법', 'recipes/'), 'tags': ('태그', 'tags/'), 'dday': ('디데이', 'dday/'), 'survey': ('설문', 'survey/'), 'ledger': ('가계부', 'ledger/'), 'cards': ('카드 그림', 'cards/'), 'onepage': ('한 장 요약', 'onepage/')}
+FOOT4 = {'pwa': ('앱으로 쓰기', 'app/'), 'recipes': ('요리법', 'recipes/'), 'tags': ('태그', 'tags/'), 'dday': ('디데이', 'dday/'), 'survey': ('설문', 'survey/'), 'ledger': ('가계부', 'ledger/'), 'cards': ('카드 그림', 'cards/'), 'onepage': ('한 장 요약', 'onepage/')}
 
 
 # ---------------- 요리법 모음 키트 ----------------
@@ -480,6 +480,21 @@ def recipes(B):
 
 
 ORDER.insert(len(ORDER) - 1, ('recipes', recipes))   # notfound 앞에
+
+
+# ---------------- 앱으로 쓰기(PWA) 안내 쪽 ----------------
+def pwa(B):
+    body = (f'<p>이 사이트는 <b>앱처럼 설치</b>할 수 있습니다. 스토어 심사·개발자 계정 없이 브라우저만으로 됩니다.</p>'
+            '<h2>홈 화면에 추가하는 법</h2><ul><li><b>PC 크롬·엣지</b>: 주소창 오른쪽의 「설치」 아이콘(또는 메뉴 → 앱 → 이 사이트를 앱으로 설치)을 누릅니다.</li>'
+            '<li><b>안드로이드 크롬</b>: 메뉴(⋮) → 「홈 화면에 추가」 또는 「앱 설치」.</li><li><b>아이폰 사파리</b>: 공유 버튼 → 「홈 화면에 추가」.</li></ul>'
+            '<h2>인터넷이 없어도 열립니다</h2><p>한 번 열어 두면 사이트의 쪽이 기기에 저장되어, 비행기 모드에서도 다시 열립니다. 입력한 내용(가계부 등)은 이 기기의 브라우저에만 저장되고 서버로 가지 않습니다.</p>'
+            '<h2>알아 둘 것</h2><ul><li>내 PC 안에서 열어 본 주소(<code>127.0.0.1</code>)는 이 PC 에서만 되는 연습용이고, 다른 기기에 설치하려면 <code>https</code> 공개 주소에 올려야 합니다(올리기는 사람이 하는 선택 단계).</li>'
+            '<li>웹 앱은 브라우저로 설치하는 앱이고, 스토어 앱은 개발자 계정과 심사를 거쳐 스토어에 올리는 앱입니다. 이 키트는 앞쪽만 다룹니다.</li></ul>')
+    KIT_LINKS.append(('앱으로 쓰기', 'app/'))
+    return [box(B, '앱', '앱으로 쓰기', body, '홈 화면에 추가해 앱처럼 쓰는 방법', 'app')]
+
+
+ORDER.insert(len(ORDER) - 1, ('pwa', pwa))
 
 
 def pages(B):

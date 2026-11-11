@@ -217,6 +217,18 @@ def run_kit(kit, headless, slow):
                 if say:
                     pg.ev(BANNER_JS % json.dumps(f'[{i}/{len(st["steps"])}] {say}', ensure_ascii=False))
                 time.sleep(slow * 0.6)
+                if 'offline' in step:   # 인터넷을 끄거나 켠다(오프라인에서도 열리는지 보려고)
+                    pg.call('Network.enable'); pg.call('Network.emulateNetworkConditions', offline=bool(step['offline']), latency=0, downloadThroughput=-1, uploadThroughput=-1); time.sleep(0.3)
+                if step.get('reload'):
+                    pg.call('Page.reload'); time.sleep(1.6 + slow * 0.3)
+                    pg.ev(BANNER_JS % json.dumps(f'[{i}/{len(st["steps"])}] {say}', ensure_ascii=False))
+                if 'eval' in step:   # 화면 안에서 식을 풀어 본 값이 기대와 같은지(예: 서비스 워커가 준비됐는지)
+                    val = pg.ev(step['eval']); res = str(val)[:70]
+                    if 'equals' in step:
+                        good = val == step['equals']
+                if step.get('installable'):   # 브라우저가 「설치할 수 있는 앱」으로 보는지
+                    errs = pg.call('Page.getInstallabilityErrors').get('installabilityErrors', [])
+                    good = not errs; res = '설치 가능' if good else '설치 막는 것: ' + ', '.join(e.get('errorId', '?') for e in errs)
                 for key in ('click', 'type'):
                     if key in step:
                         sel, txt = (step['click'], None) if key == 'click' else (step['type'][0], step['type'][1])
@@ -246,7 +258,7 @@ def run_kit(kit, headless, slow):
                             good = bool(re.search(ex['regex'], txt))
                         if 'not_contains' in ex:
                             good = good and ex['not_contains'] not in txt
-                elif good:
+                elif good and res == '?':
                     res = '실행함'
             except Exception as e:
                 good = False; res = '오류: ' + repr(e)[:80]

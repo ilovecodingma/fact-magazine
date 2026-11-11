@@ -216,5 +216,26 @@
     "input_line": "이 저장소의 CLAUDE.md 를 읽고 schedule · faq · notice 키트만 켜서 「벼룩시장 한 장」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
     "theme": "one",
     "accent": "#e11d48"
+  },
+  {
+    "key": "ledger",
+    "name": "한입 가계부",
+    "tagline": "적은 내용이 이 기기에만 남는, 앱처럼 설치되는 가계부(예시)",
+    "mix": "가계부 앱",
+    "kits": [
+      "ledger",
+      "calc",
+      "dday",
+      "prefs",
+      "pwa"
+    ],
+    "kits_dir": "demos/ledger/kits",
+    "about": "가계부·계산기·디데이를 한곳에 모은 작은 웹 앱입니다. 입력한 내용은 이 기기의 브라우저에만 저장되고 서버로 가지 않습니다. 모든 이름·금액·날짜는 예시입니다.",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 ledger·calc·dday·prefs·pwa 키트만 켜서 「한입 가계부」 같은 앱을 만들어 줘. 홈 화면에 추가되고 인터넷을 꺼도 열리는지 확인하고, 금액·날짜는 「예시」라고 표시해 줘.",
+    "theme": "card",
+    "accent": "#0ea5e9",
+    "labels": {
+      "ledger": "가계부"
+    }
   }
 ]
