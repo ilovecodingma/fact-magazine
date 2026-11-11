@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """내 PC 에서 바로 보기: 사이트를 찍고(조립 예시 포함) 내 컴퓨터 주소(localhost)로 열어 준다. 공개 주소·GitHub·로그인이 필요 없다. 파이썬 기본 기능만 쓴다.
-사용: python serve.py                 찍기 → http://localhost:8000/ 로 열기(멈추려면 Ctrl+C)
+사용: python serve.py                 찍기 → http://127.0.0.1:8000/ 로 열기(멈추려면 Ctrl+C)
       python serve.py --open          열린 주소를 브라우저로도 띄우기
       python serve.py --port 8080     포트 바꾸기(8000 이 쓰이고 있으면 자동으로 다음 번호)
       python serve.py --no-demo       조립 예시는 건너뛰기(더 빨리)
@@ -53,14 +53,27 @@ def main():
     port = int(ARGS[ARGS.index('--port') + 1]) if '--port' in ARGS else 8000
     socketserver.TCPServer.allow_reuse_address = True
     srv = None
+    import socket
     for p in range(port, port + 20):
+        # 다른 프로그램이 이 포트를 이미 쓰고 있으면(IPv4·IPv6 어느 쪽이든) 다음 번호로 간다 — 엉뚱한 사이트가 열리는 것을 막는다
+        busy = False
+        for fam, addr in ((socket.AF_INET, '127.0.0.1'), (socket.AF_INET6, '::1')):
+            try:
+                s_ = socket.socket(fam, socket.SOCK_STREAM); s_.settimeout(0.3)
+                if s_.connect_ex((addr, p)) == 0:
+                    busy = True
+                s_.close()
+            except OSError:
+                pass
+        if busy:
+            continue
         try:
             srv = socketserver.ThreadingTCPServer(('127.0.0.1', p), Handler); port = p; break
         except OSError:
             continue
     if not srv:
         sys.exit('쓸 수 있는 포트를 찾지 못했습니다(--port 로 다른 번호를 주세요).')
-    url = f'http://localhost:{port}/'
+    url = f'http://127.0.0.1:{port}/'   # localhost 대신 127.0.0.1 — localhost 가 다른 프로그램(IPv6)으로 가는 일을 피한다
     print(f'\n내 PC 에서 열었습니다 → {url}\n(조립 예시: {url}demo/ · 멈추려면 Ctrl+C)')
     if '--open' in ARGS:
         threading.Timer(0.8, lambda: webbrowser.open(url)).start()

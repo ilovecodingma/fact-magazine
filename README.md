@@ -4,7 +4,7 @@
 
 1. **키트 하나 해 보기(5분)** — `python doctor.py` 로 점검하고 `python serve.py --open` 으로 내 PC 에서 열어, 키트 하나(예: 계산기)를 해 봅니다. `python know.py 계산기` 로 꼭 알아야 할 것을 읽습니다.
 2. **섞기** — `python mix.py 키트1 키트2 …` 로 고른 키트만 켠 사이트를 찍습니다(`kits/README.md`).
-3. **조립 예시 열 개에서 고르기** — `python serve.py` 후 `http://localhost:8000/demo/` 에서 열 개 가운데 하나를 내 이름·내 자료로 바꿉니다.
+3. **조립 예시 열 개에서 고르기** — `python serve.py` 후 `http://127.0.0.1:8000/demo/` 에서 열 개 가운데 하나를 내 이름·내 자료로 바꿉니다.
 4. **올리기(선택)** — 내 PC 에서 열어 본 뒤 공개 서비스에 올립니다(`CLAUDE.md` 5번). 로그인·공개는 사람이 합니다.
 5. **알리기** — `python promo.py`(블로그용 글·알림 문구), `python card.py`(공유용 그림), `python shorts.py`(쇼츠)로 올릴 준비를 하고, 올리기는 승인 뒤에 합니다.
 6. **하루 한 바퀴** — `python run_daily.py` 로 수집부터 점검까지 한 번에(`런북.md` 12·18절).
