@@ -1,0 +1,12 @@
+{
+  "name": "keyword-next3",
+  "title": "키워드 4개 이어 「다음 글 3건」 만들기",
+  "parts": [],
+  "input_line": "kits/keyword-next3 폴더에서 이 명령을 실행해 줘: python -X utf8 run_all.py",
+  "gives": "다음글3건.md",
+  "see": "결과 파일을 엽니다",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요(자동완성만 바깥 서비스에 천천히 요청)",
+  "minutes": "5",
+  "author": "마케터"
+}

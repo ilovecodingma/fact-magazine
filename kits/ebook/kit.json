@@ -1,0 +1,15 @@
+{
+  "name": "ebook",
+  "title": "전자책 키트",
+  "parts": [
+    "ebook",
+    "posts",
+    "novel"
+  ],
+  "input_line": "이 저장소의 글과 연재 소설을 PDF 전자책 한 권으로 묶어 줘. python ebook.py 를 돌리고 /ebook/ 에서 내려받을 수 있는지 확인해 줘.",
+  "gives": "python ebook.py → 글(posts)과 연재(novels)를 표지·차례가 있는 PDF 한 권으로 → /ebook/ 에 내려받기",
+  "see": "/ebook/ 에서 PDF 를 내려받아 열면 표지와 차례가 있습니다",
+  "mounts": "푸터 「전자책」, /ebook/",
+  "server": "불필요(브라우저 인쇄 기능)",
+  "minutes": "5"
+}

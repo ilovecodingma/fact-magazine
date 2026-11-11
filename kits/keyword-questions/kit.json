@@ -1,0 +1,12 @@
+{
+  "name": "keyword-questions",
+  "title": "질문형 검색어만 고르기",
+  "parts": [],
+  "input_line": "kits/keyword-questions 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 입력.tsv 결과.tsv",
+  "gives": "결과.tsv — 겹치지 않고(새 주제) 「언제·얼마·기간·조건·신청·방법…」이 들어 있는 질문형 검색어만",
+  "see": "남은 줄이 독자가 실제로 궁금해하는 질문이다. 줄 수가 너무 적으면 하네스 1 의 시드를 늘린다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요(자동완성만 바깥 서비스에 천천히 요청)",
+  "minutes": "5",
+  "author": "마케터"
+}

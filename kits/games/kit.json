@@ -1,0 +1,14 @@
+{
+  "name": "games",
+  "title": "웹 게임 키트",
+  "parts": [
+    "games"
+  ],
+  "input_line": "이 저장소의 games 폴더에 한 손으로 하는 작은 웹 게임을 하나 만들어 줘(meta.json + game.js, 캔버스). 빌드해서 /games/ 에 뜨고 휴대폰 폭에서 한 판 되는지 확인해 줘.",
+  "gives": "폴더 하나(meta.json+game.js) → 게임 쪽 + 목록",
+  "see": "/games/ 에서 게임을 눌러 한 판 합니다",
+  "mounts": "games/ · 메뉴 「게임」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

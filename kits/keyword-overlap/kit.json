@@ -1,0 +1,12 @@
+{
+  "name": "keyword-overlap",
+  "title": "이미 쓴 글과 겹침 대조",
+  "parts": [],
+  "input_line": "kits/keyword-overlap 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 후보.tsv 이미쓴글.txt 결과.tsv",
+  "gives": "결과.tsv (검색어, 시드, 「새 주제」 또는 「겹침」)",
+  "see": "「새 주제」 줄만 훑어 본다. 겹침 줄은 이미 쓴 글을 고쳐 쓸 후보다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요(자동완성만 바깥 서비스에 천천히 요청)",
+  "minutes": "5",
+  "author": "마케터"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "posts",
+  "title": "글 올리기 키트",
+  "parts": [
+    "posts"
+  ],
+  "input_line": "posts 폴더에 이 글을 올려 줘(제목은 맨 위 # 한 줄). 빌드해서 /post/ 목록과 글 쪽이 열리는지 확인해 줘.",
+  "gives": "마크다운 글 → /post/ 목록과 글 쪽",
+  "see": "/post/ 에서 글이 열립니다",
+  "mounts": "posts/ · 메뉴 「글」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

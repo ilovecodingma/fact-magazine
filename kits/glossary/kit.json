@@ -1,0 +1,13 @@
+{
+  "name": "glossary",
+  "title": "용어 사전 키트",
+  "parts": [
+    "glossary"
+  ],
+  "input_line": "이 저장소에 용어 사전을 만들어 줘. kits/glossary 의 자료 파일 하나에 돈·생활 용어 30개를 쉬운 말로 적고 빌드해서 목록과 용어 쪽이 생기는지 확인해 줘. 숫자·제도는 새로 지어내지 말고 일반적인 뜻만 써.",
+  "gives": "자료 파일 하나(terms.json, 용어 30개) → /glossary/ 목록 + 용어마다 쪽 30개(함께 보기 링크 포함)",
+  "see": "/glossary/ 에서 용어를 누르면 풀이 쪽이 열리고 아래에 「함께 보기」가 나옵니다",
+  "mounts": "메뉴 「용어」, /glossary/",
+  "server": "불필요",
+  "minutes": "5"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "video",
+  "title": "영상 모음 키트",
+  "parts": [
+    "video"
+  ],
+  "input_line": "site.local.json 의 extras.videos 에 내 유튜브 영상 주소를 넣고 빌드해서 /video/ 에 영상이 뜨는지 확인해 줘.",
+  "gives": "유튜브 주소 목록 → /video/ 임베드",
+  "see": "/video/ 에 영상이 뜹니다",
+  "mounts": "extras.videos · 메뉴 「영상」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

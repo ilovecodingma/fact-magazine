@@ -1,0 +1,14 @@
+{
+  "name": "issue",
+  "title": "잡지(호 발행) 키트",
+  "parts": [
+    "issue"
+  ],
+  "input_line": "오늘 확인 노트로 잡지 호를 발행해 줘. build.py → issue.py → build.py 순서로 돌리고 PDF 가 몇 쪽인지 알려 줘.",
+  "gives": "그날 노트 → 호 쪽 + 인쇄용 PDF",
+  "see": "/issue/ 에서 제1호와 PDF 링크가 뜹니다",
+  "mounts": "issue.py · 메뉴 「잡지」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

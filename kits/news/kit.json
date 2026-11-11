@@ -1,0 +1,14 @@
+{
+  "name": "news",
+  "title": "뉴스 수집·묶기 키트",
+  "parts": [
+    "info"
+  ],
+  "input_line": "이 저장소로 뉴스 정보 사이트를 만들어 줘. feeds.json 의 RSS 를 모으고(collect.py) 여러 매체가 함께 다룬 소식으로 묶고(group.py) 빌드해서 첫 화면에 나오는지 확인해 줘.",
+  "gives": "RSS 목록 → 함께 다룬 소식 묶음 + 확인 노트 화면",
+  "see": "첫 화면에 「오늘 여러 매체가 함께 다룬 소식」이 뜹니다",
+  "mounts": "collect.py · group.py · build.py · check.py · notes/",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

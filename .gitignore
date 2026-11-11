@@ -7,3 +7,5 @@ dist/
 mail.local.json
 reply_drafts/
 logs/
+dist_mix/
+dist/

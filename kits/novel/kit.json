@@ -1,0 +1,14 @@
+{
+  "name": "novel",
+  "title": "연재 소설 키트",
+  "parts": [
+    "novel"
+  ],
+  "input_line": "novels 폴더에 작품 소개와 1~3화를 넣고 빌드해서 회차 이동과 글자 크기 조절이 되는지 확인해 줘.",
+  "gives": "소개·회차 마크다운 → 작품 쪽·회차 목록·이전/다음 화·글자 크기",
+  "see": "/novel/ 에서 1화를 읽고 다음 화로 갑니다",
+  "mounts": "novels/ · 메뉴 「연재」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

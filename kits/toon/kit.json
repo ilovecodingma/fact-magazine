@@ -1,0 +1,14 @@
+{
+  "name": "toon",
+  "title": "웹툰 키트",
+  "parts": [
+    "toon"
+  ],
+  "input_line": "toons 폴더에 4컷 만화 1화를 넣고(그림은 SVG 로 글자와 도형만) 세로로 이어 보이는지 확인해 줘.",
+  "gives": "회차 그림 → 세로 이어 보기 화면",
+  "see": "/toon/ 에서 4컷이 세로로 이어집니다",
+  "mounts": "toons/ · 메뉴 「웹툰」",
+  "server": "불필요",
+  "minutes": "5",
+  "existing": true
+}

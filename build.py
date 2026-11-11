@@ -3,7 +3,7 @@
 첫 화면 · 확인 노트 쪽 · 고정 쪽(확인하는 방법·소개·문의·개인정보) · feed.xml · sitemap.xml.
 「예시」 노트(example:true)는 화면 틀 시험용이라 --example 을 줄 때만 넣는다. 공개본에는 올리지 않는다.
 실행: python build.py [--example]"""
-import json, os, re, sys, glob, html, shutil, datetime
+import json, os, re, subprocess, sys, glob, html, shutil, datetime
 try:
     sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
 except Exception:
@@ -88,6 +88,7 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .ad-lb{display:inline-block;font:700 11px/1 var(--sans);border:1px solid var(--mu);color:var(--mu);padding:2px 5px;margin-left:6px;vertical-align:middle}.ad-nt{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
 .yt-row{display:flex;gap:12px;flex-wrap:wrap}.yt-row iframe{width:162px;height:288px;border:0;background:#111}
 .mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
+.calc label{display:block;font:700 14px var(--sans);margin:14px 0 4px}.calc input{font:18px var(--sans);padding:10px;width:100%;border:1px solid var(--ink);background:#fff}.crs{margin-top:18px;border-top:2px solid var(--ink)}.cr{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);font:16px var(--sans)}.cr b{font:800 22px var(--serif)}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -109,20 +110,24 @@ def page(path, title, desc, body, noindex=False):
     d = os.path.join(OUT, path)
     os.makedirs(d, exist_ok=True)
     canon = f'{URL}/{path}/' if path else f'{URL}/'
+    _logo = f'<a class="logo" href="{BASE}">{E(S["name"])}</a>'
+    LOGO = f'<h1 style="margin:0">{_logo}</h1>' if not path else _logo   # 첫 화면에는 h1 이 하나 있어야 하므로 제호를 h1 로
     canon_tag = '' if NOURL else f'<link rel="canonical" href="{canon}">'
     rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
     rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
-    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '')
+    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '') + (f'<a href="{BASE}calc/">계산기</a>' if part('calc', False) and kit_data('calc', 'calculators.json') else '') + (f'<a href="{BASE}glossary/">용어</a>' if part('glossary', False) and kit_data('glossary', 'terms.json') else '') + (f'<a href="{BASE}search/">검색</a>' if part('search', False) else '')
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
-<a class="logo" href="{BASE}">{E(S['name'])}</a></div></header>
+{LOGO}</div></header>
 <div class="wrap"><nav class="menu"><a href="{BASE}">오늘</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
 <main class="wrap">{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
+    if not noindex:
+        SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
     return canon
 
 
@@ -248,7 +253,7 @@ def content_pages():
                        '<script>(function(){var a=document.querySelector(".nv"),k="fm_fz",v=17;try{v=+localStorage.getItem(k)||17}catch(e){}function s(){a.style.fontSize=v+"px"}s();'
                        'document.querySelectorAll(".fz button").forEach(function(b){b.onclick=function(){v=Math.max(14,Math.min(26,v+(+b.dataset.d)*2));try{localStorage.setItem(k,v)}catch(e){}s()}})})()</script>')
                 urls.append(page(f'novel/{slug}/{n}', f'{first_h1(t, n + "화")} — {title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'^#.*$', '', t, flags=re.M)).strip()[:140],
-                                 f'<article class="art"><span class="lb">{E(title)}</span>{ctl}<div class="nv">{md(t)}</div><div class="by">{prev}<a href="{BASE}novel/{slug}/">목차</a>{nxt}</div></article>'))
+                                 f'<article class="art"><span class="lb">{E(title)}</span>{ctl}<div class="nv">{md(t).replace('<h2>', '<h1>', 1).replace('</h2>', '</h1>', 1)}</div><div class="by">{prev}<a href="{BASE}novel/{slug}/">목차</a>{nxt}</div></article>'))
             cards += f'<a href="{BASE}novel/{slug}/"><span class="lb">연재 소설</span><h3>{E(title)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", intro, flags=re.M)).strip()[:100])}</p></a>'
         urls.append(page('novel', f'연재 — {S["name"]}', '연재 소설 모음', f'<div class="page"><span class="lb">연재</span><h1>연재 소설</h1><div class="gl">{cards}</div></div>'))
     # 웹툰
@@ -278,6 +283,145 @@ def content_pages():
                   f'style="width:{"270px" if sh else "100%"};aspect-ratio:{"9/16" if sh else "16/9"};border:0;background:#111;display:block;margin-top:8px"></iframe><span class="ln"><a href="{E(v["url"])}" rel="noopener nofollow" target="_blank">유튜브에서 보기</a></span></div>')
         urls.append(page('video', f'영상 — {S["name"]}', '확인 노트로 만든 영상 모음', f'<div class="page"><span class="lb">영상</span><h1>영상</h1>{h}</div>'))
     return urls
+
+
+SEARCH = []   # 사이트 안 검색 색인(쪽 주소·제목·설명) — page() 가 채운다
+KITS_DIR = os.path.join(HERE, 'kits')
+SAFE_EXPR = re.compile(r'^[A-Za-z0-9_+\-*/().,%<>=!?:&| ]+$')
+
+
+def kit_data(kit, name):
+    p = os.path.join(KITS_DIR, kit, 'data', name)
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else None
+
+
+def calc_pages():
+    """계산기 키트: kits/calc/data/calculators.json → /calc/ 목록과 계산기마다 쪽(브라우저에서 바로 계산, 서버 없음).
+    식은 이 파일의 JS 식이므로 허용 글자만 쓰게 검사한다(Math.pow 같은 수학 함수만)."""
+    if not part('calc', False):
+        return []
+    calcs = kit_data('calc', 'calculators.json') or []
+    urls, cards = [], ''
+    for c in calcs:
+        exprs = [v['expr'] for v in c.get('vars', [])] + [r['expr'] for r in c['results']]
+        if any(not SAFE_EXPR.match(x) or re.search(r'constructor|window|document|eval|Function|import|fetch', x) for x in exprs):
+            print('계산기 식에 허용되지 않는 글자가 있어 건너뜀:', c['slug']); continue
+        fields = ''.join(f'<label for="i_{i["id"]}">{E(i["label"])}{(" (" + E(i["unit"]) + ")") if i.get("unit") else ""}</label><input id="i_{i["id"]}" type="number" inputmode="decimal" step="any" value="{E(str(i.get("default", 0)))}">' for i in c['inputs'])
+        data = json.dumps({'inputs': [i['id'] for i in c['inputs']], 'vars': c.get('vars', []), 'results': c['results']}, ensure_ascii=False)
+        js = ('<script>(function(){var C=%s;function f(e,x){return new Function("v","with(v){return ("+e+")}")(x)}function fmt(n,k){if(!isFinite(n))return "계산할 수 없음";'
+              'if(k=="won")return Math.round(n).toLocaleString("ko-KR")+"원";if(k=="pct")return (Math.round(n*100)/100)+"%%";return (Math.round(n*100)/100).toLocaleString("ko-KR")}'
+              'function run(){var v={Math:Math};C.inputs.forEach(function(i){v[i]=parseFloat(document.getElementById("i_"+i).value)||0});'
+              'C.vars.forEach(function(x){v[x.id]=f(x.expr,v)});var h="";C.results.forEach(function(r){h+="<div class=\\"cr\\"><span>"+r.label+"</span><b>"+fmt(f(r.expr,v),r.format)+"</b></div>"});document.getElementById("cr").innerHTML=h}'
+              'document.querySelectorAll(".calc input").forEach(function(i){i.addEventListener("input",run)});run()})()</script>') % data
+        body = (f'<article class="art"><span class="lb">계산기</span><h1>{E(c["title"])}</h1><p class="dek">{E(c["desc"])}</p><div class="calc">{fields}</div><div id="cr" class="crs"></div>'
+                f'<p class="ad-nt">{E(c.get("note", "참고용 계산입니다. 실제 금액은 상품·세금·수수료에 따라 다릅니다."))}</p></article>{js}')
+        urls.append(page(f'calc/{c["slug"]}', f'{c["title"]} — {S["name"]}', c['desc'], body))
+        cards += f'<a href="{BASE}calc/{c["slug"]}/"><span class="lb">계산기</span><h3>{E(c["title"])}</h3><p>{E(c["desc"])}</p></a>'
+    if urls:
+        urls.append(page('calc', f'계산기 — {S["name"]}', '숫자를 넣으면 바로 계산되는 작은 계산기 모음', f'<div class="page"><span class="lb">계산기</span><h1>계산기</h1><div class="gl">{cards}</div></div>'))
+    return urls
+
+
+def glossary_pages():
+    """용어 사전 키트: kits/glossary/data/terms.json 한 파일 → /glossary/ 목록 + 용어마다 쪽."""
+    if not part('glossary', False):
+        return []
+    terms = kit_data('glossary', 'terms.json') or []
+    if not terms:
+        return []
+    slug = lambda t: re.sub(r'\s+', '-', t.strip())
+    names = {t['term'] for t in terms}
+    urls = []
+    for t in terms:
+        see = ''.join(f'<li><a href="{BASE}glossary/{slug(x)}/">{E(x)}</a></li>' for x in t.get('see', []) if x in names)
+        body = (f'<article class="art"><span class="lb">용어 사전</span><h1>{E(t["term"])}</h1><p class="dek">{E(t["short"])}</p>{md(t["body"])}'
+                + (f'<h2>함께 보기</h2><ul class="rp">{see}</ul>' if see else '') + f'<div class="by"><a href="{BASE}glossary/">용어 목록</a></div></article>')
+        urls.append(page(f'glossary/{slug(t["term"])}', f'{t["term"]}이란? — {S["name"]}', t['short'], body))
+    lst = ''.join(f'<li><a href="{BASE}glossary/{slug(t["term"])}/"><b>{E(t["term"])}</b></a> — {E(t["short"])}</li>' for t in sorted(terms, key=lambda x: x['term']))
+    urls.append(page('glossary', f'용어 사전 — {S["name"]}', f'돈·생활 용어 {len(terms)}개를 쉬운 말로 풀었습니다', f'<div class="page"><span class="lb">용어 사전</span><h1>용어 사전 <small style="font:14px var(--sans);color:var(--mu)">{len(terms)}개</small></h1><ul class="rp">{lst}</ul></div>'))
+    return urls
+
+
+def search_page():
+    """사이트 안 검색 키트: 찍을 때 만든 색인 파일(search.json)을 브라우저에서 찾는다(서버 없음). 색인 파일은 build 끝에 쓴다."""
+    if not part('search', False):
+        return []
+    js = ('<script>(function(){var q=document.getElementById("q"),o=document.getElementById("o"),D=[];'
+          'fetch("%ssearch.json").then(function(r){return r.json()}).then(function(d){D=d;go()}).catch(function(){o.textContent="검색 색인을 불러오지 못했습니다."});'
+          'function esc(s){return s.replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}'
+          'function go(){var t=q.value.trim().toLowerCase();if(!t){o.innerHTML="<p class=\\"mu\\">찾을 글자를 입력하세요. 쪽 "+D.length+"개에서 찾습니다.</p>";return}'
+          'var w=t.split(/\\s+/),r=[];D.forEach(function(p){var h=(p[1]+" "+p[2]).toLowerCase(),s=0;for(var i=0;i<w.length;i++){if(h.indexOf(w[i])<0){s=-1;break}s+=p[1].toLowerCase().indexOf(w[i])>=0?3:1}if(s>0)r.push([s,p])});'
+          'r.sort(function(a,b){return b[0]-a[0]});o.innerHTML=r.length?r.slice(0,30).map(function(x){return "<div class=\\"tp\\"><b><a href=\\""+x[1][0]+"\\">"+esc(x[1][1])+"</a></b><span class=\\"ln\\">"+esc(x[1][2].slice(0,90))+"</span></div>"}).join(""):"<p class=\\"mu\\">찾는 글이 없습니다.</p>"}'
+          'q.addEventListener("input",go);var m=location.search.match(/[?&]q=([^&]*)/);if(m){try{q.value=decodeURIComponent(m[1])}catch(e){}}})()</script>') % BASE
+    body = (f'<div class="page"><span class="lb">검색</span><h1>사이트 안 검색</h1><input id="q" type="search" placeholder="찾을 글자" autofocus '
+            f'style="font:18px var(--sans);padding:12px;width:100%;border:2px solid var(--ink)"><div id="o" style="margin-top:16px"></div></div>{js}')
+    return [page('search', f'검색 — {S["name"]}', '이 사이트의 글·노트·게임을 찾습니다', body)]
+
+
+def write_search_index():
+    if not part('search', False):
+        return
+    seen, out = set(), []
+    for u, t, d in SEARCH:
+        if u in seen or u.rstrip('/').endswith('/search'):
+            continue
+        seen.add(u); out.append([u, t, re.sub(r'\s+', ' ', d)[:160]])
+    open(os.path.join(OUT, 'search.json'), 'w', encoding='utf-8').write(json.dumps(out, ensure_ascii=False, separators=(',', ':')))
+
+
+def status_page(notes):
+    """상태 쪽 키트: 사람이 아침에 한 번 보는 쪽(검색에는 안 나가게 noindex). 마지막 수집·피드별 건수와 실패·노트/글/게임 수·대조·점검·최근 커밋."""
+    if not part('status', False):
+        return []
+    def jl(p):
+        p = os.path.join(HERE, p)
+        return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else None
+    items = jl('data/items.json') or {}
+    chk = jl('data/checked.json') or {}
+    aud = jl('logs/audit.json') or {}
+    held = len(glob.glob(os.path.join(HERE, '보류', '*.json')))
+    n_posts = len(glob.glob(os.path.join(HERE, 'posts', '*.md'))) if part('posts', False) else 0
+    n_eps = len(glob.glob(os.path.join(HERE, 'novels', '*', '[0-9]*.md'))) if part('novel', False) else 0
+    try:
+        last = subprocess.run(['git', 'log', '-1', '--format=%cd · %s', '--date=format:%Y-%m-%d %H:%M'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', timeout=10).stdout.strip()
+    except Exception:
+        last = '(git 정보를 읽지 못함)'
+    feed_rows = ''.join(f'<tr><td>{E(x["source"])} {E(x["section"])}</td><td>{x["count"]}건</td><td>{E(x["error"]) or "정상"}</td></tr>' for x in items.get('log', []))
+    bad = [x for x in items.get('log', []) if x['error'] or not x['count']]
+    rows = [('마지막 수집', items.get('collected_at', '기록 없음')), ('마지막 빌드', datetime.datetime.now().strftime('%Y-%m-%d %H:%M')), ('수집한 기사(최근 3일)', f'{len(items.get("items", []))}건'),
+            ('피드', f'{len(items.get("log", []))}곳 중 문제 {len(bad)}곳'), ('확인 노트', f'{len(notes)}건 (대조 통과 기록 {len(chk)}건 · 보류 {held}건)'), ('글·소설 회차', f'{n_posts}편 · {n_eps}화'),
+            ('게임', f'{len(load_games())}개'), ('점검(audit.py)', (f'쪽 {aud.get("pages")}개, 문제 {aud.get("problems")}건 ({aud.get("at")})' if aud else '아직 안 돌림 — python audit.py')), ('최근 커밋', last)]
+    t = ''.join(f'<tr><th>{E(k)}</th><td>{E(v)}</td></tr>' for k, v in rows)
+    body = (f'<div class="page"><span class="lb">상태</span><h1>상태</h1><table class="mdt"><tbody>{t}</tbody></table><h2>피드별</h2><table class="mdt"><tbody>{feed_rows or "<tr><td>기록 없음</td></tr>"}</tbody></table>'
+            + (('<h2>점검에서 나온 문제 (앞 20건)</h2><ul>' + ''.join(f'<li>{E(x)}</li>' for x in aud.get('list', [])[:20]) + '</ul>') if aud.get('list') else '') + '</div>')
+    page('status', f'상태 — {S["name"]}', '운영 상태', body, noindex=True)
+    return []   # 사이트맵에는 넣지 않는다
+
+
+def ebook_pages():
+    """전자책 키트: ebook.py 가 만든 PDF(ebooks/*.pdf)를 /ebook/ 에 내려받기로 둔다."""
+    if not part('ebook', False):
+        return []
+    pdfs = sorted(glob.glob(os.path.join(HERE, 'ebooks', '*.pdf')))
+    if not pdfs:
+        return [page('ebook', f'전자책 — {S["name"]}', '글을 묶은 전자책', '<div class="page"><span class="lb">전자책</span><h1>전자책</h1><p>글과 연재 소설을 표지·차례가 있는 PDF 한 권으로 묶어 내려받게 하는 쪽입니다. 아직 만든 책이 없습니다. python ebook.py 로 글·연재를 PDF 한 권으로 묶으세요.</p></div>')]
+    li = ''
+    os.makedirs(os.path.join(OUT, 'ebook'), exist_ok=True)
+    for p in pdfs:
+        n = os.path.basename(p); shutil.copy(p, os.path.join(OUT, 'ebook', n))
+        li += f'<div class="tp"><b>{E(os.path.splitext(n)[0])}</b><span class="ln"><a href="{BASE}ebook/{n}">PDF 내려받기</a> · {round(os.path.getsize(p) / 1024)}KB</span></div>'
+    return [page('ebook', f'전자책 — {S["name"]}', '글과 연재를 묶은 전자책(PDF)', f'<div class="page"><span class="lb">전자책</span><h1>전자책</h1><p>글과 연재 소설을 표지와 차례가 있는 한 권으로 묶은 전자책입니다. PDF 파일로 내려받아 휴대폰이나 컴퓨터에서 읽거나 인쇄할 수 있습니다.</p>{li}</div>')]
+
+
+def kits_page():
+    """키트 목록 쪽(/kits/): kits/*/kit.json 의 한 줄 입력을 그대로 보여 준다(독자가 복사해 쓰는 쪽)."""
+    if not part('kits', False):
+        return []
+    ks = [json.load(open(p, encoding='utf-8')) for p in sorted(glob.glob(os.path.join(KITS_DIR, '*', 'kit.json')))]
+    if not ks:
+        return []
+    li = ''.join(f'<div class="tp"><span class="lb">{E(k["name"])}</span><b>{E(k["title"])}</b><span class="ln">이렇게 입력하세요 → <code>{E(k["input_line"])}</code></span><span class="ln">나오는 것: {E(k["gives"])}</span><span class="ln">2분 안에 보는 결과: {E(k["see"])}</span></div>' for k in ks)
+    return [page('kits', f'키트 — {S["name"]}', '5~10분에 하나씩 따라 해 보는 작은 하네스 모음', f'<div class="page"><span class="lb">키트</span><h1>키트</h1><p>하나만 켜 보고, 두세 개 해 본 뒤 섞어 봅니다. 아래 입력 문장을 Claude Code 에 그대로 붙여 넣으세요. 섞는 법: <code>python mix.py 키트1 키트2</code></p>{li}</div>')]
 
 
 def load_games():
@@ -392,8 +536,11 @@ def extras_html():
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
-        gl = ''.join(f'<a href="{BASE}games/{g["slug"]}/"><span class="lb">{E(g.get("kind", "게임"))}</span><h3>{E(g["title"])}</h3><p>{E(g.get("intro", g["desc"]))}</p></a>' for g in load_games())
-        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h1>{E(S["name"])}</h1><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + extras_html())
+        secs = [('게임', 'games/', 'games', lambda: load_games(), '웹 게임'), ('계산기', 'calc/', 'calc', lambda: kit_data('calc', 'calculators.json'), '숫자를 넣으면 바로 계산'), ('용어 사전', 'glossary/', 'glossary', lambda: kit_data('glossary', 'terms.json'), '돈·생활 용어 풀이'),
+                ('글', 'post/', 'posts', lambda: os.path.isdir(os.path.join(HERE, 'posts')), '생활·돈 가이드 글'), ('연재', 'novel/', 'novel', lambda: os.path.isdir(os.path.join(HERE, 'novels')), '연재 소설'), ('웹툰', 'toon/', 'toon', lambda: os.path.isdir(os.path.join(HERE, 'toons')), '웹툰·만화'),
+                ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')]
+        gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok())
+        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h2 style="font:800 28px/1.3 var(--serif);margin:0 0 10px">{E(S["name"])}</h2><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + extras_html())
     if notes:
         n = notes[0]
         lead = (f'<div class="lead"><span class="lb">오늘의 확인 노트</span><a href="{BASE}n/{n["id"]}/"><h2>{E(n["title"])}</h2></a>'
@@ -411,17 +558,20 @@ def home(notes, topics, notice=''):
     return page('', S.get('home_title') or f'{S["name"]} — {S["tagline"]}', S.get('home_desc') or S['tagline'], body)   # 첫 화면 제목·설명은 따로 정할 수 있다(검색 결과에 그대로 보이는 문구)
 
 
+DESC = {'how': '뉴스의 제도·숫자·날짜를 공식 자료와 맞춰 보는 방법과 판정 기준', 'about': '이 사이트가 하는 일과 만드는 방식', 'contact': '문의와 정정 요청 방법', 'privacy': '이 사이트의 개인정보 처리 방침'}
+
+
 def static_pages():
     how = ('<h1>확인하는 방법</h1><p>뉴스에서 본 제도·숫자·날짜를 공식 기관 자료와 맞춰 보고 세 가지로 판정합니다.</p>'
            '<ul><li><span class="v ok">확인됨</span> 공식 자료에서 같은 내용을 직접 찾았습니다.</li><li><span class="v part">일부만 확인됨</span> 일부만 찾았고 나머지는 찾지 못했습니다.</li>'
            '<li><span class="v no">아직 확인 안 됨</span> 공식 자료에서 찾지 못했습니다. 틀렸다는 뜻이 아닙니다.</li></ul>'
            '<p>확인한 사실마다 출처 링크를 붙입니다. 찾지 못한 것은 「아직 확인 안 된 것」 칸에 따로 적고 지어서 채우지 않습니다. 연예인·정치인·사건 당사자 이야기는 다루지 않습니다.</p>')
     about = '<h1>소개</h1><p>' + E(S.get('about') or f'「{S["name"]}」은 여러 매체가 함께 다룬 소식 가운데 제도·숫자·날짜를 공식 자료와 맞춰 보는 작은 정보 사이트입니다. 수집과 빌드는 자동으로 돌고, 확인 노트는 사람이 살피는 흐름 안에서 에이전트가 씁니다.') + '</p>'
-    contact = f'<h1>문의</h1><p>{E(S["contact"])}</p>'
+    contact = f'<h1>문의</h1><p>{E(S["contact"])}</p><p>정정을 요청할 때는 어느 노트의 어느 문장인지와 근거가 되는 공식 자료 주소를 함께 알려 주세요. 확인한 뒤 노트를 고치고 바뀐 내용을 노트에 적습니다.</p>'
     priv = ('<h1>개인정보 처리방침</h1><p>이 사이트는 회원가입·댓글·결제를 받지 않고 방문자의 개인정보를 직접 수집하지 않습니다. '
             '호스팅 서비스(GitHub Pages)가 접속 기록을 남길 수 있으며 이는 해당 서비스의 방침을 따릅니다.</p>')
     for path, t, b in (('how', '확인하는 방법', how), ('about', '소개', about), ('contact', '문의', contact), ('privacy', '개인정보 처리방침', priv)):
-        page(path, f'{t} — {S["name"]}', t, f'<div class="page">{b}</div>')
+        page(path, f'{t} — {S["name"]}', DESC.get(path, t), f'<div class="page">{b}</div>')
     return ['how/', 'about/', 'contact/', 'privacy/']
 
 
@@ -447,8 +597,9 @@ def main():
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages()
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + status_page(notes)
     feed(notes)
+    write_search_index()
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
         open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
             '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')

@@ -1,0 +1,13 @@
+{
+  "name": "status",
+  "title": "상태 쪽 + 점검 키트",
+  "parts": [
+    "status"
+  ],
+  "input_line": "이 저장소에 상태 쪽을 켜고 audit.py 로 점검해 줘. 마지막 수집·피드 문제·노트 수·깨진 링크를 한 쪽에서 볼 수 있게 하고, 점검에서 나온 문제를 알려 줘.",
+  "gives": "켜기 + python audit.py → /status/ 쪽(마지막 수집·빌드, 피드별 건수와 실패, 노트·글·게임 수, 대조 결과, 점검 문제, 최근 커밋). 검색에는 안 나가게 noindex",
+  "see": "/status/ 한 쪽으로 오늘 사이트가 멀쩡한지 봅니다",
+  "mounts": "푸터 「상태」, /status/",
+  "server": "불필요",
+  "minutes": "5"
+}
