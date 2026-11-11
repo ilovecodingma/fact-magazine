@@ -61,7 +61,13 @@ def one_kit(name):
     if k.get('try_change'):
         print('④ 바꿔 보기 제안:', k['try_change'])
     print(f'⑤ 내 PC 에서 직접 열려면: python mix.py --add {k["name"]}  →  python serve.py --open')
-    prog_add(f'키트 {k["name"]} 실습' + ('' if rc == 0 else '(시험에 실패한 단계 있음)'))
+    note = ''
+    if rc != 0:
+        dirty = subprocess.run(['git', 'status', '--porcelain', 'kits/' + k['name']], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace').stdout.strip()
+        if dirty:
+            note = '(바꾼 자료 때문)'
+            print('※ 이 키트의 자료를 바꾸셨습니다. 자가 시험은 예시 값(기본 자료)을 기준으로 하므로, 바꾼 뒤의 ✗ 는 고장이 아니라 「예시 값과 달라서」 나오는 것입니다. 바꾼 값으로 화면이 열리는지는 python serve.py --open 으로 직접 확인하세요.')
+    prog_add(f'키트 {k["name"]} 실습' + ('' if rc == 0 else '(시험에 실패한 단계 있음' + note + ')'))
     return rc
 
 
@@ -70,7 +76,8 @@ def main():
         print(__doc__); return 0
     cmd, rest = POS[0], POS[1:]
     if cmd in ('시작', 'start'):
-        sh(['doctor.py', '--env']); rc = sh(['doctor.py', '--quick']); prog_add('시작(환경·키트 점검)'); print('\n다음: python run.py 키트 계산기  /  python run.py 조립  /  python run.py 사이클'); return rc
+        rc = sh(['doctor.py', '--quick'])   # 환경 점검도 doctor 가 맨 앞에서 한다
+        ; prog_add('시작(환경·키트 점검)'); print('\n다음: python run.py 키트 계산기  /  python run.py 조립  /  python run.py 사이클'); return rc
     if cmd in ('점검', 'doctor'):
         return sh(['doctor.py'] + (['--quick'] if '--quick' in A else []))
     if cmd in ('키트', 'kit'):

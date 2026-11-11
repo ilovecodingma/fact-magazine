@@ -48,6 +48,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 
 def main():
+    if '--help' in ARGS or '-h' in ARGS:
+        print(__doc__); return
     if '--no-build' not in ARGS or not os.path.isdir(OUT):
         build()
     port = int(ARGS[ARGS.index('--port') + 1]) if '--port' in ARGS else 8000

@@ -671,6 +671,7 @@ def main():
     os.makedirs(OUT)
     open(os.path.join(OUT, 'style.css'), 'w', encoding='utf-8').write(CSS)
     open(os.path.join(OUT, '.nojekyll'), 'w').write('')
+    open(os.path.join(OUT, '.base'), 'w', encoding='utf-8').write(BASE)   # audit 가 설정과 다른 주소로 찍힌 docs 를 알아보게
     tp = os.path.join(HERE, 'data', 'topics.json')
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
     notes = load_notes(with_example) if part('info') else []   # info 부품이 꺼져 있으면 뉴스·노트는 만들지 않는다

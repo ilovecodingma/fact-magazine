@@ -32,6 +32,10 @@ def main():
     if not os.path.isdir(DOCS):
         sys.exit('docs/ 가 없습니다. 먼저 python build.py 를 돌리세요.')
     base = site_base()
+    bp = os.path.join(DOCS, '.base')
+    built = open(bp, encoding='utf-8').read().strip() if os.path.exists(bp) else None
+    if built != base:
+        sys.exit(f'docs/ 는 주소 기준 「{built or "알 수 없음"}」 로 찍힌 것이고 지금 설정은 「{base}」 입니다. 이대로 점검하면 거짓 문제가 수천 건 나오니, 먼저 python build.py 로 다시 찍으세요(내 PC 용은 python serve.py).')
     pages = sorted(glob.glob(os.path.join(DOCS, '**', '*.html'), recursive=True))
     pages = [p for p in pages if not p.endswith('print.html')]
     problems = []
