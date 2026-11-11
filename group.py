@@ -10,7 +10,15 @@ except Exception:
     pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MIN_SOURCES = 3      # 이 수 이상의 매체가 다룬 묶음만 남긴다
+def _min_sources():
+    """몇 개 매체가 다룬 묶음부터 남길지. 환경변수 MIN_SOURCES > site.json 의 min_sources > 3. 주제에 맞는 묶음이 0건이면 2로 낮춰 본다(런북 6절)."""
+    try:
+        return int(os.environ.get('MIN_SOURCES') or json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8')).get('min_sources', 3))
+    except Exception:
+        return 3
+
+
+MIN_SOURCES = _min_sources()      # 이 수 이상의 매체가 다룬 묶음만 남긴다
 MIN_SHARED = 2       # 묶음에 들어가려면 씨앗 기사와 겹치는 낱말이 최소 몇 개
 MIN_RATIO = 0.4      # 그리고 짧은 쪽 제목 낱말의 이만큼 이상이 겹쳐야 한다
 STOP = set('속보 단독 종합 포토 사진 영상 오늘 내일 이후 관련 대한 위해 통해 따른 있는 없는 하는 한다 했다 된다 예정 전망 가능 이번 지난 올해 내년 최대 최소 확대 추진 발표 정부 시장'.split())

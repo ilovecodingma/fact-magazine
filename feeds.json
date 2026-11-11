@@ -1,18 +1,127 @@
 {
   "_설명": "수집할 RSS 목록입니다. 2026-11-11 개발 세션이 하나씩 열어 보고 200 과 기사 수를 확인한 주소만 넣었습니다. 기사 본문은 가져오지 않고 제목·매체·시각·링크만 씁니다.",
   "feeds": [
-    {"source": "연합뉴스", "section": "경제", "kind": "통신사", "url": "https://www.yna.co.kr/rss/economy.xml"},
-    {"source": "연합뉴스", "section": "사회", "kind": "통신사", "url": "https://www.yna.co.kr/rss/society.xml"},
-    {"source": "뉴시스", "section": "경제", "kind": "통신사", "url": "https://www.newsis.com/RSS/economy.xml"},
-    {"source": "SBS", "section": "경제", "kind": "방송사", "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=02&plink=RSSREADER"},
-    {"source": "한겨레", "section": "경제", "kind": "일간지", "url": "https://www.hani.co.kr/rss/economy/"},
-    {"source": "경향신문", "section": "경제", "kind": "일간지", "url": "https://www.khan.co.kr/rss/rssdata/economy_news.xml"},
-    {"source": "동아일보", "section": "경제", "kind": "일간지", "url": "https://rss.donga.com/economy.xml"},
-    {"source": "매일경제", "section": "경제", "kind": "경제지", "url": "https://www.mk.co.kr/rss/30100041/"},
-    {"source": "한국경제", "section": "경제", "kind": "경제지", "url": "https://www.hankyung.com/feed/economy"}
+    {
+      "source": "연합뉴스",
+      "section": "경제",
+      "kind": "통신사",
+      "url": "https://www.yna.co.kr/rss/economy.xml"
+    },
+    {
+      "source": "연합뉴스",
+      "section": "사회",
+      "kind": "통신사",
+      "url": "https://www.yna.co.kr/rss/society.xml"
+    },
+    {
+      "source": "뉴시스",
+      "section": "경제",
+      "kind": "통신사",
+      "url": "https://www.newsis.com/RSS/economy.xml"
+    },
+    {
+      "source": "SBS",
+      "section": "경제",
+      "kind": "방송사",
+      "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=02&plink=RSSREADER"
+    },
+    {
+      "source": "한겨레",
+      "section": "경제",
+      "kind": "일간지",
+      "url": "https://www.hani.co.kr/rss/economy/"
+    },
+    {
+      "source": "경향신문",
+      "section": "경제",
+      "kind": "일간지",
+      "url": "https://www.khan.co.kr/rss/rssdata/economy_news.xml"
+    },
+    {
+      "source": "동아일보",
+      "section": "경제",
+      "kind": "일간지",
+      "url": "https://rss.donga.com/economy.xml"
+    },
+    {
+      "source": "매일경제",
+      "section": "경제",
+      "kind": "경제지",
+      "url": "https://www.mk.co.kr/rss/30100041/"
+    },
+    {
+      "source": "한국경제",
+      "section": "경제",
+      "kind": "경제지",
+      "url": "https://www.hankyung.com/feed/economy"
+    }
   ],
   "_못_쓴_곳": [
-    {"name": "KBS 경제", "url": "https://world.kbs.co.kr/rss/rss_news.htm?lang=k", "결과": "200 이지만 기사 0건(영문 월드 서비스 주소)"},
-    {"name": "공식 기관 정책 소식", "결과": "작가가 넣은 주소는 404, 개발도 공식 기관 RSS 를 아직 찾지 못함 — 찾으면 이 파일에 추가"}
-  ]
+    {
+      "name": "KBS 경제",
+      "url": "https://world.kbs.co.kr/rss/rss_news.htm?lang=k",
+      "결과": "200 이지만 기사 0건(영문 월드 서비스 주소)"
+    },
+    {
+      "name": "공식 기관 정책 소식",
+      "결과": "작가가 넣은 주소는 404, 개발도 공식 기관 RSS 를 아직 찾지 못함 — 찾으면 이 파일에 추가"
+    }
+  ],
+  "_분야별_예시": {
+    "_설명": "주제를 바꾸는 사람이 feeds 에 옮겨 쓸 수 있는 예시. 2026-11-11 개발 세션이 주소를 직접 열어 200 과 기사 수를 확인한 것만 넣었다(확인 못 한 주소는 넣지 않음). 사용 전에 한 번 더 열어 보세요.",
+    "사회·복지·생활": [
+      {
+        "source": "한겨레",
+        "section": "사회",
+        "kind": "일간지",
+        "url": "https://www.hani.co.kr/rss/society/",
+        "열어본결과": "200, 30건"
+      },
+      {
+        "source": "경향신문",
+        "section": "사회",
+        "kind": "일간지",
+        "url": "https://www.khan.co.kr/rss/rssdata/society_news.xml",
+        "열어본결과": "200, 50건"
+      },
+      {
+        "source": "동아일보",
+        "section": "사회",
+        "kind": "일간지",
+        "url": "https://rss.donga.com/national.xml",
+        "열어본결과": "200, 50건"
+      },
+      {
+        "source": "SBS",
+        "section": "사회",
+        "kind": "방송사",
+        "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER",
+        "열어본결과": "200, 29건"
+      },
+      {
+        "source": "뉴시스",
+        "section": "사회",
+        "kind": "통신사",
+        "url": "https://www.newsis.com/RSS/society.xml",
+        "열어본결과": "200, 100건"
+      },
+      {
+        "source": "한국경제",
+        "section": "사회",
+        "kind": "경제지",
+        "url": "https://www.hankyung.com/feed/society",
+        "열어본결과": "200, 50건"
+      }
+    ],
+    "부동산·주거": [
+      {
+        "source": "한국경제",
+        "section": "부동산",
+        "kind": "경제지",
+        "url": "https://www.hankyung.com/feed/realestate",
+        "열어본결과": "200, 50건"
+      }
+    ],
+    "확인하지 못한 것": "정책브리핑(korea.kr) RSS 는 추측한 주소 3개(pressrelease.xml·policy.xml·fact.xml)가 모두 404 였다. 정확한 주소는 정책브리핑 누리집의 RSS 안내 쪽에서 찾아야 한다."
+  }
 }
