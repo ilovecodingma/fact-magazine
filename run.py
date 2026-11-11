@@ -206,11 +206,15 @@ def toggle(words, on):
         if not op:
             print(f'「{kj["title"]}」 은(는) 사이트 화면에 붙는 기능이 아니라 돌려서 파일을 만드는 도구라 켜고 끌 것이 없습니다. python run.py 키트 {kj["name"]} 로 돌려 보세요.'); continue
         before_labels, _ = menu_of(os.path.join(HERE, 'site_local')) if os.path.isdir(os.path.join(HERE, 'site_local')) else ([], set())
+        if SHOTS:
+            ob, lb_, rb_ = rebuild_local(); _shot_site(ob, [''], f'{"켜기" if on else "끄기"}_{kj["name"]}_1전')
         set_parts(list(kj.get('parts') or [op]) if on else [op], on)
         out, last, rcb = rebuild_local()
         if rcb != 0:
             print(f'✗ 다시 찍기에 실패했습니다: {last}'); rc = 1; continue
         labels, links = menu_of(out)
+        if SHOTS:
+            _shot_site(out, [''], f'{"켜기" if on else "끄기"}_{kj["name"]}_2후')
         path = G.get(kj['name'])
         present = ('/' + path in links) if path else None
         name = kj.get('title', kj['name'])
@@ -420,6 +424,42 @@ def plan_cmd():
     return 0
 
 
+def apply_name():
+    """기획서.md 의 ⑥칸(「이름 — 한 줄 소개」) 또는 --이름/--소개 옵션을 site.local.json 의 name·tagline 에 넣는다."""
+    name = tag = None
+    if '--이름' in A and len(A) > A.index('--이름') + 1:
+        name = A[A.index('--이름') + 1]
+    if '--소개' in A and len(A) > A.index('--소개') + 1:
+        tag = A[A.index('--소개') + 1]
+    p = os.path.join(HERE, '기획서.md')
+    if not name and os.path.exists(p):
+        for ln in open(p, encoding='utf-8').read().splitlines():
+            if ln.strip().startswith('|') and '⑥' in ln:
+                cells = [c.strip() for c in ln.strip().strip('|').split('|')]
+                if len(cells) >= 2 and cells[1]:
+                    parts = re.split(r'\s+[—–-]\s+|\s*/\s*|\s*·\s*', cells[1], maxsplit=1)
+                    name = parts[0].strip(); tag = tag or (parts[1].strip() if len(parts) > 1 else None)
+    if not name:
+        return None
+    sp = os.path.join(HERE, 'site.local.json'); d = json.load(open(sp, encoding='utf-8')) if os.path.exists(sp) else {}
+    d['name'] = name
+    if tag:
+        d['tagline'] = tag
+    json.dump(d, open(sp, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+    return name, tag
+
+
+def _text_shot(title, blocks, tag):
+    """글을 읽기 좋은 한 장으로 그려 SHOTS 에 저장."""
+    if not SHOTS:
+        return
+    import selftest as T
+    br = T.find_browser()
+    if not br:
+        return
+    os.makedirs(SHOTS, exist_ok=True); out = os.path.join(SHOTS, f'서비스_{tag}.png'); T.text_png(br, title, blocks, out); print('  화면 저장:', os.path.basename(out), flush=True)
+
+
 def _shot_site(out_dir, pages, tag, width=1280, height=860):
     """site_local 의 쪽들을 headless 로 찍어 SHOTS 에 저장(--shots 가 없으면 건너뜀). 폭이 좁으면 휴대폰 흉내."""
     if not SHOTS:
@@ -448,7 +488,14 @@ def service_cmd(rest):
             rc |= ref_cmd(kind.split())
         elif st == 2:
             print('기획서 한 장을 독자와 쓴다(누구에게·무엇을·날마다/주마다 무엇이 새로 실리나·돈이 나올 길·내가 쓸 시간). 한 번에 한 칸씩 묻고 기획서.md 로 저장.'); plan_cmd()
+            pp = os.path.join(HERE, '기획서.md'); src_ = pp if os.path.exists(pp) else os.path.join(HERE, '기획서_양식.md')
+            _text_shot('기획서 한 장' + ('' if os.path.exists(pp) else ' (양식 — 독자와 채울 칸)'), [('기획서.md' if os.path.exists(pp) else '기획서_양식.md', open(src_, encoding='utf-8').read())], f'{kind.replace(" ", "")}_2기획서')
         elif st == 3:
+            nm = apply_name()
+            if nm:
+                print(f'기획서 ⑥칸의 이름을 사이트에 넣었습니다: 「{nm[0]}」' + (f' — {nm[1]}' if nm[1] else ''))
+            else:
+                print('(아직 사이트 이름이 정해지지 않았습니다 — 기획서 ⑥칸을 받거나 `--이름 "…" --소개 "…"` 를 주면 이 걸음부터 그 이름으로 찍습니다)')
             allp = list(json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))['parts'])
             set_parts(allp, False); set_parts(K['parts'], True); out, last, rcb = rebuild_local()
             labels, _ = menu_of(out)
@@ -456,9 +503,10 @@ def service_cmd(rest):
             prog_add(f'서비스 {kind}: 기능 붙임')
         elif st == 4:
             print('내용을 실제로 채운다 — 예시 자료를 지우고 독자 주제로 세션이 자료를 만든다:\n ' + K['fill'] + '\n지어낸 숫자는 「예시」 표시, 공식 자료에서 온 것은 출처를 적는다. 채운 뒤 python serve.py 로 열어 확인.')
+            _text_shot('내용 채우기 — ' + kind, [('이 종류에서 채울 것', K['fill']), ('원칙', '예시 자료는 지우고 독자 주제로 바꾼다. 지어낸 숫자는 「예시」 표시, 공식 자료에서 온 것은 출처를 적는다. 모르는 것은 독자에게 묻고 지어내지 않는다.')], f'{kind.replace(" ", "")}_4내용')
         elif st == 5:
-            set_parts(['monetize'], True); out, last, rcb = rebuild_local()
-            print('돈이 나올 자리를 만들었습니다(광고 칸·제휴 링크 칸(고지 자동)·후원/문의 링크 칸·소식 받기 칸). 값은 site.local.json 의 monetize 에 넣습니다(kits/monetize/README.md).\n광고·제휴·후원 서비스의 가입과 심사는 사람이 합니다 — 에이전트는 안내만 합니다.'); _shot_site(out, ['calc/' if 'calc' in K['parts'] else ('recipes/' if 'recipes' in K['parts'] else '')], f'{kind.replace(" ", "")}_5돈자리')
+            apply_name(); set_parts(['monetize'], True); out, last, rcb = rebuild_local()
+            print('돈이 나올 자리를 만들었습니다(광고 칸·제휴 링크 칸(고지 자동)·후원/문의 링크 칸·소식 받기 칸). 값은 site.local.json 의 monetize 에 넣습니다(kits/monetize/README.md).\n광고·제휴·후원 서비스의 가입과 심사는 사람이 합니다 — 에이전트는 안내만 합니다.'); _shot_site(out, [('calc/' if 'calc' in K['parts'] else ('recipes/' if 'recipes' in K['parts'] else 'search/')) + '@bottom', 'disclosure/'], f'{kind.replace(" ", "")}_5돈자리')
         elif st == 6:
             out = os.path.join(HERE, 'site_local')
             if not os.path.isdir(out):
@@ -474,8 +522,21 @@ def service_cmd(rest):
                 pass
             about = S_.get('about') or ''
             print('소개문(about):', ('있음(' + str(len(about)) + '자)' if about else '없음 — 독자에게 두세 문장으로 받아 site.local.json 의 about 에 넣는다'))
+            _shot_site(out, ['about/', 'contact/', 'privacy/', 'disclosure/'], f'{kind.replace(" ", "")}_6필수쪽')
         elif st == 7:
-            th, ac = K['theme']; print(f'겉모습 후보(독자와 고른다): 신문형 paper · 카드 잡지형 card · 가게형 shop · 문서형 doc · 놀이터형 play · 한 장짜리 one. 이 종류의 추천: {th} {ac}\n고르면 site.local.json 에 "theme": "…", "accent": "#색" 을 넣고 다시 찍는다(python run.py 지금 → serve).')
+            th, ac = K['theme']
+            if SHOTS:   # 고르기 전에 틀 여섯 가지로 첫 화면을 찍어 나란히 보인다
+                import selftest as T, tempfile
+                names = {'paper': '신문형', 'card': '카드 잡지형', 'shop': '가게형', 'doc': '문서형', 'play': '놀이터형', 'one': '한 장짜리'}
+                os.makedirs(SHOTS, exist_ok=True)
+                for ti, tn in enumerate(names, 1):
+                    tmpd = tempfile.mkdtemp(prefix='theme_')
+                    env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=tmpd, SITE_THEME=tn, SITE_ACCENT=(ac if (tn == th and ac) else ''))
+                    subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
+                    o = os.path.join(SHOTS, f'서비스_{kind.replace(" ", "")}_7겉모습_{ti}_{tn}.png')
+                    if T.shoot_pages(tmpd, [''], [o], 1280, 860):
+                        print(f'  화면 저장: {os.path.basename(o)}  ({names[tn]})', flush=True)
+            print(f'겉모습 후보(독자와 고른다): 신문형 paper · 카드 잡지형 card · 가게형 shop · 문서형 doc · 놀이터형 play · 한 장짜리 one. 이 종류의 추천: {th} {ac}\n고르면 site.local.json 에 "theme": "…", "accent": "#색" 을 넣고 다시 찍는다(python run.py 지금 → serve).')
             if '--적용' in A:
                 pth = os.path.join(HERE, 'site.local.json'); d = json.load(open(pth, encoding='utf-8')) if os.path.exists(pth) else {}
                 d['theme'] = th

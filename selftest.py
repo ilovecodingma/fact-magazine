@@ -224,7 +224,10 @@ def shoot_pages(directory, pages, outs, width=1280, height=860, mobile=False):
         pg = Page(WS(next(t for t in tabs if t['type'] == 'page')['webSocketDebuggerUrl'])); pg.call('Page.enable')
         pg.call('Emulation.setDeviceMetricsOverride', width=width, height=height, deviceScaleFactor=1, mobile=bool(mobile))
         for u, out in zip(pages, outs):
+            bottom = u.endswith('@bottom'); u = u[:-7] if bottom else u
             pg.call('Page.navigate', url=f'http://127.0.0.1:{port}/{u}'); time.sleep(1.2)
+            if bottom:
+                pg.ev('window.scrollTo(0, document.body.scrollHeight)'); time.sleep(0.4)
             r = pg.call('Page.captureScreenshot', format='png'); open(out, 'wb').write(base64.b64decode(r['data']))
     except Exception as e:
         print('  (화면 저장 실패:', repr(e)[:60], ')'); ok = False
