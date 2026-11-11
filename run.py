@@ -421,21 +421,15 @@ def plan_cmd():
 
 
 def _shot_site(out_dir, pages, tag, width=1280, height=860):
-    """site_local 의 쪽들을 headless 로 찍어 SHOTS 에 저장(--shots 가 없으면 건너뜀)."""
+    """site_local 의 쪽들을 headless 로 찍어 SHOTS 에 저장(--shots 가 없으면 건너뜀). 폭이 좁으면 휴대폰 흉내."""
     if not SHOTS:
         return
     import selftest as T
-    br = T.find_browser()
-    if not br:
-        print('  (브라우저가 없어 화면 저장을 건너뜁니다)'); return
-    os.makedirs(SHOTS, exist_ok=True); srv, port = T.start_server(out_dir)
-    try:
-        for n, pg in enumerate(pages, 1):
-            out = os.path.join(SHOTS, f'서비스_{tag}_{n}.png')
-            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', f'--window-size={width},{height}', f'--screenshot={out}', f'http://127.0.0.1:{port}/{pg}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
-            print('  화면 저장:', os.path.basename(out), flush=True)
-    finally:
-        srv.shutdown()
+    os.makedirs(SHOTS, exist_ok=True)
+    outs = [os.path.join(SHOTS, f'서비스_{tag}_{n}.png') for n in range(1, len(pages) + 1)]
+    if T.shoot_pages(out_dir, pages, outs, width, height, mobile=width < 600):
+        for o in outs:
+            print('  화면 저장:', os.path.basename(o), flush=True)
 
 
 def service_cmd(rest):
@@ -494,7 +488,7 @@ def service_cmd(rest):
                 rebuild_local()
             print('휴대폰 폭(390px)으로도 열어 봅니다.'); _shot_site(out, ['', 'search/'], f'{kind.replace(" ", "")}_8휴대폰', 390, 844)
         elif st == 9:
-            rb = subprocess.run(PY + ['audit.py'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((rb.stdout + rb.stderr).strip()[-900:])
+            rb = subprocess.run(PY + ['audit.py', '--dir', 'site_local'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((rb.stdout + rb.stderr).strip()[-900:])
             print('\n주소 값(site.json 의 url·base)과 올릴 곳은 독자가 정합니다. 올리기는 하지 않았습니다.\n▶ 올릴까요? (이 자리에서 멈춥니다 — 독자가 「올려」라고 할 때만, 가입·로그인은 독자 몫)')
     return rc
 

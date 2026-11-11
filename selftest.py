@@ -205,6 +205,38 @@ def text_png(br, title, blocks, out):
     subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', 'file:///' + f.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
 
 
+def shoot_pages(directory, pages, outs, width=1280, height=860, mobile=False):
+    """사이트 폴더의 쪽들을 지정한 화면 크기(휴대폰이면 모바일 흉내)로 찍어 outs 경로에 저장. 헤드리스 브라우저의 최소 창 너비에 걸리지 않게 CDP 로 크기를 정한다."""
+    srv, port = start_server(directory); br = find_browser()
+    if not br:
+        srv.shutdown(); return False
+    dp = free_port(9400); prof = tempfile.mkdtemp(prefix='stprof_')
+    proc = subprocess.Popen([br, '--headless=new', f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--disable-gpu', 'about:blank'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    ok = True
+    try:
+        tabs = None
+        for _ in range(60):
+            try:
+                tabs = json.loads(urllib.request.urlopen(f'http://127.0.0.1:{dp}/json', timeout=2).read())
+                if tabs: break
+            except Exception:
+                time.sleep(0.25)
+        pg = Page(WS(next(t for t in tabs if t['type'] == 'page')['webSocketDebuggerUrl'])); pg.call('Page.enable')
+        pg.call('Emulation.setDeviceMetricsOverride', width=width, height=height, deviceScaleFactor=1, mobile=bool(mobile))
+        for u, out in zip(pages, outs):
+            pg.call('Page.navigate', url=f'http://127.0.0.1:{port}/{u}'); time.sleep(1.2)
+            r = pg.call('Page.captureScreenshot', format='png'); open(out, 'wb').write(base64.b64decode(r['data']))
+    except Exception as e:
+        print('  (화면 저장 실패:', repr(e)[:60], ')'); ok = False
+    finally:
+        try:
+            proc.terminate(); proc.wait(timeout=5)
+        except Exception:
+            proc.kill()
+        srv.shutdown(); shutil.rmtree(prof, ignore_errors=True)
+    return ok
+
+
 def internet_ok():
     for u in ('https://www.naver.com', 'https://www.google.com'):
         try:

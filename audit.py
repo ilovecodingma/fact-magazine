@@ -11,7 +11,7 @@ except Exception:
     pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DOCS = os.path.join(HERE, 'docs')
+DOCS = os.path.abspath(sys.argv[sys.argv.index('--dir') + 1]) if '--dir' in sys.argv else os.path.join(HERE, 'docs')   # --dir site_local : 내 PC 용으로 찍은 폴더를 점검
 
 
 def site_base():
