@@ -2,6 +2,7 @@
 """카드 그림 만들기(cards 키트): 확인 노트 → 공유용 그림 한 장(1200x630, 도형과 글자만). 결과: cards/<노트 id>.svg 와 .png (png 는 브라우저로 찍음 — Edge·Chrome 필요).
 사용: python card.py            모든 노트(예시 제외)
       python card.py notes/노트.json
+      python card.py --square        인스타용 정사각(1080x1080)도 함께 만든다(cards/<id>_sq.png)
 그다음 python build.py 를 돌리면(parts.cards) /cards/ 에 내려받기 쪽이 생긴다."""
 import glob, html, json, os, re, shutil, subprocess, sys, tempfile
 try:
@@ -69,6 +70,21 @@ def svg(n, name):
             f'{tt}{big}<text x="70" y="580" font-size="24" fill="#555" font-family="system-ui,Malgun Gothic,sans-serif">공식 자료로 한 번 더 확인합니다 · {E(n["date"])}</text></svg>')
 
 
+def svg_square(n, name):
+    """인스타용 정사각 카드(1080x1080): 위에 제호, 판정 라벨, 큰 제목, 큰 숫자, 아래 한 줄. 도형과 글자만."""
+    col = COL.get(n['verdict'], '#111')
+    num = big_number(n)
+    lines = wrap(n['title'], 15)[:5]
+    tt = ''.join(f'<text x="80" y="{330 + i * 76}" font-size="62" font-weight="800">{E(l)}</text>' for i, l in enumerate(lines))
+    size = max(60, min(150, int(900 / max(1, 0.8 * len(num))))) if num else 0
+    big = f'<text x="1000" y="940" text-anchor="end" font-size="{size}" font-weight="900" fill="{col}">{E(num)}</text>' if num else ''
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="\'Noto Serif KR\',\'Nanum Myeongjo\',Batang,serif">'
+            f'<rect width="1080" height="1080" fill="#fff"/><rect x="16" y="16" width="1048" height="1048" fill="none" stroke="#111" stroke-width="8"/><rect x="30" y="30" width="1020" height="1020" fill="none" stroke="#111" stroke-width="2"/>'
+            f'<text x="80" y="120" font-size="40" font-weight="900" letter-spacing="2">{E(name)}</text><line x1="80" y1="150" x2="1000" y2="150" stroke="#111" stroke-width="4"/>'
+            f'<rect x="80" y="190" width="{50 + 34 * len(n["verdict"])}" height="62" fill="none" stroke="{col}" stroke-width="4"/><text x="104" y="234" font-size="34" font-weight="800" fill="{col}" font-family="system-ui,Malgun Gothic,sans-serif">{E(n["verdict"])}</text>'
+            f'{tt}{big}<text x="80" y="1010" font-size="28" fill="#555" font-family="system-ui,Malgun Gothic,sans-serif">공식 자료로 한 번 더 확인합니다 · {E(n["date"])}</text></svg>')
+
+
 def browser():
     c = [os.environ.get('BROWSER', ''), shutil.which('msedge') or '', shutil.which('chrome') or '', r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe', r'C:\Program Files\Google\Chrome\Application\chrome.exe', '/usr/bin/google-chrome', '/usr/bin/chromium']
     return next((x for x in c if x and os.path.exists(x)), None)
@@ -83,6 +99,11 @@ def main():
         if not verify(n, num):
             print('건너뜀(큰 숫자가 노트 제목과 글자 그대로 같지 않음):', n['id'], repr(num)); continue
         s = svg(n, name); open(out + '.svg', 'w', encoding='utf-8').write(s)
+        if '--square' in sys.argv:   # 인스타용 정사각 그림도 함께
+            sq_ = svg_square(n, name); open(out + '_sq.svg', 'w', encoding='utf-8').write(sq_)
+            if br:
+                tmp2 = os.path.join(tempfile.mkdtemp(), 's.html'); open(tmp2, 'w', encoding='utf-8').write('<!doctype html><body style="margin:0">' + sq_)
+                subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1080,1080', '--screenshot=' + out + '_sq.png', 'file:///' + tmp2.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
         if br:
             tmp = os.path.join(tempfile.mkdtemp(), 'c.html'); open(tmp, 'w', encoding='utf-8').write('<!doctype html><body style="margin:0">' + s)
             subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1200,630', '--screenshot=' + out + '.png', 'file:///' + tmp.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
