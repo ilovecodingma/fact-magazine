@@ -739,8 +739,17 @@ def polish_cmd(rest):
     out, last, rcb = rebuild_local()
     shots_for(out, f'{n}_후')
     sa = score_site(out)
+    ref_msg = ''
+    try:
+        import refcmp as RC2, selftest as T2
+        nb, na = newest_note(pre), newest_note(out)
+        ob = RC2.ours(T2, pre, f'n/{nb}/' if nb else None); oa = RC2.ours(T2, out, f'n/{na}/' if na else None)
+        ch = RC2.changes(ob, oa); sb_, sa_ = RC2.same_count(ob), RC2.same_count(oa)
+        ref_msg = f'[레퍼런스와의 차이] 같은 항목 {sb_[0]}/{sb_[1]} → {sa_[0]}/{sa_[1]}' + (''.join(f'\n  {"✓" if ok_ else "·"} {nm_}: {a_} → {b_}' for nm_, a_, b_, ok_ in ch) if ch else '\n  (이 걸음은 차이표의 항목을 바꾸지 않았습니다)')
+    except Exception as e_:
+        ref_msg = '(레퍼런스 차이를 재지 못했습니다: ' + repr(e_)[:60] + ')'
     lb, ob, tb = grade_lines(sb); la, oa, ta = grade_lines(sa)
-    print(f'\n적용했습니다: 걸음 {n} · {opt}안 — 점수(통과한 항목) {ob}/{tb} → {oa}/{ta}\n[전]'); print('\n'.join(lb)); print('[후]'); print('\n'.join(la))
+    print(f'\n적용했습니다: 걸음 {n} · {opt}안 — 기본 점검 {ob}/{tb} → {oa}/{ta}'); print(ref_msg); print('[기본 점검 — 전]'); print('\n'.join(lb)); print('[기본 점검 — 후]'); print('\n'.join(la))
     json.dump(sa, open(MEAS, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     other = ', '.join(f'{k}) {v}' for k, v in st['options'].items() if k != opt)
     print(f'\n[방금 일어난 일] 걸음 {n} 「{st["title"]}」 {opt}안을 적용했습니다. 고르지 않은 안은: {other}')

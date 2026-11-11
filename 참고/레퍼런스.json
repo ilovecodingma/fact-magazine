@@ -3,20 +3,40 @@
   "current": "미디엄",
   "refs": {
     "미디엄": {
-      "url": "https://blog.medium.com/",
+      "url": "https://medium.com/blog",
       "measured": "2026-11-11",
-      "by": "작가 세션이 로그인된 크롬으로 미디엄 공식 블로그의 글 쪽과 목록 쪽을 열어 잼",
+      "by": "작가 세션이 로그인된 크롬으로 미디엄 공식 블로그 목록(medium.com/blog)과 그 안의 글 한 편을 열어 잼",
       "article": {
-        "body_px": 20, "line_height": 1.6, "body_width": 680, "line_em": 34,
+        "body_px": 20,
+        "line_height": 1.6,
+        "body_width": 680,
+        "line_em": 34,
         "body_font": "명조 계열(source-serif-pro)",
-        "title_px": 42, "title_ratio": 2.1, "title_font": "굵은 고딕(sohne 700), 줄 높이 52px",
-        "h2_px": 24, "img_width": 680,
-        "head": ["주제 태그", "글쓴이", "읽는 시간", "날짜"],
-        "actions": ["박수", "응답", "저장", "듣기", "공유"]
+        "title_px": 42,
+        "title_ratio": 2.1,
+        "title_font": "굵은 고딕(sohne 700), 줄 높이 52px",
+        "h2_px": 24,
+        "img_width": 680,
+        "head": [
+          "주제 태그",
+          "글쓴이",
+          "읽는 시간",
+          "날짜"
+        ],
+        "actions": [
+          "박수",
+          "응답",
+          "저장",
+          "듣기",
+          "공유"
+        ]
       },
       "list": {
         "hero": "대표 글: 그림 약 650×330 왼쪽 + 제목 오른쪽",
-        "cols": 3, "card_title_px": 24, "card_desc_px": 16, "tabs": true
+        "cols": 3,
+        "card_title_px": 24,
+        "card_desc_px": 16,
+        "tabs": true
       }
     }
   }

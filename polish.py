@@ -143,6 +143,17 @@ def css9(opt):
             "body.pl9 .bnav a.cta{background:var(--pri,#111);color:#fff}}\n")
 
 
+def ref_css(act):
+    """레퍼런스(미디엄)를 그대로 따르기로 고른 걸음: 잰 값으로 맞춘다(참고/레퍼런스.json 의 값)."""
+    c = ''
+    if act.get(1) == 'B':   # 글 쪽: 본문 폭 680 · 제목 42/52 · 소제목 24/30
+        c += ("body.pl1 .art{box-sizing:content-box;max-width:680px}body.pl1 .art .pimg{max-width:100%}\n"
+              "@media(min-width:760px){body.pl1 .art h1{font-size:42px;line-height:52px}}body.pl1 .art h2{font-size:24px;line-height:30px;letter-spacing:0}\n")
+    if act.get(4) == 'C':   # 목록 쪽: 3열 · 카드 제목 24/30 · 설명 16/20
+        c += ("@media(min-width:1001px){body.pl4 .pg{grid-template-columns:repeat(3,minmax(0,1fr))}}body.pl4 .pc h3{font-size:24px;line-height:30px}body.pl4 .pc p{font-size:16px;line-height:20px}\n")
+    return c
+
+
 def css(act, base_css=''):
     out = []
     if 1 in act: out.append(css1(act[1], base_css))
@@ -155,6 +166,7 @@ def css(act, base_css=''):
     if 8 in act: out.append(css8(act[8]))
     if 9 in act: out.append(css9(act[9]))
     if 10 in act: out.append(P10.css(act[10]))
+    out.append(ref_css(act))   # 「레퍼런스를 그대로」 고른 걸음의 값은 맨 뒤에 얹어 다른 층에 밀리지 않게
     return '\n'.join(out)
 
 
@@ -306,7 +318,8 @@ FILTER_JS = ('<script>(function(){var m=location.search.match(/[?&]cat=([^&]*)/)
 
 def home_body(B, notes, topics, notice=''):
     V = B.VERDICTS; BASE = B.BASE
-    n0 = notes[0]; row = notes[1:5]; rest = notes[5:]
+    three = B.POLISH.get(4) == 'C'   # 레퍼런스를 그대로: 3열
+    n0 = notes[0]; row = notes[1:4] if three else notes[1:5]; rest = notes[4:] if three else notes[5:]
     vtag = lambda n: f'<span class="v {V[n["verdict"]]}">{E(n["verdict"])}</span>'
     hi = img_tag(B, n0, 'pimg', '')
     hero = (f'<section class="ph{" hasimg" if hi else ""}" data-cat="{E(cat_of(n0))}">' + (f'<a class="ph-img" href="{BASE}n/{n0["id"]}/" tabindex="-1">{hi}</a>' if hi else '')

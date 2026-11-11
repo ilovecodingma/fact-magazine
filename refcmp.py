@@ -53,7 +53,12 @@ def diff(r, o):
     if isinstance(r, (int, float)) and isinstance(o, (int, float)):
         d = round(o - r, 2)
         return '같음' if abs(d) < 0.011 else (f'+{d:g}' if d > 0 else f'{d:g}')
-    return '같음' if str(r) == str(o) else '다름'
+    if str(r) == str(o):
+        return '같음'
+    for fam in ('명조', '고딕'):
+        if fam in str(r) and fam in str(o):
+            return '같은 계열(글꼴은 다름)'
+    return '다름'
 
 
 def table(o):
@@ -63,7 +68,7 @@ def table(o):
         lines.append('  [글 쪽]' if sec == 'article' else '  [목록 쪽]')
         for nm, k in rows:
             r = (R.get(sec) or {}).get(k); v = (o.get(sec) or {}).get(k); df = diff(r, v)
-            n_all += 1; n_same += 1 if df == '같음' else 0
+            n_all += 1; n_same += 1 if df.startswith('같') else 0
             lines.append(f'  {nm:<22} {fmt(r):<28} {fmt(v):<24} {df}')
     lines.append(f'  → {n_all}개 항목 가운데 {n_same}개가 레퍼런스와 같고 {n_all - n_same}개가 다릅니다(다른 것이 틀린 것은 아닙니다 — 어떤 경우에 따르고 어떤 경우에 다르게 갈지는 독자가 고릅니다).')
     return lines, n_same, n_all
@@ -116,3 +121,19 @@ def set_values(pairs):
                 val = v
         R.setdefault(sec, {})[k] = val
     save(d); return f'레퍼런스 「{d["current"]}」 값을 적었습니다.'
+
+
+def changes(o_before, o_after):
+    """걸음 전·후로 차이표에서 달라진 항목. [(항목, 전 차이, 후 차이, 같아졌나)]"""
+    name, R = current(); out = []
+    for sec, rows in (('article', ROWS_A), ('list', ROWS_L)):
+        for nm, k in rows:
+            r = (R.get(sec) or {}).get(k)
+            a = diff(r, (o_before.get(sec) or {}).get(k)); b = diff(r, (o_after.get(sec) or {}).get(k))
+            if a != b:
+                out.append((nm, a, b, b.startswith('같')))
+    return out
+
+
+def same_count(o):
+    return table(o)[1:]
