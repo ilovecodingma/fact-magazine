@@ -15,12 +15,13 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-for _k, _env in (('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
+for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
 KEYWORDS = [k.strip() for k in (os.environ.get('TOPIC_KEYWORDS') or ','.join(S.get('topic_keywords', []))).split(',') if k.strip()]   # 주제 키워드(런북 6절)
 BASE, URL = S['base'], S['url']
+NOURL = (not URL) or ('프로젝트이름' in URL) or ('내계정' in URL)   # 공개 주소가 아직 안 정해졌으면(기본값 그대로) canonical·RSS·사이트맵은 만들지 않는다
 GAMES_SRC = os.path.join(HERE, 'games')   # 게임 원본 폴더(games/<이름>/meta.json + game.js). build.py 가 docs/games/ 로 복사한다 — docs/ 는 매번 지워지므로 원본은 여기에 둔다
 E = html.escape
 VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안 됨': 'no'}
@@ -85,16 +86,19 @@ def page(path, title, desc, body, noindex=False):
     d = os.path.join(OUT, path)
     os.makedirs(d, exist_ok=True)
     canon = f'{URL}/{path}/' if path else f'{URL}/'
+    canon_tag = '' if NOURL else f'<link rel="canonical" href="{canon}">'
+    rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
+    rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     GAMES_LINK = f'<a href="{BASE}games/">게임</a>' if load_games() else ''
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{canon}">{robots}
-<link rel="alternate" type="application/rss+xml" title="{E(S['name'])}" href="{BASE}feed.xml"><link rel="stylesheet" href="{BASE}style.css"></head><body>
+<title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 <a class="logo" href="{BASE}">{E(S['name'])}</a></div></header>
 <div class="wrap"><nav class="menu"><a href="{BASE}">오늘</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
 <main class="wrap">{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a><a href="{BASE}feed.xml">RSS</a><p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     return canon
 
@@ -205,6 +209,8 @@ def static_pages():
 
 
 def feed(notes):
+    if NOURL:
+        return
     now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
     items = ''.join(f'<item><title>{E(n["title"])}</title><link>{URL}/n/{n["id"]}/</link><guid>{URL}/n/{n["id"]}/</guid><description>{E(n["verdict"] + " — " + n["summary"])}</description></item>' for n in notes[:30])
     open(os.path.join(OUT, 'feed.xml'), 'w', encoding='utf-8').write(
@@ -224,9 +230,12 @@ def main():
     topics, notice = filter_topics(topics)
     urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages()
     feed(notes)
-    open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
-        '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')
-    open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {URL}/sitemap.xml\n')
+    if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
+        open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
+            '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')
+    open(os.path.join(OUT, 'robots.txt'), 'w').write('User-agent: *\nAllow: /\n' + ('' if NOURL else f'Sitemap: {URL}/sitemap.xml\n'))
+    if NOURL:
+        print('안내: site.json 의 url 이 기본값이라 canonical·RSS·사이트맵을 만들지 않았습니다. 공개 주소가 정해지면 url 을 넣고 다시 빌드하세요.')
     print(f'노트 {len(notes)}건, 주제 {len(topics)}건, 쪽 {len(urls)}개 -> docs/')
 
 

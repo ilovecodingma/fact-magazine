@@ -1,10 +1,11 @@
 {
   "name": "내 사이트 이름",
   "tagline": "한 줄 소개를 여기에 씁니다",
-  "url": "https://내계정.github.io/fact-magazine",
-  "base": "/fact-magazine/",
+  "url": "https://프로젝트이름.vercel.app",
+  "base": "/",
   "contact": "문의 방법을 여기에 씁니다.",
   "about": "",
   "topic_keywords": [],
-  "min_sources": 3
+  "min_sources": 3,
+  "_설명": "기본은 Vercel(주소 맨 위 /)입니다. 공개 주소가 정해지면 url 을 그 주소로 바꿉니다. GitHub Pages 의 프로젝트 주소(계정.github.io/저장소/)에 올릴 때는 base 를 \"/저장소이름/\" 로 바꿉니다."
 }

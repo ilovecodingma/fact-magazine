@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+      # 공개 주소와 base 는 저장소 변수(SITE_URL, SITE_BASE)가 있을 때만 site.json 을 덮어씁니다. 기본은 Vercel(주소 맨 위, base "/")
+      SITE_URL: ${{ vars.SITE_URL }}
+      SITE_BASE: ${{ vars.SITE_BASE }}
       # 아래는 저장소 설정 > Variables 에 값을 넣으면 site.json 대신 쓰입니다(없으면 site.json 값)
       SITE_NAME: ${{ vars.SITE_NAME }}
       SITE_TAGLINE: ${{ vars.SITE_TAGLINE }}
