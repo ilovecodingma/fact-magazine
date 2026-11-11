@@ -634,7 +634,7 @@ def grade_lines(res):
         m = res.get(key)
         if not m:
             continue
-        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'), min_imgs=(2 if key == 'mobile' else 4), cats_needed=(key != 'note' and bool(eff_parts().get('info'))))
+        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'), min_imgs=((1 if key == 'mobile' else 3) if not eff_parts().get('info') else (2 if key == 'mobile' else 4)), cats_needed=(key != 'note' and bool(eff_parts().get('info'))))
         row = []
         for k, nm, v, th, ok in gl:
             tot += 1; ok_n += 1 if ok else 0
