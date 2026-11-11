@@ -33,6 +33,15 @@ def cut(t, n):
     if len(t) <= n:
         return t
     head = t[:n]
+    import re
+    # 숫자 덩어리(1조 6,266억 원 같은 것)가 잘려 앞뒤가 달라지지 않게, 끝에 걸친 숫자·단위 낱말은 통째로 뺀다
+    while True:
+        m = re.search(r'(?:^|\s)(\S*\d\S*|원|명|달러)$', head.rstrip())
+        nxt = t[len(head.rstrip()):len(head.rstrip()) + 1]
+        if m and (nxt not in ('', ' ')) or (m and re.search(r'\d[\d,.]*[조억만천]$', head.rstrip())):
+            head = head.rstrip()[:m.start(1)].rstrip()
+            continue
+        break
     for sep in ('. ', '? ', '다. ', ' '):
         k = head.rfind(sep)
         if k > n * 0.5:
