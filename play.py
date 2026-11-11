@@ -138,14 +138,13 @@ def knob_cmd(R, rest):
         import selftest as T
         os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'손잡이_{nm}_전.png'); pre = R.build_tmp(cur); nid = R.newest_note(pre)
         T.shoot_pages(pre, [f'n/{nid}/' if (nid and nm != '목록열') else ''], [before], 1280, 860)
+    if rest[1] != '기본' and KN.parse(nm, rest[1]) is None:
+        print(f'그 값으로는 돌릴 수 없습니다(화면이 망가질 수 있는 값은 막아 둡니다). 돌릴 수 있는 값: {" / ".join(str(x) for x in d["vals"])}'); return 1
     snap(f'손잡이 {nm} → {rest[1]}')
     if rest[1] == '기본':
         K.pop(d['key'], None); val = '기본'
     else:
-        val = KN.parse(nm, rest[1])
-        if val is None:
-            print(f'그 값으로는 돌릴 수 없습니다(화면이 망가질 수 있는 값은 막아 둡니다). 돌릴 수 있는 값: {" / ".join(str(x) for x in d["vals"])}'); return 1
-        K[d['key']] = val
+        val = KN.parse(nm, rest[1]); K[d['key']] = val
     L['knobs'] = K; R.local_save(L); t0 = time.time(); out, last, rc = R.rebuild_local()
     if R.SHOTS and before:
         import selftest as T
@@ -196,7 +195,9 @@ def split_cmd(R, rest):
         if R.SHOTS:
             R._text_shot(f'나누기 · {d["name"]}', [('조각', '\n'.join(f'{p["n"]}. {p["name"]} [{p["ours"]}] — {p["does"]}' for p in P))], '나누기_' + key)
         R.prog_add('나누기 ' + key); return 0
-    p = next((x for x in plats if rest[0].replace(' ', '').lower() in (x['name'] + x.get('slug', '')).replace(' ', '').lower()), None)
+    KO = {'hackernews': '해커뉴스', 'substack': '서브스택', 'gumroad': '검로드', 'producthunt': '프로덕트헌트', 'linktree': '링크트리', 'wordle': '워들', 'naver-kin': '지식인지식iN', 'clien': '클리앙', 'danawa': '다나와', '10000recipe': '만개의레시피'}
+    w_ = ''.join(rest).replace(' ', '').lower()
+    p = next((x for x in plats if w_ and w_ in (x['name'] + x.get('slug', '') + KO.get(x.get('slug', ''), '')).replace(' ', '').lower()), None)
     if not p:
         print('그 레퍼런스가 없습니다. python run.py 나누기 로 목록을 보세요.'); return 1
     print(f'━━ 나누기 · {p["name"]} ({p.get("group", "")}) — 조사 자료 ━━\n{p.get("one_line", "")}\n[왜 다시 오는가] {p.get("loop", "")}\n[그 플랫폼다운 기능]')
