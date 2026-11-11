@@ -38,6 +38,47 @@
         "card_desc_px": 16,
         "tabs": true
       }
+    },
+    "해커 뉴스": {
+      "url": "https://news.ycombinator.com/ (첫 화면) · /newest · /item?id=… (글 쪽) · /news.css · /newsfaq.html · /newsguidelines.html",
+      "measured": "2026-11-11",
+      "by": "개발 세션이 로그인 없이 쪽을 하나씩 받아(2초 간격) HTML 과 news.css 를 읽음. 화면은 저장하지 않음",
+      "board": {
+        "rows": 30,
+        "title_px": 13.33,
+        "sub_px": 9.33,
+        "width_pct": 85,
+        "bg": "rgb(246, 246, 239)",
+        "bar": "rgb(255, 102, 0)",
+        "row_gap_px": 5,
+        "row_parts": [
+          "순번",
+          "추천 화살표",
+          "제목",
+          "사이트",
+          "점수",
+          "올린이",
+          "지난 시간",
+          "숨기기",
+          "댓글 수"
+        ],
+        "top_links": [
+          "new",
+          "past",
+          "comments",
+          "ask",
+          "show",
+          "jobs",
+          "submit"
+        ],
+        "more": true,
+        "comment_indent_px": 40,
+        "comment_px": 12,
+        "comment_form_above": true,
+        "collapse": true,
+        "downvote_on_stories": false
+      },
+      "notes": "글자 크기는 news.css 의 pt 값을 px 로 바꾼 것(10pt=13.33px, 7pt=9.33px, 9pt=12px). 휴대폰(폭 750px 이하)에서는 제목 11pt·아랫줄 9pt, 폭 100%, 댓글 들여쓰기 12px. 순위는 FAQ 문장 그대로: 점수를 올린 뒤 지난 시간의 거듭제곱으로 나눔(숫자는 FAQ 에 없음), 신고·부정 방지·운영자 조치가 더해짐."
     }
   }
 }

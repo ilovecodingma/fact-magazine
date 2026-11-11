@@ -31,7 +31,11 @@ def ours(T, out, note_path):
     res = T.measure_site(out, ([note_path] if note_path else []) + [''], 1280, 860, False)
     a = (res[0].get('ref') or {}).get('article', {}) if note_path and res else {}
     l = (res[-1].get('ref') or {}).get('list', {}) if res else {}
-    return {'article': a, 'list': l}
+    b = {}
+    if current()[1].get('board') and os.path.exists(os.path.join(out, 'board', 'index.html')):
+        rb = T.measure_site(out, ['board/'], 1280, 860, False)
+        b = (rb[0].get('ref') or {}).get('board', {}) if rb else {}
+    return {'article': a, 'list': l, 'board': b}
 
 
 def fmt(v):
@@ -61,7 +65,13 @@ def diff(r, o):
     return '다름'
 
 
+ROWS_B = [('한 쪽 줄 수', 'rows'), ('제목 글자(px)', 'title_px'), ('아랫줄 글자(px)', 'sub_px'), ('폭(화면의 %)', 'width_pct'), ('바탕색', 'bg'), ('머리 띠 색', 'bar'), ('줄 사이(px)', 'row_gap_px'), ('한 줄에 든 것', 'row_parts'), ('더 보기', 'more')]
+
+
 def table(o):
+    name, R = current()
+    if R.get('board'):
+        return table_board(o)
     name, R = current(); lines = [f'레퍼런스: {name} (잰 날 {R.get("measured")}, 잰 쪽 {R.get("url")}, {R.get("by", "")})', f'  {"항목":<22} {"레퍼런스":<28} {"우리 지금":<24} 차이']
     n_same = n_all = 0
     for sec, rows in (('article', ROWS_A), ('list', ROWS_L)):
@@ -137,3 +147,19 @@ def changes(o_before, o_after):
 
 def same_count(o):
     return table(o)[1:]
+
+
+def table_board(o):
+    name, R = current(); B = R['board']; ob = o.get('board') or {}
+    lines = [f'레퍼런스: {name} (잰 날 {R.get("measured")}, {R.get("by", "")})', f'  {"항목":<16} {"레퍼런스":<44} {"우리 지금":<40} 차이', '  [목록 쪽]']
+    same = alln = 0
+    for nm, k in ROWS_B:
+        r = B.get(k); v = ob.get(k); df = diff(r, v)
+        if isinstance(r, (int, float)) and isinstance(v, (int, float)) and not isinstance(r, bool) and abs(v - r) <= 0.6:
+            df = '같음'
+        alln += 1; same += 1 if df.startswith('같') else 0
+        lines.append(f'  {nm:<16} {fmt(r):<44} {fmt(v):<40} {df}')
+    lines.append(f'  [글 쪽] 댓글 들여쓰기 {B.get("comment_indent_px")}px(휴대폰 12px) · 댓글 글자 {B.get("comment_px")}px · 댓글 입력칸이 댓글보다 위 · 접기 — 우리 게시판도 같은 짜임(글 쪽은 재지 않고 코드로 맞춤)')
+    lines.append(f'  [본에 있고 우리에 없는 것] 머리 띠의 past·comments·jobs, 로그인·카르마, 댓글 내리기 / ({R.get("notes", "")})')
+    lines.append(f'  → {alln}개 항목 가운데 {same}개가 레퍼런스와 같고 {alln - same}개가 다릅니다(다른 것이 틀린 것은 아닙니다).')
+    return lines, same, alln

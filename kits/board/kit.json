@@ -19,11 +19,11 @@
     ],
     "steps": [
       {
-        "say": "게시판을 엽니다(서버가 켜져 있어 빈 목록에서 시작합니다)",
+        "say": "게시판을 엽니다(주황 머리 띠에 새 글·묻는 글·보여 주기·글 올리기)",
         "goto": "board/",
         "wait": 1.5,
         "expect": {
-          "sel": ".bd-tabs",
+          "sel": ".bd-top",
           "contains": "글 올리기"
         }
       },
@@ -66,7 +66,7 @@
         "equals": true
       },
       {
-        "say": "목록에 글이 보입니다",
+        "say": "「새 글」 목록에 글이 보입니다(순번·▲·제목(사이트)·아랫줄)",
         "goto": "board/?v=new",
         "wait": 1.5,
         "expect": {
@@ -84,12 +84,61 @@
         }
       },
       {
-        "say": "「보여 주기」 탭에도 이 글이 있습니다(제목이 「보여 줍니다」로 시작)",
+        "say": "「보여 주기」 목록에도 이 글이 있습니다",
         "goto": "board/?v=show",
         "wait": 1.3,
         "expect": {
           "sel": ".bd-row .bd-t",
           "contains": "시험으로 올리는 글"
+        }
+      },
+      {
+        "say": "글 쪽으로 들어갑니다(아랫줄의 「이야기하기」)",
+        "click": ".bd-row .bd-m a[href*=\"id=\"]",
+        "wait": 1.3,
+        "expect": {
+          "sel": "#bdc button",
+          "contains": "댓글 달기"
+        }
+      },
+      {
+        "say": "댓글을 적습니다(입력칸이 댓글보다 위에 있습니다)",
+        "type": [
+          "#bdc textarea[name=body]",
+          "잘 봤습니다, 시험 댓글입니다"
+        ]
+      },
+      {
+        "say": "「댓글 달기」를 누르면 승인 안내가 나옵니다",
+        "click": "#bdc button.go",
+        "wait": 1.0,
+        "expect": {
+          "sel": "#bdc .bd-msg",
+          "contains": "승인"
+        }
+      },
+      {
+        "say": "운영자가 댓글을 승인합니다",
+        "wait": 0.3,
+        "eval": "fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'test-pass-1234'})}).then(function(r){return r.json()}).then(function(){return fetch('/api/admin/summary').then(function(r){return r.json()})}).then(function(s){return fetch('/api/admin/board',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:s.board[0]._id,what:s.board[0].what,action:'approve'})}).then(function(r){return r.json()})}).then(function(j){return j.ok})",
+        "equals": true
+      },
+      {
+        "say": "다시 열면 댓글이 보이고 접기 [–] 가 있습니다",
+        "reload": true,
+        "wait": 1.2,
+        "expect": {
+          "sel": "#bdt",
+          "contains": "시험 댓글입니다"
+        }
+      },
+      {
+        "say": "[–] 를 누르면 접히고 「[1개 더]」가 됩니다",
+        "click": "#bdt .bd-fold",
+        "wait": 0.4,
+        "expect": {
+          "sel": "#bdt .bd-fold",
+          "contains": "1개 더"
         }
       },
       {
@@ -123,5 +172,5 @@
       "근거": "/board/guide/"
     }
   ],
-  "try_change": "python run.py 손잡이 순위셈법 2.5 로 돌려 예시 글의 순서가 어떻게 바뀌는지 보세요(서버 없이도 예시 글로 보입니다)."
+  "try_change": "python run.py 손잡이 순위셈법 2.5 로 돌려 예시 글의 순서가 어떻게 바뀌는지, 손잡이 게시판글자 크게 로 한 화면에 몇 줄이 보이는지 보세요(서버 없이도 예시 글로 보입니다)."
 }
