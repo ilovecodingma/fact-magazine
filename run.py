@@ -22,6 +22,7 @@
       python run.py 비교 [종류]                참고 사이트 화면과 내 첫 화면을 나란히 한 장으로(인터넷 필요)
       python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
       python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
+      python run.py 레퍼런스 [바꾸기 <이름> | 값 키=값 …]   레퍼런스(히트한 플랫폼, 지금은 미디엄)를 잰 값과 우리 사이트의 지금 값 차이표
       python run.py 맺음                      걸음·장을 맺을 때 「오늘 배운 것 세 줄 + 헷갈려 한 것 + 다음에 할 것」 초안(내_서비스.md·고른 것에서)
       python run.py 방식 프런트|백엔드|바꾸기   화면을 만드는 방식·방문자가 남기는 것을 받는 방식(서비스의 말로 묻고, 세션은 경우만 말하고, 독자가 고른다)
       python run.py 내서비스 [칸 "<칸>" "<정리한 말>"]   상담하며 정리한 「내 서비스 한 장」(내_서비스.md)의 어느 칸이 채워졌는지 보기·적기
@@ -696,9 +697,22 @@ def polish_cmd(rest):
         print('그런 걸음이 없습니다'); return 1
     if st['status'] != 'ready':
         print(f'걸음 {n} 「{st["title"]}」 은(는) 아직 준비 중입니다.'); return 0
-    print(f'━━ 다듬기 {n}. {st["title"]} ━━\n[상담: 먼저 물을 것] {st.get("q", "")}\n[독자에게 말할 것(왜)] {st["why"]}\n[참고 사이트는] {st["ref"]}')
+    if n == 10 and '7' not in cur:
+        print('걸음 10 은 걸음 7(글 쪽) 위에 얹습니다. 먼저 걸음 7 을 독자와 고르세요.'); return 1
+    import refcmp as RC
+    rname = RC.current()[0]
+    print(f'━━ 다듬기 {n}. {st["title"]} ━━\n[상담: 먼저 물을 것] {st.get("q", "")}\n[독자에게 말할 것(왜)] {st["why"]}\n[레퍼런스({rname})는 이렇게 합니다] {st["ref"]}')
     print('안: ' + ' / '.join(f'{k}) {v}' for k, v in st['options'].items()), flush=True)
     pre = build_tmp(cur); shots_for(pre, f'{n}_전')
+    try:
+        import selftest as T_
+        nid_ = newest_note(pre); sl = RC.step_lines(n, RC.ours(T_, pre, f'n/{nid_}/' if nid_ else None))
+        if sl:
+            print('[레퍼런스 잰 값 / 우리 사이트의 지금 값]'); print('\n'.join(sl))
+    except Exception as e_:
+        print('(레퍼런스 차이를 재지 못했습니다:', repr(e_)[:60], ')')
+    if st.get('follow'):
+        print(f'[어떤 경우에 따르고 어떤 경우에 다르게 가나] {st["follow"]}')
     if opt is None:   # 미리보기: 안마다 첫 화면을 찍어 독자가 고르게 한다
         import selftest as T
         for o in st['options']:
@@ -752,7 +766,13 @@ def undo_cmd(rest):
 def quality_cmd():
     out, last, rcb = rebuild_local()
     res = score_site(out); lines, ok_n, tot = grade_lines(res)
-    print(f'━━ 만듦새(참고 사이트와 같은 급으로 보이는가) — 통과 {ok_n}/{tot} ━━'); print('\n'.join(lines))
+    print(f'━━ 만듦새 ① 기본 점검(잘림·넘침·대비·글자·그림) — {ok_n}/{tot} ━━'); print('\n'.join(lines))
+    try:
+        import refcmp as RC, selftest as T_
+        nid_ = newest_note(out); tl, same, alln = RC.table(RC.ours(T_, out, f'n/{nid_}/' if nid_ else None))
+        print('━━ 만듦새 ② 레퍼런스와의 차이 ━━'); print('\n'.join(tl))
+    except Exception as e_:
+        print('(레퍼런스 차이를 재지 못했습니다:', repr(e_)[:60], ')')
     bad = []
     for lab, key in (('PC 첫 화면', 'pc'), ('휴대폰 첫 화면', 'mobile')):
         m = res.get(key) or {}
@@ -1420,6 +1440,23 @@ def open_cmd(rest):
 
 
 
+def reference_cmd(rest):
+    import refcmp as RC, selftest as T
+    if rest and rest[0] == '바꾸기':
+        if len(rest) < 2:
+            print('사용: python run.py 레퍼런스 바꾸기 <이름>   (지금 있는 것: ' + ', '.join(RC.load()['refs']) + ')'); return 1
+        print(RC.switch(' '.join(rest[1:]))); return 0
+    if rest and rest[0] == '값':
+        print(RC.set_values([a for a in A if '=' in a])); return 0
+    out, last, rcb = rebuild_local(); nid = newest_note(out)
+    lines, same, alln = RC.table(RC.ours(T, out, f'n/{nid}/' if nid else None))
+    print('━━ 레퍼런스와 우리 사이트 — 차이표 ━━'); print('\n'.join(lines))
+    print('\n레퍼런스를 바꾸려면: python run.py 레퍼런스 바꾸기 <이름> (값은 독자 세션이 그 사이트를 열어 재서 넣습니다 — 남의 사이트 화면은 저장소에 넣지 않습니다)')
+    if SHOTS:
+        _text_shot('레퍼런스와 우리 사이트 — 차이표', [('차이표', '\n'.join(lines))], '레퍼런스_차이표')
+    return 0
+
+
 def find_demo(word):
     """조립 예시를 키(tools)·조합 이름(도구 모음)·사이트 이름(한입 도구함)으로 찾는다. 공백 무시, 하나로 좁혀질 때만."""
     D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
@@ -1601,6 +1638,8 @@ def main():
         return open_cmd(rest)
     if cmd in ('맺음', 'wrapup'):
         return wrap_up_cmd()
+    if cmd in ('레퍼런스', 'reference'):
+        return reference_cmd(rest)
     if cmd in ('방식', 'way'):
         return ways_cmd(rest)
     if cmd in ('내서비스', 'mysvc'):

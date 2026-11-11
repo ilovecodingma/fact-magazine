@@ -3,6 +3,7 @@
 설정: site.local.json 의 "polish": {"1": "A", "2": "B", ...}(걸음 번호: 고른 안) 또는 환경변수 SITE_POLISH(JSON). 없으면 출발 모습 그대로.
 build.py 가 css()·head()·body_class()·nav_html()·mast_extra()·home_body()·img_tag() 를 부른다. 걸음 안내(왜·참고·안)는 다듬기.json."""
 import hashlib, html, json, os, re
+import polish10 as P10
 
 E = html.escape
 CATS = []   # 분야 탭(노트의 첫 태그 가운데 많은 것). build.py 가 노트를 읽은 뒤 채운다
@@ -32,6 +33,7 @@ FONT_B = "'Noto Serif KR','Nanum Myeongjo','Batang',serif"
 
 def css1(opt, base_css):
     f = FONT_A if opt != 'B' else FONT_B
+    size, lh = ('17px', '1.75') if opt != 'B' else ('20px', '1.6')   # B안: 레퍼런스(미디엄)를 그대로 따름 — 명조 20px·줄 높이 1.6·본문 폭 680px
     small = []
     for sel, body in re.findall(r'([^{}@]+)\{([^{}]*)\}', base_css):
         m = re.search(r'(?:font:[^;}]*?|font-size:)(\d+(?:\.\d+)?)px', body)
@@ -39,9 +41,9 @@ def css1(opt, base_css):
             small.append(sel.strip())
     up = (',\n'.join(small) + '{font-size:13px}\n') if small else ''
     return (f":root{{--sans:{f};--serif:{FONT_B}}}\n"
-            f"body.pl1{{font-family:{f};font-size:calc(17px*var(--fz,1));line-height:1.75;word-break:keep-all;overflow-wrap:anywhere}}\n"
+            f"body.pl1{{font-family:{f};font-size:calc({size}*var(--fz,1));line-height:{lh};word-break:keep-all;overflow-wrap:anywhere}}\n"
             "body.pl1 h1,body.pl1 h2,body.pl1 h3,body.pl1 .lead h2,body.pl1 .tp b,body.pl1 .art h1{font-family:var(--sans);letter-spacing:-.02em;line-height:1.35}\n"
-            "body.pl1 .art,body.pl1 .page{max-width:680px}body.pl1 .art p.sum,body.pl1 .art li,body.pl1 .page li,body.pl1 .page p{font-size:calc(17.5px*var(--fz,1));line-height:1.8}\n"
+            "body.pl1 .art,body.pl1 .page{max-width:680px}body.pl1 .art p.sum,body.pl1 .art li,body.pl1 .page li,body.pl1 .page p{font-size:calc(" + size + "*var(--fz,1));line-height:" + lh + "}\n"
             "body.pl1 nav.menu a,body.pl1 details.mn summary{font-size:15px}body.pl1 .dek,body.pl1 .lead p,body.pl1 .side h3,body.pl1 .tp b{font-family:var(--sans)}\n" + up)
 
 
@@ -152,6 +154,7 @@ def css(act, base_css=''):
     if 7 in act: out.append(css7(act[7]))
     if 8 in act: out.append(css8(act[8]))
     if 9 in act: out.append(css9(act[9]))
+    if 10 in act: out.append(P10.css(act[10]))
     return '\n'.join(out)
 
 
@@ -384,13 +387,13 @@ def note_body(B, n, extra_html=''):
              '<button type="button" onclick="window.print()">인쇄</button>' + (f'<a href="{BASE}feed.xml">RSS</a>' if not (B.NOURL or B.DEMO) else '') + '</div>')
     return (f'<article class="art">{ex}{wide}<span class="lb">확인 노트 · {E(cat_of(n))}</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="vband {V[v]}"><b>{E(v)}</b><span>{E(VDESC.get(v, ""))}</span></div>'
-            f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
+            (P10.head_html(B, n, CATS) if 10 in B.POLISH else f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
             + (f'<div class="nbox"><span>핵심 숫자</span><b style="color:{COLR.get(v, "#111")}">{E(num)}</b><em>{E(n["question"])}</em></div>' if num else '')
             + f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실과 출처</h2><ul class="srcs">{facts}</ul>' if facts else '')
             + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
             + (f'<h2>아직 확인 안 된 것</h2><div class="unc"><ul>{li(n["unconfirmed"])}</ul></div>' if n.get('unconfirmed') else '')
-            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + extra_html + relh + share + '</article>')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + extra_html + relh + (P10.actions_html(B, n, B.POLISH[10]) if 10 in B.POLISH else share) + '</article>')
 
 
 # ---------------------------------------------------------------- 8 푸터·믿을 근거 / 9 아래 고정 메뉴 (완성된 쪽 HTML 을 한 번 손본다)
