@@ -77,7 +77,7 @@ def main():
     cmd, rest = POS[0], POS[1:]
     if cmd in ('시작', 'start'):
         rc = sh(['doctor.py', '--quick'])   # 환경 점검도 doctor 가 맨 앞에서 한다
-        ; prog_add('시작(환경·키트 점검)'); print('\n다음: python run.py 키트 계산기  /  python run.py 조립  /  python run.py 사이클'); return rc
+        prog_add('시작(환경·키트 점검)'); print('\n다음: python run.py 키트 계산기  /  python run.py 조립  /  python run.py 사이클'); return rc
     if cmd in ('점검', 'doctor'):
         return sh(['doctor.py'] + (['--quick'] if '--quick' in A else []))
     if cmd in ('키트', 'kit'):
