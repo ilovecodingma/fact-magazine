@@ -45,6 +45,7 @@
 | `collect.py` | RSS → `data/items.json` (제목·매체·시각·링크) |
 | `group.py` | 여러 매체가 함께 다룬 소식 묶기 → `data/topics.json` |
 | `build.py` | `notes/*.json` + 묶음 → `docs/` (정적 화면, feed.xml, sitemap.xml) |
+| `shorts.py` | 확인 노트 → 세로 쇼츠(1080×1920, 3장면, 글자·도형만) 자동 제작 → `shorts/<노트 id>.mp4` + 제목·설명 글(`.txt`). 필요: 브라우저(Edge·Chrome)와 ffmpeg(없으면 안내가 나옴) |
 | `check.py` | 노트의 사실 문장마다 출처를 다시 열어 숫자·날짜가 원문에 있는지 대조 |
 | `notes/` | 확인 노트(형식은 `런북.md` 3절) |
 | `games/` | 웹 게임 **원본**(`games/<이름>/meta.json` + `game.js`). `docs/` 는 빌드 때마다 지워지고 다시 만들어지므로 게임은 여기에 둡니다. `build.py` 가 `docs/games/<이름>/` 으로 복사하고 `/games/` 목록과 메뉴·사이트맵을 만듭니다 |
