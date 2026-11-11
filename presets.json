@@ -1,0 +1,9 @@
+{
+  "_설명": "부품 묶음(preset). `python preset.py 이름` 으로 site.json 의 parts 를 한 번에 바꿉니다. 부품: info=뉴스·확인 노트, games=웹 게임, issue=잡지(호 발행), shorts=쇼츠 영상, mail=소식지 메일, inbox=문의 메일 답장 초안.",
+  "정보 매거진": {"info": true, "games": false, "issue": true, "shorts": false, "mail": false, "inbox": false},
+  "게임 모음": {"info": false, "games": true, "issue": false, "shorts": false, "mail": false, "inbox": false},
+  "영상 채널": {"info": true, "games": false, "issue": false, "shorts": true, "mail": false, "inbox": false},
+  "소식지": {"info": true, "games": false, "issue": true, "shorts": false, "mail": true, "inbox": true},
+  "잡지": {"info": true, "games": false, "issue": true, "shorts": false, "mail": false, "inbox": false},
+  "전부": {"info": true, "games": true, "issue": true, "shorts": true, "mail": true, "inbox": true}
+}

@@ -23,16 +23,18 @@
     { id: 'speed', name: '빠른 걸음', desc: '이동이 12% 빨라집니다', max: 4 },
     { id: 'magnet', name: '자석', desc: '증거 조각을 더 멀리서 모읍니다', max: 4 },
     { id: 'hp', name: '튼튼한 몸', desc: '최대 체력 +20, 체력 25 회복', max: 5 },
-    { id: 'orb', name: '회전 각주', desc: '몸 둘레를 도는 각주가 하나 늘어납니다', max: 5 }
+    { id: 'orb', name: '회전 각주', desc: '몸 둘레를 도는 각주가 하나 늘어납니다', max: 5 },
+    { id: 'nova', name: '정정 보도', desc: '일정 시간마다 둘레의 뜬소문을 한꺼번에 정정합니다', max: 4 }   // 판 2 에서 추가
   ];
 
   /* ---------- 상태 ---------- */
   var mode, t, px, py, hp, maxhp, lv, xp, need, kills, inv, cd, spin, fl, shake;
-  var E, P, G, FX, up, offer, keys = {}, joy = null, camx, camy, acc = 0, last = 0, started = false, doneStop = false;
+  var nt, ring, E, P, G, FX, up, offer, keys = {}, joy = null, camx, camy, acc = 0, last = 0, started = false, doneStop = false;
 
   function reset() {
     mode = 'play'; t = 0; px = 0; py = 0; hp = maxhp = 100; lv = 1; xp = 0; need = need_for(1); kills = 0; inv = 0; cd = 0.3; spin = 0; shake = 0;
     E = []; P = []; G = []; FX = []; offer = null; camx = 0; camy = 0; fl = { spawn: 1, boss1: false, boss2: false, boss3: false };
+    nt = 10; ring = 0;
     up = {}; UPS.forEach(function (u) { up[u.id] = 0; });
   }
   function need_for(l) { return 4 + l * 3; }
@@ -142,6 +144,11 @@
       }
       if (p.life <= 0) P.splice(i2, 1);
     }
+    // 정정 보도: 레벨이 높을수록 더 자주, 둘레의 뜬소문에 한꺼번에 피해
+    if (up.nova) {
+      nt -= dt; if (ring > 0) ring -= dt;
+      if (nt <= 0) { nt = Math.max(8, 24 - 4 * up.nova); ring = 0.45; for (var nz = E.length - 1; nz >= 0; nz--) { if (dist2(px, py, E[nz].x, E[nz].y) < 150 * 150) hurt(E[nz], 8); } }
+    }
     // 회전 각주
     var no = up.orb;
     for (var o = 0; o < no; o++) {
@@ -203,6 +210,7 @@
     for (j = 0; j < P.length; j++) { var p = P[j]; ctx.strokeStyle = RED; ctx.fillStyle = 'rgba(161,26,18,.16)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x + ox, p.y + oy, p.r, 0, 6.283); ctx.fill(); ctx.stroke(); text('확', p.x + ox, p.y + oy + 1, p.r * 1.25, RED, 'center', SERIF, 900); }
     for (j = 0; j < up.orb; j++) { var oa = spin + j * 6.283 / up.orb; ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(px + Math.cos(oa) * 52 + ox, py + Math.sin(oa) * 52 + oy, 8, 0, 6.283); ctx.fill(); text('*', px + Math.cos(oa) * 52 + ox, py + Math.sin(oa) * 52 + oy + 3, 14, '#fff', 'center', SERIF, 900); }
     for (j = 0; j < FX.length; j++) { ctx.fillStyle = 'rgba(17,17,17,' + (FX[j].life * 2) + ')'; ctx.fillRect(FX[j].x + ox - 1.5, FX[j].y + oy - 1.5, 3, 3); }
+    if (ring > 0) { ctx.strokeStyle = 'rgba(161,26,18,' + Math.min(1, ring * 2.2) + ')'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(px + ox, py + oy, 150 * (1 - ring / 0.45) + 10, 0, 6.283); ctx.stroke(); text('정정', px + ox, py + oy - 150 * (1 - ring / 0.45) - 14, 16, RED, 'center', SERIF, 900); }
     // 플레이어(확인 도장)
     ctx.globalAlpha = inv > 0 && Math.floor(inv * 20) % 2 ? 0.45 : 1;
     ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(px + ox, py + oy, 12, 0, 6.283); ctx.fill(); text('확', px + ox, py + oy + 1, 14, '#fff', 'center', SERIF, 900); ctx.globalAlpha = 1;

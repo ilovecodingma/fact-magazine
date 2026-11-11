@@ -61,14 +61,30 @@ def check_note(n):
     return not problems, problems
 
 
+STATE = os.path.join(HERE, 'data', 'checked.json')   # 통과한 노트의 내용 지문 — 같은 노트를 매일 다시 대조하지 않는다
+
+
+def digest(path):
+    import hashlib
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()[:16]
+
+
 def main():
     dry = '--dry-run' in sys.argv
+    recheck = '--recheck' in sys.argv   # 이미 통과한 노트도 다시 대조(출처 쪽이 바뀌었는지 보고 싶을 때)
+    state = json.load(open(STATE, encoding='utf-8')) if os.path.exists(STATE) else {}
     held = checked = passed = 0
     for p in sorted(glob.glob(os.path.join(HERE, 'notes', '*.json'))):
         n = json.load(open(p, encoding='utf-8'))
         if n.get('example'):
             continue
+        key = os.path.basename(p)
+        if not recheck and state.get(key) == digest(p):
+            print('통과(이전에 대조함, 내용 그대로)', key); checked += 1; passed += 1
+            continue
         ok, pr = check_note(n)
+        if ok and not dry:
+            state[key] = digest(p)
         checked += 1; passed += ok
         print(('통과' if ok else '보류'), os.path.basename(p))
         for x in pr:
@@ -76,6 +92,9 @@ def main():
         if not ok and not dry:
             os.makedirs(os.path.join(HERE, '보류'), exist_ok=True)
             shutil.move(p, os.path.join(HERE, '보류', os.path.basename(p))); held += 1
+    if not dry:
+        os.makedirs(os.path.dirname(STATE), exist_ok=True)
+        json.dump(state, open(STATE, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     if checked == 0:
         print('대조할 노트가 없습니다(notes/ 에 노트를 넣어야 합니다)')
     print(f'대조 {checked}건: 통과 {passed}건, 보류 {checked - passed}건' + ('' if dry else f' (보류/ 로 옮긴 것 {held}건)'))

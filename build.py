@@ -24,6 +24,19 @@ if os.environ.get('SITE_EXTRAS'):
         S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
     except Exception:
         print('주의: SITE_EXTRAS 가 JSON 이 아니라 무시했습니다')
+if os.environ.get('PARTS'):
+    try:
+        S['parts'] = json.loads(os.environ['PARTS'])
+    except Exception:
+        print('주의: PARTS 가 JSON 이 아니라 무시했습니다')
+PARTS = S.get('parts') or {}
+
+
+def part(name, default=True):
+    """부품(info·games·issue·shorts·mail·inbox)이 켜져 있는지. site.json 의 parts 에 false 로 적으면 꺼진다."""
+    return bool(PARTS.get(name, default))
+
+
 EX = S.get('extras') or {}   # 쿠팡·유튜브·방송·블로그 값(내 값). 비어 있으면 그 칸은 화면에 안 나온다
 KEYWORDS = [k.strip() for k in (os.environ.get('TOPIC_KEYWORDS') or ','.join(S.get('topic_keywords', []))).split(',') if k.strip()]   # 주제 키워드(런북 6절)
 BASE, URL = S['base'], S['url']
@@ -99,7 +112,7 @@ def page(path, title, desc, body, noindex=False):
     rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
     rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
-    GAMES_LINK = f'<a href="{BASE}games/">게임</a>' if load_games() else ''
+    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') and ISSUE_DATES else '')
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
@@ -112,9 +125,47 @@ def page(path, title, desc, body, noindex=False):
     return canon
 
 
+ISSUE_DATES = []   # 노트가 있는 날짜(오래된 순) — load_notes 가 채운다
+PDF_SRC = os.path.join(HERE, 'issues_pdf')   # 인쇄용 PDF 원본(issue.py 가 만든다). build.py 가 docs/issue/<날짜>/ 로 복사한다
+
+
+def issue_pages(notes):
+    """그날의 확인 노트를 묶어 「호」 한 편으로: /issue/<날짜>/ (읽기 쪽) + print.html(인쇄용, 글꼴·괘선 인라인) + 목록 /issue/.
+    인쇄용 PDF 는 issue.py 가 브라우저 인쇄 기능으로 만들어 issues_pdf/ 에 두면 링크가 붙는다."""
+    if not part('issue') or not notes:
+        return []
+    by = {}
+    for n in notes:
+        by.setdefault(n['date'], []).append(n)
+    dates = sorted(by)
+    urls = []
+    for k, d in enumerate(dates, 1):
+        ns = by[d]
+        pdf = os.path.join(PDF_SRC, f'{d}.pdf')
+        has_pdf = os.path.exists(pdf)
+        items = ''.join(f'<div class="tp"><span class="v {VERDICTS[n["verdict"]]}">{E(n["verdict"])}</span><b><a href="{BASE}n/{n["id"]}/">{E(n["title"])}</a></b><span class="ln">{E(n["summary"])}</span></div>' for n in ns)
+        link = f'<p class="sub"><a href="{BASE}issue/{d}/{d}.pdf">인쇄용 PDF 내려받기</a></p>' if has_pdf else ''
+        body = (f'<div class="page"><span class="lb">제{k}호 · {E(d)}</span><h1>{E(S["name"])} 제{k}호</h1><p>{E(d)} 확인 노트 {len(ns)}건을 묶었습니다.</p>{link}{items}</div>')
+        urls.append(page(f'issue/{d}', f'제{k}호 {d} — {S["name"]}', f'{d} 확인 노트 {len(ns)}건 묶음', body))
+        # 인쇄용(스타일 인라인, 링크는 글자로 풀어 씀)
+        pr = ''.join(f'<h2>{E(n["title"])} <small>[{E(n["verdict"])}]</small></h2><p>{E(n["question"])}</p><p>{E(n["summary"])}</p><ul>' + ''.join(f'<li>{E(f["text"])} <i>({E(f["source"])})</i></li>' for f in n.get('facts', [])) + '</ul>' + (''.join(f'<p>아직 확인 안 된 것: {E(x)}</p>' for x in n.get('unconfirmed', []))) for n in ns)
+        doc = (f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>{E(S["name"])} 제{k}호</title><style>@page{{size:A4;margin:18mm}}body{{font:12pt/1.7 "Noto Serif KR","Nanum Myeongjo",Batang,serif;color:#111}}'
+               f'h1{{text-align:center;font-size:30pt;margin:0;border-bottom:3px double #111;padding-bottom:8px}}.m{{text-align:center;font:10pt sans-serif;color:#555;margin:6px 0 18px}}h2{{font-size:15pt;border-top:2px solid #111;padding-top:8px;margin-top:20px}}small{{font:9pt sans-serif}}li{{margin:4px 0}}</style></head>'
+               f'<body><h1>{E(S["name"])}</h1><div class="m">제{k}호 · {E(d)} · {E(S["tagline"])}</div>{pr}</body></html>')
+        os.makedirs(os.path.join(OUT, 'issue', d), exist_ok=True)
+        open(os.path.join(OUT, 'issue', d, 'print.html'), 'w', encoding='utf-8').write(doc)
+        if has_pdf:
+            shutil.copy(pdf, os.path.join(OUT, 'issue', d, f'{d}.pdf'))
+    lst = ''.join(f'<a href="{BASE}issue/{d}/"><span class="lb">제{k}호</span><h3>{E(d)} 확인 노트 {len(by[d])}건</h3><p>{E(" · ".join(n["title"] for n in by[d])[:120])}</p></a>' for k, d in reversed(list(enumerate(dates, 1))))
+    urls.append(page('issue', f'잡지 — {S["name"]}', '확인 노트를 날짜별로 묶은 호 모음', f'<div class="page"><span class="lb">잡지</span><h1>{E(S["name"])} 발행호</h1><div class="gl">{lst}</div></div>'))
+    return urls
+
+
 def load_games():
     """games/<이름>/meta.json 을 읽어 목록(order 순)으로. 게임 폴더가 없으면 빈 목록."""
     out = []
+    if not part('games'):
+        return out
     for mp in sorted(glob.glob(os.path.join(GAMES_SRC, '*', 'meta.json'))):
         m = json.load(open(mp, encoding='utf-8'))
         m['slug'] = os.path.basename(os.path.dirname(mp))
@@ -135,6 +186,7 @@ def game_pages():
         how = ''.join(f'<li>{E(x)}</li>' for x in g.get('how', []))
         b = (f'<div class="gm"><span class="lb">{E(g.get("kind", "게임"))}</span><h1>{E(g["title"])}</h1><p class="dek">{E(g.get("intro", g["desc"]))}</p>'
              f'<canvas id="g" width="720" height="1080"></canvas><ol class="how">{how}</ol>'
+             + (f'<p class="note">판 {g.get("ver", 1)} — 바뀐 것: {E(g["changes"])}</p>' if g.get('changes') else f'<p class="note">판 {g.get("ver", 1)}</p>') +
              f'<p class="note">최고 기록은 이 브라우저에만 저장됩니다. 서버로 보내지 않습니다. <a href="{BASE}games/">다른 게임 보기</a></p></div><script src="game.js?v={g.get("ver", 1)}"></script>')
         urls.append(page(f'games/{g["slug"]}', f'{g["title"]} — {S["name"]}', g['desc'], b))
         src = os.path.join(GAMES_SRC, g['slug'])
@@ -153,6 +205,7 @@ def load_notes(with_example):
         if n.get('verdict') not in VERDICTS:
             print('판정 값이 이상해 건너뜀:', os.path.basename(p)); continue
         notes.append(n)
+    ISSUE_DATES[:] = sorted({n['date'] for n in notes}) if part('issue') else []
     return notes
 
 
@@ -216,6 +269,9 @@ def extras_html():
 
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
+    if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
+        gl = ''.join(f'<a href="{BASE}games/{g["slug"]}/"><span class="lb">{E(g.get("kind", "게임"))}</span><h3>{E(g["title"])}</h3><p>{E(g.get("intro", g["desc"]))}</p></a>' for g in load_games())
+        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h1>{E(S["name"])}</h1><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + extras_html())
     if notes:
         n = notes[0]
         lead = (f'<div class="lead"><span class="lb">오늘의 확인 노트</span><a href="{BASE}n/{n["id"]}/"><h2>{E(n["title"])}</h2></a>'
@@ -265,9 +321,11 @@ def main():
     open(os.path.join(OUT, '.nojekyll'), 'w').write('')
     tp = os.path.join(HERE, 'data', 'topics.json')
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
-    notes = load_notes(with_example)
+    notes = load_notes(with_example) if part('info') else []   # info 부품이 꺼져 있으면 뉴스·노트는 만들지 않는다
+    if not part('info'):
+        topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages()
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes)
     feed(notes)
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
         open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
