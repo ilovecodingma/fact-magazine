@@ -22,7 +22,7 @@ python group.py            # 함께 다룬 소식 묶기
 python build.py --example  # 예시 노트로 화면 확인 → docs/index.html 열기
 python build.py            # 공개 빌드
 ```
-`site.json` 의 이름을 내 것으로 바꾼 뒤, **Vercel**(vercel.com, 무료)에서 이 저장소를 가져오면 `docs/` 가 그대로 올라가 사이트가 열립니다(`vercel.json` 이 이미 들어 있고 빌드 명령이 필요 없습니다). 주소가 정해지면 `site.json` 의 `url` 에 넣고 다시 빌드하세요. 다음 단계로 내 도메인을 붙일 수 있고, GitHub Pages 에 올리는 방법은 `CLAUDE.md` 5번에 있습니다.
+`site.json` 의 이름을 내 것으로 바꾼 뒤, **Cloudflare Pages**(무료, `프로젝트이름.pages.dev`)에 `docs/` 폴더를 올리면 사이트가 열립니다(`npx wrangler pages deploy docs --project-name 이름`, 로그인은 사람이 합니다). 주소가 정해지면 `site.json` 의 `url` 에 넣고 다시 빌드하세요. 다음 단계로 내 도메인을 붙일 수 있고, Vercel·GitHub Pages 에 올리는 다른 방법은 `CLAUDE.md` 5번에 있습니다.
 
 ## 지키는 것
 기사 본문은 옮기지 않고 제목·매체·시각·링크만 씁니다. 공식 자료에서 못 찾은 것은 지어서 채우지 않고 「아직 확인 안 됨」으로 둡니다. 연예인·정치인·사건 당사자 이야기는 다루지 않습니다.
