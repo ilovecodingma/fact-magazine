@@ -1,0 +1,13 @@
+{
+  "name": "today",
+  "title": "오늘의 추천 키트",
+  "parts": [
+    "today"
+  ],
+  "input_line": "오늘의 추천 쪽을 켜 줘. kits/today/data/items.json 의 추천 목록을 내 주제로 바꾸고, 빌드해서 /today/ 에 오늘 날씨에 맞는 추천 3개가 나오는지 확인해 줘.",
+  "gives": "추천 자료(날씨별 목록) + 무료 날씨 서비스 → 오늘 어울리는 3개",
+  "see": "/today/ 에 오늘 날씨 한 줄과 추천 3개가 나옵니다(날씨를 못 불러오면 평소 추천)",
+  "mounts": "푸터 링크와 /today/",
+  "server": "불필요",
+  "minutes": "5"
+}

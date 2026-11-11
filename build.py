@@ -4,6 +4,7 @@
 「예시」 노트(example:true)는 화면 틀 시험용이라 --example 을 줄 때만 넣는다. 공개본에는 올리지 않는다.
 실행: python build.py [--example]"""
 import json, os, re, subprocess, sys, glob, html, shutil, datetime
+import kitpages as _kp   # 2·3차 키트 쪽(자료 파일 → 쪽)
 try:
     sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
 except Exception:
@@ -89,6 +90,7 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .yt-row{display:flex;gap:12px;flex-wrap:wrap}.yt-row iframe{width:162px;height:288px;border:0;background:#111}
 .mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
 .calc label{display:block;font:700 14px var(--sans);margin:14px 0 4px}.calc input{font:18px var(--sans);padding:10px;width:100%;border:1px solid var(--ink);background:#fff}.crs{margin-top:18px;border-top:2px solid var(--ink)}.cr{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);font:16px var(--sans)}.cr b{font:800 22px var(--serif)}
+.notice{font:14px/1.5 var(--sans);background:#fff8dc;border:1px solid #e6d9a0;padding:8px 12px;margin:14px 0 0}.notice a{color:var(--link);margin-left:8px}details.fq{border-top:1px solid var(--hair);padding:12px 0}details.fq summary{font:700 17px/1.5 var(--serif);cursor:pointer}details.fq p{font:15px/1.7 var(--sans);color:#333;margin:8px 0 0}pre{overflow-x:auto}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -103,6 +105,10 @@ def today_ko():
     """머리 줄에 쓰는 오늘 날짜(한국시간)."""
     d = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
     return f'{d.year}년 {d.month}월 {d.day}일 {WEEK[d.weekday()]}요일'
+
+
+FOOT = {'topics': ('주제', 'topics/'), 'today': ('오늘의 추천', 'today/'), 'trends': ('인기 키워드', 'trends/'), 'widget': ('퍼가기', 'widget/'), 'notice': ('바뀐 내역', 'changes/'), 'timeline': ('타임라인', 'timeline/'), 'rank': ('화제 순위', 'rank/'),
+        'wiki': ('위키', 'wiki/'), 'faq': ('자주 묻는 질문', 'faq/'), 'schedule': ('일정', 'schedule/'), 'quiz': ('퀴즈', 'quiz/'), 'compare': ('표 비교', 'compare/'), 'gallery': ('사진첩', 'gallery/'), 'links': ('링크 모음', 'links/')}
 
 
 def page(path, title, desc, body, noindex=False):
@@ -123,8 +129,8 @@ def page(path, title, desc, body, noindex=False):
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu"><a href="{BASE}">{'오늘' if part('info') else '처음'}</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
-<main class="wrap">{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
+<main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in FOOT.items() if part(k, False))}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not noindex:
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
@@ -216,6 +222,16 @@ def first_h1(text, default):
     return m.group(1).strip() if m else default
 
 
+def pdf_link(slug):
+    """pdf 키트(pdf.py)가 만든 pdfs/<글>.pdf 가 있으면 글 위에 내려받기 링크를 붙이고 파일을 docs 로 복사한다."""
+    p = os.path.join(HERE, 'pdfs', slug + '.pdf')
+    if not part('pdf', False) or not os.path.exists(p):
+        return ''
+    os.makedirs(os.path.join(OUT, 'pdf'), exist_ok=True)
+    shutil.copy(p, os.path.join(OUT, 'pdf', slug + '.pdf'))
+    return f'<p class="ad-nt"><a href="{BASE}pdf/{slug}.pdf">이 글을 PDF 로 내려받기</a></p>'
+
+
 def content_pages():
     """글(posts/*.md)·연재 소설(novels/<작품>/소개.md + 01.md…)·웹툰(toons/<작품>/meta.json + 회차 그림)·영상 모음(extras.videos). 켜진 부품만."""
     urls = []
@@ -230,7 +246,7 @@ def content_pages():
         for slug, title, t in posts:
             body = re.sub(r'^# .+\n', '', t, count=1)
             urls.append(page(f'post/{slug}', f'{title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'[#*|\[\]]', '', body))[:140],
-                             f'<article class="art"><span class="lb">글</span><h1>{E(title)}</h1><p class="ad-nt" style="margin:0 0 16px">{E(notice)}</p>{md(body)}</article>'))
+                             f'<article class="art"><span class="lb">글</span><h1>{E(title)}</h1><p class="ad-nt" style="margin:0 0 16px">{E(notice)}</p>{pdf_link(slug)}{md(body)}</article>'))
         lst = ''.join(f'<a href="{BASE}post/{s}/"><span class="lb">글</span><h3>{E(t)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", x, flags=re.M)).strip()[:100])}</p></a>' for s, t, x in posts)
         urls.append(page('post', f'글 — {S["name"]}', '생활·돈 가이드 글 모음', f'<div class="page"><span class="lb">글</span><h1>글</h1><div class="gl">{lst}</div></div>'))
     # 연재 소설
@@ -611,7 +627,7 @@ def main():
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + status_page(notes)
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
     feed(notes)
     write_search_index()
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다

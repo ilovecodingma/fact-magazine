@@ -1,0 +1,32 @@
+[
+  {
+    "category": "정부 포털",
+    "items": [
+      {
+        "name": "정책브리핑",
+        "url": "https://www.korea.kr/",
+        "desc": "정부 소식과 보도자료"
+      },
+      {
+        "name": "대한민국 전자정부",
+        "url": "https://www.gov.kr/",
+        "desc": "민원·서비스 안내"
+      }
+    ]
+  },
+  {
+    "category": "법령·자료",
+    "items": [
+      {
+        "name": "국가법령정보센터",
+        "url": "https://www.law.go.kr/",
+        "desc": "법령 원문"
+      },
+      {
+        "name": "공공데이터포털",
+        "url": "https://www.data.go.kr/",
+        "desc": "공공 자료 모음"
+      }
+    ]
+  }
+]

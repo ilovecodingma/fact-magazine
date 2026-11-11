@@ -1,0 +1,13 @@
+{
+  "name": "widget",
+  "title": "퍼가기 위젯 키트",
+  "parts": [
+    "widget"
+  ],
+  "input_line": "퍼가기 위젯을 켜 줘. /widget/ 에 내 블로그에 붙일 한 줄 코드가 나오고 /embed/ 에 최근 노트 목록이 나오는지 확인해 줘.",
+  "gives": "최근 노트 → 다른 사이트에 붙이는 작은 목록(iframe 한 줄)",
+  "see": "/widget/ 의 코드를 복사해 다른 쪽에 붙이면 목록이 보입니다",
+  "mounts": "푸터 링크와 /widget/",
+  "server": "불필요",
+  "minutes": "5"
+}

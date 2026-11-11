@@ -1,0 +1,41 @@
+[
+  {
+    "key": "money-basics",
+    "name": "돈 기초 용어",
+    "intro": "돈과 생활 뉴스를 읽을 때 자주 나오는 말을 주제로 묶었습니다. 하나씩 눌러 풀이를 읽어 보세요.",
+    "items": [
+      {
+        "title": "복리",
+        "url": "/glossary/복리/",
+        "desc": "이자에 다시 이자가 붙는 방식"
+      },
+      {
+        "title": "기준금리",
+        "url": "/glossary/기준금리/",
+        "desc": "다른 금리의 기준이 되는 금리"
+      },
+      {
+        "title": "물가상승률",
+        "url": "/glossary/물가상승률/",
+        "desc": "물건 값이 오른 비율"
+      }
+    ]
+  },
+  {
+    "key": "try-calc",
+    "name": "직접 계산해 보기",
+    "intro": "숫자를 넣으면 바로 결과가 나오는 계산기입니다.",
+    "items": [
+      {
+        "title": "저축 목표 계산기",
+        "url": "/calc/saving-goal/",
+        "desc": "목표 금액을 모으려면 매달 얼마"
+      },
+      {
+        "title": "복리 계산기",
+        "url": "/calc/compound-interest/",
+        "desc": "처음 금액이 몇 년 뒤 얼마"
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "content-titles",
+  "title": "제목 다듬기",
+  "parts": [],
+  "input_line": "kits/content-titles 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 제목후보.txt 결과.md",
+  "gives": "결과.md — 검색어마다 제목 5개와 「고른 이유」",
+  "see": "5개 중 하나를 고르고, 이유 문장을 보며 마음에 드는 부분만 손본다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요",
+  "minutes": "5",
+  "author": "마케터"
+}

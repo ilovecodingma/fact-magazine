@@ -1,0 +1,12 @@
+{
+  "name": "keyword-urlcheck",
+  "title": "주소 열리는지 점검",
+  "parts": [],
+  "input_line": "kits/keyword-urlcheck 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 주소.txt 결과.md",
+  "gives": "결과.md — 주소별 상태 번호, noindex 여부(페이지 안 robots 표시·응답 머리글), robots.txt 허용 여부, 맨 아래에 통과 수",
+  "see": "「통과」가 아닌 줄만 본다. 404 면 주소 오타나 아직 안 올라간 것, noindex 면 검색에서 일부러 뺀 글이다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요(바깥 주소를 1초 간격으로 열어 봄)",
+  "minutes": "5",
+  "author": "마케터"
+}

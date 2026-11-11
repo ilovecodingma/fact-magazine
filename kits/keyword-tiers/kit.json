@@ -1,0 +1,12 @@
+{
+  "name": "keyword-tiers",
+  "title": "검색어 칸 나누기(단기·중기·장기)",
+  "parts": [],
+  "input_line": "kits/keyword-tiers 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 입력.tsv 결과.md 2026-11-11",
+  "gives": "결과.md — 칸(단기/중기/장기)별 표. 단기는 4일 뒤, 중기는 14일 뒤에 지울지 다시 본다. 장기는 지우지 않는다.",
+  "see": "「지금 지우거나 결정」 표시가 붙은 줄부터 처리한다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요",
+  "minutes": "5",
+  "author": "마케터"
+}

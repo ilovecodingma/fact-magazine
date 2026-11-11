@@ -1,0 +1,12 @@
+{
+  "name": "content-sitecopy",
+  "title": "사이트 문구 만들기",
+  "parts": [],
+  "input_line": "kits/content-sitecopy 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py \"파이어족 뉴스\" \"돈·생활 뉴스 속 제도·숫자\" 결과.md",
+  "gives": "결과.md — 한 줄 소개, title, description, 메뉴 이름 (글자 수도 표시)",
+  "see": "첫 문장에서 사이트가 하는 일이 보이는지 읽고 손본다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요",
+  "minutes": "5",
+  "author": "마케터"
+}

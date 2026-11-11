@@ -1,0 +1,12 @@
+{
+  "name": "content-check",
+  "title": "글 점검",
+  "parts": [],
+  "input_line": "kits/content-check 폴더에서 이 명령을 실행해 줘: python -X utf8 run.py 글.md 결과.md",
+  "gives": "결과.md — ① 숫자가 있는데 같은 문단에 출처 낱말(주소·법령·기관 이름)이 없는 문단 ② 과장 낱말(충격·무조건·반드시…) ③ 80자를 넘는 긴 문장",
+  "see": "표에 나온 위치로 가서 출처를 붙이거나, 문장을 나누거나, 낱말을 바꾼다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음)",
+  "server": "불필요",
+  "minutes": "5",
+  "author": "마케터"
+}

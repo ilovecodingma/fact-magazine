@@ -1,0 +1,14 @@
+{
+  "name": "pdf",
+  "title": "글 PDF 미리 만들기 키트",
+  "parts": [
+    "pdf",
+    "posts"
+  ],
+  "input_line": "내 글을 PDF 로 미리 만들어 줘. python pdf.py 를 돌리고(바뀐 글만 다시 만들게), 빌드해서 글 쪽에 PDF 내려받기가 붙는지 확인해 줘.",
+  "gives": "글(마크다운) → 글마다 PDF(바뀐 글만 다시) + 글 쪽에 내려받기",
+  "see": "글 쪽 위에 「이 글을 PDF 로 내려받기」가 붙습니다",
+  "mounts": "푸터 링크와 /post/",
+  "server": "불필요",
+  "minutes": "5"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "quiz",
+  "title": "체크리스트·퀴즈 키트",
+  "parts": [
+    "quiz"
+  ],
+  "input_line": "퀴즈 쪽을 켜 줘. kits/quiz/data/quiz.json 에 문항·보기·정답·해설을 적으면 /quiz/ 에서 풀고 채점되는지 확인해 줘.",
+  "gives": "문항 자료(JSON) → 브라우저에서 푸는 퀴즈(결과는 그 브라우저에만)",
+  "see": "/quiz/ 에서 풀고 「채점하기」를 누르면 점수와 해설이 나옵니다",
+  "mounts": "푸터 링크와 /quiz/",
+  "server": "불필요",
+  "minutes": "5"
+}

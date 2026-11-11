@@ -1,0 +1,13 @@
+{
+  "name": "faq",
+  "title": "자주 묻는 질문 키트",
+  "parts": [
+    "faq"
+  ],
+  "input_line": "자주 묻는 질문 쪽을 켜 줘. kits/faq/data/faq.json 에 질문과 답을 적으면 /faq/ 에서 접었다 펴지는지 확인해 줘.",
+  "gives": "질문·답 목록(JSON) → /faq/ 접었다 펴는 쪽(검색용 구조 데이터 포함)",
+  "see": "/faq/ 에서 질문을 누르면 답이 펴집니다",
+  "mounts": "푸터 링크와 /faq/",
+  "server": "불필요",
+  "minutes": "5"
+}

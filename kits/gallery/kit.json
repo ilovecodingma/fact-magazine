@@ -1,0 +1,13 @@
+{
+  "name": "gallery",
+  "title": "사진첩 키트",
+  "parts": [
+    "gallery"
+  ],
+  "input_line": "사진첩을 켜 줘. kits/gallery/data 에 그림 파일을 넣으면 /gallery/ 에 작은 그림 목록이 나오고 누르면 크게 보이는지 확인해 줘.",
+  "gives": "그림 폴더 → 작은 그림 목록 + 크게 보기",
+  "see": "/gallery/ 에서 그림을 누르면 화면 가득 크게 보입니다",
+  "mounts": "푸터 링크와 /gallery/",
+  "server": "불필요",
+  "minutes": "5"
+}

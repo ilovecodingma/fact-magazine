@@ -1,0 +1,13 @@
+{
+  "name": "rank",
+  "title": "화제 순위 키트",
+  "parts": [
+    "rank"
+  ],
+  "input_line": "화제 순위 쪽을 켜 줘. kits/rank/data/titles.tsv 의 제목 목록을 같은 화제끼리 묶어 몇 곳이 다뤘는지로 순위를 매기고 /rank/ 에 보여 줘.",
+  "gives": "제목 목록(매체·제목) → 같은 화제끼리 묶은 순위",
+  "see": "/rank/ 에 가장 많은 곳이 다룬 화제가 위에 나옵니다",
+  "mounts": "푸터 링크와 /rank/",
+  "server": "불필요",
+  "minutes": "5"
+}

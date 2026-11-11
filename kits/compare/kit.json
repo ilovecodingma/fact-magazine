@@ -1,0 +1,13 @@
+{
+  "name": "compare",
+  "title": "표 비교 키트",
+  "parts": [
+    "compare"
+  ],
+  "input_line": "비교표 쪽을 켜 줘. kits/compare/data/table.json 에 열과 행을 적으면 /compare/ 에서 제목을 눌러 정렬하고 글자로 거를 수 있는지 확인해 줘.",
+  "gives": "표 자료(열·행) → 정렬·거르기 되는 표",
+  "see": "/compare/ 에서 열 제목을 누르면 정렬되고 위 칸에 글자를 치면 줄이 걸러집니다",
+  "mounts": "푸터 링크와 /compare/",
+  "server": "불필요",
+  "minutes": "5"
+}

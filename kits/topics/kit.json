@@ -1,0 +1,13 @@
+{
+  "name": "topics",
+  "title": "주제 묶음·허브 키트",
+  "parts": [
+    "topics"
+  ],
+  "input_line": "이 저장소에 주제 묶음 쪽을 만들어 줘. kits/topics/data/topics.json 에 주제 두 개와 항목을 적고 빌드해서 /topics/ 목록과 주제별 쪽이 열리는지 확인해 줘.",
+  "gives": "주제 목록(JSON: 이름·소개·항목) → 주제별 허브 쪽 + 목록",
+  "see": "/topics/ 에서 주제를 누르면 소개와 글 목록이 나옵니다",
+  "mounts": "푸터 링크와 /topics/",
+  "server": "불필요",
+  "minutes": "5"
+}

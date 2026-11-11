@@ -1,0 +1,13 @@
+{
+  "name": "timeline",
+  "title": "타임라인 키트",
+  "parts": [
+    "timeline"
+  ],
+  "input_line": "타임라인 쪽을 켜 줘. kits/timeline/data/timeline.json 에 일어난 일을 날짜·제목·내용으로 적고 /timeline/ 에 시간순으로 나오는지 확인해 줘.",
+  "gives": "일어난 일 목록(JSON) → 시간순 정리 쪽",
+  "see": "/timeline/ 에 날짜순으로 일이 나열됩니다",
+  "mounts": "푸터 링크와 /timeline/",
+  "server": "불필요",
+  "minutes": "5"
+}
