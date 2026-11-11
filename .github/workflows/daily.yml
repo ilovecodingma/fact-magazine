@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      SITE_EXTRAS: ${{ vars.SITE_EXTRAS }}   # 내 칸 값(쿠팡·영상·블로그). GitHub Pages 는 docs/ 를 그대로 내보내므로 docs 를 찍을 때도 씁니다(공개 화면에 나가는 값만 넣을 것)
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}   # 있을 때만 Cloudflare Pages 에 올립니다(저장소 Settings > Secrets). 파일에는 값을 쓰지 않습니다
       # 공개 주소와 base 는 저장소 변수(SITE_URL, SITE_BASE)가 있을 때만 site.json 을 덮어씁니다. 기본은 Vercel(주소 맨 위, base "/")
       SITE_URL: ${{ vars.SITE_URL }}
@@ -45,7 +46,6 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SITE_EXTRAS: ${{ vars.SITE_EXTRAS }}   # 쿠팡·유튜브·블로그 같은 내 값(JSON 글자). 저장소에 올라가는 docs/ 에는 넣지 않고 배포본(dist/)에만 넣습니다
           OUT_DIR: dist
         run: |
           python build.py
