@@ -1,0 +1,129 @@
+{
+ "name": "깃허브 트렌딩",
+ "one_line": "기간 동안 별을 많이 받은 저장소와 개발자를 차례로 보여 주는 순위 쪽.",
+ "source": "2026-11-11 개발 세션이 로그인 없이 github.com/trending(목록), /trending/developers(개발자 목록), 저장소 쪽 한 건을 받아 화면과 짜임을 직접 봄. 순위를 정하는 셈법은 공개돼 있지 않아 적지 않음.",
+ "biggest_diff": "로그인이 없습니다 — 별은 한 사람(같은 접속 자리)이 한 항목에 한 번으로 서버가 셉니다. 본은 저장소가 저절로 모이지만 이 틀은 운영자가 넣거나 방문자가 올린 것을 승인합니다.",
+ "pieces": [
+  {
+   "n": 1,
+   "name": "기간별 순위",
+   "does": "오늘·이번 주·이번 달 가운데 고른 기간에 받은 별 차례(Date range)",
+   "visitor": "올 때마다 다른 얼굴을 본다",
+   "why": "다시 오게: 날마다 바뀌니 날마다 볼 까닭이 생긴다",
+   "ours": "있음",
+   "how": "/trend/ 의 기간 고르기 · 손잡이 순위기간",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 2,
+   "name": "한 줄 한 항목",
+   "does": "만든이 / 이름(큰 글자), 설명, 분류 점·전체 별 수·만든 사람들, 오른쪽 아래 「N stars today」",
+   "visitor": "훑어보다 눈에 띄는 것을 연다",
+   "why": "한 화면에 여럿을 견주게",
+   "ours": "있음",
+   "how": "/trend/ — python run.py 켜기 trend",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 3,
+   "name": "별 단추",
+   "does": "줄마다 오른쪽 위 Star(로그인해야 눌림)",
+   "visitor": "마음에 들면 누른다",
+   "why": "순위를 만드는 재료이자 나중에 다시 찾는 책갈피",
+   "ours": "비슷함(서버 필요)",
+   "how": "줄의 「☆ 별」 — 로그인 없이 한 사람 한 번",
+   "solo": "됨",
+   "server": true
+  },
+  {
+   "n": 4,
+   "name": "분류로 거르기",
+   "does": "Language 고르기(쓰는 프로그래밍 말)",
+   "visitor": "내 관심 분야만 본다",
+   "why": "내 것만 보이면 더 자주 온다",
+   "ours": "있음",
+   "how": "/trend/ 의 분류 고르기(자료의 lang)",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 5,
+   "name": "만든 사람 순위",
+   "does": "Developers 탭: 순번·얼굴·이름·POPULAR REPO",
+   "visitor": "누가 만드는지 본다",
+   "why": "만드는 사람에게는 이름이 오르는 것이 보람",
+   "ours": "있음",
+   "how": "/trend/makers/",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 6,
+   "name": "항목 쪽",
+   "does": "저장소 쪽: 이름 줄과 Star, 왼쪽 파일·README, 오른쪽 About(설명·주소·별 수)",
+   "visitor": "자세히 보고 써 볼지 정한다",
+   "why": "순위에서 온 사람이 머무는 곳",
+   "ours": "비슷함",
+   "how": "/trend/<id>/ — 소개 글과 About 만(파일 목록 없음)",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 7,
+   "name": "큰 제목과 한 줄",
+   "does": "가운데 Trending + 「…most excited about today」(기간에 따라 문장이 바뀜)",
+   "visitor": "어떤 곳인지 한눈에 안다",
+   "why": "처음 온 사람에게 이 쪽이 무엇인지 알림",
+   "ours": "있음",
+   "how": "/trend/ 의 머리",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 8,
+   "name": "밝게·어둡게 따라가기",
+   "does": "보는 사람 기기 설정에 따라 바탕이 바뀜",
+   "visitor": "익숙한 바탕으로 본다",
+   "why": "오래 보는 사람의 눈을 편하게",
+   "ours": "있음",
+   "how": "손잡이 순위바탕",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 9,
+   "name": "항목 올리기",
+   "does": "(본에는 없음 — 저장소가 저절로 모임)",
+   "visitor": "자기 것을 올린다",
+   "why": "올린 사람이 순위를 보러 다시 온다",
+   "ours": "있음(서버 필요, 본에 없는 것)",
+   "how": "/trend/submit/ → 운영자 승인",
+   "solo": "됨",
+   "server": true
+  },
+  {
+   "n": 10,
+   "name": "쓰는 말 고르기·갈래 수",
+   "does": "Spoken Language 고르기, fork 수",
+   "visitor": "자기 말로 된 것만 본다",
+   "why": "세계 여러 나라 사람이 쓰기 때문",
+   "ours": "없음",
+   "how": "이 틀에는 없습니다",
+   "solo": "됨",
+   "server": false
+  },
+  {
+   "n": 11,
+   "name": "따라가기·후원",
+   "does": "Follow · Sponsor 단추",
+   "visitor": "좋아하는 개발자를 따라간다",
+   "why": "만드는 사람에게 돈이 가는 길",
+   "ours": "없음",
+   "how": "이 틀에는 없습니다(가입이 있어야 함)",
+   "solo": "혼자 어려움",
+   "server": true
+  }
+ ]
+}

@@ -1,0 +1,176 @@
+{
+ "name": "trend",
+ "title": "날마다 순위 키트 — 레퍼런스: 깃허브 트렌딩",
+ "parts": [
+  "trend",
+  "backend"
+ ],
+ "input_line": "trend 키트를 켜고 기간을 바꿔 순위가 바뀌는지 본 뒤, 서버를 켜서 별 주기와 항목 올리기 → 운영자 승인 → 순위에 들어감까지 확인해 줘.",
+ "gives": "검은 머리 띠·아랫줄 메뉴·큰 제목과 한 줄, 상자 머리(항목|만든 사람 + 분류·기간 고르기), 한 줄 한 항목(만든이 / 이름·설명·분류·별 수·만든 사람들·「오늘 별 N개」)과 별 단추, 만든 사람 순위, 항목 쪽(소개 + About), 올리기, 안내. 서버가 꺼져 있으면 예시 자료의 별 수로 화면만 보임.",
+ "see": "/trend/ (항목·만든 사람·올리기·안내)",
+ "mounts": "/trend/ 와 메뉴",
+ "server": "필요(python run.py 서버). 꺼져 있으면 예시 자료로 화면만",
+ "minutes": "15",
+ "selftest": {
+  "server": true,
+  "parts": [
+   "trend",
+   "backend"
+  ],
+  "steps": [
+   {
+    "say": "순위를 엽니다(상자 머리에 항목|만든 사람, 분류·기간 고르기)",
+    "goto": "trend/",
+    "wait": 1.5,
+    "expect": {
+     "sel": ".tr-bh",
+     "contains": "만든 사람"
+    }
+   },
+   {
+    "say": "「오늘」 1등은 오늘 별을 가장 많이 받은 항목입니다",
+    "eval": "document.querySelector('#trl .tr-row:not([hidden]) h2 b').textContent",
+    "equals": "화분 물주기 기록"
+   },
+   {
+    "say": "기간을 「이번 달」로 바꾸면 1등이 바뀝니다",
+    "eval": "(function(){var s=document.getElementById('trper');s.value='monthly';s.onchange();return document.querySelector('#trl .tr-row:not([hidden]) h2 b').textContent})()",
+    "equals": "하루 한 낱말"
+   },
+   {
+    "say": "분류를 「게임」으로 고르면 게임만 남습니다",
+    "eval": "(function(){var s=document.getElementById('trcat');s.value='게임';s.onchange();return document.querySelectorAll('#trl .tr-row[data-id]:not([hidden])').length})()",
+    "equals": 2
+   },
+   {
+    "say": "다시 열어 첫 항목에 별을 줍니다",
+    "goto": "trend/",
+    "wait": 1.5,
+    "click": "#trl .tr-row .tr-star",
+    "expect": {
+     "sel": "#trl .tr-row .tr-star",
+     "contains": "별 줌"
+    }
+   },
+   {
+    "say": "그 항목의 「오늘 별」이 하나 늘었습니다(1,079 → 1,080)",
+    "wait": 0.6,
+    "expect": {
+     "sel": "#trl .tr-row .td",
+     "contains": "1,080"
+    }
+   },
+   {
+    "say": "다시 열어도 내가 준 별이 남아 있습니다",
+    "reload": true,
+    "wait": 1.5,
+    "expect": {
+     "sel": "#trl .tr-row .tr-star",
+     "contains": "별 줌"
+    }
+   },
+   {
+    "say": "「올리기」로 갑니다",
+    "goto": "trend/submit/",
+    "wait": 1.0,
+    "expect": {
+     "sel": "#trf button",
+     "contains": "올리기"
+    }
+   },
+   {
+    "say": "이름을 넣습니다",
+    "type": [
+     "#trf input[name=name]",
+     "시험으로 올린 항목"
+    ]
+   },
+   {
+    "say": "한 줄 설명을 넣습니다",
+    "type": [
+     "#trf textarea[name=desc]",
+     "자가 시험이 올린 항목입니다"
+    ]
+   },
+   {
+    "say": "주소를 넣습니다",
+    "type": [
+     "#trf input[name=url]",
+     "https://example.com/test"
+    ]
+   },
+   {
+    "say": "「올리기」를 누르면 확인 안내가 나옵니다",
+    "click": "#trf button",
+    "wait": 1.0,
+    "expect": {
+     "sel": "#trf .tr-fm",
+     "contains": "운영자가 확인"
+    }
+   },
+   {
+    "say": "운영자가 로그인해 방금 항목을 승인합니다",
+    "wait": 0.3,
+    "eval": "fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'test-pass-1234'})}).then(function(r){return r.json()}).then(function(){return fetch('/api/admin/summary').then(function(r){return r.json()})}).then(function(s){return fetch('/api/admin/board',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:s.trend[0]._id,what:s.trend[0].what,action:'approve'})}).then(function(r){return r.json()})}).then(function(j){return j.ok})",
+    "equals": true
+   },
+   {
+    "say": "순위에 그 항목이 들어왔습니다(별 0개라 맨 아래)",
+    "goto": "trend/",
+    "wait": 1.6,
+    "expect": {
+     "sel": "#trl",
+     "contains": "시험으로 올린 항목"
+    }
+   },
+   {
+    "say": "만든 사람 순위가 열립니다(순번·이름·대표 항목)",
+    "goto": "trend/makers/",
+    "wait": 1.0,
+    "expect": {
+     "sel": "#trd .tr-dev .pr",
+     "contains": "대표 항목"
+    }
+   },
+   {
+    "say": "항목 쪽이 열립니다(왼쪽 소개, 오른쪽 About)",
+    "goto": "trend/word-daily/",
+    "wait": 1.0,
+    "expect": {
+     "sel": ".tr-ab h3",
+     "contains": "About"
+    }
+   },
+   {
+    "say": "안내 쪽에 순위를 정하는 법이 적혀 있습니다",
+    "goto": "trend/guide/",
+    "wait": 0.8,
+    "expect": {
+     "sel": ".tr-in",
+     "contains": "순위는 이렇게 정합니다"
+    }
+   }
+  ]
+ },
+ "must_know": [
+  {
+   "알것": "순위는 「지금까지 받은 별」이 아니라 「그 기간에 받은 별」로 정한다",
+   "까닭": "날마다 얼굴이 바뀌어야 다시 올 까닭이 생긴다",
+   "모르면": "오래된 큰 항목이 1등을 계속 차지해 볼 것이 없어진다",
+   "근거": "trend.py 의 paint(), 손잡이 순위기간"
+  },
+  {
+   "알것": "별을 세려면 서버가 있어야 하고, 한 사람이 한 항목에 한 번만 준다",
+   "까닭": "방문자가 남긴 것을 모아 순서를 정하는 일이라 내 PC 화면만으로는 안 된다",
+   "모르면": "한 사람이 여러 번 눌러 순위를 만든다",
+   "근거": "server/app.py /api/trend/star"
+  },
+  {
+   "알것": "방문자가 올린 항목은 운영자가 확인한 뒤 순위에 들어간다",
+   "까닭": "남이 올린 것이 내 사이트 첫 화면에 실리기 때문",
+   "모르면": "광고가 순위에 오른다",
+   "근거": "운영자 화면 /admin/ 의 승인"
+  }
+ ],
+ "try_change": "python run.py 손잡이 순위기간 이번주 로 돌려 첫 화면의 1등이 바뀌는지, 손잡이 순위줄수 10 으로 한 쪽에 몇 줄이 남는지, 손잡이 순위바탕 어둡게 로 본의 어두운 모습과 견줘 보세요(서버 없이도 예시 자료로 보입니다)."
+}

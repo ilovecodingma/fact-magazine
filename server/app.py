@@ -196,14 +196,14 @@ function load(){api("/api/admin/summary").then(function(j){if(j._s===401)return 
  h+='<h2>인기 쪽(7일)</h2><div class="tbl"><table>'+j.popular.map(function(r){return '<tr><td>'+esc(r.path)+'</td><td>'+r.n+'</td></tr>'}).join("")+'</table></div>';
  h+='<h2>새 댓글</h2><div class="tbl"><table>'+(j.comments.map(function(c){return '<tr><td><b>'+esc(c.name)+'</b> <span class="mu">'+esc(c.slug)+' · '+esc(c.status)+'</span><br>'+esc(c.body)+'</td><td><button class="p" onclick="window.__a(\\'comment\\',\\''+esc(c._id)+'\\',\\'approve\\')">승인</button> <button onclick="window.__a(\\'comment\\',\\''+esc(c._id)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
  h+='<h2>문의</h2><div class="tbl"><table>'+(j.contact_list.map(function(c){return '<tr><td><b>'+esc(c.name)+'</b> <span class="mu">'+esc(c.email)+' · '+esc(c._created)+'</span><br>'+esc(c.message)+'</td><td><button onclick="window.__a(\\'contact\\',\\''+esc(c._id)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
- h+='<h2>게시판 — 승인 기다리는 글·댓글 (신고 '+(j.flags||0)+'건)</h2><div class="tbl"><table>'+((j.board||[]).map(function(c){return '<tr><td><b>['+esc(c.what)+']</b> '+esc(c.title)+' <span class="mu">'+esc(c.name)+'</span></td><td><button class="p" onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'approve\\')">승인</button> <button onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
+ h+='<h2>게시판 — 승인 기다리는 글·댓글 (신고 '+(j.flags||0)+'건)</h2><div class="tbl"><table>'+((j.board||[]).concat(j.trend||[]).map(function(c){return '<tr><td><b>['+esc(c.what)+']</b> '+esc(c.title)+' <span class="mu">'+esc(c.name)+'</span></td><td><button class="p" onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'approve\\')">승인</button> <button onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
  h+='<h2>하루 한 바퀴 기록 · 올릴 묶음</h2><div class="box"><div class="mu">'+esc(j.daily||"기록 없음")+'</div><div style="margin-top:8px">'+j.bundles.map(function(b){return esc(b.name)+' '+b.n+'개'}).join(" · ")+'</div></div>';
  h+='<h2>자료(JSON 문서)</h2><p class="mu">방문자가 쌓은 것은 모두 JSON 문서 한 건씩입니다. 모음: '+j.collections.map(esc).join(", ")+'</p><p><button onclick="window.__docs()">댓글 문서 보기</button></p><pre id="docs"></pre>';
  h+='<p><button onclick="window.__out()">나가기</button></p>';A.innerHTML=h})}
 window.__a=act;window.__b=function(id,what,a){api("/api/admin/board",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id,what:what,action:a})}).then(load)};window.__docs=function(){api("/api/admin/docs?collection=comments").then(function(j){document.getElementById("docs").textContent=JSON.stringify(j.docs||j,null,1)})};
 window.__out=function(){api("/api/admin/logout",{method:"POST"}).then(function(){login()})};load()})()</script></body></html>'''
 
-COLLECTIONS = ['visits', 'comments', 'likes', 'contacts', 'subscribers', 'poll_votes', 'kv', 'posts', 'post_votes', 'pcomments', 'flags']
+COLLECTIONS = ['visits', 'comments', 'likes', 'contacts', 'subscribers', 'poll_votes', 'kv', 'posts', 'post_votes', 'pcomments', 'flags', 'trend_items', 'trend_stars']
 
 
 class H(http.server.SimpleHTTPRequestHandler):
@@ -259,7 +259,7 @@ class H(http.server.SimpleHTTPRequestHandler):
     def api_get(self, path, q):
         S = store()
         if path == '/api/health':
-            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search', 'board', 'market']})
+            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search', 'board', 'market', 'trend']})
         if path == '/api/comments':
             slug = clean(q.get('slug', [''])[0], 120)
             rows = S.find('comments', {'slug': slug, 'status': 'approved'}, 50)
@@ -286,6 +286,17 @@ class H(http.server.SimpleHTTPRequestHandler):
         if path == '/api/kv':
             r = S.get('kv', clean(q.get('k', [''])[0], 80))
             return self.send_json({'ok': True, 'v': (r or {}).get('v')})
+        if path == '/api/trend':   # 순위: 항목마다 받은 별(전체·오늘·이번 주·이번 달)과 방문자가 올려 승인된 항목
+            st = {}; me = iphash(self.ip()); mine = []
+            for r in S.find('trend_stars', None, 20000):
+                if r.get('on') is False:
+                    continue
+                h = hours_since(r['_created']); d = st.setdefault(r['iid'], {'total': 0, 'today': 0, 'week': 0, 'month': 0})
+                d['total'] += 1; d['today'] += h < 24; d['week'] += h < 24 * 7; d['month'] += h < 24 * 30
+                if r.get('ip') == me:
+                    mine.append(r['iid'])
+            items = [{'id': r['_id'], 'name': r['name'], 'owner': r.get('owner', '익명'), 'desc': r.get('desc', ''), 'url': r.get('url', ''), 'lang': r.get('lang', '')} for r in S.find('trend_items', {'status': 'approved'}, 200)]
+            return self.send_json({'ok': True, 'stars': st, 'mine': mine, 'items': items})
         if path == '/api/board':
             cfg = board_cfg(); kind = clean(q.get('kind', ['all'])[0], 10); sort = clean(q.get('sort', ['top'])[0], 10)
             try:
@@ -344,6 +355,7 @@ class H(http.server.SimpleHTTPRequestHandler):
                'contact_list': [{k: r.get(k) for k in ('_id', 'name', 'email', 'message', '_created')} for r in S.find('contacts', {'status': 'new'}, 15)],
                'board': [{'_id': r['_id'], 'what': '글', 'title': r['title'], 'name': r.get('name', ''), 'status': r.get('status')} for r in S.find('posts', {'status': 'pending'}, 20)]
                         + [{'_id': r['_id'], 'what': '댓글', 'title': r['body'][:80], 'name': r.get('name', ''), 'status': r.get('status')} for r in S.find('pcomments', {'status': 'pending'}, 20)],
+               'trend': [{'_id': r['_id'], 'what': '순위 항목', 'title': r['name'] + ' — ' + r.get('desc', '')[:60], 'name': r.get('owner', ''), 'status': r.get('status')} for r in S.find('trend_items', {'status': 'pending'}, 20)],
                'flags': S.count('flags'),
                'collections': COLLECTIONS}
         lf = os.path.join(DATA, 'logs', 'daily.md')
@@ -405,7 +417,7 @@ class H(http.server.SimpleHTTPRequestHandler):
                 st = {'approve': 'approved', 'hide': 'hidden'}.get(str(b.get('action')))
                 if not st or not b.get('id'):
                     return self.send_json({'error': '잘못된 요청'}, 400)
-                col = 'pcomments' if b.get('what') == '댓글' or S.get('pcomments', str(b['id'])) else 'posts'
+                col = 'trend_items' if b.get('what') == '순위 항목' else ('pcomments' if b.get('what') == '댓글' or S.get('pcomments', str(b['id'])) else 'posts')
                 S.update(col, str(b['id']), {'status': st})   # 지우지 않고 숨김
                 return self.send_json({'ok': True})
             if path == '/api/admin/contact':
@@ -424,6 +436,24 @@ class H(http.server.SimpleHTTPRequestHandler):
             st = 'approved' if cfg.get('moderation') == 'after' else 'pending'
             S.put('posts', newid(), {'title': title, 'url': url, 'text': text, 'name': name, 'kind': kind, 'points': 1, 'status': st, 'ip': iphash(ip)})
             return self.send_json({'ok': True, 'shown': st == 'approved', 'message': '글을 올렸습니다.' if st == 'approved' else '글을 받았습니다. 운영자가 승인하면 보입니다.'})
+        if path == '/api/trend/star':   # 별: 한 사람이 한 항목에 한 번, 다시 누르면 거둔다
+            iid = clean(b.get('id'), 60)
+            if not re.match(r'^[A-Za-z0-9_-]{1,60}$', iid):
+                return self.send_json({'error': '없는 항목'}, 404)
+            sid = f'{iid}|{iphash(ip)}'
+            with LOCK:
+                cur = S.get('trend_stars', sid); on = not (cur and cur.get('on', True))
+                if not cur:
+                    S.put('trend_stars', sid, {'iid': iid, 'ip': iphash(ip), 'on': True})
+                else:
+                    S.update('trend_stars', sid, {'on': on})   # 지우지 않고 꺼 둔다
+            return self.send_json({'ok': True, 'on': on})
+        if path == '/api/trend/submit':
+            name = clean(b.get('name'), 60); desc = clean(b.get('desc'), 200); url = clean(b.get('url'), 300)
+            if len(name) < 2 or len(desc) < 5 or not re.match(r'https?://[^\s]+$', url):
+                return self.send_json({'error': '이름(2자 이상)·한 줄 설명(5자 이상)·주소(https://…)가 필요합니다'}, 400)
+            S.put('trend_items', 't' + newid()[:12], {'name': name, 'owner': clean(b.get('owner'), 30) or '익명', 'desc': desc, 'url': url, 'lang': clean(b.get('lang'), 20), 'status': 'pending', 'ip': iphash(ip)})
+            return self.send_json({'ok': True, 'message': '받았습니다. 운영자가 확인하면 순위에 들어갑니다.'})
         if path == '/api/board/vote':
             pid = clean(b.get('id'), 60); p = S.get('posts', pid)
             if not p or p.get('status') != 'approved':

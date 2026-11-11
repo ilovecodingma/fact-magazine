@@ -1,135 +1,170 @@
 {
-  "_설명": "레퍼런스(히트한 플랫폼)를 잰 값. 걸음마다 「레퍼런스는 이렇게 한다(잰 값) → 우리 사이트의 지금 값 → 어떤 경우에 따르고 어떤 경우에 다르게 가는가 → 독자가 고름」의 기준이 된다. 남의 사이트 화면(그림)은 저장소에 넣지 않고 잰 숫자와 잰 날·잰 쪽만 적는다. python run.py 레퍼런스 / 레퍼런스 바꾸기 <이름> / 레퍼런스 값 키=값",
-  "current": "미디엄",
-  "refs": {
-    "미디엄": {
-      "url": "https://medium.com/blog",
-      "measured": "2026-11-11",
-      "by": "작가 세션이 로그인된 크롬으로 미디엄 공식 블로그 목록(medium.com/blog)과 그 안의 글 한 편을 열어 잼",
-      "article": {
-        "body_px": 20,
-        "line_height": 1.6,
-        "body_width": 680,
-        "line_em": 34,
-        "body_font": "명조 계열(source-serif-pro)",
-        "title_px": 42,
-        "title_ratio": 2.1,
-        "title_font": "굵은 고딕(sohne 700), 줄 높이 52px",
-        "h2_px": 24,
-        "img_width": 680,
-        "head": [
-          "주제 태그",
-          "글쓴이",
-          "읽는 시간",
-          "날짜"
-        ],
-        "actions": [
-          "박수",
-          "응답",
-          "저장",
-          "듣기",
-          "공유"
-        ]
-      },
-      "list": {
-        "hero": "대표 글: 그림 약 650×330 왼쪽 + 제목 오른쪽",
-        "cols": 3,
-        "card_title_px": 24,
-        "card_desc_px": 16,
-        "tabs": true
-      }
-    },
-    "해커 뉴스": {
-      "url": "https://news.ycombinator.com/ (첫 화면) · /newest · /item?id=… (글 쪽) · /news.css · /newsfaq.html · /newsguidelines.html",
-      "measured": "2026-11-11",
-      "by": "개발 세션이 로그인 없이 쪽을 하나씩 받아(2초 간격) HTML 과 news.css 를 읽음. 화면은 저장하지 않음",
-      "board": {
-        "rows": 30,
-        "title_px": 13.33,
-        "sub_px": 9.33,
-        "width_pct": 85,
-        "bg": "rgb(246, 246, 239)",
-        "bar": "rgb(255, 102, 0)",
-        "row_gap_px": 5,
-        "row_parts": [
-          "순번",
-          "추천 화살표",
-          "제목",
-          "사이트",
-          "점수",
-          "올린이",
-          "지난 시간",
-          "숨기기",
-          "댓글 수"
-        ],
-        "top_links": [
-          "new",
-          "past",
-          "comments",
-          "ask",
-          "show",
-          "jobs",
-          "submit"
-        ],
-        "more": true,
-        "comment_indent_px": 40,
-        "comment_px": 12,
-        "comment_form_above": true,
-        "collapse": true,
-        "downvote_on_stories": false
-      },
-      "notes": "글자 크기는 news.css 의 pt 값을 px 로 바꾼 것(10pt=13.33px, 7pt=9.33px, 9pt=12px). 휴대폰(폭 750px 이하)에서는 제목 11pt·아랫줄 9pt, 폭 100%, 댓글 들여쓰기 12px. 순위는 FAQ 문장 그대로: 점수를 올린 뒤 지난 시간의 거듭제곱으로 나눔(숫자는 FAQ 에 없음), 신고·부정 방지·운영자 조치가 더해짐."
-    },
-    "검로드": {
-      "url": "https://gumroad.com/discover (둘러보기) · 상품 쪽 한 건 · https://gumroad.com/pricing",
-      "measured": "2026-11-11",
-      "by": "개발 세션이 로그인 없이 쪽을 받아 화면과 문구를 봄(글자 크기·여백은 화면을 보고 맞춘 것이고 숫자로 재지는 않음). 화면은 저장하지 않음",
-      "market": {
-        "list_parts": [
-          "찾기 칸",
-          "분류 알약",
-          "추천 상품",
-          "정렬",
-          "거르기 상자",
-          "상품 카드"
-        ],
-        "card_parts": [
-          "그림",
-          "이름",
-          "판매자",
-          "평점",
-          "값 딱지"
-        ],
-        "cols": 3,
-        "filters": [
-          "Tags",
-          "Contains",
-          "Price",
-          "Rating"
-        ],
-        "sorts": [
-          "Trending",
-          "Best Sellers",
-          "Hot & New"
-        ],
-        "item_parts": [
-          "대표 그림",
-          "이름",
-          "판매자",
-          "평가",
-          "설명",
-          "값 딱지",
-          "들어 있는 것",
-          "사는 단추",
-          "찜",
-          "공유",
-          "평가 막대",
-          "후기"
-        ],
-        "price_tag_color": "#ff90e8",
-        "fee": "직접 판매 10% + 50센트, 둘러보기를 거친 판매 30%(가격 쪽 문구)"
-      },
-      "notes": "둘러보기는 어두운 바탕에 검은 카드, 상품 쪽은 흰 바탕에 검은 테두리로 보였음. 본의 글꼴(ABC Favorit)은 쓰지 않음."
-    }
+ "_설명": "레퍼런스(히트한 플랫폼)를 잰 값. 걸음마다 「레퍼런스는 이렇게 한다(잰 값) → 우리 사이트의 지금 값 → 어떤 경우에 따르고 어떤 경우에 다르게 가는가 → 독자가 고름」의 기준이 된다. 남의 사이트 화면(그림)은 저장소에 넣지 않고 잰 숫자와 잰 날·잰 쪽만 적는다. python run.py 레퍼런스 / 레퍼런스 바꾸기 <이름> / 레퍼런스 값 키=값",
+ "current": "미디엄",
+ "refs": {
+  "미디엄": {
+   "url": "https://medium.com/blog",
+   "measured": "2026-11-11",
+   "by": "작가 세션이 로그인된 크롬으로 미디엄 공식 블로그 목록(medium.com/blog)과 그 안의 글 한 편을 열어 잼",
+   "article": {
+    "body_px": 20,
+    "line_height": 1.6,
+    "body_width": 680,
+    "line_em": 34,
+    "body_font": "명조 계열(source-serif-pro)",
+    "title_px": 42,
+    "title_ratio": 2.1,
+    "title_font": "굵은 고딕(sohne 700), 줄 높이 52px",
+    "h2_px": 24,
+    "img_width": 680,
+    "head": [
+     "주제 태그",
+     "글쓴이",
+     "읽는 시간",
+     "날짜"
+    ],
+    "actions": [
+     "박수",
+     "응답",
+     "저장",
+     "듣기",
+     "공유"
+    ]
+   },
+   "list": {
+    "hero": "대표 글: 그림 약 650×330 왼쪽 + 제목 오른쪽",
+    "cols": 3,
+    "card_title_px": 24,
+    "card_desc_px": 16,
+    "tabs": true
+   }
+  },
+  "해커 뉴스": {
+   "url": "https://news.ycombinator.com/ (첫 화면) · /newest · /item?id=… (글 쪽) · /news.css · /newsfaq.html · /newsguidelines.html",
+   "measured": "2026-11-11",
+   "by": "개발 세션이 로그인 없이 쪽을 하나씩 받아(2초 간격) HTML 과 news.css 를 읽음. 화면은 저장하지 않음",
+   "board": {
+    "rows": 30,
+    "title_px": 13.33,
+    "sub_px": 9.33,
+    "width_pct": 85,
+    "bg": "rgb(246, 246, 239)",
+    "bar": "rgb(255, 102, 0)",
+    "row_gap_px": 5,
+    "row_parts": [
+     "순번",
+     "추천 화살표",
+     "제목",
+     "사이트",
+     "점수",
+     "올린이",
+     "지난 시간",
+     "숨기기",
+     "댓글 수"
+    ],
+    "top_links": [
+     "new",
+     "past",
+     "comments",
+     "ask",
+     "show",
+     "jobs",
+     "submit"
+    ],
+    "more": true,
+    "comment_indent_px": 40,
+    "comment_px": 12,
+    "comment_form_above": true,
+    "collapse": true,
+    "downvote_on_stories": false
+   },
+   "notes": "글자 크기는 news.css 의 pt 값을 px 로 바꾼 것(10pt=13.33px, 7pt=9.33px, 9pt=12px). 휴대폰(폭 750px 이하)에서는 제목 11pt·아랫줄 9pt, 폭 100%, 댓글 들여쓰기 12px. 순위는 FAQ 문장 그대로: 점수를 올린 뒤 지난 시간의 거듭제곱으로 나눔(숫자는 FAQ 에 없음), 신고·부정 방지·운영자 조치가 더해짐."
+  },
+  "검로드": {
+   "url": "https://gumroad.com/discover (둘러보기) · 상품 쪽 한 건 · https://gumroad.com/pricing",
+   "measured": "2026-11-11",
+   "by": "개발 세션이 로그인 없이 쪽을 받아 화면과 문구를 봄(글자 크기·여백은 화면을 보고 맞춘 것이고 숫자로 재지는 않음). 화면은 저장하지 않음",
+   "market": {
+    "list_parts": [
+     "찾기 칸",
+     "분류 알약",
+     "추천 상품",
+     "정렬",
+     "거르기 상자",
+     "상품 카드"
+    ],
+    "card_parts": [
+     "그림",
+     "이름",
+     "판매자",
+     "평점",
+     "값 딱지"
+    ],
+    "cols": 3,
+    "filters": [
+     "Tags",
+     "Contains",
+     "Price",
+     "Rating"
+    ],
+    "sorts": [
+     "Trending",
+     "Best Sellers",
+     "Hot & New"
+    ],
+    "item_parts": [
+     "대표 그림",
+     "이름",
+     "판매자",
+     "평가",
+     "설명",
+     "값 딱지",
+     "들어 있는 것",
+     "사는 단추",
+     "찜",
+     "공유",
+     "평가 막대",
+     "후기"
+    ],
+    "price_tag_color": "#ff90e8",
+    "fee": "직접 판매 10% + 50센트, 둘러보기를 거친 판매 30%(가격 쪽 문구)"
+   },
+   "notes": "둘러보기는 어두운 바탕에 검은 카드, 상품 쪽은 흰 바탕에 검은 테두리로 보였음. 본의 글꼴(ABC Favorit)은 쓰지 않음."
+  },
+  "깃허브 트렌딩": {
+   "url": "https://github.com/trending (목록) · https://github.com/trending/developers · 저장소 쪽 한 건",
+   "measured": "2026-11-11",
+   "by": "개발 세션이 로그인 없이 쪽을 받아 화면과 짜임을 봄(색·글자 크기는 쪽의 값과 화면을 보고 맞춤). 화면은 저장하지 않음",
+   "trend": {
+    "list_parts": [
+     "검은 머리 띠",
+     "아랫줄 메뉴",
+     "큰 제목과 한 줄",
+     "항목|만든 사람",
+     "분류·기간 고르기",
+     "한 줄 한 항목"
+    ],
+    "row_parts": [
+     "만든이 / 이름",
+     "설명",
+     "분류 점",
+     "전체 별 수",
+     "만든 사람들",
+     "기간 별 수",
+     "별 단추"
+    ],
+    "periods": [
+     "Today",
+     "This week",
+     "This month"
+    ],
+    "rows": 10,
+    "title_px": 20,
+    "body_px": 14,
+    "meta_px": 12,
+    "width_px": 1012
+   },
+   "notes": "프로덕트 헌트(producthunt.com)는 자동 접속을 막아(403) 본으로 삼지 못했고, 같은 「날마다 순위」 꼴이면서 로그인 없이 열리는 깃허브 트렌딩을 본으로 삼음."
   }
+ }
 }

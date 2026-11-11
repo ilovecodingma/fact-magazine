@@ -36,7 +36,7 @@ if os.environ.get('SITE_MONETIZE'):
     except Exception:
         pass
 LAB = lambda k, d: (S.get('labels') or {}).get(k, d)
-GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼'), ('subscribe', '소식 받기', 'subscribe/', '새 노트 소식을 메일로'), ('board', '게시판', 'board/', '링크와 글을 올리고 추천으로 순서를 정함'), ('market', '장터', 'market/', '디지털 상품을 둘러보고 주문 문의')]
+GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼'), ('subscribe', '소식 받기', 'subscribe/', '새 노트 소식을 메일로'), ('board', '게시판', 'board/', '링크와 글을 올리고 추천으로 순서를 정함'), ('market', '장터', 'market/', '디지털 상품을 둘러보고 주문 문의'), ('trend', '순위', 'trend/', '기간 동안 별을 많이 받은 차례')]
 if os.environ.get('SITE_EXTRAS'):
     try:
         S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
@@ -130,7 +130,8 @@ import kinds as _kn
 import knobs as _kb
 import board as _bd
 import market as _mk
-CSS += _be.CSS + _kn.CSS + _bd.CSS + _mk.CSS + _kb.css(S)   # 손잡이(본문 폭·글자·줄 높이·목록 열)는 맨 뒤에 얹어 이긴다
+import trend as _tr
+CSS += _be.CSS + _kn.CSS + _bd.CSS + _mk.CSS + _tr.CSS + _kb.css(S)   # 손잡이(본문 폭·글자·줄 높이·목록 열)는 맨 뒤에 얹어 이긴다
 _pl.setup(S)   # 독자가 정한 분류(cats)·조각 하나만 켠 것(solo)
 POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
 CSS += _pl.css(POLISH, CSS)
@@ -813,7 +814,7 @@ def main():
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + _be.pages(sys.modules[__name__]) + _bd.pages(sys.modules[__name__]) + _mk.pages(sys.modules[__name__]) + _pl.P10.extra_pages(sys.modules[__name__]) + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + _be.pages(sys.modules[__name__]) + _bd.pages(sys.modules[__name__]) + _mk.pages(sys.modules[__name__]) + _tr.pages(sys.modules[__name__]) + _pl.P10.extra_pages(sys.modules[__name__]) + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
     if not DEMO:
         feed(notes)
     if part('monetize', False):

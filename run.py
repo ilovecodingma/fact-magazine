@@ -822,7 +822,9 @@ def compare_cmd(rest):
     import refcmp as RC, selftest as T
     name, R = RC.current(); url = (R.get('url') or '').split(' ')[0]
     which = rest[0] if rest else '목록'
-    if R.get('board'):
+    if R.get('trend'):
+        ours = 'trend/' if which != '글' else 'trend/word-daily/'; ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
+    elif R.get('board'):
         ours = 'board/' if which != '글' else 'board/?id=s1'
         ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
     else:
