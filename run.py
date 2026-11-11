@@ -1,0 +1,127 @@
+# -*- coding: utf-8 -*-
+"""하나의 진입점: 트리거(Claude Code 명령)가 부르는 일을 같은 이름으로 직접 돌릴 수 있다. 파이썬 기본 기능만 쓴다.
+사용: python run.py 시작                     환경 점검 + 키트 전부 점검표
+      python run.py 키트 계산기               그 키트 실습(꼭 알아야 할 것 → 보이는 브라우저에서 스스로 시험 → 바꿔 보기 제안)
+      python run.py 키트 전부                 키트를 차례로(시험이 적힌 키트)
+      python run.py 섞기 계산기 용어 게임      고른 키트만 켜고 찍어 메뉴를 하나씩 눌러 보기
+      python run.py 조립 도구함               조립 예시 하나를 찍어 메뉴를 하나씩 눌러 보기(목록은 python run.py 조립)
+      python run.py 사이클                    하루 한 바퀴(올리기·메일 빼고)를 단계별로 돌리기
+      python run.py 알기 계산기 5             꼭 알아야 할 것 top-k   (python run.py 알기 하네스)
+      python run.py 점검                      doctor
+      python run.py 진도 [보기|기록 글]        어디까지 했는지
+      python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
+옵션: --headless(창 없이) --slow 초(단계 간격)
+설명: 이 파일은 얇은 껍데기다 — 실제 일은 doctor.py·selftest.py·know.py·mix.py·demo.py·run_daily.py 가 한다. 올리기·메일 발송·로그인은 하지 않는다."""
+import glob, json, os, subprocess, sys, time
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+A = sys.argv[1:]
+PY = [sys.executable, '-X', 'utf8']
+FLAGS = [a for a in A if a in ('--headless',)] + (['--slow', A[A.index('--slow') + 1]] if '--slow' in A else [])
+POS = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] != '--slow')]
+PROG = os.path.join(HERE, '진도.json')
+
+
+def sh(args, check=False):
+    return subprocess.run(PY + args, cwd=HERE).returncode
+
+
+def prog_load():
+    return json.load(open(PROG, encoding='utf-8')) if os.path.exists(PROG) else {'done': [], 'last': ''}
+
+
+def prog_add(text):
+    d = prog_load(); d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': text}); d['last'] = text
+    json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+
+
+def kits():
+    out = {}
+    for p in sorted(glob.glob(os.path.join(HERE, 'kits', '*', 'kit.json'))):
+        k = json.load(open(p, encoding='utf-8')); out[k['name']] = k
+    return out
+
+
+def one_kit(name):
+    sys.path.insert(0, HERE)
+    import selftest as T
+    k = T.resolve(name)
+    if not k:
+        print(f'「{name}」 키트를 찾지 못했습니다. 목록: python run.py 키트'); return 1
+    print(f'━━ {k.get("title", k["name"])} ━━')
+    print('① 꼭 알아야 할 것(위에서부터 3가지)'); sh(['know.py', k['name'], '3'])
+    print('② 보는 앞에서 스스로 시험'); rc = sh(['selftest.py', k['name']] + FLAGS)
+    ex = os.path.join(HERE, 'kits', k['name'], '설명.md')
+    if os.path.exists(ex):
+        print(f'③ 설명 뼈대: kits/{k["name"]}/설명.md (에이전트가 독자 눈높이로 풀어 설명할 것)')
+    if k.get('try_change'):
+        print('④ 바꿔 보기 제안:', k['try_change'])
+    print(f'⑤ 내 PC 에서 직접 열려면: python mix.py --add {k["name"]}  →  python serve.py --open')
+    prog_add(f'키트 {k["name"]} 실습' + ('' if rc == 0 else '(시험에 실패한 단계 있음)'))
+    return rc
+
+
+def main():
+    if not POS:
+        print(__doc__); return 0
+    cmd, rest = POS[0], POS[1:]
+    if cmd in ('시작', 'start'):
+        sh(['doctor.py', '--env']); rc = sh(['doctor.py', '--quick']); prog_add('시작(환경·키트 점검)'); print('\n다음: python run.py 키트 계산기  /  python run.py 조립  /  python run.py 사이클'); return rc
+    if cmd in ('점검', 'doctor'):
+        return sh(['doctor.py'] + (['--quick'] if '--quick' in A else []))
+    if cmd in ('키트', 'kit'):
+        if not rest:
+            K = kits(); print('키트(자가 시험이 있는 것에 ✓):'); [print(f'  {"✓" if k.get("selftest") else " "} {n:20} {k["title"]}') for n, k in K.items()]
+            print('\n사용: python run.py 키트 계산기  ·  python run.py 키트 전부'); return 0
+        if rest[0] == '전부':
+            rc = 0; n = 0
+            for k in kits().values():
+                if k.get('selftest'):
+                    rc |= one_kit(k['name']); n += 1
+            print(f'\n키트 {n}개 실습 끝. 점검표: python run.py 점검'); return rc
+        return one_kit(rest[0])
+    if cmd in ('섞기', 'mix'):
+        if not rest:
+            print('사용: python run.py 섞기 계산기 용어 게임'); return 1
+        sys.path.insert(0, HERE); import selftest as T
+        names = [(T.resolve(r) or {'name': r})['name'] for r in rest]
+        sh(['mix.py'] + names); out = os.path.join(HERE, 'site_local')
+        env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
+        r = subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((r.stdout.strip().splitlines() or [''])[-1])
+        rc = sh(['selftest.py', '--tour', out, '섞은 사이트(' + ' + '.join(rest) + ')'] + FLAGS)
+        print('내 PC 에서 직접 열려면: python serve.py --open'); prog_add('섞기 ' + ' '.join(rest)); return rc
+    if cmd in ('조립', 'assemble'):
+        D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
+        if not rest:
+            print('조립 예시:'); [print(f'  {d["key"]:12} {d["name"]} — {d["tagline"][:50]}') for d in D]; print('\n사용: python run.py 조립 <이름>'); return 0
+        out = os.path.join(HERE, 'site_demo_' + rest[0])
+        if sh(['demo.py', '--only', rest[0], '--out', out]) != 0:
+            return 1
+        rc = sh(['selftest.py', '--tour', out, '조립 예시 ' + rest[0]] + FLAGS)
+        print(f'내 PC 에서 직접 열려면: python -m http.server --directory site_demo_{rest[0]} 또는 python serve.py (조립 예시 목록 /demo/)'); prog_add('조립 ' + rest[0]); return rc
+    if cmd in ('사이클', 'cycle'):
+        print('━━ 하루 한 바퀴(올리기·메일 제외) ━━'); steps = [('수집·묶기·대조·화면·호·쇼츠', ['run_daily.py']), ('알림 문구·블로그 글(promo)', ['promo.py']), ('공유용 카드 그림', ['card.py', '--square']), ('점검(audit)', ['audit.py'])]
+        for i, (t, a) in enumerate(steps, 1):
+            print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}'); sh(a)
+        print('\n여기서 사람이 올려라고 합니다: 블로그·영상·인스타에 올리기와 소식지 메일 발송은 사람 승인 후에(이 사이클은 올리지 않았습니다).'); prog_add('사이클 한 바퀴(예행)'); return 0
+    if cmd in ('알기', 'know'):
+        return sh(['know.py'] + rest)
+    if cmd in ('진도', 'progress'):
+        if rest and rest[0] == '기록':
+            prog_add(' '.join(rest[1:]) or '진행'); print('기록했습니다'); return 0
+        d = prog_load(); print('마지막:', d['last'] or '(없음)')
+        for x in d['done'][-12:]:
+            print(' ', x['t'], x['what'])
+        return 0
+    if cmd in ('장', 'chapter'):
+        n = rest[0] if rest else '1'
+        p = os.path.join(HERE, '코스', f'{n}장.md'); print(p if os.path.exists(p) else f'코스/{n}장.md 가 없습니다'); return 0
+    print(__doc__); return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -35,5 +35,53 @@
       "모르면": "첫 검색이 느려집니다",
       "근거": "일반"
     }
-  ]
+  ],
+  "selftest": {
+    "extra_parts": [
+      "posts",
+      "glossary"
+    ],
+    "steps": [
+      {
+        "say": "검색 쪽을 엽니다",
+        "goto": "search/",
+        "expect": {
+          "sel": "h1",
+          "contains": "검색"
+        }
+      },
+      {
+        "say": "검색창에 「연금」을 입력합니다",
+        "type": [
+          "#q",
+          "연금"
+        ],
+        "wait": 0.8,
+        "expect": {
+          "sel": "#o .tp",
+          "min_count": 1
+        }
+      },
+      {
+        "say": "결과 안에 연금 관련 글이 있는지 봅니다",
+        "expect": {
+          "sel": "#o",
+          "contains": "연금"
+        }
+      },
+      {
+        "say": "없는 낱말(zzzqqq)을 입력하면 「찾는 글이 없습니다」가 나옵니다",
+        "type": [
+          "#q",
+          "zzzqqq"
+        ],
+        "wait": 0.8,
+        "expect": {
+          "sel": "#o",
+          "contains": "찾는 글이 없습니다"
+        }
+      }
+    ]
+  },
+  "try_change": "내 글을 posts/ 에 하나 넣고 다시 찍어 내 낱말로 검색해 보세요."
 }

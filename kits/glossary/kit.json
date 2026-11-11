@@ -41,5 +41,42 @@
       "모르면": "용어 이름을 바꾸면 옛 주소가 사라집니다",
       "근거": "kitpages.py"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "용어 사전 목록을 엽니다",
+        "goto": "glossary/",
+        "expect": {
+          "sel": "body",
+          "contains": "복리"
+        }
+      },
+      {
+        "say": "「복리」 용어 쪽을 엽니다",
+        "click": "a[href*='복리']",
+        "expect": {
+          "sel": "h1",
+          "contains": "복리"
+        }
+      },
+      {
+        "say": "「함께 보기」의 「단리」를 눌러 이어서 읽습니다",
+        "click": "ul.rp a[href*='단리']",
+        "expect": {
+          "sel": "h1",
+          "contains": "단리"
+        }
+      },
+      {
+        "say": "용어가 30개 이상 있는지 목록에서 셉니다",
+        "goto": "glossary/",
+        "expect": {
+          "sel": "ul.rp li",
+          "min_count": 30
+        }
+      }
+    ]
+  },
+  "try_change": "예시 용어를 지우고 내 주제 용어 10개로 바꿔 보세요(kits/glossary/data/terms.json)."
 }

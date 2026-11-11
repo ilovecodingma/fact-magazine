@@ -16,6 +16,27 @@ E = html.escape
 def main():
     import build as B
     demos = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
+    only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None   # 하나만 따로 찍기(주소 맨 위 / 기준으로 --out 폴더에 바로)
+    if only:
+        d = next((x for x in demos if x['key'] == only or x['mix'] == only or x['name'] == only), None)
+        if not d:
+            sys.exit('조립 예시 이름을 찾지 못했습니다: ' + only + ' (목록: ' + ', '.join(x['key'] for x in demos) + ')')
+        out = os.path.abspath(sys.argv[sys.argv.index('--out') + 1]) if '--out' in sys.argv else os.path.join(HERE, 'site_demo_' + d['key'])
+        allparts = list(B.S['parts']); parts = {k: False for k in allparts}
+        for k in d['kits']:
+            for p in json.load(open(os.path.join(HERE, 'kits', k, 'kit.json'), encoding='utf-8')).get('parts', [k]):
+                parts[p] = True
+        env = dict(os.environ, DEMO='1', OUT_DIR=out, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', SITE_NAME=d['name'], SITE_TAGLINE=d['tagline'], SITE_ABOUT=d['about'], HOME_TITLE=d['name'] + ' | 조립 예시',
+                   HOME_DESC=d['tagline'], PARTS=json.dumps(parts, ensure_ascii=False), SITE_EXTRAS=json.dumps({'videos': B.EX.get('videos', [])} if d.get('video') else {}, ensure_ascii=False), TOPIC_KEYWORDS='')
+        if d.get('theme'):
+            env['SITE_THEME'] = d['theme']
+        if d.get('data_root'):
+            env['DATA_ROOT'] = os.path.join(HERE, d['data_root'])
+        if d.get('kits_dir'):
+            env['KITS_DIR'] = os.path.join(HERE, d['kits_dir'])
+        r = subprocess.run([sys.executable, '-X', 'utf8', os.path.join(HERE, 'build.py')], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
+        print(f'{d["name"]}: ' + (r.stdout.strip().splitlines() or [''])[-1] + f' → {out}')
+        sys.exit(r.returncode)
     allparts = list(B.S['parts'])
     out_root = os.path.join(B.OUT, 'demo')
     if os.path.exists(out_root):

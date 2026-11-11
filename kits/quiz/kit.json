@@ -35,5 +35,54 @@
       "모르면": "맞혀도 이유를 모릅니다",
       "근거": "일반"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "퀴즈 쪽을 엽니다",
+        "goto": "quiz/",
+        "expect": {
+          "sel": "h1",
+          "contains": "퀴즈"
+        }
+      },
+      {
+        "say": "1번 문항의 정답(공식 자료)을 고릅니다",
+        "click": "input[name=q0][value='1']",
+        "expect": {
+          "sel": "body",
+          "contains": "1. 뉴스의 숫자"
+        }
+      },
+      {
+        "say": "2번 문항의 정답을 고릅니다",
+        "click": "input[name=q1][value='1']"
+      },
+      {
+        "say": "3번 문항의 정답을 고릅니다",
+        "click": "input[name=q2][value='0']"
+      },
+      {
+        "say": "「채점하기」를 누릅니다",
+        "click": "#go",
+        "expect": {
+          "sel": "#rs",
+          "contains": "3 / 3점"
+        }
+      },
+      {
+        "say": "1번을 일부러 틀리게 바꿔 다시 채점합니다",
+        "click": "input[name=q0][value='0']"
+      },
+      {
+        "say": "다시 채점하면 2점이 나옵니다",
+        "click": "#go",
+        "expect": {
+          "sel": "#rs",
+          "contains": "2 / 3점"
+        }
+      }
+    ]
+  },
+  "try_change": "퀴즈 문항을 내 주제 3개로 바꿔 보세요(kits/quiz/data/quiz.json)."
 }

@@ -35,5 +35,32 @@
       "모르면": "눈에 안 띄는 오류가 남습니다",
       "근거": "기록\\개발.md 12번"
     }
-  ]
+  ],
+  "selftest": {
+    "steps": [
+      {
+        "say": "상태 쪽을 엽니다",
+        "goto": "status/",
+        "expect": {
+          "sel": "h1",
+          "contains": "상태"
+        }
+      },
+      {
+        "say": "「마지막 수집」 줄이 있는지 봅니다",
+        "expect": {
+          "sel": "body",
+          "contains": "마지막 수집"
+        }
+      },
+      {
+        "say": "피드별 표가 있는지 봅니다",
+        "expect": {
+          "sel": "table.mdt",
+          "min_count": 2
+        }
+      }
+    ]
+  },
+  "try_change": "python audit.py 를 돌린 뒤 상태 쪽을 다시 찍어 점검 결과 줄이 바뀌는지 보세요."
 }
