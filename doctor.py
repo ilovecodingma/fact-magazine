@@ -86,6 +86,8 @@ def main():
                 res, why = '건너뜀', '내 컴퓨터에서 실행하는 도구(일부는 바깥 서비스에 요청) — 점검표에서는 실행하지 않음. README 의 「이렇게 입력하세요」로 직접 해 보세요.'
             else:
                 res, why = '건너뜀', '켤 부품이 없는 도구'
+        elif (k.get('selftest') or {}).get('server') or 'backend' in parts or name == 'monetize':
+            res, why = '건너뜀', ('서버 필요(2장) — python run.py 서버 로 켠 뒤 python run.py 키트 ' + name + ' 로 확인합니다') if name != 'monetize' else '쪽 아래에 붙는 칸이라 점검표에서는 세지 않음 — python run.py 키트 monetize 로 확인합니다'
         elif name == 'inbox':
             res, why = '건너뜀', '메일 읽기(IMAP) 설정이 있어야 합니다(사람 몫, mail.local.json). 화면이 없는 도구라 실행하지 않음.'
         else:

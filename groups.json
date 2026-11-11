@@ -89,7 +89,8 @@
         "stats",
         "contact",
         "subscribe",
-        "admin"
+        "admin",
+        "board"
       ]
     },
     {
@@ -166,6 +167,7 @@
     "backend": "",
     "comments": "",
     "contact": "contact/",
-    "subscribe": "subscribe/"
+    "subscribe": "subscribe/",
+    "board": "board/"
   }
 }

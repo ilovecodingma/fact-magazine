@@ -151,6 +151,26 @@ def limited(ip, group, per=10, sec=60):
     L.append(now); RATE[k] = L; return False
 
 
+def board_cfg():
+    """게시판 손잡이(순위 셈법·한 쪽 줄 수·공개 방식): 사이트를 찍을 때 build 가 써 둔 board.json 을 읽는다."""
+    try:
+        return json.load(open(os.path.join(SITE, 'board.json'), encoding='utf-8'))
+    except Exception:
+        return {'gravity': 1.8, 'per_page': 30, 'moderation': 'before'}
+
+
+def hours_since(created):
+    try:
+        return max(0.0, (time.time() - time.mktime(time.strptime(str(created)[:19], '%Y-%m-%d %H:%M:%S'))) / 3600)
+    except Exception:
+        return 0.0
+
+
+def post_view(S, p):
+    return {'id': p['_id'], 'title': p['title'], 'url': p.get('url', ''), 'text': p.get('text', ''), 'name': p.get('name', '익명'), 'kind': p.get('kind', 'all'), 'points': p.get('points', 1),
+            'hours': round(hours_since(p['_created']), 2), 'comments': S.count('pcomments', {'pid': p['_id'], 'status': 'approved'})}
+
+
 def check_pw(pw):
     if not os.path.exists(ADMIN):
         return False
@@ -176,13 +196,14 @@ function load(){api("/api/admin/summary").then(function(j){if(j._s===401)return 
  h+='<h2>인기 쪽(7일)</h2><div class="tbl"><table>'+j.popular.map(function(r){return '<tr><td>'+esc(r.path)+'</td><td>'+r.n+'</td></tr>'}).join("")+'</table></div>';
  h+='<h2>새 댓글</h2><div class="tbl"><table>'+(j.comments.map(function(c){return '<tr><td><b>'+esc(c.name)+'</b> <span class="mu">'+esc(c.slug)+' · '+esc(c.status)+'</span><br>'+esc(c.body)+'</td><td><button class="p" onclick="window.__a(\\'comment\\',\\''+esc(c._id)+'\\',\\'approve\\')">승인</button> <button onclick="window.__a(\\'comment\\',\\''+esc(c._id)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
  h+='<h2>문의</h2><div class="tbl"><table>'+(j.contact_list.map(function(c){return '<tr><td><b>'+esc(c.name)+'</b> <span class="mu">'+esc(c.email)+' · '+esc(c._created)+'</span><br>'+esc(c.message)+'</td><td><button onclick="window.__a(\\'contact\\',\\''+esc(c._id)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
+ h+='<h2>게시판 — 승인 기다리는 글·댓글 (신고 '+(j.flags||0)+'건)</h2><div class="tbl"><table>'+((j.board||[]).map(function(c){return '<tr><td><b>['+esc(c.what)+']</b> '+esc(c.title)+' <span class="mu">'+esc(c.name)+'</span></td><td><button class="p" onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'approve\\')">승인</button> <button onclick="window.__b(\\''+esc(c._id)+'\\',\\''+esc(c.what)+'\\',\\'hide\\')">숨김</button></td></tr>'}).join("")||'<tr><td class="mu">없음</td></tr>')+'</table></div>';
  h+='<h2>하루 한 바퀴 기록 · 올릴 묶음</h2><div class="box"><div class="mu">'+esc(j.daily||"기록 없음")+'</div><div style="margin-top:8px">'+j.bundles.map(function(b){return esc(b.name)+' '+b.n+'개'}).join(" · ")+'</div></div>';
  h+='<h2>자료(JSON 문서)</h2><p class="mu">방문자가 쌓은 것은 모두 JSON 문서 한 건씩입니다. 모음: '+j.collections.map(esc).join(", ")+'</p><p><button onclick="window.__docs()">댓글 문서 보기</button></p><pre id="docs"></pre>';
  h+='<p><button onclick="window.__out()">나가기</button></p>';A.innerHTML=h})}
-window.__a=act;window.__docs=function(){api("/api/admin/docs?collection=comments").then(function(j){document.getElementById("docs").textContent=JSON.stringify(j.docs||j,null,1)})};
+window.__a=act;window.__b=function(id,what,a){api("/api/admin/board",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id,what:what,action:a})}).then(load)};window.__docs=function(){api("/api/admin/docs?collection=comments").then(function(j){document.getElementById("docs").textContent=JSON.stringify(j.docs||j,null,1)})};
 window.__out=function(){api("/api/admin/logout",{method:"POST"}).then(function(){login()})};load()})()</script></body></html>'''
 
-COLLECTIONS = ['visits', 'comments', 'likes', 'contacts', 'subscribers', 'poll_votes', 'kv']
+COLLECTIONS = ['visits', 'comments', 'likes', 'contacts', 'subscribers', 'poll_votes', 'kv', 'posts', 'post_votes', 'pcomments', 'flags']
 
 
 class H(http.server.SimpleHTTPRequestHandler):
@@ -238,7 +259,7 @@ class H(http.server.SimpleHTTPRequestHandler):
     def api_get(self, path, q):
         S = store()
         if path == '/api/health':
-            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search']})
+            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search', 'board']})
         if path == '/api/comments':
             slug = clean(q.get('slug', [''])[0], 120)
             rows = S.find('comments', {'slug': slug, 'status': 'approved'}, 50)
@@ -265,6 +286,29 @@ class H(http.server.SimpleHTTPRequestHandler):
         if path == '/api/kv':
             r = S.get('kv', clean(q.get('k', [''])[0], 80))
             return self.send_json({'ok': True, 'v': (r or {}).get('v')})
+        if path == '/api/board':
+            cfg = board_cfg(); kind = clean(q.get('kind', ['all'])[0], 10); sort = clean(q.get('sort', ['top'])[0], 10)
+            try:
+                pg = max(1, int(q.get('page', ['1'])[0]))
+            except ValueError:
+                pg = 1
+            L = [post_view(S, p) for p in S.find('posts', {'status': 'approved'}, 500)]
+            if kind in ('ask', 'show'):
+                L = [p for p in L if p['kind'] == kind]
+            if sort == 'new':
+                L.sort(key=lambda p: p['hours'])
+            else:   # 점수를 지난 시간의 거듭제곱으로 나눈다 — 시간이 지나면 저절로 내려간다
+                L.sort(key=lambda p: -(p['points'] / ((p['hours'] + 2) ** float(cfg.get('gravity', 1.8)))))
+            n = int(cfg.get('per_page', 30))
+            return self.send_json({'ok': True, 'posts': L[(pg - 1) * n: pg * n], 'more': len(L) > pg * n})
+        if path == '/api/board/item':
+            pid = clean(q.get('id', [''])[0], 60); p = S.get('posts', pid)
+            if not p or p.get('status') != 'approved':
+                return self.send_json({'ok': False, 'error': '없는 글'}, 404)
+            p['_id'] = pid; p['_created'] = p.get('created') or ''
+            full = next((x for x in S.find('posts', {'status': 'approved'}, 500) if x['_id'] == pid), None)
+            cs = [{'id': c['_id'], 'parent': c.get('parent', ''), 'name': c.get('name', '익명'), 'body': c['body'], 'hours': round(hours_since(c['_created']), 2)} for c in S.find('pcomments', {'pid': pid, 'status': 'approved'}, 500, 'asc')]
+            return self.send_json({'ok': True, 'post': post_view(S, full) if full else None, 'comments': cs})
         if path == '/api/admin/summary':
             if not self.authed():
                 return self.send_json({'error': '로그인이 필요합니다'}, 401)
@@ -290,6 +334,9 @@ class H(http.server.SimpleHTTPRequestHandler):
                'popular': [{'path': p, 'n': n} for p, n in sorted(pages.items(), key=lambda x: -x[1])[:8]],
                'comments': [{k: r.get(k) for k in ('_id', 'slug', 'name', 'body', 'status')} for r in S.find('comments', None, 40) if r.get('status') != 'hidden'][:15],
                'contact_list': [{k: r.get(k) for k in ('_id', 'name', 'email', 'message', '_created')} for r in S.find('contacts', {'status': 'new'}, 15)],
+               'board': [{'_id': r['_id'], 'what': '글', 'title': r['title'], 'name': r.get('name', ''), 'status': r.get('status')} for r in S.find('posts', {'status': 'pending'}, 20)]
+                        + [{'_id': r['_id'], 'what': '댓글', 'title': r['body'][:80], 'name': r.get('name', ''), 'status': r.get('status')} for r in S.find('pcomments', {'status': 'pending'}, 20)],
+               'flags': S.count('flags'),
                'collections': COLLECTIONS}
         lf = os.path.join(DATA, 'logs', 'daily.md')
         out['daily'] = ''.join(open(lf, encoding='utf-8').readlines()[-2:]).strip() if os.path.exists(lf) else ''
@@ -346,6 +393,13 @@ class H(http.server.SimpleHTTPRequestHandler):
                     return self.send_json({'error': '잘못된 요청'}, 400)
                 S.update('comments', str(b['id']), {'status': st})   # 지우지 않고 숨김 처리
                 return self.send_json({'ok': True})
+            if path == '/api/admin/board':
+                st = {'approve': 'approved', 'hide': 'hidden'}.get(str(b.get('action')))
+                if not st or not b.get('id'):
+                    return self.send_json({'error': '잘못된 요청'}, 400)
+                col = 'pcomments' if b.get('what') == '댓글' or S.get('pcomments', str(b['id'])) else 'posts'
+                S.update(col, str(b['id']), {'status': st})   # 지우지 않고 숨김
+                return self.send_json({'ok': True})
             if path == '/api/admin/contact':
                 if str(b.get('action')) != 'hide' or not b.get('id'):
                     return self.send_json({'error': '잘못된 요청'}, 400)
@@ -354,6 +408,36 @@ class H(http.server.SimpleHTTPRequestHandler):
             return self.send_json({'error': '없는 API'}, 404)
         if limited(ip, 'write', 8, 60):
             return self.send_json({'error': '잠시 뒤에 다시 해 주세요(요청이 너무 잦습니다)'}, 429)
+        if path == '/api/board':
+            cfg = board_cfg(); title = clean(b.get('title'), 120); url = clean(b.get('url'), 300); text = clean(b.get('text'), 2000); name = clean(b.get('name'), 30) or '익명'
+            if len(title) < 4 or (url and not re.match(r'https?://[^\s]+$', url)) or (not url and len(text) < 5):
+                return self.send_json({'error': '제목(4자 이상)과, 링크 주소(https://…) 또는 5자 이상의 글이 필요합니다'}, 400)
+            kind = 'ask' if title.startswith('묻습니다') else ('show' if title.startswith('보여 줍니다') else 'all')
+            st = 'approved' if cfg.get('moderation') == 'after' else 'pending'
+            S.put('posts', newid(), {'title': title, 'url': url, 'text': text, 'name': name, 'kind': kind, 'points': 1, 'status': st, 'ip': iphash(ip)})
+            return self.send_json({'ok': True, 'shown': st == 'approved', 'message': '글을 올렸습니다.' if st == 'approved' else '글을 받았습니다. 운영자가 승인하면 보입니다.'})
+        if path == '/api/board/vote':
+            pid = clean(b.get('id'), 60); p = S.get('posts', pid)
+            if not p or p.get('status') != 'approved':
+                return self.send_json({'error': '없는 글'}, 404)
+            vid = f'{pid}|{iphash(ip)}'
+            with LOCK:   # 한 사람이 한 글에 한 번만
+                if not S.get('post_votes', vid):
+                    S.put('post_votes', vid, {'pid': pid}); p = S.get('posts', pid); S.update('posts', pid, {'points': int(p.get('points', 1)) + 1})
+            return self.send_json({'ok': True, 'points': S.get('posts', pid).get('points', 1)})
+        if path == '/api/board/comment':
+            cfg = board_cfg(); pid = clean(b.get('id'), 60); body_ = clean(b.get('body'), 1000); name = clean(b.get('name'), 30) or '익명'; par = clean(b.get('parent'), 60)
+            p = S.get('posts', pid)
+            if not p or p.get('status') != 'approved' or len(body_) < 2:
+                return self.send_json({'error': '댓글을 2글자 이상 적어 주세요'}, 400)
+            st = 'approved' if cfg.get('moderation') == 'after' else 'pending'
+            S.put('pcomments', newid(), {'pid': pid, 'parent': par, 'name': name, 'body': body_, 'status': st, 'ip': iphash(ip)})
+            return self.send_json({'ok': True, 'shown': st == 'approved', 'message': '댓글을 달았습니다.' if st == 'approved' else '댓글을 받았습니다. 운영자가 승인하면 보입니다.'})
+        if path == '/api/board/flag':
+            tid = clean(b.get('id'), 60)
+            if tid:
+                S.put('flags', f'{tid}|{iphash(ip)}', {'target': tid})
+            return self.send_json({'ok': True})
         if path == '/api/comments':
             slug = clean(b.get('slug'), 120); name = clean(b.get('name'), 30) or '익명'; txt = clean(b.get('body'), 600)
             if not slug or len(txt) < 2:

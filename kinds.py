@@ -11,9 +11,10 @@ CFG = {
     '도구 모음': dict(demo='tools', parts=['calc', 'glossary', 'compare', 'search', 'prefs', 'monetize'], labels={'compare': '요금제 비교'}, home='tools', theme_accent='#2f6fed'),
     '가계부 앱': dict(demo='ledger', parts=['ledger', 'calc', 'dday', 'prefs', 'pwa', 'monetize'], labels={'ledger': '가계부'}, home='ledger', theme_accent='#0ea5e9'),
     '게임 놀이터': dict(demo='games', parts=['games', 'quiz', 'search', 'prefs'], labels={'quiz': '상식 퀴즈'}, home='games', theme_accent='#ff4f8b'),
+    '커뮤니티(링크+추천 게시판)': dict(demo='', parts=['board', 'backend', 'contact', 'search', 'prefs'], labels={'board': '게시판'}, home='board', theme_accent='#c2410c'),
     '가게 홈페이지': dict(demo='shop', parts=['compare', 'wiki', 'faq', 'search', 'prefs'], labels={'compare': '메뉴', 'wiki': '영업 시간', 'faq': '오는 길·질문'}, home='shop', theme_accent='#b5532a'),
 }
-HOMES = {'recipes', 'shop', 'tools', 'ledger', 'games'}
+HOMES = {'recipes', 'shop', 'tools', 'ledger', 'games', 'board'}
 
 PAL = [('#fde8d8', '#e4572e'), ('#e3f1e7', '#1c7a46'), ('#fff1c9', '#b7791f'), ('#e4ecfb', '#2f5bd0'), ('#f9e0ea', '#c02669'), ('#e7e2f7', '#5b3fc2')]
 
@@ -89,6 +90,9 @@ def home_body(B, kind):
         return _recipes_home(B)
     if cfg.get('home') == 'shop':
         return _shop_home(B)
+    if cfg.get('home') == 'board':
+        import board as BD
+        return BD.home_body(B)
     if cfg.get('home') == 'tools':
         return _tools_home(B)
     if cfg.get('home') == 'ledger':

@@ -1,0 +1,127 @@
+{
+  "name": "board",
+  "title": "게시판(링크+추천) 키트 — 레퍼런스: 해커 뉴스",
+  "parts": [
+    "board",
+    "backend"
+  ],
+  "input_line": "board 키트를 켜고 서버를 띄워, 글 올리기 → 운영자 승인 → 목록에 보임 → 추천 → 댓글까지 확인해 줘.",
+  "gives": "글자 위주 목록·추천(▲)·점수÷시간 순위·새 글/묻는 글/보여 주기 탭·들여쓴 댓글과 접기·지침 쪽·글 올리기·신고, 운영자 화면에서 승인·숨김. 서버가 꺼져 있으면 예시 글로 화면만 보임.",
+  "see": "/board/ (인기·새 글·묻는 글·보여 주기·글 올리기·지침)",
+  "mounts": "/board/ 와 메뉴",
+  "server": "필요(python run.py 서버). 꺼져 있으면 예시 글로 화면만",
+  "minutes": "15",
+  "selftest": {
+    "server": true,
+    "parts": [
+      "board",
+      "backend"
+    ],
+    "steps": [
+      {
+        "say": "게시판을 엽니다(서버가 켜져 있어 빈 목록에서 시작합니다)",
+        "goto": "board/",
+        "wait": 1.5,
+        "expect": {
+          "sel": ".bd-tabs",
+          "contains": "글 올리기"
+        }
+      },
+      {
+        "say": "「글 올리기」로 갑니다",
+        "goto": "board/?v=submit",
+        "wait": 1.2,
+        "expect": {
+          "sel": "#bdf button",
+          "contains": "올리기"
+        }
+      },
+      {
+        "say": "제목을 넣습니다",
+        "type": [
+          "#bdf input[name=title]",
+          "보여 줍니다: 시험으로 올리는 글"
+        ]
+      },
+      {
+        "say": "링크 주소를 넣습니다",
+        "type": [
+          "#bdf input[name=url]",
+          "https://example.com/test"
+        ]
+      },
+      {
+        "say": "「올리기」를 누르면 승인 안내가 나옵니다",
+        "click": "#bdf button.go",
+        "wait": 1.0,
+        "expect": {
+          "sel": "#bdf .bd-msg",
+          "contains": "승인"
+        }
+      },
+      {
+        "say": "운영자가 로그인해 방금 글을 승인합니다",
+        "wait": 0.3,
+        "eval": "fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'test-pass-1234'})}).then(function(r){return r.json()}).then(function(){return fetch('/api/admin/summary').then(function(r){return r.json()})}).then(function(s){return fetch('/api/admin/board',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:s.board[0]._id,what:s.board[0].what,action:'approve'})}).then(function(r){return r.json()})}).then(function(j){return j.ok})",
+        "equals": true
+      },
+      {
+        "say": "목록에 글이 보입니다",
+        "goto": "board/?v=new",
+        "wait": 1.5,
+        "expect": {
+          "sel": ".bd-row .bd-t",
+          "contains": "시험으로 올리는 글"
+        }
+      },
+      {
+        "say": "추천(▲)을 누르면 2점이 됩니다",
+        "click": ".bd-row .bd-v",
+        "wait": 0.8,
+        "expect": {
+          "sel": ".bd-row .pt",
+          "contains": "2"
+        }
+      },
+      {
+        "say": "「보여 주기」 탭에도 이 글이 있습니다(제목이 「보여 줍니다」로 시작)",
+        "goto": "board/?v=show",
+        "wait": 1.3,
+        "expect": {
+          "sel": ".bd-row .bd-t",
+          "contains": "시험으로 올리는 글"
+        }
+      },
+      {
+        "say": "지침 쪽이 열립니다",
+        "goto": "board/guide/",
+        "wait": 0.8,
+        "expect": {
+          "sel": "h1",
+          "contains": "지침"
+        }
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "순서는 추천 점수를 지난 시간으로 나눠 정해서, 시간이 지나면 글이 저절로 내려간다",
+      "까닭": "올 때마다 새 글이 위에 있어야 다시 온다",
+      "모르면": "오래된 인기 글이 첫 화면을 계속 차지한다",
+      "근거": "server/app.py /api/board, 손잡이 순위셈법"
+    },
+    {
+      "알것": "방문자가 글을 올리는 곳이라 서버가 있어야 하고, 운영자가 승인·숨김을 한다",
+      "까닭": "남이 쓴 글이 내 사이트에 실리기 때문",
+      "모르면": "광고·욕설이 그대로 실린다",
+      "근거": "운영자 화면 /admin/ 의 게시판"
+    },
+    {
+      "알것": "지침 쪽이 게시판의 성격을 정한다",
+      "까닭": "무엇을 올리는 곳인지 적혀 있어야 글의 결이 유지된다",
+      "모르면": "아무 글이나 올라와 읽을 것이 없어진다",
+      "근거": "/board/guide/"
+    }
+  ],
+  "try_change": "python run.py 손잡이 순위셈법 2.5 로 돌려 예시 글의 순서가 어떻게 바뀌는지 보세요(서버 없이도 예시 글로 보입니다)."
+}

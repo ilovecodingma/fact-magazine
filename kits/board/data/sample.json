@@ -1,0 +1,109 @@
+[
+ {
+  "id": "s1",
+  "title": "보여 줍니다: 가계부를 앱 없이 브라우저에 저장하는 작은 도구",
+  "url": "https://example.com/ledger",
+  "text": "",
+  "name": "달빛",
+  "kind": "show",
+  "points": 42,
+  "hours": 5,
+  "comments": 2,
+  "sample_comments": [
+   {
+    "id": "c1",
+    "parent": "",
+    "name": "구름",
+    "body": "서버 없이 저장되는 점이 좋네요. 기기를 바꾸면 어떻게 되나요?",
+    "hours": 3
+   },
+   {
+    "id": "c2",
+    "parent": "c1",
+    "name": "달빛",
+    "body": "CSV 로 내보내 옮기는 방식입니다(예시 댓글).",
+    "hours": 2
+   }
+  ]
+ },
+ {
+  "id": "s2",
+  "title": "묻습니다: 혼자 운영하는 사이트의 문의는 어떻게 받으시나요",
+  "url": "",
+  "text": "메일 주소를 그대로 적어 두는 것과 양식을 두는 것 중 어느 쪽이 나은지 궁금합니다(예시 글).",
+  "name": "새벽",
+  "kind": "ask",
+  "points": 18,
+  "hours": 2,
+  "comments": 1,
+  "sample_comments": [
+   {
+    "id": "c3",
+    "parent": "",
+    "name": "바람",
+    "body": "양식은 스팸이 덜 오지만 서버가 있어야 합니다(예시 댓글).",
+    "hours": 1
+   }
+  ]
+ },
+ {
+  "id": "s3",
+  "title": "글을 읽기 좋게 만드는 본문 폭은 얼마일까",
+  "url": "https://example.org/line-length",
+  "text": "",
+  "name": "종이",
+  "kind": "all",
+  "points": 96,
+  "hours": 20,
+  "comments": 0,
+  "sample_comments": []
+ },
+ {
+  "id": "s4",
+  "title": "작은 게시판의 순위 셈법: 점수를 시간으로 나누면 생기는 일",
+  "url": "https://example.net/ranking",
+  "text": "",
+  "name": "모래",
+  "kind": "all",
+  "points": 31,
+  "hours": 1,
+  "comments": 0,
+  "sample_comments": []
+ },
+ {
+  "id": "s5",
+  "title": "보여 줍니다: 요리법 40개를 자료 파일 하나로 만든 사이트",
+  "url": "https://example.com/recipes",
+  "text": "",
+  "name": "소금",
+  "kind": "show",
+  "points": 64,
+  "hours": 30,
+  "comments": 0,
+  "sample_comments": []
+ },
+ {
+  "id": "s6",
+  "title": "묻습니다: 댓글을 승인 뒤 공개로 두면 대화가 끊기지 않을까요",
+  "url": "",
+  "text": "바로 공개와 승인 뒤 공개 사이에서 고민입니다(예시 글).",
+  "name": "등불",
+  "kind": "ask",
+  "points": 9,
+  "hours": 0.5,
+  "comments": 0,
+  "sample_comments": []
+ },
+ {
+  "id": "s7",
+  "title": "하루에 한 번만 여는 낱말 게임이 다시 오게 만드는 방식",
+  "url": "https://example.org/daily-game",
+  "text": "",
+  "name": "연필",
+  "kind": "all",
+  "points": 150,
+  "hours": 60,
+  "comments": 0,
+  "sample_comments": []
+ }
+]
