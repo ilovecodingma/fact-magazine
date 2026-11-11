@@ -387,7 +387,7 @@ def note_body(B, n, extra_html=''):
              '<button type="button" onclick="window.print()">인쇄</button>' + (f'<a href="{BASE}feed.xml">RSS</a>' if not (B.NOURL or B.DEMO) else '') + '</div>')
     return (f'<article class="art">{ex}{wide}<span class="lb">확인 노트 · {E(cat_of(n))}</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="vband {V[v]}"><b>{E(v)}</b><span>{E(VDESC.get(v, ""))}</span></div>'
-            (P10.head_html(B, n, CATS) if 10 in B.POLISH else f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
+            + (P10.head_html(B, n, CATS) if 10 in B.POLISH else f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
             + (f'<div class="nbox"><span>핵심 숫자</span><b style="color:{COLR.get(v, "#111")}">{E(num)}</b><em>{E(n["question"])}</em></div>' if num else '')
             + f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실과 출처</h2><ul class="srcs">{facts}</ul>' if facts else '')

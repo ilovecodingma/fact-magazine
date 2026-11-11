@@ -11,7 +11,7 @@ ROWS_A = [('본문 글자 크기(px)', 'body_px'), ('줄 높이(글자의 몇 �
 ROWS_L = [('목록 열 수', 'cols'), ('카드 제목 크기(px)', 'card_title_px'), ('카드 설명 크기(px)', 'card_desc_px'), ('분류 탭', 'tabs')]
 STEP_KEYS = {1: [('article', k) for k in ('body_px', 'line_height', 'body_width', 'line_em', 'body_font')], 3: [('list', 'tabs')], 4: [('list', 'cols'), ('list', 'card_title_px'), ('list', 'card_desc_px')],
              5: [('article', 'img_width')], 7: [('article', 'title_px'), ('article', 'title_ratio'), ('article', 'h2_px')], 10: [('article', 'head'), ('article', 'actions')]}
-NAMES = dict(ROWS_A + ROWS_L)
+NAMES = {k: nm for nm, k in ROWS_A + ROWS_L}
 
 
 def load():

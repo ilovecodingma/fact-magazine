@@ -184,6 +184,8 @@ def rebuild_local():
     out = os.path.join(HERE, 'site_local')
     env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
     r = subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    if r.returncode != 0:
+        print('✗ 사이트 찍기에 실패했습니다(이 오류를 그대로 알려 주세요):', (r.stderr or '')[-500:], flush=True)
     return out, (r.stdout.strip().splitlines() or [''])[-1], r.returncode
 
 
