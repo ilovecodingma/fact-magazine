@@ -3,14 +3,14 @@
 첫 화면 · 확인 노트 쪽 · 고정 쪽(확인하는 방법·소개·문의·개인정보) · feed.xml · sitemap.xml.
 「예시」 노트(example:true)는 화면 틀 시험용이라 --example 을 줄 때만 넣는다. 공개본에는 올리지 않는다.
 실행: python build.py [--example]"""
-import json, os, sys, glob, html, shutil, datetime
+import json, os, re, sys, glob, html, shutil, datetime
 try:
     sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
 except Exception:
     pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'docs')
+OUT = os.path.abspath(os.environ['OUT_DIR']) if os.environ.get('OUT_DIR') else os.path.join(HERE, 'docs')   # OUT_DIR 로 다른 폴더에 만들 수 있다(내 값이 들어간 배포본은 저장소에 올리지 않는 dist/ 에)
 S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
@@ -19,6 +19,12 @@ for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
+if os.environ.get('SITE_EXTRAS'):
+    try:
+        S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
+    except Exception:
+        print('주의: SITE_EXTRAS 가 JSON 이 아니라 무시했습니다')
+EX = S.get('extras') or {}   # 쿠팡·유튜브·방송·블로그 값(내 값). 비어 있으면 그 칸은 화면에 안 나온다
 KEYWORDS = [k.strip() for k in (os.environ.get('TOPIC_KEYWORDS') or ','.join(S.get('topic_keywords', []))).split(',') if k.strip()]   # 주제 키워드(런북 6절)
 BASE, URL = S['base'], S['url']
 NOURL = (not URL) or ('프로젝트이름' in URL) or ('내계정' in URL)   # 공개 주소가 아직 안 정해졌으면(기본값 그대로) canonical·RSS·사이트맵은 만들지 않는다
@@ -65,6 +71,9 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .gm{max-width:520px;margin:0 auto;padding:26px 0 10px}.gm h1{font:800 32px/1.3 var(--serif);margin:6px 0 10px}.gm .dek{margin-bottom:14px}
 .gm canvas{display:block;width:100%;max-width:480px;height:auto;aspect-ratio:2/3;margin:0 auto;border:2px solid var(--ink);background:#f7f5ee;touch-action:none;user-select:none;-webkit-user-select:none}
 .gm .how{font:14.5px/1.7 var(--sans);color:#333;margin:18px 0 0;padding-left:20px}.gm .note{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 32px}.ex-grid h3{font:800 18px/1.4 var(--serif);margin:14px 0 8px}.ex-grid ul{list-style:none;margin:0;padding:0;font:15px/1.7 var(--sans)}.ex-grid li{padding:6px 0;border-bottom:1px solid var(--hair)}.ex-grid a{color:var(--link)}
+.ad-lb{display:inline-block;font:700 11px/1 var(--sans);border:1px solid var(--mu);color:var(--mu);padding:2px 5px;margin-left:6px;vertical-align:middle}.ad-nt{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
+.yt-row{display:flex;gap:12px;flex-wrap:wrap}.yt-row iframe{width:162px;height:288px;border:0;background:#111}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -175,6 +184,36 @@ def filter_topics(topics):
     return topics, '주제 키워드에 맞는 소식이 아직 없어 전체 소식을 보여 줍니다.'
 
 
+def extras_html():
+    """첫 화면 아래 「영상·게임·블로그·추천」 단. 값(site.local.json 또는 SITE_EXTRAS)이 있는 칸만 나온다.
+    쿠팡 같은 제휴 링크는 확인 노트 본문과 섞지 않고 이 단에만 두며 「광고」 표시와 수수료 고지 문구를 붙인다."""
+    cols = []
+    yt = EX.get('youtube') or {}
+    ids = [i for i in yt.get('shorts', []) if re.fullmatch(r'[A-Za-z0-9_-]{11}', str(i))]
+    live = EX.get('live') or {}
+    if ids or live.get('url') or yt.get('channel_url'):
+        h = ''
+        if ids:
+            h += '<div class="yt-row">' + ''.join(f'<iframe src="https://www.youtube-nocookie.com/embed/{i}" loading="lazy" title="쇼츠" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>' for i in ids[:4]) + '</div>'
+        links = []
+        if live.get('url'):
+            links.append(f'<li><a href="{E(live["url"])}" rel="noopener nofollow" target="_blank">{E(live.get("title", "실시간 방송 보러 가기"))}</a></li>')   # 방송이 없을 때 빈 상자가 되지 않게 링크만 둔다
+        if yt.get('channel_url'):
+            links.append(f'<li><a href="{E(yt["channel_url"])}" rel="noopener nofollow" target="_blank">{E(yt.get("channel_title", "유튜브 채널"))}</a></li>')
+        cols.append('<div><h3>영상</h3>' + h + ('<ul>' + ''.join(links) + '</ul>' if links else '') + '</div>')
+    if load_games():
+        cols.append(f'<div><h3>게임</h3><ul>' + ''.join(f'<li><a href="{BASE}games/{g["slug"]}/">{E(g["title"])}</a></li>' for g in load_games()) + '</ul></div>')
+    blogs = [b for b in EX.get('blogs', []) if b.get('url', '').startswith('http')]
+    if blogs:
+        cols.append('<div><h3>블로그</h3><ul>' + ''.join(f'<li><a href="{E(b["url"])}" rel="noopener nofollow" target="_blank">{E(b.get("name", b["url"]))}</a></li>' for b in blogs) + '</ul></div>')
+    cp = EX.get('coupang') or {}
+    items = [i for i in cp.get('items', []) if i.get('url', '').startswith('https://link.coupang.com/')]
+    if items:
+        note = cp.get('notice') or '이 영역은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받을 수 있습니다.'
+        cols.append('<div><h3>추천<span class="ad-lb">광고</span></h3><ul>' + ''.join(f'<li><a href="{E(i["url"])}" rel="sponsored nofollow noopener" target="_blank">{E(i.get("name", "쿠팡 상품"))}</a></li>' for i in items[:6]) + f'</ul><p class="ad-nt">{E(note)}</p></div>')
+    return f'<section class="sec"><h2>영상 · 게임 · 추천</h2><div class="ex-grid">{"".join(cols)}</div></section>' if cols else ''
+
+
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
     if notes:
@@ -190,7 +229,7 @@ def home(notes, topics, notice=''):
                  + ''.join(f'<span class="ln"><a href="{E(i["link"])}" rel="noopener nofollow">{E(i["source"])}</a> {E(i["title"][:46])}</span>' for i in t['items'][:4]) + '</div>' for t in topics[:12])
     note = f' {E(notice)}' if notice else ''
     body = (front + f'<section class="sec"><h2>여러 매체가 함께 다룬 소식</h2><p class="sub">제목·매체·링크만 모았습니다. 이 가운데 제도·숫자·날짜가 걸린 소식을 골라 확인 노트로 씁니다.{note}</p>'
-            f'<div class="cols">{tp}</div></section>')
+            f'<div class="cols">{tp}</div></section>') + extras_html()
     return page('', S.get('home_title') or f'{S["name"]} — {S["tagline"]}', S.get('home_desc') or S['tagline'], body)   # 첫 화면 제목·설명은 따로 정할 수 있다(검색 결과에 그대로 보이는 문구)
 
 

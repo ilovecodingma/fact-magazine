@@ -7,5 +7,7 @@
   "about": "",
   "topic_keywords": [],
   "min_sources": 3,
-  "_설명": "기본은 Vercel(주소 맨 위 /)입니다. 공개 주소가 정해지면 url 을 그 주소로 바꿉니다. GitHub Pages 의 프로젝트 주소(계정.github.io/저장소/)에 올릴 때는 base 를 \"/저장소이름/\" 로 바꿉니다."
+  "_설명": "기본은 Vercel(주소 맨 위 /)입니다. 공개 주소가 정해지면 url 을 그 주소로 바꿉니다. GitHub Pages 의 프로젝트 주소(계정.github.io/저장소/)에 올릴 때는 base 를 \"/저장소이름/\" 로 바꿉니다.",
+  "extras": {},
+  "_extras_설명": "쿠팡 파트너스·유튜브·방송·블로그 같은 내 값은 여기 비워 두고 site.local.json(git 에 안 올라감) 또는 저장소 변수 SITE_EXTRAS(JSON 글자)에 넣습니다. 형식은 런북 11절. 비어 있으면 그 칸은 화면에 안 나옵니다."
 }
