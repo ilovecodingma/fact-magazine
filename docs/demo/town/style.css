@@ -1,6 +1,6 @@
 :root{--ink:#111;--mu:#595959;--hair:#d4d4d4;--bg:#fff;--ok:#0b5d2f;--part:#8a4b00;--no:#a11a12;--link:#0b3d91;
 --serif:'Noto Serif KR','Noto Serif CJK KR','Nanum Myeongjo','Batang',serif;--sans:system-ui,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 var(--serif)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:calc(17px*var(--fz,1))/1.7 var(--serif)}
 a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .dateline{font:13px/1 var(--sans);color:var(--mu);text-align:center;padding:12px 0 10px;border-bottom:1px solid var(--hair)}
 .logo{display:block;text-align:center;font:900 46px/1.15 var(--serif);letter-spacing:-.02em;margin:14px 0 12px}.logo:hover{text-decoration:none}
@@ -45,6 +45,8 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .notice{font:14px/1.5 var(--sans);background:#fff8dc;border:1px solid #e6d9a0;padding:8px 12px;margin:14px 0 0}.notice a{color:var(--link);margin-left:8px}details.fq{border-top:1px solid var(--hair);padding:12px 0}details.fq summary{font:700 17px/1.5 var(--serif);cursor:pointer}details.fq p{font:15px/1.7 var(--sans);color:#333;margin:8px 0 0}pre{overflow-x:auto}
 nav.menu{position:relative}details.mn{position:relative}details.mn summary{list-style:none;cursor:pointer;font:600 14px/1 var(--sans)}details.mn summary::-webkit-details-marker{display:none}.mnp{position:absolute;right:0;top:26px;background:#fff;border:1px solid var(--ink);padding:6px 14px;display:flex;flex-direction:column;gap:12px;z-index:20;min-width:140px;text-align:left}
 @media(max-width:640px){nav.menu{gap:14px;flex-wrap:nowrap;justify-content:space-between}nav.menu a,details.mn summary{white-space:nowrap}}
+:root[data-theme=dark]{--ink:#ececec;--bg:#15171a;--mu:#a8a8a8;--hair:#33363b;--link:#8ab0ff}:root[data-theme=dark] .mnp,:root[data-theme=dark] .calc input,:root[data-theme=dark] .lf input,:root[data-theme=dark] details.mn{background:#1d2024;color:#ececec}:root[data-theme=dark] .notice{background:#2a2614;color:#eee;border-color:#555}:root[data-theme=dark] .lead p,:root[data-theme=dark] .dek{color:#ccc}:root[data-theme=dark] .mdt td,:root[data-theme=dark] .mdt th{border-color:#444}
+.prefs{font:13px/2 var(--sans);margin:8px 0 0}.prefs button{width:auto;margin:0 6px 0 0;padding:2px 10px;border:1px solid var(--mu);background:transparent;color:inherit;cursor:pointer;font:13px var(--sans)}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}

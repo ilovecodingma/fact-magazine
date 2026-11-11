@@ -48,7 +48,7 @@ VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안
 
 CSS = """:root{--ink:#111;--mu:#595959;--hair:#d4d4d4;--bg:#fff;--ok:#0b5d2f;--part:#8a4b00;--no:#a11a12;--link:#0b3d91;
 --serif:'Noto Serif KR','Noto Serif CJK KR','Nanum Myeongjo','Batang',serif;--sans:system-ui,'Malgun Gothic','Apple SD Gothic Neo',sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 var(--serif)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:calc(17px*var(--fz,1))/1.7 var(--serif)}
 a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .dateline{font:13px/1 var(--sans);color:var(--mu);text-align:center;padding:12px 0 10px;border-bottom:1px solid var(--hair)}
 .logo{display:block;text-align:center;font:900 46px/1.15 var(--serif);letter-spacing:-.02em;margin:14px 0 12px}.logo:hover{text-decoration:none}
@@ -93,6 +93,8 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .notice{font:14px/1.5 var(--sans);background:#fff8dc;border:1px solid #e6d9a0;padding:8px 12px;margin:14px 0 0}.notice a{color:var(--link);margin-left:8px}details.fq{border-top:1px solid var(--hair);padding:12px 0}details.fq summary{font:700 17px/1.5 var(--serif);cursor:pointer}details.fq p{font:15px/1.7 var(--sans);color:#333;margin:8px 0 0}pre{overflow-x:auto}
 nav.menu{position:relative}details.mn{position:relative}details.mn summary{list-style:none;cursor:pointer;font:600 14px/1 var(--sans)}details.mn summary::-webkit-details-marker{display:none}.mnp{position:absolute;right:0;top:26px;background:#fff;border:1px solid var(--ink);padding:6px 14px;display:flex;flex-direction:column;gap:12px;z-index:20;min-width:140px;text-align:left}
 @media(max-width:640px){nav.menu{gap:14px;flex-wrap:nowrap;justify-content:space-between}nav.menu a,details.mn summary{white-space:nowrap}}
+:root[data-theme=dark]{--ink:#ececec;--bg:#15171a;--mu:#a8a8a8;--hair:#33363b;--link:#8ab0ff}:root[data-theme=dark] .mnp,:root[data-theme=dark] .calc input,:root[data-theme=dark] .lf input,:root[data-theme=dark] details.mn{background:#1d2024;color:#ececec}:root[data-theme=dark] .notice{background:#2a2614;color:#eee;border-color:#555}:root[data-theme=dark] .lead p,:root[data-theme=dark] .dek{color:#ccc}:root[data-theme=dark] .mdt td,:root[data-theme=dark] .mdt th{border-color:#444}
+.prefs{font:13px/2 var(--sans);margin:8px 0 0}.prefs button{width:auto;margin:0 6px 0 0;padding:2px 10px;border:1px solid var(--mu);background:transparent;color:inherit;cursor:pointer;font:13px var(--sans)}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -125,6 +127,8 @@ def page(path, title, desc, body, noindex=False):
     rss_tag = '' if (NOURL or DEMO) else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
     rss_link = '' if (NOURL or DEMO) else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
+    PREF_HEAD = '<script>try{var d=document.documentElement,t=localStorage.getItem("fm_theme"),z=localStorage.getItem("fm_fz");if(t)d.setAttribute("data-theme",t);if(z)d.style.setProperty("--fz",z)}catch(e){}</script>' if part('prefs', False) else ''
+    PREFS_UI = ('<p class="prefs">보기 설정: <button type="button" data-fz="-0.1">글자 작게</button><button type="button" data-fz="0.1">글자 크게</button><button type="button" data-th="1">어두운 바탕 켜기/끄기</button></p><script>(function(){var d=document.documentElement;document.querySelectorAll(".prefs button").forEach(function(b){b.onclick=function(){try{if(b.dataset.th){var t=d.getAttribute("data-theme")==="dark"?"light":"dark";d.setAttribute("data-theme",t);localStorage.setItem("fm_theme",t)}else{var z=Math.max(.8,Math.min(1.5,(parseFloat(d.style.getPropertyValue("--fz"))||1)+parseFloat(b.dataset.fz)));d.style.setProperty("--fz",z);localStorage.setItem("fm_fz",z)}}catch(e){}}})})()</script>') if part('prefs', False) else ''
     items = [('오늘' if part('info') else '처음', BASE)]   # 메뉴 후보(앞에서부터 보여 주고 5칸을 넘으면 「더 보기」에 접는다)
     if load_games():
         items.append(('게임', BASE + 'games/'))
@@ -160,12 +164,12 @@ def page(path, title, desc, body, noindex=False):
         GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
-{rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PREF_HEAD}</head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in FOOT.items() if part(k, False))}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not noindex:
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
@@ -271,7 +275,7 @@ def content_pages():
     """글(posts/*.md)·연재 소설(novels/<작품>/소개.md + 01.md…)·웹툰(toons/<작품>/meta.json + 회차 그림)·영상 모음(extras.videos). 켜진 부품만."""
     urls = []
     # 글
-    pdir = os.path.join(HERE, 'posts')
+    pdir = os.path.join(DATA_ROOT, 'posts')
     if part('posts', False) and os.path.isdir(pdir):
         posts = []
         for f in sorted(glob.glob(os.path.join(pdir, '*.md'))):
@@ -281,11 +285,11 @@ def content_pages():
         for slug, title, t in posts:
             body = re.sub(r'^# .+\n', '', t, count=1)
             urls.append(page(f'post/{slug}', f'{title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'[#*|\[\]]', '', body))[:140],
-                             f'<article class="art"><span class="lb">글</span><h1>{E(title)}</h1><p class="ad-nt" style="margin:0 0 16px">{E(notice)}</p>{pdf_link(slug)}{md(body)}</article>'))
+                             f'<article class="art"><span class="lb">글</span><h1>{E(title)}</h1><p class="ad-nt" style="margin:0 0 16px">{E(notice)}</p>{pdf_link(slug)}{_kp.post_meta(sys.modules[__name__], slug, title, body)}</article>'))
         lst = ''.join(f'<a href="{BASE}post/{s}/"><span class="lb">글</span><h3>{E(t)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", x, flags=re.M)).strip()[:100])}</p></a>' for s, t, x in posts)
         urls.append(page('post', f'글 — {S["name"]}', '생활·돈 가이드 글 모음', f'<div class="page"><span class="lb">글</span><h1>글</h1><div class="gl">{lst}</div></div>'))
     # 연재 소설
-    ndir = os.path.join(HERE, 'novels')
+    ndir = os.path.join(DATA_ROOT, 'novels')
     if part('novel', False) and os.path.isdir(ndir):
         cards = ''
         for nd in sorted(glob.glob(os.path.join(ndir, '*'))):
@@ -308,7 +312,7 @@ def content_pages():
             cards += f'<a href="{BASE}novel/{slug}/"><span class="lb">연재 소설</span><h3>{E(title)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", intro, flags=re.M)).strip()[:100])}</p></a>'
         urls.append(page('novel', f'연재 — {S["name"]}', '연재 소설 모음', f'<div class="page"><span class="lb">연재</span><h1>연재 소설</h1><div class="gl">{cards}</div></div>'))
     # 웹툰
-    tdir = os.path.join(HERE, 'toons')
+    tdir = os.path.join(DATA_ROOT, 'toons')
     if part('toon', False) and os.path.isdir(tdir):
         cards = ''
         for td in sorted(glob.glob(os.path.join(tdir, '*', 'meta.json'))):
@@ -338,6 +342,7 @@ def content_pages():
 
 SEARCH = []   # 사이트 안 검색 색인(쪽 주소·제목·설명) — page() 가 채운다
 KITS_DIR = os.path.abspath(os.environ['KITS_DIR']) if os.environ.get('KITS_DIR') else os.path.join(HERE, 'kits')   # 데모 조합은 자기 자료 폴더를 쓸 수 있다
+DATA_ROOT = os.path.abspath(os.environ['DATA_ROOT']) if os.environ.get('DATA_ROOT') else HERE   # 글·소설·웹툰·전자책 원본 폴더의 위치(데모는 자기 폴더를 쓴다)
 DEMO = bool(os.environ.get('DEMO'))   # 데모(조립 예시)는 본 사이트와 내용이 겹치므로 검색에 안 나가게 한다(noindex, 사이트맵·RSS 없음)
 SAFE_EXPR = re.compile(r'^[A-Za-z0-9_+\-*/().,%<>=!?:&| ]+$')
 
@@ -454,7 +459,7 @@ def ebook_pages():
     """전자책 키트: ebook.py 가 만든 PDF(ebooks/*.pdf)를 /ebook/ 에 내려받기로 둔다."""
     if not part('ebook', False):
         return []
-    pdfs = sorted(glob.glob(os.path.join(HERE, 'ebooks', '*.pdf')))
+    pdfs = sorted(glob.glob(os.path.join(DATA_ROOT, 'ebooks', '*.pdf')))
     if not pdfs:
         return [page('ebook', f'전자책 — {S["name"]}', '글을 묶은 전자책', '<div class="page"><span class="lb">전자책</span><h1>전자책</h1><p>글과 연재 소설을 표지·차례가 있는 PDF 한 권으로 묶어 내려받게 하는 쪽입니다. 아직 만든 책이 없습니다. python ebook.py 로 글·연재를 PDF 한 권으로 묶으세요.</p></div>')]
     li = ''
@@ -537,7 +542,7 @@ def note_page(n):
             + (f'<h2>확인한 사실</h2><ol class="fn">{facts}</ol>' if facts else '')
             + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
             + (f'<h2>아직 확인 안 된 것</h2><ul>{li(n["unconfirmed"])}</ul>' if n.get('unconfirmed') else '')
-            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + '</article>')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + _kp.related_html(sys.modules[__name__], '노트', n['id']) + '</article>')
     return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], body, noindex=bool(n.get('example')))
 
 

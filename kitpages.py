@@ -22,8 +22,8 @@ def U(B, u):
     return B.BASE + u[1:] if u.startswith('/') else u
 
 
-def box(B, label, title, body, desc, path, intro=''):
-    return B.page(path, f'{title} — {B.S["name"]}', desc, f'<div class="page"><span class="lb">{E(label)}</span><h1>{E(title)}</h1>{intro}{body}</div>')
+def box(B, label, title, body, desc, path, intro='', noindex=False):
+    return B.page(path, f'{title} — {B.S["name"]}', desc, f'<div class="page"><span class="lb">{E(label)}</span><h1>{E(title)}</h1>{intro}{body}</div>', noindex=noindex)
 
 
 # ---------------- 2차 ----------------
@@ -285,6 +285,174 @@ def links(B):
 
 
 ORDER = [('topics', topics), ('today', today), ('trends', trends), ('widget', widget), ('notice', notice), ('timeline', timeline), ('rank', rank), ('wiki', wiki), ('faq', faq), ('schedule', schedule), ('quiz', quiz), ('compare', compare), ('gallery', gallery), ('links', links)]
+
+
+# ---------------- 4차 ----------------
+_ITEMS = None
+
+
+def items(B):
+    """글·노트를 한 목록으로: dict(kind, id, title, url, tags, text). 태그·관련 글에서 쓴다."""
+    global _ITEMS
+    if _ITEMS is not None:
+        return _ITEMS
+    tagmap = data(B, 'tags', 'post_tags.json', {}) or {}
+    out = []
+    for p in sorted(glob.glob(os.path.join(B.HERE, 'notes', '*.json'))):
+        n = json.load(open(p, encoding='utf-8'))
+        if n.get('example'):
+            continue
+        out.append({'kind': '노트', 'id': n['id'], 'title': n['title'], 'url': f'{B.BASE}n/{n["id"]}/', 'tags': list(n.get('tags', [])), 'text': n['title'] + ' ' + n['summary']})
+    if B.part('posts', False):
+        for f in sorted(glob.glob(os.path.join(B.DATA_ROOT, 'posts', '*.md'))):
+            t = open(f, encoding='utf-8').read(); slug = os.path.splitext(os.path.basename(f))[0]
+            out.append({'kind': '글', 'id': slug, 'title': B.first_h1(t, slug), 'url': f'{B.BASE}post/{slug}/', 'tags': list(tagmap.get(slug, [])), 'text': t[:600]})
+    _ITEMS = out
+    return out
+
+
+def tags(B):
+    its = items(B)
+    by = {}
+    for it in its:
+        for t in it['tags']:
+            by.setdefault(t, []).append(it)
+    if not by:
+        return []
+    urls = []
+    for t, L in sorted(by.items()):
+        li = ''.join(f'<div class="tp"><span class="lb">{E(i["kind"])}</span><b><a href="{i["url"]}">{E(i["title"])}</a></b></div>' for i in L)
+        urls.append(box(B, '태그', f'#{t}', li, f'「{t}」 태그가 붙은 글·노트 {len(L)}개', f'tags/{re.sub(r"[ /]", "-", t)}', noindex=len(L) < 3))   # 항목이 적은 태그 쪽은 얇으므로 검색에 안 나가게
+    lst = ''.join(f'<li><a href="{B.BASE}tags/{re.sub(r"[ /]", "-", t)}/"><b>#{E(t)}</b></a> <span class="mu">{len(L)}개</span></li>' for t, L in sorted(by.items()))
+    urls.append(box(B, '태그', '태그별로 보기', f'<ul class="rp">{lst}</ul>', '태그별 목록', 'tags'))
+    return urls
+
+
+def related_html(B, kind, ident):
+    """같은 태그·낱말이 겹치는 글·노트 3개(자기 자신 제외). 부품 related 가 꺼져 있으면 빈 글자."""
+    if not B.part('related', False):
+        return ''
+    its = items(B)
+    me = next((i for i in its if i['id'] == ident), None)
+    if not me:
+        return ''
+    words = lambda t: {w for w in re.findall(r'[0-9A-Za-z가-힣]{2,}', t)}
+    mw = words(me['title'] + ' ' + me['text'])
+    scored = []
+    for i in its:
+        if i['id'] == ident:
+            continue
+        s = 3 * len(set(me['tags']) & set(i['tags'])) + len(mw & words(i['title'] + ' ' + i['text'])) * 0.2
+        if s > 0.5:
+            scored.append((s, i))
+    scored.sort(key=lambda x: -x[0])
+    if not scored:
+        return ''
+    return '<h2>관련 글</h2><ul class="rp">' + ''.join(f'<li><a href="{i["url"]}">{E(i["title"])}</a> <span class="mu">{E(i["kind"])}</span></li>' for _, i in scored[:3]) + '</ul>'
+
+
+def post_meta(B, slug, title, body_md):
+    """글 쪽의 본문: 읽는 시간·목차(readtime)·태그 링크(tags)·관련 글(related)을 붙인다. 부품이 꺼져 있으면 본문만."""
+    h = B.md(body_md)
+    meta = ''
+    if B.part('readtime', False):
+        mins = max(1, round(len(re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', h))) / 500))
+        heads = re.findall(r'<h[23]>(.*?)</h[23]>', h)
+        meta = f'<p class="ad-nt">읽는 데 약 {mins}분</p>'
+        if len(heads) >= 2:
+            n = [0]
+            def idr2(m):
+                n[0] += 1; return f'<h{m.group(1)} id="s{n[0]}">{m.group(2)}</h{m.group(1)}>'
+            h = re.sub(r'<h([23])>(.*?)</h>', lambda m: idr2(m), h)
+            meta += '<nav class="toc" style="border:1px solid #ccc;padding:10px 16px;margin:0 0 18px;font:14px/1.8 var(--sans)"><b>목차</b><ol style="margin:4px 0 0">' + ''.join(f'<li><a href="#s{i + 1}">{x}</a></li>' for i, x in enumerate(heads)) + '</ol></nav>'
+    tg = ''
+    if B.part('tags', False):
+        tl = (data(B, 'tags', 'post_tags.json', {}) or {}).get(slug, [])
+        if tl:
+            tg = '<p class="ad-nt">' + ' '.join(f'<a href="{B.BASE}tags/{re.sub(r"[ /]", "-", t)}/">#{E(t)}</a>' for t in tl) + '</p>'
+    return meta + h + tg + related_html(B, '글', slug)
+
+
+def dday(B):
+    D = data(B, 'dday', 'dates.json', [])
+    if not D:
+        return []
+    cards = ''.join(f'<div class="tp dd" data-d="{E(x["date"])}"><span class="lb">{E(x["date"])}</span><b>{E(x["title"])}</b><span class="ln dn" style="font:800 28px var(--serif);color:#111"></span></div>' for x in sorted(D, key=lambda x: x['date']))
+    js = ('<script>(function(){var t=new Date();t.setHours(0,0,0,0);document.querySelectorAll(".dd").forEach(function(e){var d=new Date(e.dataset.d+"T00:00:00"),n=Math.round((d-t)/86400000),o=e.querySelector(".dn");'
+          'o.textContent=n>0?"D-"+n+" ("+n+"일 남음)":(n==0?"오늘입니다":(-n)+"일 지났어요");if(n<0)e.style.opacity=".5"})})()</script>')
+    return [box(B, '디데이', '디데이', f'<div>{cards}</div>{js}', '날짜까지 며칠 남았는지(브라우저가 날마다 계산)', 'dday', '<p class="dek">며칠 남았는지는 쪽을 열 때마다 브라우저가 계산합니다(쪽을 다시 찍지 않아도 날마다 바뀝니다).</p>')]
+
+
+def survey(B):
+    Q = data(B, 'survey', 'survey.json')
+    if not Q:
+        return []
+    qs = json.dumps(Q['questions'], ensure_ascii=False)
+    js = ('<script>(function(){var Q=%s,k="fm_survey",box=document.getElementById("sv"),S={};try{S=JSON.parse(localStorage.getItem(k)||"{}")}catch(e){}'
+          'var h="";Q.forEach(function(q,i){h+="<div class=\\"tp\\"><b>"+(i+1)+". "+q.q+"</b>";q.options.forEach(function(o,j){h+="<label style=\\"display:block;font:15px var(--sans);margin:6px 0\\"><input type=\\"radio\\" name=\\"s"+i+"\\" value=\\""+j+"\\" style=\\"width:auto;margin-right:8px\\""+(S[i]===j?" checked":"")+">"+o+"</label>"});h+="</div>"});box.innerHTML=h;'
+          'document.querySelectorAll("#sv input").forEach(function(r){r.addEventListener("change",function(){var i=r.name.slice(1);S[i]=+r.value;try{localStorage.setItem(k,JSON.stringify(S))}catch(e){}show()})});'
+          'function show(){var n=Object.keys(S).length;document.getElementById("sm").textContent=n?"내 선택 "+n+"개가 이 브라우저에 저장되었습니다.":"아직 고른 것이 없습니다."}show()})()</script>') % qs
+    body = ('<div id="sv"></div><p id="sm" style="font:700 16px var(--sans)"></p><p class="ad-nt">내가 고른 것은 <b>이 브라우저에만</b> 저장되고 어디로도 보내지지 않습니다. 「모두의 결과」를 모으려면 방문자의 선택을 받아 모으는 서버가 필요합니다(넘김의 서버가_필요한_것 설명 참고).</p>' + js)
+    return [box(B, '설문', Q['title'], body, Q.get('desc', '설문 모양'), 'survey', f'<p class="dek">{E(Q.get("desc", ""))}</p>')]
+
+
+def ledger(B):
+    js = ('<script>(function(){var k="fm_ledger",R=[];try{R=JSON.parse(localStorage.getItem(k)||"[]")}catch(e){}var t=document.getElementById("lt"),s=document.getElementById("ls");'
+          'function save(){try{localStorage.setItem(k,JSON.stringify(R))}catch(e){}}'
+          'function draw(){var h="<tr><th>날짜</th><th>분류</th><th>내용</th><th>금액</th><th></th></tr>",sum={},tot=0;R.forEach(function(r,i){h+="<tr><td>"+r.d+"</td><td>"+r.c+"</td><td>"+r.m+"</td><td style=\\"text-align:right\\">"+r.a.toLocaleString("ko-KR")+"</td><td><button type=\\"button\\" data-i=\\""+i+"\\" style=\\"width:auto;padding:2px 8px;margin:0\\">삭제</button></td></tr>";sum[r.c]=(sum[r.c]||0)+r.a;tot+=r.a});t.innerHTML=h;'
+          'var x="<b>합계 "+tot.toLocaleString("ko-KR")+"원</b>";Object.keys(sum).forEach(function(c){x+=" · "+c+" "+sum[c].toLocaleString("ko-KR")+"원"});s.innerHTML=x;t.querySelectorAll("button").forEach(function(b){b.onclick=function(){R.splice(+b.dataset.i,1);save();draw()}})}'
+          'document.getElementById("la").onclick=function(){var a=parseFloat(document.getElementById("lam").value);if(!a)return;R.push({d:document.getElementById("ld").value||new Date().toISOString().slice(0,10),c:document.getElementById("lc").value||"기타",m:document.getElementById("lm").value||"-",a:a});save();draw();document.getElementById("lam").value=""};'
+          'document.getElementById("lx").onclick=function(){var c="\\ufeff날짜,분류,내용,금액\\n"+R.map(function(r){return [r.d,r.c,r.m,r.a].join(",")}).join("\\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([c],{type:"text/csv"}));a.download="가계부.csv";a.click()};'
+          'document.getElementById("lr").onclick=function(){if(R.length&&confirm("저장된 내용을 모두 지울까요?")){R=[];save();draw()}};draw()})()</script>')
+    f = ('<style>.lf{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:0 0 12px}.lf input{font:15px var(--sans);padding:8px;border:1px solid #111}</style>'
+         '<div class="lf"><input id="ld" type="date"><input id="lc" placeholder="분류(식비…)"><input id="lm" placeholder="내용"><input id="lam" type="number" placeholder="금액(원)" inputmode="decimal"></div>'
+         '<p><button type="button" id="la" style="width:auto;padding:8px 18px;margin:0 8px 0 0;border:2px solid #111;background:#111;color:#fff;cursor:pointer;font:700 15px var(--sans)">추가</button><button type="button" id="lx" style="width:auto;padding:8px 14px;margin:0 8px 0 0;border:1px solid #111;background:#fff;cursor:pointer;font:600 14px var(--sans)">CSV 내보내기</button><button type="button" id="lr" style="width:auto;padding:8px 14px;margin:0;border:1px solid #999;background:#fff;cursor:pointer;font:600 14px var(--sans)">모두 지우기</button></p>'
+         '<div style="overflow-x:auto"><table class="mdt" id="lt" style="width:100%"></table></div><p id="ls" style="font:15px var(--sans)"></p><p class="ad-nt">입력한 내용은 <b>이 브라우저에만</b> 저장됩니다(다른 기기·다른 사람과 공유되지 않음). 지우거나 브라우저 데이터를 정리하면 사라지니 중요한 것은 「CSV 내보내기」로 따로 저장하세요.</p>')
+    return [box(B, '가계부', '가계부 표', f + js, '브라우저에만 저장되는 입력 표와 합계, CSV 내보내기', 'ledger')]
+
+
+def cards_page(B):
+    d = os.path.join(B.HERE, 'cards')
+    pngs = sorted(f for f in os.listdir(d) if f.endswith('.png')) if os.path.isdir(d) else []
+    if not pngs:
+        return [box(B, '카드 그림', '공유용 카드 그림', '<p>아직 만든 카드가 없습니다. <code>python card.py</code> 로 확인 노트마다 공유용 그림 한 장을 만드세요.</p>', '공유용 카드 그림', 'cards')]
+    os.makedirs(os.path.join(B.OUT, 'cards'), exist_ok=True)
+    cells = ''
+    for f in pngs:
+        shutil.copy(os.path.join(d, f), os.path.join(B.OUT, 'cards', f))
+        sv = f[:-4] + '.svg'
+        if os.path.exists(os.path.join(d, sv)):
+            shutil.copy(os.path.join(d, sv), os.path.join(B.OUT, 'cards', sv))
+        cells += f'<div class="tp"><img src="{B.BASE}cards/{f}" alt="{E(f)}" loading="lazy" style="width:100%;border:1px solid #ccc"><span class="ln"><a href="{B.BASE}cards/{f}" download>PNG 내려받기</a></span></div>'
+    return [box(B, '카드 그림', '공유용 카드 그림', f'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">{cells}</div>', '확인 노트를 공유용 그림 한 장으로', 'cards')]
+
+
+def onepage_page(B):
+    d = os.path.join(B.HERE, 'onepage')
+    pdfs = sorted(f for f in os.listdir(d) if f.endswith('.pdf')) if os.path.isdir(d) else []
+    if not pdfs:
+        return [box(B, '한 장 요약', 'A4 한 장 요약', '<p>아직 만든 요약이 없습니다. <code>python onepage.py</code> 로 글·노트마다 A4 한 장 점검표 PDF 를 만드세요.</p>', 'A4 한 장 요약', 'onepage')]
+    os.makedirs(os.path.join(B.OUT, 'onepage'), exist_ok=True)
+    li = ''
+    for f in pdfs:
+        shutil.copy(os.path.join(d, f), os.path.join(B.OUT, 'onepage', f))
+        li += f'<div class="tp"><b>{E(f[:-4])}</b><span class="ln"><a href="{B.BASE}onepage/{f}">PDF 내려받기</a> · {round(os.path.getsize(os.path.join(d, f)) / 1024)}KB</span></div>'
+    return [box(B, '한 장 요약', 'A4 한 장 요약', li, '글과 노트를 A4 한 장 점검표로', 'onepage')]
+
+
+def notfound(B):
+    """404 쪽: 없는 주소로 왔을 때 검색과 둘러볼 곳을 안내한다. docs/404.html 로 복사해 호스팅이 없는 주소에 보여 준다."""
+    srch = f'<p><a href="{B.BASE}search/">사이트 안 검색으로 찾기</a></p>' if B.part('search', False) else ''
+    nav = ''.join(f'<li><a href="{B.BASE}{u}">{E(n)}</a></li>' for n, u, k in [('처음 화면', '', 'info'), ('게임', 'games/', 'games'), ('글', 'post/', 'posts'), ('계산기', 'calc/', 'calc'), ('용어 사전', 'glossary/', 'glossary'), ('키트 목록', 'kits/', 'kits')] if k == 'info' or B.part(k, False))
+    B.page('_404', f'찾는 쪽이 없습니다 — {B.S["name"]}', '없는 주소입니다. 검색하거나 다른 쪽으로 가 보세요', f'<div class="page"><span class="lb">404</span><h1>찾는 쪽이 없습니다</h1><p>주소가 바뀌었거나 없는 쪽입니다. 아래에서 찾아 보세요.</p>{srch}<ul class="rp">{nav}</ul></div>', noindex=True)
+    src = os.path.join(B.OUT, '_404', 'index.html')
+    if os.path.exists(src):
+        shutil.move(src, os.path.join(B.OUT, '404.html')); shutil.rmtree(os.path.join(B.OUT, '_404'), ignore_errors=True)
+    return []
+
+
+ORDER += [('tags', tags), ('dday', dday), ('survey', survey), ('ledger', ledger), ('cards', cards_page), ('onepage', onepage_page), ('notfound', notfound)]
+FOOT4 = {'tags': ('태그', 'tags/'), 'dday': ('디데이', 'dday/'), 'survey': ('설문', 'survey/'), 'ledger': ('가계부', 'ledger/'), 'cards': ('카드 그림', 'cards/'), 'onepage': ('한 장 요약', 'onepage/')}
 
 
 def pages(B):

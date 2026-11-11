@@ -1,0 +1,13 @@
+{
+  "name": "onepage",
+  "title": "한 장 요약 인쇄 키트",
+  "parts": [
+    "onepage"
+  ],
+  "input_line": "python onepage.py 로 글과 노트를 A4 한 장 점검표 PDF 로 만들고, 빌드해서 /onepage/ 에서 내려받을 수 있는지 확인해 줘.",
+  "gives": "글·노트 → A4 한 장 점검표 PDF(핵심 세 줄 + 체크칸)",
+  "see": "/onepage/ 에서 PDF 를 내려받아 열면 한 장짜리 점검표가 있습니다",
+  "mounts": "푸터 링크 또는 글 쪽 안",
+  "server": "불필요",
+  "minutes": "5"
+}

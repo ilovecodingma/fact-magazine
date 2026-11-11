@@ -1,0 +1,13 @@
+{
+  "name": "cards",
+  "title": "카드 그림 키트",
+  "parts": [
+    "cards"
+  ],
+  "input_line": "python card.py 로 확인 노트마다 공유용 카드 그림 한 장(PNG)을 만들고, 빌드해서 /cards/ 에서 내려받을 수 있는지 확인해 줘.",
+  "gives": "확인 노트 → 공유용 그림 한 장(도형과 글자, SVG·PNG) + /cards/ 내려받기",
+  "see": "/cards/ 에서 노트마다 카드 그림을 내려받습니다",
+  "mounts": "푸터 링크 또는 글 쪽 안",
+  "server": "불필요",
+  "minutes": "5"
+}

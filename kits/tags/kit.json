@@ -1,0 +1,13 @@
+{
+  "name": "tags",
+  "title": "태그 쪽 키트",
+  "parts": [
+    "tags"
+  ],
+  "input_line": "태그 쪽을 켜 줘. 확인 노트의 tags 와 kits/tags/data/post_tags.json 의 글 태그로 /tags/ 에 태그별 목록이 생기는지 확인해 줘.",
+  "gives": "글·노트의 태그 → /tags/ 태그 목록 + 태그별 목록 쪽",
+  "see": "/tags/ 에서 태그를 누르면 그 태그가 붙은 글·노트가 나옵니다",
+  "mounts": "푸터 링크 또는 글 쪽 안",
+  "server": "불필요",
+  "minutes": "5"
+}
