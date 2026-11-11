@@ -473,7 +473,12 @@ def recipes(B):
     pr = ('<style>@media print{header,nav.menu,footer,.noprint{display:none!important}body{background:#fff!important;color:#000!important;font-size:13pt}main{max-width:none}}</style>')
     for r in R:
         ing = ''.join(f'<li>{E(i)}</li>' for i in r['ingredients']); st = ''.join(f'<li>{E(x)}</li>' for x in r['steps'])
-        b = (f'{pr}<div class="page"><span class="lb noprint">요리법</span><h1>{E(r["name"])}</h1><h2>재료</h2><ul>{ing}</ul><h2>만드는 순서</h2><ol>{st}</ol>'
+        try:
+            import kinds as _K
+            im = _K.recipe_img(B, r, 'kd-img', 'wide')
+        except Exception:
+            im = ''
+        b = (f'{pr}<div class="page"><span class="lb noprint">요리법</span>{im}<h1>{E(r["name"])}</h1><h2>재료</h2><ul>{ing}</ul><h2>만드는 순서</h2><ol>{st}</ol>'
              f'<p class="noprint"><button type="button" onclick="window.print()" style="font:700 15px var(--sans);padding:8px 16px;cursor:pointer;width:auto">인쇄 한 장으로 보기</button> &nbsp;<a href="{B.BASE}recipes/">← 목록</a></p></div>')
         urls.append(B.page(f'recipes/{slug(r["name"])}', f'{r["name"]} 만드는 법 — {B.S["name"]}', f'{r["name"]} 재료와 만드는 순서', b))
     return urls

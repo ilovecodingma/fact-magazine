@@ -593,7 +593,7 @@ def cur_polish():
     return {str(k): v for k, v in (local_load().get('polish') or {}).items() if v}
 
 
-def build_tmp(polish=None, parts=None):
+def build_tmp(polish=None, parts=None, extra_env=None):
     """지금 설정(site.local.json)으로 임시 폴더에 찍는다. polish 를 주면 그 층 설정으로(미리보기)."""
     import tempfile
     out = tempfile.mkdtemp(prefix='polish_')
@@ -602,6 +602,8 @@ def build_tmp(polish=None, parts=None):
         env['SITE_POLISH'] = json.dumps(polish)
     if parts is not None:
         env['PARTS'] = json.dumps(parts)
+    if extra_env:
+        env.update(extra_env)
     subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
     return out
 
@@ -632,7 +634,7 @@ def grade_lines(res):
         m = res.get(key)
         if not m:
             continue
-        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'), min_imgs=(2 if key == 'mobile' else 4), cats_needed=(key != 'note'))
+        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'), min_imgs=(2 if key == 'mobile' else 4), cats_needed=(key != 'note' and bool(eff_parts().get('info'))))
         row = []
         for k, nm, v, th, ok in gl:
             tot += 1; ok_n += 1 if ok else 0
@@ -1267,60 +1269,101 @@ def ways_cmd(rest):
 
 # ---------------------------------------------------------------- 2장 변환: 다듬은 사이트를 다른 종류로(글자·색·짜임은 물려받고 기능 조합·메뉴만 갈아 끼움)
 def convert_kinds():
-    D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
+    import kinds as KN
+    D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8')); byk = {d['key']: d for d in D}
     out = {}
+    def entry(kind, parts, d, labels, kd):
+        return dict(parts=parts, name=(d or {}).get('name', ''), tagline=(d or {}).get('tagline', ''), kits_dir=(d or {}).get('kits_dir', ''), labels=labels, kind=kd, note=((d or {}).get('tagline') or '')[:40])
+    for kind, cfg in KN.CFG.items():
+        d = byk.get(cfg['demo']); out[kind] = entry(kind, cfg['parts'], d, cfg['labels'], kind)
     for k, v in KINDS.items():
-        out[k] = dict(parts=v['parts'], note='서비스 종류(참고 사이트·기획서 걸음이 있는 종류)')
+        if k in out:
+            continue
+        key = {'정보 매거진': 'magazine', '도구 모음': 'tools', '가계부 앱': 'ledger'}.get(k)
+        d = byk.get(key); out[k] = entry(k, v['parts'], d if key != 'magazine' else None, (d or {}).get('labels', {}), None)
     for d in D:
         nm = d['mix']
-        if nm in out or d['key'] in ('magazine', 'tools', 'recipes', 'ledger', 'newsletter'):
+        if nm in out or d['key'] in ('magazine', 'tools', 'recipes', 'ledger', 'newsletter', 'shop'):
             continue
         ps = []
-        for k in d['kits']:
-            kj = kit_json(k)
+        for kk in d['kits']:
+            kj = kit_json(kk)
             if kj and kj.get('parts'):
                 ps += list(kj['parts'])
-        out[nm] = dict(parts=sorted(set(ps + ['prefs'])), note=d['tagline'][:40])
+        out[nm] = entry(nm, sorted(set(ps + ['prefs'])), d, d.get('labels', {}), None)
     return out
 
 
 def convert_cmd(rest):
     K = convert_kinds()
     if not rest:
-        print('━━ 변환 — 다듬은 사이트를 다른 종류로 ━━\n[독자에게 말할 것] 1장에서 다듬은 글자·색·짜임은 그대로 물려받고, 기능 조합·메뉴·첫 화면 구획만 그 종류에 맞게 갈아 끼웁니다. 같은 바탕에서 몇 분이면 다른 사이트가 됩니다.\n종류:'); [print(f'  - {k}  ({v["note"]})') for k, v in K.items()]
-        print('\n사용: python run.py 변환 <종류> [--shots 폴더]  → 미리보기에서 멈춤 / 독자가 고르면 python run.py 고름 변환 <종류> "<까닭>" 후 python run.py 변환 <종류> --적용 / python run.py 변환 되돌리기'); return 0
+        print('━━ 변환 — 다듬은 사이트를 다른 종류로 ━━\n[독자에게 말할 것] 1장에서 다듬은 글자·색·짜임은 그대로 물려받고, 기능 조합·메뉴 이름·첫 화면 구획·예시 내용만 그 종류에 맞게 갈아 끼웁니다. 같은 바탕에서 몇 분이면 다른 사이트가 됩니다.\n종류:'); [print(f'  - {k}  ({v["note"]})') for k, v in K.items()]
+        print('\n사용: python run.py 변환 <종류> [--shots 폴더]  → 미리보기에서 멈춤 / 독자가 고르면 python run.py 고름 변환 바꿈 "<까닭>" 후 python run.py 변환 <종류> --적용 [--이름 "…" --소개 "…"] / python run.py 변환 되돌리기'); return 0
     if rest[0] == '되돌리기':
         prev = prog_load().get('convert_prev')
         if not prev:
             print('되돌릴 변환이 없습니다'); return 0
-        allp = list(json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))['parts']); set_parts(allp, False); set_parts([p for p, v in prev.items() if v], True)
+        pp = prev['parts']; allp = list(json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))['parts']); set_parts(allp, False); set_parts([p for p, v in pp.items() if v], True)
+        d_ = local_load()
+        for kk in ('kind', 'kits_dir', 'labels', 'name', 'tagline'):
+            if prev.get(kk) in (None, '', {}):
+                d_.pop(kk, None)
+            else:
+                d_[kk] = prev[kk]
+        local_save(d_)
         out, last, rcb = rebuild_local(); d = prog_load(); d.pop('convert_prev', None); json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); print(f'변환을 되돌렸습니다({last}).'); return 0
     w = ' '.join(rest).replace(' ', ''); kind = next((k for k in K if w == k.replace(' ', '') or (w and w in k.replace(' ', ''))), None)
     if not kind:
         print('그런 종류가 없습니다: ' + ' · '.join(K)); return 1
-    apply_ = '--적용' in A
+    E_ = K[kind]; apply_ = '--적용' in A
     base = dict(eff_parts()); pr = {p: False for p in base}
-    for p in K[kind]['parts']:
+    for p in E_['parts']:
         pr[p] = True
-    print(f'━━ 변환 · {kind} ━━\n[상담: 먼저 물을 것] 지금 사이트를 「{kind}」로 바꾼다면 방문자는 누구이고, 무엇을 하러 오나요? 돈은 어디서 나올 것 같나요? (참고: python run.py 참고 {kind.split()[0]})')
+    kd = os.path.join(HERE, E_['kits_dir']) if E_['kits_dir'] else ''
+    print(f'━━ 변환 · {kind} ━━\n[상담: 먼저 물을 것] 지금 사이트를 「{kind}」로 바꾼다면 방문자는 누구이고, 무엇을 하러 오나요? 새 이름과 한 줄 소개는요? 돈은 어디서 나올 것 같나요? (참고: python run.py 참고 {kind.split()[0]})')
     keep = ', '.join(f'{k}{v}' for k, v in sorted(cur_polish().items(), key=lambda x: int(x[0]))) or '없음(출발 모습)'
     off = [p for p, v in base.items() if v and not pr.get(p)]; on = [p for p, v in pr.items() if v and not base.get(p)]
-    print(f'[그대로인 것] 다듬기 층({keep}), 이름·소개, 겉모습 틀, 만들어 둔 글\n[바뀌는 것] 켜지는 기능: {", ".join(on) or "없음"} / 꺼지는 기능: {", ".join(off) or "없음"}')
+    print(f'[그대로인 것] 다듬기 층({keep}) — 글자·색·제호 모양, 겉모습 틀\n[바뀌는 것] 켜지는 기능: {", ".join(on) or "없음"} / 꺼지는 기능: {", ".join(off) or "없음"} / 첫 화면 구획·메뉴 이름·예시 내용' + (f' / 예시 이름 「{E_["name"]}」(받기 전 임시, 「예시 이름」 표시)' if E_['name'] else ''))
     if not apply_:
         if SHOTS:
             import selftest as T
-            out = build_tmp(None, pr); os.makedirs(SHOTS, exist_ok=True); n_ = kind.replace(' ', '')
+            env = {'SITE_NAME': (E_['name'] or '내 사이트') + ' (예시 이름)', 'SITE_TAGLINE': E_['tagline'], 'SITE_KIND': E_['kind'] or '', 'SITE_LABELS': json.dumps(E_['labels'], ensure_ascii=False)}
+            if kd:
+                env['KITS_DIR'] = kd
+            out = build_tmp(None, pr, env); os.makedirs(SHOTS, exist_ok=True); n_ = kind.replace(' ', '')
             for nm_, w_, h_, mob in (('PC첫화면', 1280, 860, False), ('휴대폰', 390, 844, True)):
                 fp = os.path.join(SHOTS, f'변환_{n_}_{nm_}.png')
                 if T.shoot_pages(out, [''], [fp], w_, h_, mob):
                     print('  미리보기 저장:', fp, flush=True)
-        print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 바꿈 "{kind} 로 바꿔 보려는 까닭" → python run.py 변환 {kind} --적용\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
+        print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 바꿈 "{kind} 로 바꿔 보려는 까닭" → python run.py 변환 {kind} --적용 [--이름 "새 이름" --소개 "한 줄"]\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
     if not need_choice('변환', '바꿈'):
         return 1
-    t0 = time.time(); d = prog_load(); d['convert_prev'] = base; json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    allp = list(base); set_parts(allp, False); set_parts(K[kind]['parts'], True); out, last, rcb = rebuild_local()
+    t0 = time.time(); d = prog_load(); L = local_load()
+    d['convert_prev'] = {'parts': base, 'kind': L.get('kind'), 'kits_dir': L.get('kits_dir'), 'labels': L.get('labels'), 'name': L.get('name'), 'tagline': L.get('tagline')}; json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    allp = list(base); set_parts(allp, False); set_parts(E_['parts'], True); L = local_load()
+    L['kind'] = E_['kind'] or ''; L['kits_dir'] = E_['kits_dir']; L['labels'] = E_['labels']
+    nm_ = A[A.index('--이름') + 1] if '--이름' in A and len(A) > A.index('--이름') + 1 else None; tg_ = A[A.index('--소개') + 1] if '--소개' in A and len(A) > A.index('--소개') + 1 else None
+    L['name'] = nm_ or E_['name'] or L.get('name', '내 사이트'); L['tagline'] = tg_ or E_['tagline'] or L.get('tagline', '')
+    if not L['kind']:
+        L.pop('kind', None)
+    if not L['labels']:
+        L.pop('labels', None)
+    if not L['kits_dir']:
+        L.pop('kits_dir', None)
+    local_save(L); out, last, rcb = rebuild_local()
     shots_for(out, '변환_' + kind.replace(' ', ''))
-    print(f'\n[방금 일어난 일] 「{kind}」로 바꿨습니다({last}) — 걸린 시간 {time.time() - t0:.0f}초. 되돌리려면 python run.py 변환 되돌리기\n[다음 걸음] 내 주제의 내용으로 채우기 → 돈이 나올 자리 → 둘째 변환을 해 보거나 되돌리기. 독자의 말로 내_서비스.md 가 어떻게 바뀌는지 같이 봅니다.\n\n여기서 멈추고 독자에게 묻습니다.'); prog_add('변환 ' + kind); return 0
+    print(f'\n[방금 일어난 일] 「{kind}」로 바꿨습니다({last}) — 걸린 시간 {time.time() - t0:.0f}초. 되돌리려면 python run.py 변환 되돌리기')
+    if not nm_:
+        print(f'[알림] 이름은 예시 이름 「{L["name"]}」 그대로입니다. 독자에게 새 이름·소개를 받아 python run.py 변환 {kind} --적용 --이름 "…" --소개 "…" 로 다시 적용하거나 내서비스 칸에 정리하세요.')
+    try:
+        res = score_site(out); lines, ok_n, tot = grade_lines(res)
+        bad = [l for l in lines if '✗' in l]
+        print(f'[만듦새] 통과 {ok_n}/{tot}' + (' — 아직 다듬을 것:' if bad else ''))
+        for l in bad:
+            print(l)
+    except Exception as e:
+        print('(만듦새를 재지 못했습니다:', repr(e)[:60], ')')
+    print('[다음 걸음] 내 주제의 내용으로 채우기(예시 자료 → 독자 자료) → 돈이 나올 자리 → 둘째 변환을 해 보거나 되돌리기. 독자의 말로 내_서비스.md 가 어떻게 바뀌는지 같이 봅니다.\n\n여기서 멈추고 독자에게 묻습니다.'); prog_add('변환 ' + kind); return 0
 
 
 # ---------------------------------------------------------------- 3장 쉬는시간: 지금 사람이 볼 것만(올릴 묶음·정할 것·어긋난 것·어제 대비)

@@ -16,7 +16,7 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC'), ('theme', 'SITE_THEME'), ('accent', 'SITE_ACCENT')):
+for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC'), ('theme', 'SITE_THEME'), ('accent', 'SITE_ACCENT'), ('kind', 'SITE_KIND')):
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
@@ -126,7 +126,8 @@ ACCENT = S.get('accent') or _th.DEFAULT_ACCENT[THEME]
 CSS += _th.CSS
 import polish as _pl
 import backend as _be
-CSS += _be.CSS
+import kinds as _kn
+CSS += _be.CSS + _kn.CSS
 POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
 CSS += _pl.css(POLISH, CSS)
 
@@ -380,7 +381,7 @@ def content_pages():
 
 
 SEARCH = []   # 사이트 안 검색 색인(쪽 주소·제목·설명) — page() 가 채운다
-KITS_DIR = os.path.abspath(os.environ['KITS_DIR']) if os.environ.get('KITS_DIR') else os.path.join(HERE, 'kits')   # 데모 조합은 자기 자료 폴더를 쓸 수 있다
+KITS_DIR = os.path.abspath(os.environ['KITS_DIR']) if os.environ.get('KITS_DIR') else (os.path.join(HERE, S['kits_dir']) if S.get('kits_dir') else os.path.join(HERE, 'kits'))   # 데모 조합은 자기 자료 폴더를 쓸 수 있다
 DATA_ROOT = os.path.abspath(os.environ['DATA_ROOT']) if os.environ.get('DATA_ROOT') else HERE   # 글·소설·웹툰·전자책 원본 폴더의 위치(데모는 자기 폴더를 쓴다)
 DEMO = bool(os.environ.get('DEMO'))   # 데모(조립 예시)는 본 사이트와 내용이 겹치므로 검색에 안 나가게 한다(noindex, 사이트맵·RSS 없음)
 SAFE_EXPR = re.compile(r'^[A-Za-z0-9_+\-*/().,%<>=!?:&| ]+$')
@@ -711,8 +712,14 @@ def disclosure_page():
     return page('disclosure', f'광고·제휴 고지 — {S["name"]}', '광고와 제휴 링크, 수수료에 대한 고지', f'<div class="page">{b}</div>')
 
 
+def monetize_note():
+    return ''
+
+
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
+    if not part('info') and S.get('kind') in _kn.CFG and _kn.CFG[S['kind']].get('home'):   # 변환한 종류의 첫 화면(요리법 모음·가게 홈페이지)
+        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], _kn.home_body(sys.modules[__name__], S['kind']) + monetize_note())
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
         secs = [('게임', 'games/', 'games', lambda: load_games(), '웹 게임'), ('계산기', 'calc/', 'calc', lambda: kit_data('calc', 'calculators.json'), '숫자를 넣으면 바로 계산'), ('용어 사전', 'glossary/', 'glossary', lambda: kit_data('glossary', 'terms.json'), '돈·생활 용어 풀이'),
                 ('글', 'post/', 'posts', lambda: os.path.isdir(os.path.join(HERE, 'posts')), '생활·돈 가이드 글'), ('연재', 'novel/', 'novel', lambda: os.path.isdir(os.path.join(HERE, 'novels')), '연재 소설'), ('웹툰', 'toon/', 'toon', lambda: os.path.isdir(os.path.join(HERE, 'toons')), '웹툰·만화'),
