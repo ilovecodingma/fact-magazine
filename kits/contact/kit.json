@@ -1,0 +1,82 @@
+{
+  "name": "contact",
+  "title": "문의 받기 키트",
+  "parts": [
+    "backend",
+    "contact"
+  ],
+  "gives": "문의 쪽의 양식. 보낸 문의는 서버 db 에만 쌓이고 운영자 화면에서만 보인다(저장소·화면에 메일 주소가 나오지 않음).",
+  "see": "/contact/ 양식, /admin/ 의 문의",
+  "mounts": "문의 쪽",
+  "server": "필요",
+  "minutes": "5",
+  "input_line": "문의 양식을 켜고 하나 보내 운영자 화면에 도착하는지 확인해 줘.",
+  "selftest": {
+    "server": true,
+    "parts": [
+      "backend",
+      "contact"
+    ],
+    "steps": [
+      {
+        "say": "문의 쪽을 엽니다",
+        "goto": "contact/",
+        "wait": 1.2,
+        "expect": {
+          "sel": "[data-widget=contact] h2",
+          "contains": "문의"
+        }
+      },
+      {
+        "say": "메일 주소와 내용을 넣습니다",
+        "type": [
+          "[data-widget=contact] input[name=email]",
+          "reader@example.com"
+        ]
+      },
+      {
+        "say": "내용 칸에 문의를 적습니다",
+        "type": [
+          "[data-widget=contact] textarea[name=message]",
+          "정정 요청을 하고 싶습니다"
+        ]
+      },
+      {
+        "say": "「보내기」를 누르면 접수 안내가 나옵니다",
+        "click": "[data-widget=contact] form button[type=submit]",
+        "wait": 1.0,
+        "expect": {
+          "sel": "[data-widget=contact] .be-msg",
+          "contains": "문의를 받았습니다"
+        }
+      },
+      {
+        "say": "운영자 화면의 새 문의가 1건입니다",
+        "wait": 0.4,
+        "eval": "fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'test-pass-1234'})}).then(function(r){return r.json()}).then(function(){return fetch('/api/admin/summary').then(function(r){return r.json()})}).then(function(s){return s.contacts})",
+        "equals": 1
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "문의의 메일 주소는 db 에만 두고 저장소·화면에 나오지 않는다",
+      "까닭": "남의 개인정보를 맡는 일이라 최소한으로 둔다",
+      "모르면": "문의 내용을 아무데나 올려 버린다",
+      "근거": "server/app.py /api/contact"
+    },
+    {
+      "알것": "입력은 길이·형식을 검사하고 화면에 낼 때 이스케이프한다",
+      "까닭": "악의적인 글이 쪽을 깨뜨리거나 스크립트를 심는 것을 막는다",
+      "모르면": "입력칸이 곧 보안 구멍이 된다",
+      "근거": "server/app.py clean(), 운영자 화면의 esc()"
+    },
+    {
+      "알것": "짧은 시간에 너무 많이 보내면 막는다",
+      "까닭": "스팸·공격을 막는 기본 방어",
+      "모르면": "문의함이 쓰레기로 찬다",
+      "근거": "server/app.py limited()"
+    }
+  ],
+  "try_change": "이메일 칸에 형식이 틀린 값을 넣어 거절되는지 보세요."
+}

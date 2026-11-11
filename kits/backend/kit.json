@@ -1,0 +1,62 @@
+{
+  "name": "backend",
+  "title": "백엔드(서버) 키트",
+  "parts": [
+    "backend"
+  ],
+  "gives": "도커 안의 작은 서버가 찍어 둔 사이트를 내주고 방문자가 쌓는 것(댓글·좋아요·방문·문의·소식 받기)을 JSON 문서로 받는다. 서버가 꺼져 있어도 찍어 둔 화면은 그대로 열린다.",
+  "see": "python run.py 서버 → http://127.0.0.1:8080/ , 운영자 화면 /admin/",
+  "mounts": "모든 쪽의 api.js(서버가 있으면 기능 칸이 켜짐)",
+  "server": "필요(도커 compose 한 개)",
+  "minutes": "10",
+  "input_line": "backend 키트를 켜고 python run.py 서버 로 도커 서버를 띄워 줘. 서버가 꺼져 있을 때도 찍어 둔 화면이 열리는지 확인해 줘.",
+  "selftest": {
+    "server": true,
+    "parts": [
+      "backend"
+    ],
+    "steps": [
+      {
+        "say": "서버가 내주는 첫 화면을 엽니다",
+        "goto": "",
+        "wait": 1.2,
+        "expect": {
+          "sel": "body",
+          "contains": ""
+        }
+      },
+      {
+        "say": "서버 신호가 켜졌는지(api.js 가 서버를 찾았는지) 봅니다",
+        "wait": 0.8,
+        "eval": "document.documentElement.getAttribute('data-server')",
+        "equals": "on"
+      },
+      {
+        "say": "서버 상태 API 가 대답합니다",
+        "eval": "fetch('/api/health').then(function(r){return r.json()}).then(function(j){return j.ok===true&&j.db})",
+        "equals": "file"
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "서버는 방문자가 쌓는 것(댓글·좋아요·방문·문의)을 받는 곳이고, 찍어 둔 화면은 서버가 없어도 열린다",
+      "까닭": "화면은 파일이고 쌓이는 것만 서버가 맡는다",
+      "모르면": "서버를 끄면 사이트 전체가 안 열린다고 오해한다",
+      "근거": "server/app.py, backend.py"
+    },
+    {
+      "알것": "쌓인 자료는 JSON 문서 한 건씩 db 에 들어간다(도커 안은 PostgreSQL, 시험은 같은 모양의 파일)",
+      "까닭": "어느 db 든 같은 모양(모음·id·JSON)으로 다뤄 옮기기 쉽다",
+      "모르면": "db 를 바꿀 때 코드를 다 고쳐야 한다고 생각한다",
+      "근거": "server/app.py 의 Store"
+    },
+    {
+      "알것": "서버는 내 PC 안(127.0.0.1)에서만 열려 있다",
+      "까닭": "바깥에 열 때 지킬 것(암호·횟수 제한)이 따로 있다",
+      "모르면": "켜 두기만 하면 남들도 들어온다고 착각하거나 반대로 안전하다고 맹신한다",
+      "근거": "compose.yaml 의 ports"
+    }
+  ],
+  "try_change": "python run.py 서버 로 켜고 http://127.0.0.1:8080/api/health 를 브라우저로 열어 db 가 postgres 로 나오는지 보세요."
+}

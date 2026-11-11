@@ -36,7 +36,7 @@ if os.environ.get('SITE_MONETIZE'):
     except Exception:
         pass
 LAB = lambda k, d: (S.get('labels') or {}).get(k, d)
-GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼')]
+GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼'), ('subscribe', '소식 받기', 'subscribe/', '새 노트 소식을 메일로')]
 if os.environ.get('SITE_EXTRAS'):
     try:
         S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
@@ -125,6 +125,8 @@ THEME = S.get('theme') if S.get('theme') in _th.NAMES else 'paper'   # 겉모습
 ACCENT = S.get('accent') or _th.DEFAULT_ACCENT[THEME]
 CSS += _th.CSS
 import polish as _pl
+import backend as _be
+CSS += _be.CSS
 POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
 CSS += _pl.css(POLISH, CSS)
 
@@ -205,7 +207,7 @@ def page(path, title, desc, body, noindex=False):
 {LOGO}{MASTR}</div></header>
 {NAVBLOCK}
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}{MON}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{MON_LINK}{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{MON_LINK}{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{_be.script_tag(sys.modules[__name__])}{PWA_REG}</body></html>"""
     doc = _pl.post(sys.modules[__name__], doc, items, path)   # 다듬기 8 푸터·9 아래 메뉴
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not explicit_noindex:   # 조립 예시(DEMO)도 사이트 안 검색에는 들어간다(검색 엔진용 noindex 와 별개)
@@ -574,14 +576,14 @@ def note_page(n):
     facts = ''.join(f'<li>{E(f["text"])}<span class="src">출처 · <a href="{E(f["url"])}" rel="noopener nofollow">{E(f["source"])}</a></span></li>' for f in n.get('facts', []))
     reports = ''.join(f'<li><a href="{E(r["url"])}" rel="noopener nofollow">{E(r["title"])}</a> · {E(r["source"])}</li>' for r in n.get('reports', []))
     if POLISH.get(7):   # 다듬기 7: 글 쪽 재구성
-        return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], _pl.note_body(sys.modules[__name__], n, _kp.related_html(sys.modules[__name__], '노트', n['id'])), noindex=bool(n.get('example')))
+        return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], _pl.note_body(sys.modules[__name__], n, _kp.related_html(sys.modules[__name__], '노트', n['id']) + _be.comments_html(sys.modules[__name__], n['id'])), noindex=bool(n.get('example')))
     body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "", "wide")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
             f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실</h2><ol class="fn">{facts}</ol>' if facts else '')
             + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
             + (f'<h2>아직 확인 안 된 것</h2><ul>{li(n["unconfirmed"])}</ul>' if n.get('unconfirmed') else '')
-            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + _kp.related_html(sys.modules[__name__], '노트', n['id']) + '</article>')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + _kp.related_html(sys.modules[__name__], '노트', n['id']) + _be.comments_html(sys.modules[__name__], n['id']) + '</article>')
     return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], body, noindex=bool(n.get('example')))
 
 
@@ -768,7 +770,7 @@ def static_pages():
            '<li><span class="v no">아직 확인 안 됨</span> 공식 자료에서 찾지 못했습니다. 틀렸다는 뜻이 아닙니다.</li></ul>'
            '<p>확인한 사실마다 출처 링크를 붙입니다. 찾지 못한 것은 「아직 확인 안 된 것」 칸에 따로 적고 지어서 채우지 않습니다. 연예인·정치인·사건 당사자 이야기는 다루지 않습니다.</p>')
     about = '<h1>소개</h1><p>' + E(S.get('about') or f'「{S["name"]}」은 여러 매체가 함께 다룬 소식 가운데 제도·숫자·날짜를 공식 자료와 맞춰 보는 작은 정보 사이트입니다. 수집과 빌드는 자동으로 돌고, 확인 노트는 사람이 살피는 흐름 안에서 에이전트가 씁니다.') + '</p>'
-    contact = f'<h1>문의</h1><p>{E(S["contact"])}</p><p>정정을 요청할 때는 어느 노트의 어느 문장인지와 근거가 되는 공식 자료 주소를 함께 알려 주세요. 확인한 뒤 노트를 고치고 바뀐 내용을 노트에 적습니다.</p>'
+    contact = f'<h1>문의</h1><p>{E(S["contact"])}</p>{_be.contact_html(sys.modules[__name__])}<p>정정을 요청할 때는 어느 노트의 어느 문장인지와 근거가 되는 공식 자료 주소를 함께 알려 주세요. 확인한 뒤 노트를 고치고 바뀐 내용을 노트에 적습니다.</p>'
     priv = ('<h1>개인정보 처리방침</h1><p>이 사이트는 회원가입·댓글·결제를 받지 않고 방문자의 개인정보를 직접 수집하지 않습니다. '
             '호스팅 서비스(GitHub Pages)가 접속 기록을 남길 수 있으며 이는 해당 서비스의 방침을 따릅니다.</p>')
     for path, t, b in (*((('how', '확인하는 방법', how),) if part('info') else ()), ('about', '소개', about), ('contact', '문의', contact), ('privacy', '개인정보 처리방침', priv)):
@@ -800,7 +802,7 @@ def main():
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + _be.pages(sys.modules[__name__]) + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
     if not DEMO:
         feed(notes)
     if part('monetize', False):
@@ -808,6 +810,8 @@ def main():
     write_search_index()
     if part('pwa', False):
         write_pwa()
+    if part('backend', False):
+        _be.write(sys.modules[__name__])
     if DEMO:
         print(f'데모 쪽 {len(urls)}개 -> ' + (os.path.relpath(OUT, HERE) if OUT.startswith(HERE) else os.path.basename(OUT))); return
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다

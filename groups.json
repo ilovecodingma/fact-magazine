@@ -83,7 +83,13 @@
         "status",
         "inbox",
         "demo",
-        "monetize"
+        "monetize",
+        "backend",
+        "comments",
+        "stats",
+        "contact",
+        "subscribe",
+        "admin"
       ]
     },
     {
@@ -156,6 +162,10 @@
     "status": "status/",
     "demo": "demo/",
     "trends": "trends/",
-    "monetize": "disclosure/"
+    "monetize": "disclosure/",
+    "backend": "",
+    "comments": "",
+    "contact": "contact/",
+    "subscribe": "subscribe/"
   }
 }

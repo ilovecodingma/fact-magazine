@@ -361,6 +361,40 @@ def grade(m, imgs_needed=True, empty_needed=True, min_imgs=4, cats_needed=True):
         out.append((k, nm, v, f'{op}{th}', ok))
     return out
 
+ADMIN_TEST_PW = 'test-pass-1234'
+
+
+def make_admin(data_dir, pw):
+    """운영자 암호 파일(해시만)을 만든다. run.py 서버 암호 와 같은 방식."""
+    import hashlib
+    salt = os.urandom(8).hex(); h = hashlib.pbkdf2_hmac('sha256', pw.encode(), bytes.fromhex(salt), 120000).hex()
+    json.dump({'salt': salt, 'iters': 120000, 'hash': h}, open(os.path.join(data_dir, 'admin.json'), 'w'))
+
+
+class AppServer:
+    def __init__(self, proc, data):
+        self.proc, self.data = proc, data
+
+    def shutdown(self):
+        try:
+            self.proc.terminate(); self.proc.wait(timeout=5)
+        except Exception:
+            self.proc.kill()
+        shutil.rmtree(self.data, ignore_errors=True)
+
+
+def start_app_server(site_dir):
+    """백엔드(server/app.py)를 임시 자료 폴더로 켠다(시험용, 파일 바탕 문서 저장소). (AppServer, 포트)"""
+    port = free_port(8920); data = tempfile.mkdtemp(prefix='appdata_'); make_admin(data, ADMIN_TEST_PW)
+    proc = subprocess.Popen([sys.executable, '-X', 'utf8', os.path.join(HERE, 'server', 'app.py'), '--site', site_dir, '--data', data, '--host', '127.0.0.1', '--port', str(port)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    for _ in range(60):
+        try:
+            urllib.request.urlopen(f'http://127.0.0.1:{port}/api/health', timeout=2); break
+        except Exception:
+            time.sleep(0.25)
+    return AppServer(proc, data), port
+
+
 def internet_ok():
     for u in ('https://www.naver.com', 'https://www.google.com'):
         try:
@@ -431,7 +465,7 @@ def run_kit(kit, headless, slow):
     ok, log = build_site(kit, out)
     if not ok:
         print('  ✗ 사이트를 찍지 못했습니다:', log.strip().splitlines()[-1][:120]); return (0, 1)
-    srv, port = start_server(out)
+    srv, port = start_app_server(out) if st.get('server') else start_server(out)
     base = f'http://127.0.0.1:{port}/'
     br = find_browser()
     if not br:
