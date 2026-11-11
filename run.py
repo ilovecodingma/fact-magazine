@@ -16,6 +16,9 @@
       python run.py 켜기 계산기 [용어 …]       키트를 켜고 다시 찍어 메뉴·쪽에 생겼는지 한 줄로 확인(끄기 도 같은 모양)
       python run.py 지금                      내 사이트에 지금 켜져 있는 것 목록과 메뉴
       python run.py 전부 [--yes]              묻지 않고 여덟 묶음을 끝까지(묻는 자리는 기본값: 켜 둔다)
+      python run.py 참고 [종류]               참고 사이트(실제 사이트와 「이렇게 번다」). --shots 폴더 면 그 사이트 화면을 headless 로 찍어 둔다
+      python run.py 기획서                     기획서 한 장(기획서.md, 없으면 양식)
+      python run.py 서비스 <종류> [단계 1~9]   서비스 하나를 끝까지: ㉠참고 ㉡기획서 ㉢기능 붙이기 ㉣내용 채우기 ㉤돈 자리 ㉥필수 쪽 ㉦겉모습 ㉧휴대폰 ㉨올릴 준비(종류: 정보 매거진·도구 모음·요리법 모음·가계부 앱)
       python run.py 독자 [설정 키=값 …]        독자.json(수업 눈높이) 보기·고치기      python run.py 복습   진도·헷갈린 것에서 물음 3개
       python run.py 혼동 <키트> <적을 말>       헷갈려 한 것을 진도에 적기
 옵션: --headless(창 없이) --slow 초(단계 간격) --shots 폴더(단계마다 화면을 png 로 저장, 사이클은 단계 결과 쪽) · 보이는 창 위치는 환경변수 SELFTEST_POS=2000,100
@@ -353,6 +356,149 @@ def all_cmd():
     print('\n━━ 여덟 묶음을 끝까지 돌았습니다(묻는 자리는 기본값: 통과한 기능은 켜 둠) ━━'); now_list(); return rc
 
 
+KINDS = {
+    '정보 매거진': dict(alias=['매거진', '정보', 'magazine'], parts=['info', 'issue', 'search', 'prefs', 'monetize'], theme=('paper', ''), ref='정보 매거진',
+        fill='독자 주제의 공식 자료(정부·기관 사이트)를 열어 확인 노트 한 건을 쓴다(notes/ 형식은 런북.md 3절, `python check.py` 로 대조, 예제 노트는 `python run.py 예제정리`로 먼저 옮길지 묻는다). 공식 자료에서 온 숫자는 출처, 못 찾은 것은 「아직 확인 안 됨」.'),
+    '도구 모음': dict(alias=['도구', 'tools'], parts=['calc', 'glossary', 'compare', 'search', 'prefs', 'monetize'], theme=('doc', '#2f6fed'), ref='도구 모음',
+        fill='독자가 쓰는 계산 하나를 정한다 → kits/calc/data/calculators.json 에 식과 입력칸을 쓴다(식의 근거를 설명에 적고, 모르는 숫자는 「예시」 표시). 용어 3개(glossary)와 비교표 한 장(compare)도 독자 주제로 바꾼다.'),
+    '요리법 모음': dict(alias=['요리법', '요리', 'recipes'], parts=['recipes', 'search', 'prefs', 'monetize'], theme=('card', '#e4572e'), ref='요리법 모음',
+        fill='독자가 말한 요리 다섯 개의 이름·재료·순서를 kits/recipes/data/recipes.json 에 쓴다(분량·시간은 「예시」 표시).'),
+    '가계부 앱': dict(alias=['가계부', 'ledger'], parts=['ledger', 'calc', 'dday', 'prefs', 'pwa', 'monetize'], theme=('card', '#0ea5e9'), ref='가계부 앱',
+        fill='계산기 식 하나(예: 이번 달 남은 돈)와 기다리는 날짜 3개(kits/dday/data/dates.json)를 독자 것으로 바꾼다. 가계부 입력은 방문자가 이 기기에서 직접 적는다.'),
+}
+
+
+def kind_find(word):
+    w = (word or '').replace(' ', '')
+    for k, v in KINDS.items():
+        if w == k.replace(' ', '') or w in [a.replace(' ', '') for a in v['alias']]:
+            return k
+    return None
+
+
+def ref_load():
+    p = os.path.join(HERE, '참고', '서비스.json')
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
+
+
+def ref_cmd(rest):
+    R = ref_load()
+    if not R:
+        print('참고/서비스.json 이 없습니다.'); return 1
+    kinds = [r['kind'] for r in R]
+    if not rest:
+        print('참고 사이트가 있는 종류:'); [print(f'  - {r["kind"]} ({len(r["sites"])}곳)') for r in R]; print('\n사용: python run.py 참고 정보 매거진 [--shots 폴더]'); return 0
+    w = ' '.join(rest).replace(' ', '')
+    hit = [r for r in R if w in r['kind'].replace(' ', '') or r['kind'].replace(' ', '') in w]
+    if not hit:
+        print('그 종류가 없습니다:', ', '.join(kinds)); return 1
+    r = hit[0]
+    print(f'━━ 참고 사이트: {r["kind"]} ━━')
+    br = None
+    if SHOTS:
+        sys.path.insert(0, HERE); import selftest as T; br = T.find_browser(); os.makedirs(SHOTS, exist_ok=True)
+    for i, s_ in enumerate(r['sites'], 1):
+        print(f'\n[{i}] {s_["url"]}\n  무엇을 하는 곳: {s_["what"]}\n  이렇게 번다: {s_["earns"]}\n  (확인: {s_["checked"]})', flush=True)
+        if br:
+            host = re.sub(r'[^a-z0-9]+', '_', s_['url'].split('//')[1].lower()).strip('_')[:30]
+            out = os.path.join(SHOTS, f'참고_{r["kind"].replace(" ", "")}_{i}_{host}.png')
+            try:
+                subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1280,860', '--virtual-time-budget=8000', f'--screenshot={out}', s_['url']], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+                print('  화면 저장:', os.path.basename(out), flush=True)
+            except Exception:
+                print('  (화면 저장 실패: 이 사이트는 건너뜁니다)')
+    print(f'\n우리는: {r["ours"]}')
+    prog_add('참고 사이트 ' + r['kind']); return 0
+
+
+def plan_cmd():
+    p = os.path.join(HERE, '기획서.md')
+    if os.path.exists(p):
+        print(open(p, encoding='utf-8').read())
+    else:
+        print('기획서.md 가 아직 없습니다. 아래 양식을 독자와 한 칸씩 채워 기획서.md 로 저장하세요(한 번에 한 칸씩 묻기).\n'); print(open(os.path.join(HERE, '기획서_양식.md'), encoding='utf-8').read())
+    return 0
+
+
+def _shot_site(out_dir, pages, tag, width=1280, height=860):
+    """site_local 의 쪽들을 headless 로 찍어 SHOTS 에 저장(--shots 가 없으면 건너뜀)."""
+    if not SHOTS:
+        return
+    import selftest as T
+    br = T.find_browser()
+    if not br:
+        print('  (브라우저가 없어 화면 저장을 건너뜁니다)'); return
+    os.makedirs(SHOTS, exist_ok=True); srv, port = T.start_server(out_dir)
+    try:
+        for n, pg in enumerate(pages, 1):
+            out = os.path.join(SHOTS, f'서비스_{tag}_{n}.png')
+            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', f'--window-size={width},{height}', f'--screenshot={out}', f'http://127.0.0.1:{port}/{pg}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+            print('  화면 저장:', os.path.basename(out), flush=True)
+    finally:
+        srv.shutdown()
+
+
+def service_cmd(rest):
+    if not rest:
+        print('종류: ' + ' · '.join(KINDS) + '\n사용: python run.py 서비스 정보 매거진 [단계 1~9] [--shots 폴더]\n단계: 1 참고 사이트 · 2 기획서 · 3 기능 붙이기 · 4 내용 채우기 · 5 돈이 나올 자리 · 6 꼭 있어야 할 쪽 · 7 겉모습 · 8 휴대폰으로 보기 · 9 올릴 준비 점검(「올릴까요」에서 멈춤)\n나머지 예시(`python run.py 조립`)는 「이런 것도 붙일 수 있다」 목록입니다.'); return 0
+    step = None
+    if rest[-1].isdigit():
+        step = int(rest[-1]); rest = rest[:-1]
+    kind = kind_find(' '.join(rest))
+    if not kind:
+        print('종류를 찾지 못했습니다:', ' · '.join(KINDS)); return 1
+    K = KINDS[kind]; steps = [step] if step else list(range(1, 10)); rc = 0
+    for st in steps:
+        print(f'\n━━ [{kind}] 걸음 {st}/9 ━━', flush=True)
+        if st == 1:
+            rc |= ref_cmd(kind.split())
+        elif st == 2:
+            print('기획서 한 장을 독자와 쓴다(누구에게·무엇을·날마다/주마다 무엇이 새로 실리나·돈이 나올 길·내가 쓸 시간). 한 번에 한 칸씩 묻고 기획서.md 로 저장.'); plan_cmd()
+        elif st == 3:
+            allp = list(json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))['parts'])
+            set_parts(allp, False); set_parts(K['parts'], True); out, last, rcb = rebuild_local()
+            labels, _ = menu_of(out)
+            print(f'기획서에 맞는 기능을 붙였습니다: {", ".join(K["parts"])}  ({last})\n메뉴: {" · ".join(labels)}\n왜 이 기능들인지를 독자에게 한 줄씩 말한다(과외.md 5절).'); _shot_site(out, ['', 'calc/' if 'calc' in K['parts'] else ('recipes/' if 'recipes' in K['parts'] else 'search/')], f'{kind.replace(" ", "")}_3붙이기')
+            prog_add(f'서비스 {kind}: 기능 붙임')
+        elif st == 4:
+            print('내용을 실제로 채운다 — 예시 자료를 지우고 독자 주제로 세션이 자료를 만든다:\n ' + K['fill'] + '\n지어낸 숫자는 「예시」 표시, 공식 자료에서 온 것은 출처를 적는다. 채운 뒤 python serve.py 로 열어 확인.')
+        elif st == 5:
+            set_parts(['monetize'], True); out, last, rcb = rebuild_local()
+            print('돈이 나올 자리를 만들었습니다(광고 칸·제휴 링크 칸(고지 자동)·후원/문의 링크 칸·소식 받기 칸). 값은 site.local.json 의 monetize 에 넣습니다(kits/monetize/README.md).\n광고·제휴·후원 서비스의 가입과 심사는 사람이 합니다 — 에이전트는 안내만 합니다.'); _shot_site(out, ['calc/' if 'calc' in K['parts'] else ('recipes/' if 'recipes' in K['parts'] else '')], f'{kind.replace(" ", "")}_5돈자리')
+        elif st == 6:
+            out = os.path.join(HERE, 'site_local')
+            if not os.path.isdir(out):
+                rebuild_local()
+            need = ['about/', '소개'], ['contact/', '문의'], ['privacy/', '개인정보 처리방침'], ['disclosure/', '광고·제휴 고지(광고·제휴가 있을 때)']
+            for pth, nm in need:
+                ok = os.path.exists(os.path.join(out, pth, 'index.html'))
+                print(('✓' if ok else '✗') + f' {nm}  (/{pth})')
+            S_ = {}
+            try:
+                S_ = json.load(open(os.path.join(HERE, 'site.local.json'), encoding='utf-8'))
+            except Exception:
+                pass
+            about = S_.get('about') or ''
+            print('소개문(about):', ('있음(' + str(len(about)) + '자)' if about else '없음 — 독자에게 두세 문장으로 받아 site.local.json 의 about 에 넣는다'))
+        elif st == 7:
+            th, ac = K['theme']; print(f'겉모습 후보(독자와 고른다): 신문형 paper · 카드 잡지형 card · 가게형 shop · 문서형 doc · 놀이터형 play · 한 장짜리 one. 이 종류의 추천: {th} {ac}\n고르면 site.local.json 에 "theme": "…", "accent": "#색" 을 넣고 다시 찍는다(python run.py 지금 → serve).')
+            if '--적용' in A:
+                pth = os.path.join(HERE, 'site.local.json'); d = json.load(open(pth, encoding='utf-8')) if os.path.exists(pth) else {}
+                d['theme'] = th
+                if ac:
+                    d['accent'] = ac
+                json.dump(d, open(pth, 'w', encoding='utf-8'), ensure_ascii=False, indent=2); out, last, rcb = rebuild_local(); print('추천 틀을 적용했습니다:', last); _shot_site(out, [''], f'{kind.replace(" ", "")}_7겉모습')
+        elif st == 8:
+            out = os.path.join(HERE, 'site_local')
+            if not os.path.isdir(out):
+                rebuild_local()
+            print('휴대폰 폭(390px)으로도 열어 봅니다.'); _shot_site(out, ['', 'search/'], f'{kind.replace(" ", "")}_8휴대폰', 390, 844)
+        elif st == 9:
+            rb = subprocess.run(PY + ['audit.py'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((rb.stdout + rb.stderr).strip()[-900:])
+            print('\n주소 값(site.json 의 url·base)과 올릴 곳은 독자가 정합니다. 올리기는 하지 않았습니다.\n▶ 올릴까요? (이 자리에서 멈춥니다 — 독자가 「올려」라고 할 때만, 가입·로그인은 독자 몫)')
+    return rc
+
+
 def find_demo(word):
     """조립 예시를 키(tools)·조합 이름(도구 모음)·사이트 이름(한입 도구함)으로 찾는다. 공백 무시, 하나로 좁혀질 때만."""
     D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
@@ -516,6 +662,12 @@ def main():
         return review_cmd()
     if cmd in ('혼동', 'confused'):
         return confuse_cmd(rest)
+    if cmd in ('참고', 'ref'):
+        return ref_cmd(rest)
+    if cmd in ('기획서', 'plan'):
+        return plan_cmd()
+    if cmd in ('서비스', 'service'):
+        return service_cmd(rest)
     if cmd in ('알기', 'know'):
         return sh(['know.py'] + rest)
     if cmd in ('진도', 'progress'):

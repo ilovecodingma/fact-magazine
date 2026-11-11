@@ -54,7 +54,8 @@
     "readtime": false,
     "prefs": false,
     "recipes": false,
-    "pwa": false
+    "pwa": false,
+    "monetize": false
   },
   "_parts_설명": "부품 켜기·끄기. info=뉴스·확인 노트, games=웹 게임, issue=잡지(호 발행), shorts=쇼츠 영상, mail=소식지 메일 보내기, inbox=문의 메일 답장 초안, posts=글(posts/*.md), novel=연재 소설(novels/작품/), toon=웹툰(toons/작품/), video=영상 모음(extras.videos), calc=계산기 키트, glossary=용어 사전 키트, search=사이트 안 검색 키트, status=상태 쪽 키트, ebook=전자책 키트. 키트 규격은 kits/README.md. false 로 바꾸면 그 부품의 화면·실행이 빠집니다(런북 12절).",
   "post_notice": "세법·제도는 해마다 바뀔 수 있으니 글 끝의 출처에서 현행 내용을 확인하세요."

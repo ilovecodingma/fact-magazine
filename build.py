@@ -25,6 +25,11 @@ if os.environ.get('SITE_LABELS'):
         S['labels'] = json.loads(os.environ['SITE_LABELS'])   # 메뉴·첫 화면 칸 이름 바꾸기(예: {"compare": "메뉴"})
     except Exception:
         pass
+if os.environ.get('SITE_MONETIZE'):
+    try:
+        S['monetize'] = json.loads(os.environ['SITE_MONETIZE'])   # 돈이 나올 자리 설정(광고·제휴·후원·소식 받기)
+    except Exception:
+        pass
 LAB = lambda k, d: (S.get('labels') or {}).get(k, d)
 GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼')]
 if os.environ.get('SITE_EXTRAS'):
@@ -95,7 +100,8 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 32px}.ex-grid h3{font:800 18px/1.4 var(--serif);margin:14px 0 8px}.ex-grid ul{list-style:none;margin:0;padding:0;font:15px/1.7 var(--sans)}.ex-grid li{padding:6px 0;border-bottom:1px solid var(--hair)}.ex-grid a{color:var(--link)}
 .ad-lb{display:inline-block;font:700 11px/1 var(--sans);border:1px solid var(--mu);color:var(--mu);padding:2px 5px;margin-left:6px;vertical-align:middle}.ad-nt{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
 .yt-row{display:flex;gap:12px;flex-wrap:wrap}.yt-row iframe{width:162px;height:288px;border:0;background:#111}
-.mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
+.mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.mon{margin:34px 0 0;display:grid;gap:10px}.mon>div{border:1px dashed var(--hair);border-radius:8px;padding:12px 14px;font:14px/1.6 var(--sans);color:var(--mu)}.mon-lb{display:inline-block;font:800 11px var(--sans);letter-spacing:.06em;border:1px solid currentColor;padding:2px 6px;margin-right:6px}.mon ul{margin:6px 0 0;padding-left:20px}.mon a{color:var(--link)}.mon-nt{margin:6px 0 0;font-size:12.5px}
+.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
 .calc label{display:block;font:700 14px var(--sans);margin:14px 0 4px}.calc input{font:18px var(--sans);padding:10px;width:100%;border:1px solid var(--ink);background:#fff}.crs{margin-top:18px;border-top:2px solid var(--ink)}.cr{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);font:16px var(--sans)}.cr b{font:800 22px var(--serif)}
 .notice{font:14px/1.5 var(--sans);background:#fff8dc;border:1px solid #e6d9a0;padding:8px 12px;margin:14px 0 0}.notice a{color:var(--link);margin-left:8px}details.fq{border-top:1px solid var(--hair);padding:12px 0}details.fq summary{font:700 17px/1.5 var(--serif);cursor:pointer}details.fq p{font:15px/1.7 var(--sans);color:#333;margin:8px 0 0}pre{overflow-x:auto}
 nav.menu{position:relative}details.mn{position:relative}details.mn summary{list-style:none;cursor:pointer;font:600 14px/1 var(--sans)}details.mn summary::-webkit-details-marker{display:none}.mnp{position:absolute;right:0;top:26px;background:#fff;border:1px solid var(--ink);padding:6px 14px;display:flex;flex-direction:column;gap:12px;z-index:20;min-width:140px;text-align:left}
@@ -142,6 +148,8 @@ def page(path, title, desc, body, noindex=False):
     robots = '<meta name="robots" content="noindex">' if noindex else ''
     PREF_HEAD = '<script>try{var d=document.documentElement,t=localStorage.getItem("fm_theme"),z=localStorage.getItem("fm_fz");if(t)d.setAttribute("data-theme",t);if(z)d.style.setProperty("--fz",z)}catch(e){}</script>' if part('prefs', False) else ''
     PREFS_UI = ('<p class="prefs">보기 설정: <button type="button" data-fz="-0.1">글자 작게</button><button type="button" data-fz="0.1">글자 크게</button><button type="button" data-th="1">어두운 바탕 켜기/끄기</button></p><script>(function(){var d=document.documentElement;document.querySelectorAll(".prefs button").forEach(function(b){b.onclick=function(){try{if(b.dataset.th){var t=d.getAttribute("data-theme")==="dark"?"light":"dark";d.setAttribute("data-theme",t);localStorage.setItem("fm_theme",t)}else{var z=Math.max(.8,Math.min(1.5,(parseFloat(d.style.getPropertyValue("--fz"))||1)+parseFloat(b.dataset.fz)));d.style.setProperty("--fz",z);localStorage.setItem("fm_fz",z)}}catch(e){}}})})()</script>') if part('prefs', False) else ''
+    MON = monetize_html() if part('monetize', False) else ''
+    MON_LINK = f'<a href="{BASE}disclosure/">광고·제휴 고지</a>' if part('monetize', False) else ''
     PWA_HEAD = f'<link rel="manifest" href="{BASE}manifest.webmanifest"><meta name="theme-color" content="{E(ACCENT)}"><link rel="apple-touch-icon" href="{BASE}icon-192.png">' if part('pwa', False) else ''
     PWA_REG = f'<script>if("serviceWorker" in navigator){{navigator.serviceWorker.register("{BASE}sw.js",{{scope:"{BASE}"}}).catch(function(){{}})}}</script>' if part('pwa', False) else ''
     items = [('오늘' if part('info') else '처음', BASE)]   # 메뉴 후보(앞에서부터 보여 주고 5칸을 넘으면 「더 보기」에 접는다)
@@ -186,8 +194,8 @@ def page(path, title, desc, body, noindex=False):
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
-<main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
+<main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}{MON}</main>
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{MON_LINK}{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not explicit_noindex:   # 조립 예시(DEMO)도 사이트 안 검색에는 들어간다(검색 엔진용 noindex 와 별개)
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
@@ -655,6 +663,39 @@ def write_pwa():
     open(os.path.join(OUT, 'sw.js'), 'w', encoding='utf-8').write(sw)
 
 
+def monetize_html():
+    """돈이 나올 자리(monetize 부품): 광고 칸·제휴 링크(고지 자동)·후원/문의 링크·소식 받기. 값이 없으면 틀만 보인다. 가입·심사는 사람 몫."""
+    M = S.get('monetize') or {}
+    ad = M.get('ad') or {}
+    box = []
+    if ad.get('html'):
+        box.append(f'<div class="mon-ad"><span class="mon-lb">광고</span>{ad["html"]}</div>')
+    else:
+        box.append(f'<div class="mon-ad"><span class="mon-lb">광고 자리</span> {E(ad.get("hint", "광고 서비스에 가입하고 심사를 통과하면 이 자리에 광고 코드를 넣습니다(가입·심사는 사람이 합니다)."))}</div>')
+    aff = M.get('affiliates') or []
+    if aff:
+        li = ''.join(f'<li><a href="{E(a["url"])}" rel="sponsored nofollow noopener" target="_blank">{E(a["name"])}</a>{(" — " + E(a["note"])) if a.get("note") else ""}</li>' for a in aff)
+        box.append(f'<div class="mon-aff"><span class="mon-lb">추천 링크</span><ul>{li}</ul><p class="mon-nt">이 링크로 구매하거나 가입하면 이 사이트가 수수료를 받을 수 있습니다(<a href="{BASE}disclosure/">광고·제휴 고지</a>).</p></div>')
+    else:
+        box.append('<div class="mon-aff"><span class="mon-lb">제휴 링크 자리</span> 제휴 서비스에 가입해 받은 링크를 넣으면 여기에 「수수료를 받을 수 있습니다」 고지와 함께 나옵니다.</div>')
+    sp = M.get('support') or {}
+    box.append(f'<div class="mon-sp"><span class="mon-lb">후원·문의</span> ' + (f'<a href="{E(sp["url"])}" rel="noopener" target="_blank">{E(sp.get("label", "후원하기"))}</a>' if sp.get('url') else '후원 링크 자리 — 후원 서비스 주소를 넣으면 버튼이 됩니다. ') + f' · <a href="{BASE}contact/">문의하기</a></div>')
+    nl = M.get('newsletter') or {}
+    box.append('<div class="mon-nl"><span class="mon-lb">소식 받기</span> ' + (f'<a href="{E(nl["url"])}" rel="noopener" target="_blank">{E(nl.get("label", "소식 받기"))}</a>' if nl.get('url') else '소식 받기 자리 — 메일 구독 서비스 주소를 넣으면 버튼이 됩니다.') + '</div>')
+    return '<aside class="mon">' + ''.join(box) + '</aside>'
+
+
+def disclosure_page():
+    M = S.get('monetize') or {}
+    has_ad = bool((M.get('ad') or {}).get('html')); has_aff = bool(M.get('affiliates'))
+    b = ('<h1>광고·제휴 고지</h1><p>이 사이트는 운영비를 마련하기 위해 아래 방식을 쓰거나 쓸 수 있습니다.</p><ul>'
+         f'<li><b>광고</b>: {"현재 광고가 표시됩니다. 광고 내용은 광고 서비스가 정하며 이 사이트의 의견이 아닙니다." if has_ad else "아직 광고를 싣지 않았습니다. 광고를 싣게 되면 「광고」 표시를 붙이고 이 쪽에 알립니다."}</li>'
+         f'<li><b>제휴 링크</b>: {"「추천 링크」로 구매하거나 가입하면 이 사이트가 수수료를 받을 수 있고, 값은 달라지지 않습니다. 링크에는 sponsored 표시를 붙였습니다." if has_aff else "아직 제휴 링크를 싣지 않았습니다. 싣게 되면 수수료를 받는다는 사실을 링크 옆에 알립니다."}</li>'
+         '<li><b>후원·소식 받기</b>: 자발적 후원과 메일 소식 받기 링크는 해당 서비스의 약관과 개인정보 방침을 따릅니다.</li></ul>'
+         '<p>이 사이트의 글·계산 결과는 참고용이며 투자·법률·세무 자문이 아닙니다.</p>')
+    return page('disclosure', f'광고·제휴 고지 — {S["name"]}', '광고와 제휴 링크, 수수료에 대한 고지', f'<div class="page">{b}</div>')
+
+
 def home(notes, topics, notice=''):
     """첫 화면 — 머리기사 하나를 크게, 나머지 노트는 오른쪽 단, 아래에 「함께 다룬 소식」을 여러 단 목록으로."""
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
@@ -746,6 +787,8 @@ def main():
     urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
     if not DEMO:
         feed(notes)
+    if part('monetize', False):
+        disclosure_page()
     write_search_index()
     if part('pwa', False):
         write_pwa()
