@@ -229,6 +229,19 @@ def run_kit(kit, headless, slow):
                 if step.get('installable'):   # 브라우저가 「설치할 수 있는 앱」으로 보는지
                     errs = pg.call('Page.getInstallabilityErrors').get('installabilityErrors', [])
                     good = not errs; res = '설치 가능' if good else '설치 막는 것: ' + ', '.join(e.get('errorId', '?') for e in errs)
+                if 'pick_all' in step or 'pick' in step:   # 퀴즈 자료(quiz.json)의 정답 번호를 읽어 그 보기를 고른다(자료를 바꿔도 시험이 맞게)
+                    qd = json.load(open(os.path.join(HERE, 'kits', 'quiz', 'data', 'quiz.json'), encoding='utf-8'))['questions']
+                    todo = [(i2, step['pick_all']) for i2 in range(len(qd))] if 'pick_all' in step else [(step['pick'][0], step['pick'][1])]
+                    for qi, how in todo:
+                        if qi >= len(qd):
+                            continue
+                        ans = qd[qi]['answer']; val = ans if how == 'right' else (ans + 1) % len(qd[qi]['options'])
+                        sel2 = f"input[name=q{qi}][value='{val}']"
+                        if not pg.ev(HILITE_JS % json.dumps(sel2)):
+                            good = False; res = f'화면에서 {sel2} 를 찾지 못함'; break
+                        c = pg.ev(CENTER_JS % json.dumps(sel2)); pg.call('Input.dispatchMouseEvent', type='mousePressed', x=c['x'], y=c['y'], button='left', clickCount=1); pg.call('Input.dispatchMouseEvent', type='mouseReleased', x=c['x'], y=c['y'], button='left', clickCount=1); time.sleep(slow * 0.15)
+                    if good:
+                        res = f'{len(todo)}문항 ' + ('정답' if todo and todo[0][1] == 'right' else '오답') + '으로 고름'
                 for key in ('click', 'type'):
                     if key in step:
                         sel, txt = (step['click'], None) if key == 'click' else (step['type'][0], step['type'][1])
@@ -241,6 +254,9 @@ def run_kit(kit, headless, slow):
                             pg.ev(f'document.querySelector({json.dumps(sel)}).select&&document.querySelector({json.dumps(sel)}).select()'); pg.call('Input.insertText', text=txt)
                 time.sleep(step.get('wait', 0.4) + slow * 0.3)
                 ex = step.get('expect')
+                if ex and ('{N' in json.dumps(ex, ensure_ascii=False)):
+                    nq = len(json.load(open(os.path.join(HERE, 'kits', 'quiz', 'data', 'quiz.json'), encoding='utf-8'))['questions'])
+                    ex = json.loads(json.dumps(ex, ensure_ascii=False).replace('{N1}', str(nq - 1)).replace('{N}', str(nq)))
                 if good and ex:
                     sel = ex.get('sel', 'body')
                     if 'min_count' in ex:

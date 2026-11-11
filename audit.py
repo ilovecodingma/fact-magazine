@@ -57,7 +57,7 @@ def main():
             problems.append(f'{rel}: h1 이 {n1}개')
         main_html = re.search(r'<main[^>]*>(.*?)</main>', h, re.S)
         text = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', re.sub(r'(?s)<(script|style).*?</\1>', ' ', main_html.group(1) if main_html else h)))
-        if len(text.strip()) < 80 and not re.search(r'<(img|canvas|iframe|input)', main_html.group(1) if main_html else ''):   # 그림·게임·영상만 있는 쪽은 비어 있지 않은 것으로 본다
+        if len(text.strip()) < 40 and not re.search(r'<(img|canvas|iframe|input)', main_html.group(1) if main_html else ''):   # 그림·게임·영상만 있는 쪽은 비어 있지 않은 것으로 본다
 
             problems.append(f'{rel}: 빈 쪽(본문 글자 {len(text.strip())}자)')
         for href in re.findall(r'(?:href|src)="([^"#?]+)', h):

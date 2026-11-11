@@ -8,6 +8,7 @@
       python run.py 사이클                    하루 한 바퀴(올리기·메일 빼고)를 단계별로 돌리기
       python run.py 알기 계산기 5             꼭 알아야 할 것 top-k   (python run.py 알기 하네스)
       python run.py 점검                      doctor
+      python run.py 예제정리 [--yes]          주제를 바꿀 때 notes/ 의 예제 노트를 예제/ 로 옮김(독자에게 먼저 묻는다)
       python run.py 올리기전                  구문 검사 + 장·키트·조립·사이클 명령을 한 번씩 실제로 돌려 보기(올리기 전 필수)
       python run.py 진도 [보기|기록 글]        어디까지 했는지
       python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
@@ -106,6 +107,15 @@ def cycle_shot(i, title, script):
         out = os.path.join(SHOTS, '사이클_4_점검결과.png'); text_png(br, '점검(audit) 결과', [('python audit.py', LAST_OUT[4][-2500:])], out); print('  화면 저장:', os.path.basename(out), flush=True)
 
 
+def info_on():
+    """site.json(+site.local.json)에서 뉴스(info) 부품이 켜져 있나."""
+    S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+    lp = os.path.join(HERE, 'site.local.json')
+    if os.path.exists(lp):
+        S.update(json.load(open(lp, encoding='utf-8')))
+    return bool((S.get('parts') or {}).get('info', True))
+
+
 def find_demo(word):
     """조립 예시를 키(tools)·조합 이름(도구 모음)·사이트 이름(한입 도구함)으로 찾는다. 공백 무시, 하나로 좁혀질 때만."""
     D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
@@ -199,6 +209,8 @@ def main():
         steps = [('수집·묶기·대조·화면·호·쇼츠', ['run_daily.py'], '수집 건수·묶음·대조 결과·쪽 수·호 PDF·쇼츠는 위 출력의 단계별 줄'), ('알림 문구·블로그 글(promo)', ['promo.py'], 'promo_out/ 폴더'), ('공유용 카드 그림', ['card.py', '--square'], 'cards/ 폴더(png·svg)'), ('점검(audit)', ['audit.py'], '아래 점검 결과 줄')]
         for i, (t, a, where) in enumerate(steps, 1):
             print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}  (결과는 {where})', flush=True)
+            if i in (2, 3) and not info_on():
+                print('  건너뜀: 이 사이트는 뉴스 기능이 꺼져 있어 확인 노트가 없습니다(알림 문구·카드는 노트로 만듭니다).', flush=True); continue
             if i == 4:
                 r4 = subprocess.run(PY + a, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print(r4.stdout + r4.stderr, flush=True); LAST_OUT[4] = r4.stdout + r4.stderr
             else:
@@ -229,6 +241,21 @@ def main():
         r = subprocess.run(PY + ['run_daily.py', '--dry'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); ok = r.returncode == 0
         bad += 0 if ok else 1; print(('✓' if ok else '✗'), 'run_daily.py --dry')
         print(chr(10) + '올려도 됩니다' if not bad else chr(10) + f'올리지 마세요: {bad}건 실패'); return 1 if bad else 0
+    if cmd in ('예제정리', 'cleanup'):
+        import re as _re, shutil
+        nd = os.path.join(HERE, 'notes'); ex = os.path.join(HERE, '예제')
+        fs = [f for f in sorted(os.listdir(nd)) if _re.match(r'\d{4}-\d{2}-\d{2}-', f)] if os.path.isdir(nd) else []
+        print('옮길 예제 노트(날짜로 시작하는 작성자의 노트):', len(fs), '개  ※ 예시-수출.json 은 화면 시험용이라 그대로 둡니다')
+        for f in fs[:8]:
+            print('  -', f)
+        if '--yes' in A:
+            os.makedirs(ex, exist_ok=True)
+            for f in fs:
+                shutil.move(os.path.join(nd, f), os.path.join(ex, f))
+            print('예제/ 로 옮겼습니다(지우지 않았습니다).'); prog_add('예제 노트를 예제/ 로 옮김')
+        else:
+            print('옮기려면 독자에게 먼저 묻고: python run.py 예제정리 --yes')
+        return 0
     if cmd in ('알기', 'know'):
         return sh(['know.py'] + rest)
     if cmd in ('진도', 'progress'):

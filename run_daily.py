@@ -42,6 +42,8 @@ def main():
     start = datetime.datetime.now()
     steps, done = [], []
     clean = {'SITE_EXTRAS': '{}'}   # 저장소에 올라가는 docs/ 는 내 값(쿠팡 등) 없이 만든다
+    if not on('info'):
+        print('▷ 수집·묶기·대조 — 건너뜀: 이 사이트는 뉴스 기능이 꺼져 있어 이 단계는 건너뜁니다')
     if on('info'):
         steps += [('수집', [PY, '-X', 'utf8', 'collect.py'], None), ('묶기', [PY, '-X', 'utf8', 'group.py'], None), ('대조', [PY, '-X', 'utf8', 'check.py'], None)]
     steps.append(('화면(빌드)', [PY, '-X', 'utf8', 'build.py'], clean))

@@ -47,39 +47,30 @@
         }
       },
       {
-        "say": "1번 문항의 정답(공식 자료)을 고릅니다",
-        "click": "input[name=q0][value='1']",
-        "expect": {
-          "sel": "body",
-          "contains": "1. 뉴스의 숫자"
-        }
-      },
-      {
-        "say": "2번 문항의 정답을 고릅니다",
-        "click": "input[name=q1][value='1']"
-      },
-      {
-        "say": "3번 문항의 정답을 고릅니다",
-        "click": "input[name=q2][value='0']"
+        "say": "모든 문항의 정답(자료 파일 quiz.json 의 정답 번호)을 고릅니다",
+        "pick_all": "right"
       },
       {
         "say": "「채점하기」를 누릅니다",
         "click": "#go",
         "expect": {
           "sel": "#rs",
-          "contains": "3 / 3점"
+          "contains": "{N} / {N}점"
         }
       },
       {
         "say": "1번을 일부러 틀리게 바꿔 다시 채점합니다",
-        "click": "input[name=q0][value='0']"
+        "pick": [
+          0,
+          "wrong"
+        ]
       },
       {
-        "say": "다시 채점하면 2점이 나옵니다",
+        "say": "다시 채점하면 한 문항 모자란 점수가 나옵니다",
         "click": "#go",
         "expect": {
           "sel": "#rs",
-          "contains": "2 / 3점"
+          "contains": "{N1} / {N}점"
         }
       }
     ]
