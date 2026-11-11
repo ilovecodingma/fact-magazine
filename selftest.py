@@ -293,8 +293,8 @@ MEASURE_JS = r"""(function(){
   if((e.tagName==='IMG'||e.tagName==='SVG'||e.tagName==='CANVAS'||e.tagName==='svg')&&r.top<vh&&r.bottom>0&&r.width>60&&r.height>40)imgs++;
  });
  var crop=0;document.querySelectorAll('img').forEach(function(im){var r=im.getBoundingClientRect();if(r.width<40||r.top>vh||r.bottom<0||!im.naturalWidth||!im.naturalHeight)return;var cs=getComputedStyle(im);var q=(r.width/r.height)/(im.naturalWidth/im.naturalHeight);if(Math.abs(q-1)>0.06&&cs.objectFit!=='contain')crop++});
- var cats=document.querySelectorAll('nav.menu a[data-cat]').length;
- return JSON.stringify({imgCrop:crop,cats:cats,minFont:Math.round(minF*10)/10,minFontEl:minFEl,minContrast:Math.round(minC*100)/100,minContrastEl:minCEl,imgs:imgs,info:info,overflow:document.documentElement.scrollWidth-innerWidth,pageH:document.documentElement.scrollHeight,vh:vh})
+ var cats=document.querySelectorAll('nav.menu a[data-cat]').length;var cards=0;document.querySelectorAll('.pc,.nb,.pt').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<vh&&r.bottom>0&&r.width>80)cards++});
+ return JSON.stringify({imgCrop:crop,cats:cats,cards:cards,minFont:Math.round(minF*10)/10,minFontEl:minFEl,minContrast:Math.round(minC*100)/100,minContrastEl:minCEl,imgs:imgs,info:info,overflow:document.documentElement.scrollWidth-innerWidth,pageH:document.documentElement.scrollHeight,vh:vh})
 })()"""
 
 
@@ -334,10 +334,11 @@ def measure_site(directory, pages, width=1280, height=860, mobile=False):
 
 
 # 만듦새 기준(참고 사이트와 같은 급으로 보이는가): 빈 영역·그림·글자·대비·넘침·정보량
-THRESH = {'imgCrop': ('그림 잘림(그림 비율≠표시 비율)', 0, '<='), 'cats': ('분야 탭 수', 3, '>='), 'empty': ('첫 화면 빈 영역 비율', 0.55, '<='), 'imgs': ('첫 화면 그림 카드 수', 4, '>='), 'minFont': ('가장 작은 글자(px)', 13, '>='), 'minContrast': ('가장 낮은 대비', 4.5, '>='), 'overflow': ('가로 넘침(px)', 2, '<='), 'info': ('첫 화면 정보량(글 덩어리)', 14, '>=')}
+THRESH = {'imgCrop': ('그림 잘림(그림 비율≠표시 비율)', 0, '<='), 'cats': ('분야 탭 수', 3, '>='), 'cards': ('첫 화면 글 카드 수', 4, '>='), 'empty': ('첫 화면 빈 영역 비율', 0.55, '<='), 'imgs': ('첫 화면 그림 카드 수', 4, '>='), 'minFont': ('가장 작은 글자(px)', 13, '>='), 'minContrast': ('가장 낮은 대비', 4.5, '>='), 'overflow': ('가로 넘침(px)', 2, '<='), 'info': ('첫 화면 정보량(글 덩어리)', 14, '>=')}
 
 
 def grade(m, imgs_needed=True, empty_needed=True, min_imgs=4, cats_needed=True):
+    cards_needed = cats_needed   # 글 쪽에는 카드 격자가 없으므로 재지 않는다
     """측정값 m → [(키, 이름, 값, 기준, 통과)]"""
     out = []
     for k, (nm, th, op) in THRESH.items():
@@ -348,6 +349,10 @@ def grade(m, imgs_needed=True, empty_needed=True, min_imgs=4, cats_needed=True):
             continue
         if k == 'cats' and not cats_needed:
             continue
+        if k == 'cards' and not cards_needed:
+            continue
+        if k == 'cards' and min_imgs == 2:
+            th = 2   # 휴대폰은 한 줄에 카드 한 장이라 기준을 낮춘다
         if k == 'imgs':
             th = min_imgs
         if k == 'empty' and not empty_needed:

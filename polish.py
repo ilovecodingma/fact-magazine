@@ -75,7 +75,7 @@ def css3(opt):
                        "body.pl3 .logo{text-align:left;font:900 34px/1.1 'Noto Serif KR','Nanum Myeongjo',Batang,serif;margin:14px 0 8px;color:var(--pri,#111)}body.pl3 .mast{border-bottom:0}body.pl3 .mast-r{top:12px}\n"
                        "@media(max-width:640px){body.pl3 .logo{font-size:28px}body.pl3 .mast-r{position:static;margin-left:auto}}\n")
     return base + ("body.pl3 .dateline{text-align:center}body.pl3 .logo{font:900 46px/1.1 'Noto Serif KR','Nanum Myeongjo',Batang,serif;letter-spacing:-.04em;margin:6px 0 10px}\n"
-                   "@media(max-width:640px){body.pl3 .logo{font-size:30px}body.pl3 .mast-r{top:6px;right:12px}body.pl3 .mast-r a.sub{display:none}body.pl3 .dateline{font-size:13px;padding-right:56px;text-align:left}}\n")
+                   "@media(max-width:640px){body.pl3 .logo{font-size:30px}body.pl3 .mast-r{top:6px;right:12px}body.pl3 .mast-r a.sub{display:none}body.pl3 nav.menu.cats{-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);mask-image:linear-gradient(90deg,#000 86%,transparent)}body.pl3 .dateline{font-size:13px;padding-right:56px;text-align:left}}\n")
 
 
 # ---------------------------------------------------------------- 4 첫 화면 짜임 / 5 그림
@@ -243,8 +243,9 @@ def thumb_svg(B, n, opt='A', w=600, h=400):
     if opt == 'B' or not num:
         big = icon_svg(ic, col, w * 0.5 - h * 0.2, h * 0.2, h * 0.5)   # 판정 글자는 아래 딱지가 맡는다(겹치지 않게)
     else:
-        size = max(int(h * 0.16), min(int(h * 0.36), int(w * 0.84 / max(1, 0.82 * len(num)))))
-        big = f'<text x="{cx}" y="{h * 0.62}" text-anchor="middle" font-size="{size}" font-weight="900" fill="{col}" letter-spacing="-2">{E(num)}</text>'
+        wide = w >= h * 2.5
+        size = max(int(h * 0.16), min(int(h * (0.30 if wide else 0.36)), int(w * 0.84 / max(1, 0.82 * len(num)))))
+        big = f'<text x="{cx}" y="{h * (0.50 if wide else 0.62)}" text-anchor="middle" font-size="{size}" font-weight="900" fill="{col}" letter-spacing="-2">{E(num)}</text>'
     corner = icon_svg(ic, col, w - h * 0.34 - pad, pad * 0.9, h * 0.28).replace('<g ', '<g opacity="0.55" ', 1) if (opt != 'B' and num) else ''
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" font-family="\'Noto Serif KR\',\'Nanum Myeongjo\',Batang,serif">'
             f'<defs>{pattern_defs(col, n["id"])}</defs><rect width="{w}" height="{h}" fill="{tint}"/><rect width="{w}" height="{h}" fill="url(#pt)"/>'
