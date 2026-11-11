@@ -22,6 +22,7 @@
       python run.py 비교 [종류]                참고 사이트 화면과 내 첫 화면을 나란히 한 장으로(인터넷 필요)
       python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
       python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
+      python run.py 맺음                      걸음·장을 맺을 때 「오늘 배운 것 세 줄 + 헷갈려 한 것 + 다음에 할 것」 초안(내_서비스.md·고른 것에서)
       python run.py 방식 프런트|백엔드|바꾸기   화면을 만드는 방식·방문자가 남기는 것을 받는 방식(서비스의 말로 묻고, 세션은 경우만 말하고, 독자가 고른다)
       python run.py 내서비스 [칸 "<칸>" "<정리한 말>"]   상담하며 정리한 「내 서비스 한 장」(내_서비스.md)의 어느 칸이 채워졌는지 보기·적기
       python run.py 고름 <걸음> <고른 것> [까닭]   독자가 고른 것을 기록(1·2장은 독자가 고르기 전에는 적용하지 않는다) · 고른것 [--shots] · 미룬것
@@ -650,8 +651,8 @@ def shots_for(out, tag):
         jobs.append(([f'n/{nid}/'], [os.path.join(SHOTS, f'다듬기_{tag}_글쪽.png')], 1280, 860, False))
     jobs.append((['', ], [os.path.join(SHOTS, f'다듬기_{tag}_휴대폰.png')], 390, 844, True))
     for pages, outs, w, h, mob in jobs:
-        if T.shoot_pages(out, pages, outs, w, h, mob):
-            print('  화면 저장:', outs[0], flush=True)
+        ok = T.shoot_pages(out, pages, outs, w, h, mob) or T.shoot_pages(out, pages, outs, w, h, mob)   # 한 번 실패하면 다시
+        print(('  화면 저장: ' + outs[0]) if ok and os.path.exists(outs[0]) else ('  ✗ 화면 저장 실패: ' + outs[0]), flush=True)
 
 
 def polish_cmd(rest):
@@ -664,10 +665,16 @@ def polish_cmd(rest):
             print(f'  {st["n"]:>2}. {st["title"]}  [{mark}]')
         print('\n사용: python run.py 다듬기 1  (안 A·B 미리보기) → 독자가 고르면 python run.py 다듬기 1 --안 A --shots 폴더'); return 0
     if rest[0] == '0':
-        nm = apply_name()
-        print('━━ 다듬기 0. 이름과 한 줄 소개 ━━\n독자에게 먼저 묻는다: 「사이트 이름을 무엇으로 할까요? 한 줄로 소개하면?」 → 생각.md 에 정리 → 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 0 --이름 "…" --소개 "…"')
-        if nm:
-            print(f'적용했습니다: 이름 「{nm[0]}」' + (f' — {nm[1]}' if nm[1] else '')); out, last, rcb = rebuild_local(); shots_for(out, '0_이름'); prog_add(f'다듬기 0 이름 {nm[0]}')
+        print('━━ 다듬기 0. 이름과 한 줄 소개 ━━\n[상담: 먼저 물을 것] 이 사이트를 한 문장으로 소개하면 뭐라고 하시겠어요? 누가 보러 오나요?\n독자에게 먼저 묻는다: 「사이트 이름을 무엇으로 할까요? 한 줄로 소개하면?」 → 생각.md 에 정리 → 「이렇게 이해했습니다: … 이대로 적용할까요?」 → 독자가 예 하면 python run.py 고름 다듬기0 적용 \"<까닭>\" → python run.py 다듬기 0 --이름 \"…\" --소개 \"…\"')
+        if '--이름' in A or os.path.exists(os.path.join(HERE, '기획서.md')) and False:
+            if not need_choice('다듬기0', '적용'):
+                return 1
+            nm = apply_name()
+            if nm:
+                print(f'적용했습니다: 이름 「{nm[0]}」' + (f' — {nm[1]}' if nm[1] else '')); out, last, rcb = rebuild_local(); shots_for(out, '0_이름'); prog_add(f'다듬기 0 이름 {nm[0]}')
+            print('\n[물음] 이 이름을 본 방문자가 이 사이트를 어떤 곳이라고 짐작할까요?\n여기서 멈추고 독자에게 묻습니다.')
+        else:
+            print('\n여기서 멈추고 독자에게 묻습니다.')
         return 0
     if rest[0] in ('다음', 'next'):
         nxt = next((st for st in steps if st['status'] == 'ready' and str(st['n']) not in cur and not chosen(f'다듬기{st["n"]}')), None)
@@ -698,6 +705,7 @@ def polish_cmd(rest):
                 os.makedirs(SHOTS, exist_ok=True); fp = os.path.join(SHOTS, f'다듬기_{n}_안{o}_PC첫화면.png')
                 if T.shoot_pages(out, [''], [fp], 1280, 860):
                     print(f'  미리보기 저장: {fp}  ({o}안)', flush=True)
+        print('\n[독자가 「뭐가 좋아요?」「아무거나」라고 하면 이렇게 말합니다] ' + ask_sentence({o: x.split(' → ')[0] if ' → ' in x else x for o, x in st['options'].items()}))
         print(f'\n[고를 것] 안 {" · ".join(st["options"])} 또는 나중에/건너뜀(이것도 고르는 것입니다)\n독자에게 먼저 묻는다: 「어느 쪽이 마음에 드나요? 왜요?」 → 정리해서 생각.md 에 적고(python run.py 정리 …), 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 {n} --안 A|B')
         return 0
     if opt not in st['options']:
@@ -820,7 +828,49 @@ def record_choice(key, pick, why='', by='독자'):
         f.write(f'\n## {time.strftime("%Y-%m-%d %H:%M")} 고름\n- **걸음**: {key}\n- **정함**: {pick}\n- **까닭(독자의 말)**: {why or "(아직 안 물음)"}\n')
 
 
+VALID_KEY = re.compile(r'^(다듬기\d{1,2}|방식프런트|방식백엔드|변환|내놓기|도커|서버|백엔드)$')
+
+
+def ask_sentence(options):
+    """독자가 「뭐가 좋아요?」「아무거나」라고 할 때 세션이 그대로 읽어 줄 수 있는 말(독자가 앞서 한 말에 비추어 경우만 짚고, 정하지 않는다)."""
+    d = svc_load(); said = ''
+    for c in ('누구에게', '무엇을 주나', '왜 다시 오나'):
+        if d.get(c):
+            said = d[c][-1][2:]; break
+    cases = ' / '.join(f'{k}안은 「{v[:46]}」 경우' for k, v in options.items())
+    return (f'앞서 「{said}」라고 하셨으니, ' if said else '아직 서비스 얘기를 많이 못 들었지만, ') + f'{cases}에 맞습니다. ' + ('지금까지 하신 말로는 어느 경우에 더 가까운가요? ' if said else '어떤 분이 어떻게 보실 것 같은지 먼저 한 가지만 말씀해 주시겠어요? ') + '어느 쪽으로 할까요?'
+
+
+def wrap_up_cmd():
+    """걸음·장을 맺을 때: 내_서비스.md 와 고른 것에서 「오늘 배운 것 세 줄 + 헷갈려 한 것 + 다음에 할 것」 초안."""
+    d = svc_load(); ch = choices(); done = prog_load().get('done', [])[-12:]
+    lines = []
+    for c in ('누구에게', '무엇을 주나', '왜 다시 오나', '무엇으로 버나'):
+        if d.get(c):
+            lines.append(f'{c}: {d[c][-1][2:]}')
+    for k, v in list(ch.items())[-3:]:
+        lines.append(f'{k} 에서 「{v["pick"]}」를 골랐고 까닭은 「{v.get("why") or "미기록"}」')
+    lines = lines[:3] if len(lines) >= 3 else lines + ['(독자와 함께 이 칸을 더 채우면 세 줄이 됩니다)'] * (3 - len(lines))
+    conf = [f'{c["kit"]}: {c["what"]}' for c in prog_load().get('confused', [])[-3:]]
+    empty = [c for c in ('왜 다시 오나', '무엇으로 버나') if not d.get(c)]
+    print('━━ 맺음 — 초안(독자와 다듬어 말합니다) ━━\n[오늘 배운 것 세 줄]'); [print(f'  {i}. {x}') for i, x in enumerate(lines, 1)]
+    print('[헷갈려 한 것] ' + ('; '.join(conf) if conf else '(없음)'))
+    print('[다음에 할 것] ' + (f'내_서비스.md 의 비어 있는 칸 — {", ".join(empty)} — 을 다음 걸음의 상담 물음에서 묻습니다' if empty else '다음 걸음을 독자가 고릅니다'))
+    for c in empty:
+        print(f'   ☐ 「{c}」 칸이 비었습니다 → python run.py 내서비스 칸 "{c}" "<정리한 말>"')
+    print('\n독자와 말로 다듬은 뒤 python run.py 진도 기록 "<세 줄 요약>" 으로 남깁니다.'); return 0
+
+
+def key_ok(key):
+    return bool(VALID_KEY.match(key))
+
+
+KEY_HELP = '걸음 키: 다듬기0 ~ 다듬기12 · 방식프런트 · 방식백엔드 · 변환 · 내놓기 · 도커 · 서버 · 백엔드  (예: python run.py 고름 다듬기1 A "읽기 편해서")'
+
+
 def choose_cmd(rest):
+    if rest and not key_ok(rest[0]):
+        print(f'걸음 키가 맞지 않습니다: 「{rest[0]}」\n{KEY_HELP}'); return 1
     if len(rest) < 2:
         print('사용: python run.py 고름 <걸음> <고른 것> [까닭 한 줄]   예: 고름 다듬기1 A "읽기 편해서"   (나중에·건너뜀 도 고르는 것입니다)'); return 1
     record_choice(rest[0], rest[1], ' '.join(rest[2:]))
@@ -829,6 +879,8 @@ def choose_cmd(rest):
 
 def need_choice(key, opt):
     """--안 을 줄 때 독자가 고른 기록이 있어야 한다. 없으면 --고른이 독자 --까닭 으로 한 번에 기록할 수 있지만 독자의 말 없이는 부르지 않는다."""
+    if not key_ok(key):
+        print(f'내부 오류: 걸음 키 {key} 는 허용되지 않습니다. {KEY_HELP}'); return False
     if '--고른이' in A and len(A) > A.index('--고른이') + 1 and A[A.index('--고른이') + 1] == '독자':
         why = A[A.index('--까닭') + 1] if '--까닭' in A and len(A) > A.index('--까닭') + 1 else ''
         record_choice(key, opt, why); return True
@@ -976,13 +1028,35 @@ def env_ensure():
 def server_cmd(rest):
     sub_ = rest[0] if rest else '켜기'
     if sub_ == '암호':
-        import getpass, hashlib
-        pw = getpass.getpass('운영자 암호(화면에 안 보임): ') if sys.stdin.isatty() else os.environ.get('FM_ADMIN_PW', '')
+        import hashlib, threading
+        pw = os.environ.get('FM_ADMIN_PW', '')
+        if not pw:
+            real = False
+            if os.name == 'nt':
+                try:
+                    import ctypes
+                    mode = ctypes.c_ulong(); real = bool(ctypes.windll.kernel32.GetConsoleMode(ctypes.windll.kernel32.GetStdHandle(-10), ctypes.byref(mode)))
+                except Exception:
+                    real = False
+            else:
+                real = sys.stdin.isatty()
+            if not real:
+                print('이 셸에서는 암호를 입력받을 수 없습니다(입력이 연결돼 있지 않음).\n독자가 직접: ! python run.py 서버 암호   (세션 입력창에서 ! 를 앞에 붙여 실행하면 독자가 암호를 칠 수 있습니다) — 또는 환경변수 FM_ADMIN_PW 로 주고 실행.'); return 1
+            import getpass
+            box = {}
+            t = threading.Thread(target=lambda: box.setdefault('pw', getpass.getpass('운영자 암호(8자 이상, 화면에 안 보임): ')), daemon=True); t.start(); t.join(90)
+            if t.is_alive():
+                print('90초 동안 입력이 없어 끝냅니다. 독자가 직접: ! python run.py 서버 암호'); return 1
+            pw = box.get('pw', '')
         if len(pw) < 8:
-            print('암호는 8자 이상이어야 합니다(터미널에서 직접 입력하거나, 세션에서는 `! python run.py 서버 암호` 로 독자가 직접 입력).'); return 1
+            print('암호는 8자 이상이어야 합니다.'); return 1
         os.makedirs(os.path.join(HERE, 'data', 'app'), exist_ok=True); salt = os.urandom(8).hex()
         json.dump({'salt': salt, 'iters': 120000, 'hash': hashlib.pbkdf2_hmac('sha256', pw.encode(), bytes.fromhex(salt), 120000).hex()}, open(os.path.join(HERE, 'data', 'app', 'admin.json'), 'w'))
-        print('운영자 암호를 정했습니다(파일에는 해시만 저장됩니다).'); return 0
+        print('운영자 암호를 정했습니다(파일에는 해시만 저장됩니다).')
+        rc, o = sh_out(['docker', 'compose', 'ps', '--status', 'running', '-q', 'app'], 15)
+        if rc == 0 and o.strip():   # ⑩ 서버가 이미 떠 있으면 다시 띄워 새 암호가 바로 쓰이게
+            subprocess.run(['docker', 'compose', 'restart', 'app'], cwd=HERE, capture_output=True); print('떠 있던 서버를 다시 띄워 새 암호가 바로 쓰이게 했습니다.')
+        return 0
     dc = ['docker', 'compose']
     env_ensure()
     if sub_ in ('끄기', 'down'):
@@ -1007,11 +1081,26 @@ def server_cmd(rest):
     P_ = eff_parts()
     if not P_.get('backend'):
         print('백엔드 키트가 꺼져 있습니다. 먼저 python run.py 켜기 backend 로 켜세요(필요하면 댓글·문의·소식 받기도).'); return 1
-    env_ensure(); out, last, rcb = rebuild_local()
-    print(f'사이트를 찍었습니다({last}). 도커로 서버를 켭니다(처음에는 이미지를 내려받아 몇 분 걸립니다)…', flush=True)
-    rc = subprocess.run(dc + ['up', '-d', '--build'], cwd=HERE).returncode
-    if rc != 0:
-        print('도커 실행에 실패했습니다. python run.py 서버 로그 로 이유를 같이 봅니다.'); return rc
+    env_ensure(); t0 = time.time(); stamp = lambda: f'{time.time() - t0:.0f}초'
+    print('[1/4] 사이트를 찍는 중…', flush=True); out, last, rcb = rebuild_local()
+    print(f'[2/4] 서버 상자를 만들고 필요한 이미지를 내려받는 중(처음에는 3~5분, 두 번째부터는 몇 초) — {stamp()}', flush=True)
+    import threading
+    alive = {'on': True}
+    def beat():
+        while alive['on']:
+            time.sleep(15)
+            if alive['on']:
+                print(f'      … 아직 하는 중입니다({stamp()} 지남)', flush=True)
+    threading.Thread(target=beat, daemon=True).start()
+    r1 = subprocess.run(dc + ['build', '--progress', 'plain'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    if r1.returncode != 0:
+        alive['on'] = False; print('상자 만들기에 실패했습니다:\n' + (r1.stdout + r1.stderr)[-600:]); return r1.returncode
+    print(f'[3/4] 데이터베이스와 서버를 켜는 중 — {stamp()}', flush=True)
+    rc = subprocess.run(dc + ['up', '-d'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    alive['on'] = False
+    if rc.returncode != 0:
+        print('도커 실행에 실패했습니다:\n' + (rc.stdout + rc.stderr)[-500:] + '\npython run.py 서버 로그 로 이유를 같이 봅니다.'); return rc.returncode
+    print(f'[4/4] 뜰 때까지 기다리는 중 — {stamp()}', flush=True)
     import urllib.request as ur
     for _ in range(60):
         try:
@@ -1084,7 +1173,14 @@ def service_card_cmd(rest):
     if rest and rest[0] == '칸':
         if len(rest) < 3 or rest[1] not in SVC_CARDS:
             print('사용: python run.py 내서비스 칸 "<칸 이름>" "<정리한 말>"   칸: ' + ' · '.join(SVC_CARDS)); return 1
-        d.setdefault(rest[1], []).append('- ' + ' '.join(rest[2:])); svc_save(d); print(f'「{rest[1]}」 칸에 적었습니다.')
+        line = '- ' + ' '.join(x for x in rest[2:] if x != '--바꾸기')
+        if '--바꾸기' in A:
+            d[rest[1]] = [line]; msg = '바꿨습니다'
+        elif line in d.get(rest[1], []):
+            msg = '같은 말이 이미 있어 그대로 둡니다'
+        else:
+            d.setdefault(rest[1], []).append(line); msg = '적었습니다'
+        svc_save(d); print(f'「{rest[1]}」 칸에 {msg}. (같은 칸의 말을 바꾸려면 --바꾸기)')
     d = svc_load()
     print('━━ 내 서비스 한 장 — 어느 칸이 채워졌나 ━━')
     for c in SVC_CARDS:
@@ -1125,6 +1221,7 @@ def ways_cmd(rest):
     for o, v in W['opts'].items():
         print(f'  ({o}) {v["name"]}\n      이런 경우에 좋습니다: {v["good"]}\n      이런 경우에는 손이 더 갑니다: {v["hard"]}')
     if opt is None:
+        print('\n[독자가 「뭐가 좋아요?」라고 하면 이렇게 말합니다] ' + ask_sentence({o: x['good'] for o, x in W['opts'].items()}))
         if SHOTS:
             import selftest as T
             base = dict(eff_parts()); os.makedirs(SHOTS, exist_ok=True)
@@ -1144,7 +1241,7 @@ def ways_cmd(rest):
     if opt not in W['opts']:
         print('안은 가·나·다 중 하나입니다'); return 1
     v = W['opts'][opt]
-    if v.get('parts_on') is None:
+    if k == '백엔드' and opt == '다':
         print('(다)안은 준비 중입니다. 지금은 (가)(나) 중에서 고르거나, 나중에를 고릅니다.'); return 0
     if not need_choice(W['key'], opt):
         return 1
@@ -1152,7 +1249,10 @@ def ways_cmd(rest):
         set_parts(v['parts_off'], False)
     if v.get('parts_on'):
         set_parts(v['parts_on'], True)
-    out, last, rcb = rebuild_local()
+    if k == '백엔드' and opt == '가' and not any(eff_parts().get(p_) for p_ in ('backend', 'comments', 'contact', 'subscribe')):
+        last = '적용할 것 없음 — 이미 백엔드가 꺼져 있어 기록만 남깁니다'
+    else:
+        out, last, rcb = rebuild_local()
     d = svc_load(); d.setdefault('만드는 방식', []).append(f'- {W["title"]}: ({opt}) {v["name"]} ← {(choices().get(W["key"]) or {}).get("why") or "까닭 미기록"}'); svc_save(d)
     other = ' / '.join(f'({o}) {x["name"]}' for o, x in W['opts'].items() if o != opt)
     print(f'\n[방금 일어난 일] ({opt}) {v["name"]} 을 적용했습니다({last}). 고르지 않은 안: {other}')
@@ -1214,8 +1314,8 @@ def convert_cmd(rest):
                 fp = os.path.join(SHOTS, f'변환_{n_}_{nm_}.png')
                 if T.shoot_pages(out, [''], [fp], w_, h_, mob):
                     print('  미리보기 저장:', fp, flush=True)
-        print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 {kind.replace(" ", "")} 바꿈 "<까닭>" → python run.py 변환 {kind} --적용\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
-    if not need_choice('변환', '바꿈') and not (chosen('변환') == '바꿈'):
+        print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 바꿈 "{kind} 로 바꿔 보려는 까닭" → python run.py 변환 {kind} --적용\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
+    if not need_choice('변환', '바꿈'):
         return 1
     t0 = time.time(); d = prog_load(); d['convert_prev'] = base; json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     allp = list(base); set_parts(allp, False); set_parts(K[kind]['parts'], True); out, last, rcb = rebuild_local()
@@ -1441,6 +1541,8 @@ def main():
         return break_cmd(rest)
     if cmd in ('열기', 'open'):
         return open_cmd(rest)
+    if cmd in ('맺음', 'wrapup'):
+        return wrap_up_cmd()
     if cmd in ('방식', 'way'):
         return ways_cmd(rest)
     if cmd in ('내서비스', 'mysvc'):
