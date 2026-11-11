@@ -30,7 +30,7 @@ def main():
     force = '--force' in sys.argv
     pages = sorted(glob.glob(os.path.join(DOCS, 'issue', '*', 'print.html')))
     if not pages:
-        sys.exit('docs/issue/ 가 없습니다. 먼저 python build.py 를 돌리세요(site.json 의 parts.issue 가 켜져 있어야 함).')
+        sys.exit('호 쪽(docs/issue/<날짜>/print.html)이 없습니다. 원인 두 가지: ① 먼저 python build.py 를 돌려야 함 ② 확인 노트(notes/)가 0건이면 호가 없음 — 노트를 한 건 쓴 뒤 다시. (site.json 의 parts.issue 도 켜져 있어야 함)')
     os.makedirs(PDF, exist_ok=True)
     br = browser()
     made = 0

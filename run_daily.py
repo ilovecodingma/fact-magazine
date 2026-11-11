@@ -3,7 +3,8 @@
 사용: python run_daily.py                 올리기·메일 없이 만들기까지(안전한 기본)
       python run_daily.py --deploy        끝에 git 커밋·푸시까지(저장소가 호스팅에 연결돼 있을 때)
       python run_daily.py --mail          끝에 소식지 미리보기(보내지는 않음). 실제 발송은 --mail --send (받는 주소 확인 뒤에만)
-      python run_daily.py --dry           하는 일만 보여 주고 실행하지 않음
+      python run_daily.py --dry           하는 일만 보여 주고 실행하지 않음(기록도 남기지 않음)
+      python run_daily.py --skip 수집,쇼츠   그 이름의 단계를 건너뜀(단계 이름은 --dry 로 확인)
 부품은 site.json 의 parts 로 켜고 끕니다(info·games·issue·shorts·mail). 한 단계가 실패하면 거기서 멈추고 logs/ 에 남깁니다(같은 실패가 두 번 이어지면 사람이 봅니다).
 윈도우 작업 스케줄러에 걸어 컴퓨터가 알아서 돌리는 방법은 런북 12절."""
 import datetime, json, os, subprocess, sys
@@ -52,6 +53,14 @@ def main():
         steps += [('올리기: 커밋', ['git', 'add', '-A'], None), ('올리기: 푸시', ['git', 'commit', '-m', f'자동 갱신 {datetime.date.today()}'], None), ('올리기: 푸시', ['git', 'push'], None)]
     if '--mail' in ARGS and on('mail'):
         steps.append(('메일', [PY, '-X', 'utf8', 'mail.py'] + (['--send'] if '--send' in ARGS else []), None))
+    if '--skip' in ARGS:
+        skip = [x.strip() for x in ARGS[ARGS.index('--skip') + 1].split(',')]
+        steps = [s for s in steps if s[0] not in skip]
+    if '--dry' in ARGS:
+        for name, cmd, env in steps:
+            print(f'▶ {name}: ' + ' '.join(os.path.basename(c) if os.path.exists(c) else c for c in cmd))
+        print(f'시험 실행: 할 일 {len(steps)}단계(실행하지 않았고 기록도 남기지 않았습니다)')
+        sys.exit(0)
     ok_all = True
     for name, cmd, env in steps:
         ok, tail = run(name, cmd, env)
@@ -60,8 +69,7 @@ def main():
             ok_all = False
             print(f'✖ {name} 에서 멈춥니다.'); break
     line = f'{start:%Y-%m-%d %H:%M} 하루 한 바퀴 {"성공" if ok_all else "중단"} — ' + ', '.join(f'{n}{"✓" if o else "✗"}' for n, o, _ in done)
-    if '--dry' not in ARGS:
-        open(os.path.join(LOGS, 'daily.md'), 'a', encoding='utf-8').write('- ' + line + '\n')
+    open(os.path.join(LOGS, 'daily.md'), 'a', encoding='utf-8').write('- ' + line + '\n')
     print(line)
     sys.exit(0 if ok_all else 1)
 

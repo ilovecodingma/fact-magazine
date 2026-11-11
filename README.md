@@ -29,7 +29,7 @@ python build.py            # 공개 빌드
 
 ## 부품 → 만들 수 있는 것 (조합표)
 
-부품은 `site.json` 의 `parts` 에서 켜고 끕니다(`python preset.py 이름` 으로 묶음째 바꿈). 에이전트에게 「이 부품들로 ○○ 서비스 만들어 줘」라고 하면 `presets.json` 을 보고 무엇을 켜고 끌지 정합니다.
+부품은 `site.json` 의 `parts` 에서 켜고 끕니다. `python preset.py 이름` 으로 묶음째 바꾸고, 묶음에 없는 조합은 `python preset.py info,games,issue` 처럼 **부품 이름을 나열**하거나 `site.json` 의 `parts` 를 직접 고칩니다. 에이전트에게 「이 부품들로 ○○ 서비스 만들어 줘」라고 하면 `presets.json` 을 보고 무엇을 켜고 끌지 정합니다.
 
 | 부품 | 파일 | 하는 일 | `parts` 이름 |
 |---|---|---|---|

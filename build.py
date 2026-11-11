@@ -113,7 +113,7 @@ def page(path, title, desc, body, noindex=False):
     rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
     rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
-    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') and ISSUE_DATES else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '')
+    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '')
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
@@ -133,8 +133,10 @@ PDF_SRC = os.path.join(HERE, 'issues_pdf')   # 인쇄용 PDF 원본(issue.py 가
 def issue_pages(notes):
     """그날의 확인 노트를 묶어 「호」 한 편으로: /issue/<날짜>/ (읽기 쪽) + print.html(인쇄용, 글꼴·괘선 인라인) + 목록 /issue/.
     인쇄용 PDF 는 issue.py 가 브라우저 인쇄 기능으로 만들어 issues_pdf/ 에 두면 링크가 붙는다."""
-    if not part('issue') or not notes:
+    if not part('issue'):
         return []
+    if not notes:   # 노트가 0건이면 호가 없다 — 목록 쪽에 안내를 둔다
+        return [page('issue', f'잡지 — {S["name"]}', '확인 노트를 날짜별로 묶은 호 모음', f'<div class="page"><span class="lb">잡지</span><h1>{E(S["name"])} 발행호</h1><p>첫 호를 준비 중입니다. 확인 노트(notes/)를 한 건 쓰면 그날의 호가 만들어집니다.</p></div>')]
     by = {}
     for n in notes:
         by.setdefault(n['date'], []).append(n)
@@ -347,7 +349,10 @@ def filter_topics(topics):
     """주제 키워드가 있으면 묶음 제목이나 기사 제목에 키워드가 든 묶음만 남긴다. 0건이면 필터 없이 보여 주고 알린다. (남은 묶음, 안내 글)"""
     if not KEYWORDS:
         return topics, ''
-    keep = [t for t in topics if any(k in t['title'] or any(k in i['title'] for i in t['items']) for k in KEYWORDS)]
+    hit = {k: [t for t in topics if k in t['title'] or any(k in i['title'] for i in t['items'])] for k in KEYWORDS}
+    keep = [t for t in topics if any(t in v for v in hit.values())]
+    for k, v in hit.items():   # 어떤 낱말이 어떤 묶음을 불러왔는지 — 무관한 묶음이 보이면 그 낱말을 더 구체적으로 바꾼다
+        print(f'  키워드 「{k}」 → 묶음 {len(v)}건' + (': ' + ' / '.join(t['title'][:22] for t in v[:3]) if v else ''))
     if keep:
         return keep, ''
     print('주의: 키워드', KEYWORDS, '에 맞는 묶음이 0건이라 필터 없이 보여 줍니다. 피드(feeds.json)나 키워드를 바꿔 보세요.')
