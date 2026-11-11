@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-11 10:32",
+ "collected_at": "2026-11-11 01:58",
  "log": [
   {
    "source": "연합뉴스",
@@ -58,12 +58,68 @@
  ],
  "items": [
   {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
+   "link": "https://www.mk.co.kr/news/politics/12205085",
+   "time": "2026-11-11 18:49"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "교보리얼코, 전기차 화재진압 기술 특허 등록",
+   "link": "https://www.mk.co.kr/news/economy/12205037",
+   "time": "2026-11-11 18:26"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[속보] 유류세 인하 내년 1월까지 2개월 연장…“유류비 부담 경감”",
+   "link": "https://www.mk.co.kr/news/economy/12204996",
+   "time": "2026-11-11 18:04"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
+   "link": "https://www.mk.co.kr/news/economy/12204941",
+   "time": "2026-11-11 17:03"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "사고현장 출동한 변호사 든든했는데…변협 “불법알선 보험 멈춰라”",
+   "link": "https://www.mk.co.kr/news/society/12204901",
+   "time": "2026-11-11 16:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“자리잡으면 결혼하자” 하더니 ‘노산’ 됐다…이 보험 하나로 다 대비",
+   "link": "https://www.mk.co.kr/news/economy/12204683",
+   "time": "2026-11-11 14:59"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“당장 안 팔면 ‘폭탄’ 맞나요? … 상속받은 농지, 전수조사에 ‘고민’",
+   "link": "https://www.mk.co.kr/news/economy/12204059",
+   "time": "2026-11-11 13:30"
+  },
+  {
    "source": "한겨레",
    "section": "경제",
    "kind": "일간지",
    "title": "아세안+한·중·일, 역내 금융안전망 강화…긴급지원 새로 도입",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286746.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -71,7 +127,7 @@
    "kind": "일간지",
    "title": "11월 1∼10일 수출 335억달러…‘연간 수출 1조달러’ 초읽기",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286739.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -79,7 +135,7 @@
    "kind": "일간지",
    "title": "유류세 인하 내년 1월까지…중동전쟁 불확실성에 2개월 더 연장",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286731.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -87,7 +143,7 @@
    "kind": "일간지",
    "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286730.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -95,7 +151,7 @@
    "kind": "일간지",
    "title": "10월 취업자 13만9천명 증가…청년 고용률 30개월째 감소",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286725.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -103,7 +159,7 @@
    "kind": "일간지",
    "title": "‘주식 추천’ 무료인줄 알았는데…증권사 1500억원 수입원",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286720.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -111,7 +167,7 @@
    "kind": "일간지",
    "title": "금융보안원마저 뚫렸다…해킹에 금융사 정보 유출",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286705.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -119,7 +175,7 @@
    "kind": "일간지",
    "title": "신현송 한국은행 총재, BIS 핵심 위원회 의장 선임",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286692.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -127,7 +183,7 @@
    "kind": "일간지",
    "title": "통신 3사, 본업 딛고 AI 인프라로…데이터센터 확충 각축전",
    "link": "https://www.hani.co.kr/arti/economy/it/1286690.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -135,7 +191,7 @@
    "kind": "일간지",
    "title": "AI 산업지원, 시장 효율성 지켜야 지속가능 성장 일군다",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286688.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -143,7 +199,7 @@
    "kind": "일간지",
    "title": "포스코, 철강 이어 전략자원·LNG까지…‘트리플코어’ 공급망 강화",
    "link": "https://www.hani.co.kr/arti/economy/marketing/1286671.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -151,7 +207,7 @@
    "kind": "일간지",
    "title": "5백여만명 ‘점포 없는 은행사막’에 산다…전국 읍·면·동의 10%",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286656.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -159,7 +215,7 @@
    "kind": "일간지",
    "title": "포스트 젠슨 황이 없다…외도 스캔들에 휘청이는 ‘1인 제국’ 엔비디아",
    "link": "https://www.hani.co.kr/arti/economy/global/1286646.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -167,7 +223,7 @@
    "kind": "일간지",
    "title": "블루웨이브발 AI 쇼크 숨 고르기…내일 코어위브 실적에 주목",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286644.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -175,7 +231,7 @@
    "kind": "일간지",
    "title": "[현장] 인디 브랜드·외국인…‘무신사 뷰티 성수’, 홍대점서 찾은 흥행 공식 심어",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286641.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -183,7 +239,7 @@
    "kind": "일간지",
    "title": "CJ대한통운, 3분기 탄탄한 성장…“투자 집행·전쟁 영향” 수익성은 ↓",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286634.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -191,7 +247,7 @@
    "kind": "일간지",
    "title": "삼성화재, 영국 특수보험사 ‘캐노피우스’ 인수…2.2조원 추가 투입",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286631.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -199,7 +255,7 @@
    "kind": "일간지",
    "title": "금감원, 부동산신탁사에 “‘책임한정특약’ 설명의무 충실히” 주문",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286619.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -207,7 +263,7 @@
    "kind": "일간지",
    "title": "신세계, 3분기 영업이익 64%↑…대형 점포 재단장 효과 톡톡",
    "link": "https://www.hani.co.kr/arti/economy/marketing/1286614.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -215,7 +271,7 @@
    "kind": "일간지",
    "title": "BMW, 차세대 배터리 공급망에 SDI·엔솔 추가…중국 중심서 다변화",
    "link": "https://www.hani.co.kr/arti/economy/marketing/1286611.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -223,7 +279,7 @@
    "kind": "일간지",
    "title": "제네시스, 초대형 전기 SUV ‘GV90’ 출시…가격 1억3950만원부터",
    "link": "https://www.hani.co.kr/arti/economy/car/1286600.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -231,7 +287,7 @@
    "kind": "일간지",
    "title": "공정위, 네이버-두나무 기업결합 심의 착수…18일 결론 나나",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286583.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -239,7 +295,7 @@
    "kind": "일간지",
    "title": "3분기 수출액 60%, 10개 기업이 벌어…무역집중도 역대 최대",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286581.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -247,7 +303,7 @@
    "kind": "일간지",
    "title": "불닭보다 캡사이신 많은 틈새라면 빨계떡…매운 라면 12종 뜯어보니",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286580.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -255,7 +311,7 @@
    "kind": "일간지",
    "title": "[영상] 아틀라스, ‘360도 회전’ 점프…발에 바퀴 달고 드리프트까지",
    "link": "https://www.hani.co.kr/arti/economy/car/1286568.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -263,7 +319,7 @@
    "kind": "일간지",
    "title": "‘50%+1주 의무매수’ 해외서도 반발…ICGN “100% 매수” 권고",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286566.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -271,7 +327,7 @@
    "kind": "일간지",
    "title": "의사 부부가 ‘위장퇴사’로 저소득자 청약…부정청약 354건 적발",
    "link": "https://www.hani.co.kr/arti/economy/economy_general/1286560.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -279,7 +335,7 @@
    "kind": "일간지",
    "title": "금감원장 “회계업계도 정보보안 중요…유출 없도록 보안 재점검”",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286551.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -287,7 +343,7 @@
    "kind": "일간지",
    "title": "코스피·코스닥 ‘매수 사이드카’…“AI·반도체 주가 낙폭 과도”",
    "link": "https://www.hani.co.kr/arti/economy/finance/1286548.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "한겨레",
@@ -295,7 +351,7 @@
    "kind": "일간지",
    "title": "앤트로픽, 개보위에 개인정보 유출 신고…국내 기업 클로드 계정 100여개",
    "link": "https://www.hani.co.kr/arti/economy/it/1286527.html",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -303,7 +359,7 @@
    "kind": "일간지",
    "title": "10월 취업자 13만9000명 증가…청년 고용률은 30개월째 하락",
    "link": "https://www.khan.co.kr/article/202611110800011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -311,7 +367,7 @@
    "kind": "일간지",
    "title": "“‘젠슨 황 연인’ 앨리스 황, 10조원 규모 엔비디아 칩 중국으로 밀반입” 의혹 제기",
    "link": "https://www.khan.co.kr/article/202611110753001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -319,7 +375,7 @@
    "kind": "일간지",
    "title": "올 상반기에만 ‘카톡 계정’ 17만6000개 차단···제제 사유는?",
    "link": "https://www.khan.co.kr/article/202611110736001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -327,7 +383,7 @@
    "kind": "일간지",
    "title": "엔비디아, 젠슨 황 파장에 시총 장중 3위로 밀려···미국 증시 일제히 하락",
    "link": "https://www.khan.co.kr/article/202611110716001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -335,7 +391,7 @@
    "kind": "일간지",
    "title": "5년 지나 날아온 억대 부담금 고지서···정권마다 폭탄 돌리기식 운영에 ‘재초환 혼란’",
    "link": "https://www.khan.co.kr/article/202611110600141/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -343,7 +399,7 @@
    "kind": "일간지",
    "title": "막대한 GPU 매출에 혹했나···젠슨 황 불륜으로 재조명된 AI 칩 ‘뒷문’ 시장",
    "link": "https://www.khan.co.kr/article/202611110600121/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -351,7 +407,7 @@
    "kind": "일간지",
    "title": "[경제밥도둑]‘말랑이’·‘왁뿌볼’ 유행과 함께 늘어나는 해외 직구···짝퉁·유해물질 반입 ‘구멍’ 메울 수 있나",
    "link": "https://www.khan.co.kr/article/202611110600081/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -359,7 +415,7 @@
    "kind": "일간지",
    "title": "미 소비자물가 한달 새 0.4% 상승···다음달 금리 인상 가능성 커졌다",
    "link": "https://www.khan.co.kr/article/202611102254001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -367,7 +423,7 @@
    "kind": "일간지",
    "title": "금융보안원도 해킹에 뚫려…금융사 보안 정보 유출",
    "link": "https://www.khan.co.kr/article/202611102155005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -375,7 +431,7 @@
    "kind": "일간지",
    "title": "대기업 수출 103% 늘었는데 중기는 10%…심화되는 양극화",
    "link": "https://www.khan.co.kr/article/202611102109015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -383,7 +439,7 @@
    "kind": "일간지",
    "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
    "link": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -391,7 +447,7 @@
    "kind": "일간지",
    "title": "“공원 자리에 공공주택 안 돼”…서울 염창동 주민들, 구청 몰려가 녹지 존속 요구",
    "link": "https://www.khan.co.kr/article/202611102059035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -399,7 +455,7 @@
    "kind": "일간지",
    "title": "[포토뉴스]피겨 선수처럼 민첩하게…아틀라스, 공중서 ‘360도 회전’",
    "link": "https://www.khan.co.kr/article/202611102041015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -407,7 +463,7 @@
    "kind": "일간지",
    "title": "정기예금 ‘인기’…하루 2조씩 몰린다",
    "link": "https://www.khan.co.kr/article/202611102041005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -415,7 +471,7 @@
    "kind": "일간지",
    "title": "‘빅3’ 백화점, 이번주부터 겨울 정기세일",
    "link": "https://www.khan.co.kr/article/202611102040035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -423,7 +479,7 @@
    "kind": "일간지",
    "title": "엔비디아 ‘오너 리스크’ 틈탄 구글, AMD와 AI 생태계 확장",
    "link": "https://www.khan.co.kr/article/202611102040025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -431,7 +487,7 @@
    "kind": "일간지",
    "title": "자원강국 향해…철 위에 ‘그린’ 포스코",
    "link": "https://www.khan.co.kr/article/202611102040015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -439,7 +495,7 @@
    "kind": "일간지",
    "title": "금감원장 “상장사 회계심사, 3~5년 주기로 단축 추진”",
    "link": "https://www.khan.co.kr/article/202611102040005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -447,7 +503,7 @@
    "kind": "일간지",
    "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
    "link": "https://www.khan.co.kr/article/202611102040001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -455,7 +511,7 @@
    "kind": "일간지",
    "title": "미 전기차 수요 회복에도…앞세울 현대차 ‘아이오닉5’뿐",
    "link": "https://www.khan.co.kr/article/202611102035025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -463,7 +519,7 @@
    "kind": "일간지",
    "title": "LG엔솔·삼성SDI, 배터리 기술로 ‘CES 혁신상’",
    "link": "https://www.khan.co.kr/article/202611102035015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -471,7 +527,7 @@
    "kind": "일간지",
    "title": "LG엔솔 빠진 ESS 정부 입찰…배터리값 30~40% 상승 전망",
    "link": "https://www.khan.co.kr/article/202611102035005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -479,7 +535,7 @@
    "kind": "일간지",
    "title": "소상공인 매출·이익 동반 감소…대출 연체액은 3분기 연속 증가",
    "link": "https://www.khan.co.kr/article/202611102033005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -487,7 +543,7 @@
    "kind": "일간지",
    "title": "“누구나 편하게 건강하게” CJ푸드빌 ‘커먼이츠’",
    "link": "https://www.khan.co.kr/article/202611102032025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -495,7 +551,7 @@
    "kind": "일간지",
    "title": "PF 연대보증 하도급사 ‘가압류의 굴레’",
    "link": "https://www.khan.co.kr/article/202611102032015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -503,7 +559,7 @@
    "kind": "일간지",
    "title": "“네이버·두나무 합병, 경쟁 제한 우려”",
    "link": "https://www.khan.co.kr/article/202611102032005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -511,7 +567,7 @@
    "kind": "일간지",
    "title": "[이상헌의 밸류체인지]리스크 이미 반영된 한국 증시, 조만간 바닥 확인 가능",
    "link": "https://www.khan.co.kr/article/202611102026005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -519,7 +575,7 @@
    "kind": "일간지",
    "title": "신현송 한은 총재, BIS ‘지급·시장인프라 위원회’ 의장 선출",
    "link": "https://www.khan.co.kr/article/202611102021005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -527,7 +583,7 @@
    "kind": "일간지",
    "title": "“우리말 데이터 보강해 ‘한국의 AI 숲’ 만들 것”",
    "link": "https://www.khan.co.kr/article/202611102020025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -535,7 +591,7 @@
    "kind": "일간지",
    "title": "[박병률의 더-이코노미스트]“필리핀 ‘법인세 감면’법 혜택받은 첫 해외기업은 삼성전기 현지 법인”",
    "link": "https://www.khan.co.kr/article/202611102015005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -543,7 +599,7 @@
    "kind": "일간지",
    "title": "신현송 한은 총재, BIS ‘지급 및 시장인프라 위원회’ 의장 선출",
    "link": "https://www.khan.co.kr/article/202611101900001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -551,7 +607,7 @@
    "kind": "일간지",
    "title": "부동산 PF 연대보증 엮인 하도급사에 가압류 현실화···구제 방법이 없다",
    "link": "https://www.khan.co.kr/article/202611101713001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -559,7 +615,7 @@
    "kind": "일간지",
    "title": "마곡 신청사로 몰려간 ‘염창공원 개발 반대’ 주민들…강서구는 ‘임대 비율 조정’ 건의",
    "link": "https://www.khan.co.kr/article/202611101709001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -567,7 +623,7 @@
    "kind": "일간지",
    "title": "미국 전기차 수요 ‘회복’…현대차, 수요 대응 모델은 아이오닉5뿐?",
    "link": "https://www.khan.co.kr/article/202611101702001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -575,7 +631,7 @@
    "kind": "일간지",
    "title": "하루 2조원&#8593;, 돌아온 ‘정기예금 전성시대’···수출·역머니무브·금리인상 영향",
    "link": "https://www.khan.co.kr/article/202611101633001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -583,7 +639,7 @@
    "kind": "일간지",
    "title": "“AI 생태계 숲 이루기 위한 토양은 데이터”…엔비디아·카이스트 함께 ‘한국어 데이터셋’ 만든다",
    "link": "https://www.khan.co.kr/article/202611101621001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -591,7 +647,7 @@
    "kind": "일간지",
    "title": "코스피, ‘블루웨이브’ 충격 딛고 4% 반등···기술주 반등·유가 하락에 ‘저가 매수세’ 유입",
    "link": "https://www.khan.co.kr/article/202611101620011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -599,7 +655,7 @@
    "kind": "일간지",
    "title": "‘지적장애 여성 성폭행해 출산’···장애인 사업장 60대 임원 징역 15년 구형",
    "link": "https://www.khan.co.kr/article/202611101556001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -607,7 +663,7 @@
    "kind": "일간지",
    "title": "조달청 직원이 외부 AI에 평가위원 사진 올렸다…189명 사진 유출",
    "link": "https://www.khan.co.kr/article/202611101544001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -615,7 +671,7 @@
    "kind": "일간지",
    "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
    "link": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -623,7 +679,7 @@
    "kind": "일간지",
    "title": "‘하루치 이상 나트륨’ 매운맛 라면···최강의 짠맛 폭탄은?",
    "link": "https://www.khan.co.kr/article/202611101536001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -631,7 +687,7 @@
    "kind": "일간지",
    "title": "에너지바우처 끊긴 2만5000가구, 정부가 찾아 재신청 지원",
    "link": "https://www.khan.co.kr/article/202611101533001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -639,7 +695,7 @@
    "kind": "일간지",
    "title": "여자 경찰관 잠든 사이 인천서 강원도까지 차로 이동한 경찰관 입건",
    "link": "https://www.khan.co.kr/article/202611101530001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -647,7 +703,7 @@
    "kind": "일간지",
    "title": "‘빅3’ 백화점, 올해 마지막 정기세일 “겨울 인기 상품 최대 60% 할인”",
    "link": "https://www.khan.co.kr/article/202611101521001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -655,7 +711,7 @@
    "kind": "일간지",
    "title": "반도체 호황에 대기업 수출 2배… 상위 10개사 비중 60% 첫 돌파",
    "link": "https://www.khan.co.kr/article/202611101503001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -663,7 +719,7 @@
    "kind": "일간지",
    "title": "CJ푸드빌, 웰니스 브랜드 ‘커먼이츠’ 론칭",
    "link": "https://www.khan.co.kr/article/202611101452001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
   },
   {
    "source": "경향신문",
@@ -671,7 +727,367 @@
    "kind": "일간지",
    "title": "[산업이(&#30064;)면]LG 빠지자 ESS 배터리값 상승?…‘팔 곳’ 찾던 배터리, 이젠 ‘살 사람’이 줄 서나",
    "link": "https://www.khan.co.kr/article/202611101448001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-   "time": "2026-11-11 10:32"
+   "time": "2026-11-11 10:58"
+  },
+  {
+   "source": "경향신문",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "유류세 인하 내년 1월까지 2개월 연장···휘발유 15%, 경유·부탄 25% 감경",
+   "link": "https://www.khan.co.kr/article/202611111014001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+   "time": "2026-11-11 10:58"
+  },
+  {
+   "source": "경향신문",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "“동업 해지에 불만”…송도 어린이집 앞에 불 지른 60대 구속영장",
+   "link": "https://www.khan.co.kr/article/202611111009011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+   "time": "2026-11-11 10:58"
+  },
+  {
+   "source": "경향신문",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "충북 음성군, 공영주차장에 공공주도형 태양광 발전설비 설치 추진",
+   "link": "https://www.khan.co.kr/article/202611111053011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+   "time": "2026-11-11 10:58"
+  },
+  {
+   "source": "뉴시스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "롯데건설, 스타트업 10곳과 혁신기술 현장 적용 논의",
+   "link": "https://www.newsis.com/view/NISX20261111_0003863410",
+   "time": "2026-11-11 10:55"
+  },
+  {
+   "source": "뉴시스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "인천공항공사, 입주기업과 안전한 환경물류 조성 캠페인 전개",
+   "link": "https://www.newsis.com/view/NISX20261111_0003863502",
+   "time": "2026-11-11 10:55"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "삼성바이오로직스, 2.7조 유상증자 96.8% 청약…12일부터 일반공모",
+   "link": "https://www.donga.com/news/Economy/article/all/20261111/135005049/1",
+   "time": "2026-11-11 10:54"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[게시판] 한투증권, 국내주식 실전투자대회 '한투배틀 파이널'",
+   "link": "https://www.yna.co.kr/view/AKR20261111073200008",
+   "time": "2026-11-11 10:53"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "신라 성곽 대구 팔거산성, 흙으로 덮어 보존한다…정비사업 착수",
+   "link": "https://www.yna.co.kr/view/AKR20261111074400053",
+   "time": "2026-11-11 10:53"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "국회 찾은 우상호 강원지사…고속도로·AI 사업 국비 건의",
+   "link": "https://www.yna.co.kr/view/AKR20261111074500062",
+   "time": "2026-11-11 10:53"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[속보] 코스피, 상승전환해 1%대 강세…코스닥 4%대 급등",
+   "link": "https://www.yna.co.kr/view/AKR20261111074900008",
+   "time": "2026-11-11 10:52"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "철원 자주포 연쇄추돌…홀로 뒤처진 자주포에 호위 차량 없었다",
+   "link": "https://www.yna.co.kr/view/AKR20261110122452504",
+   "time": "2026-11-11 10:52"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "‘2026 NEXT CHALLENGER’S DAY’ 개최…대학·출연연 기술, 기업 수요와 연결 모색",
+   "link": "https://www.donga.com/news/Economy/article/all/20261111/135004833/1",
+   "time": "2026-11-11 10:50"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "정신아 카카오 대표, 홍콩·싱가포르 찾아 인적분할 설명한다",
+   "link": "https://www.yna.co.kr/view/AKR20261111070900017",
+   "time": "2026-11-11 10:48"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "남서울대 학교법인 성암학원, 성암수도타워 준공",
+   "link": "https://www.yna.co.kr/view/AKR20261111073700063",
+   "time": "2026-11-11 10:48"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "국회, 18일 김종철 경찰청장 후보자 인사청문회 실시",
+   "link": "https://www.yna.co.kr/view/AKR20261111072400001",
+   "time": "2026-11-11 10:48"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "'재계약 갈등' 김제 자동차부품업체 노사 합의…3개월 농성 종료",
+   "link": "https://www.yna.co.kr/view/AKR20261111066600055",
+   "time": "2026-11-11 10:48"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "카카오내비, 홈·주행 화면 전면 개편…'선제적 길 안내' 강화",
+   "link": "https://www.yna.co.kr/view/AKR20261111067500017",
+   "time": "2026-11-11 10:47"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[AI픽] 과기차관, 미국 AI 투자 불확실성에 \"우리에게 또 다른 기회\"",
+   "link": "https://www.yna.co.kr/view/AKR20261111070200017",
+   "time": "2026-11-11 10:46"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "'제4회 울주군 소상공인의 날' 행사…유공자 25명 표창",
+   "link": "https://www.yna.co.kr/view/AKR20261111071300057",
+   "time": "2026-11-11 10:46"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "영암 조선소 노동자 사망 사고 전 안전조치 여부 조사",
+   "link": "https://www.yna.co.kr/view/AKR20261111067100054",
+   "time": "2026-11-11 10:45"
+  },
+  {
+   "source": "SBS",
+   "section": "경제",
+   "kind": "방송사",
+   "title": "반도체 수출 4배로 껑충…'1조 달러' 곧 달성 전망",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840636&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 10:44"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "SK하이닉스, 저전력 D램 안전·보안 국제인증…피지컬 AI 공략",
+   "link": "https://www.yna.co.kr/view/AKR20261111067600003",
+   "time": "2026-11-11 10:43"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "경북도, 전력·용수 부담에 AI 데이터센터 유치 전략 재검토",
+   "link": "https://www.yna.co.kr/view/AKR20261111069600053",
+   "time": "2026-11-11 10:43"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "산림과학원, 소나무재선충병 매개충 우화 전망·발생위험도 분석",
+   "link": "https://www.yna.co.kr/view/AKR20261111070300063",
+   "time": "2026-11-11 10:42"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "탑차 기부·김장·성금…추워진 날씨에 온정 전한 식품외식업계",
+   "link": "https://www.yna.co.kr/view/AKR20261111065400030",
+   "time": "2026-11-11 10:42"
+  },
+  {
+   "source": "SBS",
+   "section": "경제",
+   "kind": "방송사",
+   "title": "배민, 라이더 명의 도용 방지 강화…두 차례 적발 시 계약 해지",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840626&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 10:42"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "평택제천고속도서 9대 연쇄 추돌…4명 중경상",
+   "link": "https://www.yna.co.kr/view/AKR20261111070600064",
+   "time": "2026-11-11 10:41"
+  },
+  {
+   "source": "뉴시스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "코코넛워터 캔에 액상 필로폰 숨겨 밀반입 튀르키예인 검거",
+   "link": "https://www.newsis.com/view/NISX20261111_0003863455",
+   "time": "2026-11-11 10:41"
+  },
+  {
+   "source": "SBS",
+   "section": "경제",
+   "kind": "방송사",
+   "title": "\"야심작 내놨는데 '28대' 충격\"…한국차 무너지는 사이 '중국차의 반전' [스프]",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839158&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 10:40"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "KT 사옥 등에 7차례 폭파 협박…10대 '스와팅' 범행에 징역 1년",
+   "link": "https://www.yna.co.kr/view/AKR20261111069900061",
+   "time": "2026-11-11 10:40"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "동해선 ITX-마음 열차 영덕서 차량장애로 멈춰…승객 86명 환승",
+   "link": "https://www.yna.co.kr/view/AKR20261111069700053",
+   "time": "2026-11-11 10:40"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "금속 막대로 주차 차량 11대 '쾅쾅'…60대 구속영장 신청",
+   "link": "https://www.yna.co.kr/view/AKR20261111069300063",
+   "time": "2026-11-11 10:40"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "부산 여성회관·달맞이공원 재정사업 중단…민간투자 등 검토",
+   "link": "https://www.yna.co.kr/view/AKR20261111051800051",
+   "time": "2026-11-11 10:40"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[게시판] SC제일은행, 기업·금융기관 고객과 '금융시장 변화' 주제 포럼",
+   "link": "https://www.yna.co.kr/view/AKR20261111068100002",
+   "time": "2026-11-11 10:39"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[게시판] 한국부동산경영학회, 'AI시대 시장 대응' 학술세미나",
+   "link": "https://www.yna.co.kr/view/AKR20261111068400003",
+   "time": "2026-11-11 10:39"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "아이폰 듀오, 애플 텃밭 중국서도 고전…품질 논란 확산",
+   "link": "https://www.donga.com/news/It/article/all/20261111/135004903/1",
+   "time": "2026-11-11 10:39"
+  },
+  {
+   "source": "뉴시스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "[올댓차이나] 위안화 기준치 1달러=6.7191위안…0.036% 절하",
+   "link": "https://www.newsis.com/view/NISX20261111_0003863447",
+   "time": "2026-11-11 10:38"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "순천서 초등 유도부 코치, 학생 학대 의혹…경찰 수사",
+   "link": "https://www.yna.co.kr/view/AKR20261111066800054",
+   "time": "2026-11-11 10:37"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "“중장년층 피로 관리 겨냥”…종근당, 고함량 ‘벤포벨알파정’ 출시",
+   "link": "https://www.donga.com/news/Economy/article/all/20261111/135004891/1",
+   "time": "2026-11-11 10:37"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "산림청, 소나무재선충병 확산 차단 위해 국비 추가 투입",
+   "link": "https://www.yna.co.kr/view/AKR20261111064400063",
+   "time": "2026-11-11 10:36"
+  },
+  {
+   "source": "SBS",
+   "section": "경제",
+   "kind": "방송사",
+   "title": "코스피, 미 '빅스텝' 우려 속 보합권 등락",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840653&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 10:36"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "스타벅스, 조직개편 단행…직무 재배치·퇴직 위로금 지급",
+   "link": "https://www.donga.com/news/Economy/article/all/20261111/135004879/1",
+   "time": "2026-11-11 10:36"
+  },
+  {
+   "source": "SBS",
+   "section": "경제",
+   "kind": "방송사",
+   "title": "서울 김밥 한 줄 평균 3,923원…지난해 말보다 5.4%↑",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840512&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 10:34"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "국민연금, JP모건자산운용과 업무협약…전략적 협력 강화",
+   "link": "https://www.yna.co.kr/view/AKR20261111067400530",
+   "time": "2026-11-11 10:33"
+  },
+  {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "“불륜 인정” 젠슨 황, 하루 만에 정상 출근…‘사과’ 후 업무 복귀",
+   "link": "https://www.donga.com/news/Inter/article/all/20261111/135004838/1",
+   "time": "2026-11-11 10:33"
   },
   {
    "source": "경향신문",
@@ -682,20 +1098,44 @@
    "time": "2026-11-11 10:32"
   },
   {
-   "source": "경향신문",
+   "source": "연합뉴스",
    "section": "경제",
-   "kind": "일간지",
-   "title": "유류세 인하 내년 1월까지 2개월 연장···휘발유 15%, 경유·부탄 25% 감경",
-   "link": "https://www.khan.co.kr/article/202611111014001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+   "kind": "통신사",
+   "title": "[게시판] 신한증권, 11∼12일 '2027년 신한 금융시장 포럼'",
+   "link": "https://www.yna.co.kr/view/AKR20261111067200008",
    "time": "2026-11-11 10:32"
   },
   {
-   "source": "경향신문",
+   "source": "SBS",
    "section": "경제",
-   "kind": "일간지",
-   "title": "“동업 해지에 불만”…송도 어린이집 앞에 불 지른 60대 구속영장",
-   "link": "https://www.khan.co.kr/article/202611111009011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+   "kind": "방송사",
+   "title": "삼성·현대차 협력, 공동 설계까지 확대…\"전고체 개발도\"",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840511&plink=RSSLINK&cooper=RSSREADER",
    "time": "2026-11-11 10:32"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "인천항-중국 산둥성 르자오항 신규 컨테이너 항로 취항",
+   "link": "https://www.yna.co.kr/view/AKR20261111065900065",
+   "time": "2026-11-11 10:31"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "'선거법 위반 혐의' 심영석 경남도의원·정순욱 창원시의원 기소",
+   "link": "https://www.yna.co.kr/view/AKR20261111065600052",
+   "time": "2026-11-11 10:31"
+  },
+  {
+   "source": "뉴시스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "금호건설, 구미 '형곡 센트럴 아테라' 1순위 청약 8.72대 1 기록",
+   "link": "https://www.newsis.com/view/NISX20261111_0003863389",
+   "time": "2026-11-11 10:31"
   },
   {
    "source": "동아일보",
@@ -703,6 +1143,46 @@
    "kind": "일간지",
    "title": "유니클로, 롯데백화점 강남점 15년 만에 새단장…면적 2배 키웠다",
    "link": "https://www.donga.com/news/Economy/article/all/20261111/135004803/1",
+   "time": "2026-11-11 10:30"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "[바이오스냅] CMG제약, 경구용 항응고제 '에독신정' 출시",
+   "link": "https://www.yna.co.kr/view/AKR20261111063300017",
+   "time": "2026-11-11 10:30"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "[연합뉴스 이 시각 헤드라인] - 10:30",
+   "link": "https://www.yna.co.kr/view/AKR20261111059400011",
+   "time": "2026-11-11 10:30"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "\"지역기반 만성질환관리 강화하자\"…만성질환 예방관리 콘퍼런스",
+   "link": "https://www.yna.co.kr/view/AKR20261111035000530",
+   "time": "2026-11-11 10:30"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "서울시 마약관리센터 개소 1주년…전문 입원치료 누적 149건",
+   "link": "https://www.yna.co.kr/view/AKR20261111038100004",
+   "time": "2026-11-11 10:30"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "사회",
+   "kind": "통신사",
+   "title": "SMR·양자 등 '7대 시드' 산업화 전략, 민간이 검토한다",
+   "link": "https://www.yna.co.kr/view/AKR20261111056400017",
    "time": "2026-11-11 10:30"
   },
   {
@@ -727,6 +1207,14 @@
    "kind": "통신사",
    "title": "전남광주시, '청년결정정부' 운영 준비 본격화",
    "link": "https://www.yna.co.kr/view/AKR20261111064700054",
+   "time": "2026-11-11 10:27"
+  },
+  {
+   "source": "연합뉴스",
+   "section": "경제",
+   "kind": "통신사",
+   "title": "SK하이닉스, '파격적 성과급' 기대감 속 하반기 생산직 채용",
+   "link": "https://www.yna.co.kr/view/AKR20261111061700003",
    "time": "2026-11-11 10:27"
   },
   {
@@ -815,6 +1303,14 @@
    "kind": "통신사",
    "title": "동해시, 영농부산물 파쇄 지원…산불·미세먼지 차단",
    "link": "https://www.yna.co.kr/view/AKR20261111061000062",
+   "time": "2026-11-11 10:19"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "물가불안에 빅스텝까지...연준 월러 “12월 0.5%p 인상”",
+   "link": "https://www.mk.co.kr/news/economy/12204627",
    "time": "2026-11-11 10:19"
   },
   {
@@ -1085,7 +1581,7 @@
    "source": "한국경제",
    "section": "경제",
    "kind": "경제지",
-   "title": "젠슨 황, 불륜녀와 '키스캠'?…역대급 스캔들에 조회수 폭발 [영상]",
+   "title": "젠슨 황, 불륜 상대와 '키스캠'?…역대급 스캔들에 조회수 폭발 [영상]",
    "link": "https://www.hankyung.com/article/202611119323H",
    "time": "2026-11-11 10:05"
   },
@@ -1272,14 +1768,6 @@
    "title": "日증시, 반발 매수세 유입에 닛케이지수 상승 출발",
    "link": "https://www.newsis.com/view/NISX20261111_0003863174",
    "time": "2026-11-11 09:50"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
-   "link": "https://www.mk.co.kr/news/politics/12205085",
-   "time": "2026-11-11 09:49"
   },
   {
    "source": "연합뉴스",
@@ -1602,14 +2090,6 @@
    "time": "2026-11-11 09:28"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "교보리얼코, 전기차 화재진압 기술 특허 등록",
-   "link": "https://www.mk.co.kr/news/economy/12205037",
-   "time": "2026-11-11 09:26"
-  },
-  {
    "source": "연합뉴스",
    "section": "사회",
    "kind": "통신사",
@@ -1882,14 +2362,6 @@
    "time": "2026-11-11 09:05"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[속보] 유류세 인하 내년 1월까지 2개월 연장…“유류비 부담 경감”",
-   "link": "https://www.mk.co.kr/news/economy/12204996",
-   "time": "2026-11-11 09:04"
-  },
-  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
@@ -1935,14 +2407,6 @@
    "kind": "통신사",
    "title": "암참, 대학생 장학기금 1억7천만원 모금…역대 최대",
    "link": "https://www.yna.co.kr/view/AKR20261111030400003",
-   "time": "2026-11-11 09:01"
-  },
-  {
-   "source": "SBS",
-   "section": "경제",
-   "kind": "방송사",
-   "title": "\"야심작 내놨는데 '28대' 충격\"…한국차 무너지는 사이 '중국차의 반전' [스프]",
-   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839158&plink=RSSLINK&cooper=RSSREADER",
    "time": "2026-11-11 09:01"
   },
   {
@@ -2146,6 +2610,14 @@
    "time": "2026-11-11 08:50"
   },
   {
+   "source": "동아일보",
+   "section": "경제",
+   "kind": "일간지",
+   "title": "“젠슨 황 불륜女, 10조원 엔비디아 AI칩 中 밀반입”",
+   "link": "https://www.donga.com/news/Inter/article/all/20261111/135003649/1",
+   "time": "2026-11-11 08:50"
+  },
+  {
    "source": "연합뉴스",
    "section": "사회",
    "kind": "통신사",
@@ -2245,7 +2717,7 @@
    "source": "동아일보",
    "section": "경제",
    "kind": "일간지",
-   "title": "10월 취업자 13.9만명 늘었지만…청년 고용률 6년래 최저",
+   "title": "취업자 넉달째 10만명대↑…청년 고용률은 30개월째↓ 6년래 최저",
    "link": "https://www.donga.com/news/Economy/article/all/20261111/135003641/1",
    "time": "2026-11-11 08:38"
   },
@@ -2267,7 +2739,7 @@
   },
   {
    "source": "연합뉴스",
-   "section": "사회",
+   "section": "경제",
    "kind": "통신사",
    "title": "비만치료제 투여 뒤 시력 이상 땐?…식약처, 주의 당부",
    "link": "https://www.yna.co.kr/view/AKR20261111027000017",
@@ -2283,7 +2755,7 @@
   },
   {
    "source": "연합뉴스",
-   "section": "사회",
+   "section": "경제",
    "kind": "통신사",
    "title": "양천구, '2027년 상반기 동행일자리' 192명 모집",
    "link": "https://www.yna.co.kr/view/AKR20261111027600004",
@@ -2474,14 +2946,6 @@
    "time": "2026-11-11 08:04"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
-   "link": "https://www.mk.co.kr/news/economy/12204941",
-   "time": "2026-11-11 08:03"
-  },
-  {
    "source": "뉴시스",
    "section": "경제",
    "kind": "통신사",
@@ -2571,7 +3035,7 @@
   },
   {
    "source": "연합뉴스",
-   "section": "사회",
+   "section": "경제",
    "kind": "통신사",
    "title": "[연합뉴스 이 시각 헤드라인] - 07:30",
    "link": "https://www.yna.co.kr/view/AKR20261111015700011",
@@ -2592,14 +3056,6 @@
    "title": "용산구, 한파 대비 총력…\"쉼터·편의시설 확충\"",
    "link": "https://www.yna.co.kr/view/AKR20261111017500004",
    "time": "2026-11-11 07:28"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "사고현장 출동한 변호사 든든했는데…변협 “불법알선 보험 멈춰라”",
-   "link": "https://www.mk.co.kr/news/society/12204901",
-   "time": "2026-11-11 07:21"
   },
   {
    "source": "연합뉴스",
@@ -2711,6 +3167,14 @@
    "kind": "일간지",
    "title": "美 10월 물가도 예상치 상회…연준, 12월 ‘빅스텝’ 거론",
    "link": "https://www.donga.com/news/Inter/article/all/20261111/135003318/1",
+   "time": "2026-11-11 06:51"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "60세에 퇴직, 65세부터 연금수령 “5년간 뭐먹고 살라고”…공무원 92%가 걱정",
+   "link": "https://www.mk.co.kr/news/economy/12204444",
    "time": "2026-11-11 06:51"
   },
   {
@@ -3050,14 +3514,6 @@
    "time": "2026-11-11 06:00"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“자리잡으면 결혼하자” 하더니 ‘노산’ 됐다…이 보험 하나로 다 대비",
-   "link": "https://www.mk.co.kr/news/economy/12204683",
-   "time": "2026-11-11 05:59"
-  },
-  {
    "source": "연합뉴스",
    "section": "사회",
    "kind": "통신사",
@@ -3101,9 +3557,17 @@
    "source": "매일경제",
    "section": "경제",
    "kind": "경제지",
-   "title": "“당장 안 팔면 ‘폭탄’ 맞나요? … 상속받은 농지, 전수조사에 ‘고민’",
-   "link": "https://www.mk.co.kr/news/economy/12204059",
-   "time": "2026-11-11 04:30"
+   "title": "이형일 \"종부세 실거주 우대 원칙 지켜야\"",
+   "link": "https://www.mk.co.kr/news/economy/12204287",
+   "time": "2026-11-11 05:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
+   "link": "https://www.mk.co.kr/news/economy/12204282",
+   "time": "2026-11-11 04:47"
   },
   {
    "source": "뉴시스",
@@ -3237,9 +3701,177 @@
    "source": "매일경제",
    "section": "경제",
    "kind": "경제지",
-   "title": "물가불안에 빅스텝까지...연준 월러 “12월 0.5%p 인상”",
-   "link": "https://www.mk.co.kr/news/economy/12204627",
-   "time": "2026-11-11 01:19"
+   "title": "이자에 짓눌린 산단…연체액 2배 껑충",
+   "link": "https://www.mk.co.kr/news/economy/12204237",
+   "time": "2026-11-11 02:43"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "\"보증금으로 월세 내며 버텼지만…\" 車부품·철강中企 폐업 내몰려",
+   "link": "https://www.mk.co.kr/news/economy/12204214",
+   "time": "2026-11-11 02:38"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[단독] 농어촌 지원 늘리자는 민주당…2000억 예산 배정에 ‘5000억 더’",
+   "link": "https://www.mk.co.kr/news/economy/12204189",
+   "time": "2026-11-11 02:33"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "김정관 \"호남팹 배치계획, 이달 마무리\"",
+   "link": "https://www.mk.co.kr/news/economy/12204139",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "겨울철 취약층 40만명에 내년부터 난방비 등 지원",
+   "link": "https://www.mk.co.kr/news/economy/12204137",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "네이버·두나무 결합 심사 … 연내 결론날듯",
+   "link": "https://www.mk.co.kr/news/economy/12204134",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "韓수출 쏠림 심화 …'톱10' 기업이 60% 차지",
+   "link": "https://www.mk.co.kr/news/economy/12204135",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[표] 당좌거래정지",
+   "link": "https://www.mk.co.kr/news/economy/12204131",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "은행연합회장 선임 절차 돌입 … 민관 출신 후보군 물밑경쟁",
+   "link": "https://www.mk.co.kr/news/economy/12204129",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "수도권선 발주만 받아와도 대출 … 지방선 중기 기술신용대출 감소",
+   "link": "https://www.mk.co.kr/news/economy/12204130",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "난임부터 임신·출산까지…女心 홀린 여성보험",
+   "link": "https://www.mk.co.kr/news/economy/12204128",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[포토] 이찬진 금감원장, 회계법인CEO 간담회 개최",
+   "link": "https://www.mk.co.kr/news/economy/12204126",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[표] 외국환율고시표",
+   "link": "https://www.mk.co.kr/news/economy/12204127",
+   "time": "2026-11-11 02:21"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[영상] 부의 흐름에 올라타라!! 최소한의 경제 재테크공부",
+   "link": "https://www.mk.co.kr/news/economy/12203969",
+   "time": "2026-11-11 02:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[영상] 더 이상 내 집 마련을 미룰 수 없다! 나의 첫 번째 부동산 교과서",
+   "link": "https://www.mk.co.kr/news/economy/12203963",
+   "time": "2026-11-11 02:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[영상] 왜 지금 빌딩 시장을 봐야 하나? 호가와 매수 희망가격이 가까워질 때 나타나는 매수 시그널",
+   "link": "https://www.mk.co.kr/news/economy/12203965",
+   "time": "2026-11-11 02:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[영상] AI 반도체 : 테크를 넘어 금융산업으로 확장",
+   "link": "https://www.mk.co.kr/news/economy/12203962",
+   "time": "2026-11-11 02:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[영상] 재테크 불확실성 시대, 원금은 지키고 수익은 늘리는 투자&절세 포트폴리오",
+   "link": "https://www.mk.co.kr/news/economy/12203964",
+   "time": "2026-11-11 02:00"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[단독]“법만 만들면 뭐하나”…민간이윤 10% 상한, 실제 검사는 ‘0건’",
+   "link": "https://www.mk.co.kr/news/economy/12204062",
+   "time": "2026-11-11 01:39"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "중소기업 연체율 11년 만에 최고…은행 돈줄은 대기업으로",
+   "link": "https://www.mk.co.kr/news/economy/12204034",
+   "time": "2026-11-11 01:17"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“내 정보 털렸나?” 확인하려다 또 털려…해킹 뒤 날아온 문자메시지 ‘주의’",
+   "link": "https://www.mk.co.kr/news/economy/12204033",
+   "time": "2026-11-11 01:17"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“통장 재발급해 줘” 말하면 끝…우리은행 ATM에 AI 음성 기능 탑재",
+   "link": "https://www.mk.co.kr/news/economy/12204029",
+   "time": "2026-11-11 01:15"
   },
   {
    "source": "SBS",
@@ -3263,6 +3895,14 @@
    "kind": "방송사",
    "title": "가짜로 퇴사하고, 혼인신고 미루고…목표는 청약",
    "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839934&plink=RSSLINK&cooper=RSSREADER",
+   "time": "2026-11-11 00:41"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "[단독] “아무 기준도 모르는데 수백만원 환수?”…KB손보 설계사 환수금 논란",
+   "link": "https://www.mk.co.kr/news/economy/12203985",
    "time": "2026-11-11 00:41"
   },
   {
@@ -3538,6 +4178,14 @@
    "time": "2026-11-10 23:18"
   },
   {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“가덕도 신공항 연내 착공”...부산상의, 우원식 전 의장 간담회",
+   "link": "https://www.mk.co.kr/news/economy/12203824",
+   "time": "2026-11-10 23:11"
+  },
+  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
@@ -3568,14 +4216,6 @@
    "title": "[속보] 美 10월 CPI 전월보다 0.4%↑…핵심 CPI는 0.3% 상승",
    "link": "https://www.hankyung.com/article/202611108646i",
    "time": "2026-11-10 22:36"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "60세에 퇴직, 65세부터 연금수령 “5년간 뭐먹고 살라고”…공무원 92%가 걱정",
-   "link": "https://www.mk.co.kr/news/economy/12204444",
-   "time": "2026-11-10 21:51"
   },
   {
    "source": "연합뉴스",
@@ -3650,6 +4290,14 @@
    "time": "2026-11-10 20:53"
   },
   {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "은행연합회장 선임 절차 돌입…민관 출신 후보군 물밑경쟁",
+   "link": "https://www.mk.co.kr/news/economy/12203740",
+   "time": "2026-11-10 20:39"
+  },
+  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
@@ -3693,9 +4341,9 @@
    "source": "매일경제",
    "section": "경제",
    "kind": "경제지",
-   "title": "이형일 \"종부세 실거주 우대 원칙 지켜야\"",
-   "link": "https://www.mk.co.kr/news/economy/12204287",
-   "time": "2026-11-10 20:00"
+   "title": "노모·장모 위장전입하고 4년째 혼인신고 미뤄…부정청약 354건 적발",
+   "link": "https://www.mk.co.kr/news/economy/12203691",
+   "time": "2026-11-10 20:02"
   },
   {
    "source": "연합뉴스",
@@ -3722,6 +4370,14 @@
    "time": "2026-11-10 20:00"
   },
   {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“아파트 로또청약 나만 안 되는 이유 있었네”…부정 의심사례 354건 적발",
+   "link": "https://www.mk.co.kr/news/economy/12203675",
+   "time": "2026-11-10 19:56"
+  },
+  {
    "source": "연합뉴스",
    "section": "사회",
    "kind": "통신사",
@@ -3736,14 +4392,6 @@
    "title": "[2보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
    "link": "https://www.yna.co.kr/view/AKR20261110173800002",
    "time": "2026-11-10 19:51"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
-   "link": "https://www.mk.co.kr/news/economy/12204282",
-   "time": "2026-11-10 19:47"
   },
   {
    "source": "한국경제",
@@ -3784,6 +4432,14 @@
    "title": "신현송, 디지털 지급결제 '룰 메이커'로 나선다",
    "link": "https://www.hankyung.com/article/2026111085481",
    "time": "2026-11-10 19:30"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "AI 모의창구로 불완전판매 예방…한화손보, 금융AI챌린지 대상",
+   "link": "https://www.mk.co.kr/news/economy/12203616",
+   "time": "2026-11-10 19:16"
   },
   {
    "source": "뉴시스",
@@ -4034,36 +4690,12 @@
    "time": "2026-11-10 17:44"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "이자에 짓눌린 산단…연체액 2배 껑충",
-   "link": "https://www.mk.co.kr/news/economy/12204237",
-   "time": "2026-11-10 17:43"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "\"보증금으로 월세 내며 버텼지만…\" 車부품·철강中企 폐업 내몰려",
-   "link": "https://www.mk.co.kr/news/economy/12204214",
-   "time": "2026-11-10 17:38"
-  },
-  {
    "source": "뉴시스",
    "section": "경제",
    "kind": "통신사",
    "title": "\"금리 더 빨리 올려야\" vs \"신중해야\"…의견 엇갈린 BOJ",
    "link": "https://www.newsis.com/view/NISX20261110_0003862602",
    "time": "2026-11-10 17:36"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[단독] 농어촌 지원 늘리자는 민주당…2000억 예산 배정에 ‘5000억 더’",
-   "link": "https://www.mk.co.kr/news/economy/12204189",
-   "time": "2026-11-10 17:33"
   },
   {
    "source": "연합뉴스",
@@ -4114,86 +4746,6 @@
    "time": "2026-11-10 17:22"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "김정관 \"호남팹 배치계획, 이달 마무리\"",
-   "link": "https://www.mk.co.kr/news/economy/12204139",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "겨울철 취약층 40만명에 내년부터 난방비 등 지원",
-   "link": "https://www.mk.co.kr/news/economy/12204137",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "네이버·두나무 결합 심사 … 연내 결론날듯",
-   "link": "https://www.mk.co.kr/news/economy/12204134",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "韓수출 쏠림 심화 …'톱10' 기업이 60% 차지",
-   "link": "https://www.mk.co.kr/news/economy/12204135",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[표] 당좌거래정지",
-   "link": "https://www.mk.co.kr/news/economy/12204131",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "은행연합회장 선임 절차 돌입 … 민관 출신 후보군 물밑경쟁",
-   "link": "https://www.mk.co.kr/news/economy/12204129",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "수도권선 발주만 받아와도 대출 … 지방선 중기 기술신용대출 감소",
-   "link": "https://www.mk.co.kr/news/economy/12204130",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "난임부터 임신·출산까지…女心 홀린 여성보험",
-   "link": "https://www.mk.co.kr/news/economy/12204128",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[포토] 이찬진 금감원장, 회계법인CEO 간담회 개최",
-   "link": "https://www.mk.co.kr/news/economy/12204126",
-   "time": "2026-11-10 17:21"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[표] 외국환율고시표",
-   "link": "https://www.mk.co.kr/news/economy/12204127",
-   "time": "2026-11-10 17:21"
-  },
-  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
@@ -4232,46 +4784,6 @@
    "title": "[올댓차이나] TSMC 10월 매출 23.8조원·59%↑…AI 수요에 34개월째 증가",
    "link": "https://www.newsis.com/view/NISX20261110_0003862654",
    "time": "2026-11-10 17:01"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[영상] 부의 흐름에 올라타라!! 최소한의 경제 재테크공부",
-   "link": "https://www.mk.co.kr/news/economy/12203969",
-   "time": "2026-11-10 17:00"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[영상] 더 이상 내 집 마련을 미룰 수 없다! 나의 첫 번째 부동산 교과서",
-   "link": "https://www.mk.co.kr/news/economy/12203963",
-   "time": "2026-11-10 17:00"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[영상] 왜 지금 빌딩 시장을 봐야 하나? 호가와 매수 희망가격이 가까워질 때 나타나는 매수 시그널",
-   "link": "https://www.mk.co.kr/news/economy/12203965",
-   "time": "2026-11-10 17:00"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[영상] AI 반도체 : 테크를 넘어 금융산업으로 확장",
-   "link": "https://www.mk.co.kr/news/economy/12203962",
-   "time": "2026-11-10 17:00"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[영상] 재테크 불확실성 시대, 원금은 지키고 수익은 늘리는 투자&절세 포트폴리오",
-   "link": "https://www.mk.co.kr/news/economy/12203964",
-   "time": "2026-11-10 17:00"
   },
   {
    "source": "연합뉴스",
@@ -4378,14 +4890,6 @@
    "time": "2026-11-10 16:40"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[단독]“법만 만들면 뭐하나”…민간이윤 10% 상한, 실제 검사는 ‘0건’",
-   "link": "https://www.mk.co.kr/news/economy/12204062",
-   "time": "2026-11-10 16:39"
-  },
-  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
@@ -4442,36 +4946,12 @@
    "time": "2026-11-10 16:18"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "중소기업 연체율 11년 만에 최고…은행 돈줄은 대기업으로",
-   "link": "https://www.mk.co.kr/news/economy/12204034",
-   "time": "2026-11-10 16:17"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“내 정보 털렸나?” 확인하려다 또 털려…해킹 뒤 날아온 문자메시지 ‘주의’",
-   "link": "https://www.mk.co.kr/news/economy/12204033",
-   "time": "2026-11-10 16:17"
-  },
-  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
    "title": "[특징주] 삼성전자 4%·SK하이닉스 6%대 급등…시총 합산 2천조 회복(종합)",
    "link": "https://www.yna.co.kr/view/AKR20261110046151008",
    "time": "2026-11-10 16:16"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“통장 재발급해 줘” 말하면 끝…우리은행 ATM에 AI 음성 기능 탑재",
-   "link": "https://www.mk.co.kr/news/economy/12204029",
-   "time": "2026-11-10 16:15"
   },
   {
    "source": "뉴시스",
@@ -4570,20 +5050,20 @@
    "time": "2026-11-10 15:48"
   },
   {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "AI 역량 높아야 취업한다는 취준생…기업은 “기초 활용이면 충분”",
+   "link": "https://www.mk.co.kr/news/economy/12203370",
+   "time": "2026-11-10 15:47"
+  },
+  {
    "source": "연합뉴스",
    "section": "경제",
    "kind": "통신사",
    "title": "두나무 김형년 \"삼전닉스 해외서만 토큰 거래 가슴 아파\"",
    "link": "https://www.yna.co.kr/view/AKR20261110126200002",
    "time": "2026-11-10 15:43"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "[단독] “아무 기준도 모르는데 수백만원 환수?”…KB손보 설계사 환수금 논란",
-   "link": "https://www.mk.co.kr/news/economy/12203985",
-   "time": "2026-11-10 15:41"
   },
   {
    "source": "연합뉴스",
@@ -4632,6 +5112,22 @@
    "title": "美 경제 떠받친 AI, 규제했다간 거품 터질라…민주당의 딜레마",
    "link": "https://www.newsis.com/view/NISX20261110_0003862162",
    "time": "2026-11-10 15:29"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "“너무 떨어졌나” 美증시 반등…‘젠슨황 쇼크’ 엔비디아 4.3% 뚝 [월가월부]",
+   "link": "https://www.mk.co.kr/news/economy/12203304",
+   "time": "2026-11-10 15:28"
+  },
+  {
+   "source": "매일경제",
+   "section": "경제",
+   "kind": "경제지",
+   "title": "국내 상장사 소액주주 24% 늘었지만…보유 주식은 10% 감소",
+   "link": "https://www.mk.co.kr/news/economy/12203267",
+   "time": "2026-11-10 15:18"
   },
   {
    "source": "뉴시스",
@@ -4720,14 +5216,6 @@
    "title": "버려지던 지하수·하폐수도 냉난방에 활용…수열에너지 범위 확대",
    "link": "https://www.newsis.com/view/NISX20261110_0003861417",
    "time": "2026-11-10 14:16"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“가덕도 신공항 연내 착공”...부산상의, 우원식 전 의장 간담회",
-   "link": "https://www.mk.co.kr/news/economy/12203824",
-   "time": "2026-11-10 14:11"
   },
   {
    "source": "뉴시스",
@@ -4954,14 +5442,6 @@
    "time": "2026-11-10 11:40"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "은행연합회장 선임 절차 돌입…민관 출신 후보군 물밑경쟁",
-   "link": "https://www.mk.co.kr/news/economy/12203740",
-   "time": "2026-11-10 11:39"
-  },
-  {
    "source": "뉴시스",
    "section": "경제",
    "kind": "통신사",
@@ -4994,14 +5474,6 @@
    "time": "2026-11-10 11:10"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "노모·장모 위장전입하고 4년째 혼인신고 미뤄…부정청약 354건 적발",
-   "link": "https://www.mk.co.kr/news/economy/12203691",
-   "time": "2026-11-10 11:02"
-  },
-  {
    "source": "뉴시스",
    "section": "경제",
    "kind": "통신사",
@@ -5016,14 +5488,6 @@
    "title": "기후위기 속 농업용수 어떻게 확보하나…안산서 국제협력 논의",
    "link": "https://www.newsis.com/view/NISX20261110_0003861291",
    "time": "2026-11-10 11:00"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“아파트 로또청약 나만 안 되는 이유 있었네”…부정 의심사례 354건 적발",
-   "link": "https://www.mk.co.kr/news/economy/12203675",
-   "time": "2026-11-10 10:56"
   },
   {
    "source": "SBS",
@@ -5050,14 +5514,6 @@
    "time": "2026-11-10 10:27"
   },
   {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "AI 모의창구로 불완전판매 예방…한화손보, 금융AI챌린지 대상",
-   "link": "https://www.mk.co.kr/news/economy/12203616",
-   "time": "2026-11-10 10:16"
-  },
-  {
    "source": "SBS",
    "section": "경제",
    "kind": "방송사",
@@ -5069,33 +5525,9 @@
    "source": "매일경제",
    "section": "경제",
    "kind": "경제지",
-   "title": "AI 역량 높아야 취업한다는 취준생…기업은 “기초 활용이면 충분”",
-   "link": "https://www.mk.co.kr/news/economy/12203370",
-   "time": "2026-11-10 06:47"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "“너무 떨어졌나” 美증시 반등…‘젠슨황 쇼크’ 엔비디아 4.3% 뚝 [월가월부]",
-   "link": "https://www.mk.co.kr/news/economy/12203304",
-   "time": "2026-11-10 06:28"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
-   "title": "국내 상장사 소액주주 24% 늘었지만…보유 주식은 10% 감소",
-   "link": "https://www.mk.co.kr/news/economy/12203267",
-   "time": "2026-11-10 06:18"
-  },
-  {
-   "source": "매일경제",
-   "section": "경제",
-   "kind": "경제지",
    "title": "가업상속공제 놓고 여야 ‘충돌’…종부세 강화엔 나란히 제동",
    "link": "https://www.mk.co.kr/news/economy/12203086",
-   "time": "2026-11-09 23:48"
+   "time": "2026-11-10 08:48"
   },
   {
    "source": "매일경제",
@@ -5103,7 +5535,7 @@
    "kind": "경제지",
    "title": "[단독] 정부가 낸 법안에 정부가 ‘유감’…호텔·병원 가업상속 혜택 놓고 부처 이견",
    "link": "https://www.mk.co.kr/news/economy/12203045",
-   "time": "2026-11-09 22:59"
+   "time": "2026-11-10 07:59"
   },
   {
    "source": "매일경제",
@@ -5111,7 +5543,7 @@
    "kind": "경제지",
    "title": "못 받은 돈만 3조, 더 빌려줄 수가…4대 은행 中企 ‘깡통대출’ 경고등",
    "link": "https://www.mk.co.kr/news/economy/12202882",
-   "time": "2026-11-09 20:55"
+   "time": "2026-11-10 05:55"
   },
   {
    "source": "매일경제",
@@ -5119,7 +5551,7 @@
    "kind": "경제지",
    "title": "삼성화재, 영국 특수보험사 경영권 확보",
    "link": "https://www.mk.co.kr/news/economy/12202790",
-   "time": "2026-11-09 17:46"
+   "time": "2026-11-10 02:46"
   },
   {
    "source": "매일경제",
@@ -5127,7 +5559,7 @@
    "kind": "경제지",
    "title": "[단독] “넷플릭스 해지해도 챗GPT는 못 끊어”…AI 구독료, 고정비 됐다",
    "link": "https://www.mk.co.kr/news/economy/12202788",
-   "time": "2026-11-09 17:45"
+   "time": "2026-11-10 02:45"
   },
   {
    "source": "매일경제",
@@ -5135,7 +5567,7 @@
    "kind": "경제지",
    "title": "[포토] 삼성·현대차 경영진 의기투합",
    "link": "https://www.mk.co.kr/news/economy/12202787",
-   "time": "2026-11-09 17:44"
+   "time": "2026-11-10 02:44"
   },
   {
    "source": "매일경제",
@@ -5143,7 +5575,7 @@
    "kind": "경제지",
    "title": "가스값 66% 폭등…기업에만 청구서 날아왔다",
    "link": "https://www.mk.co.kr/news/economy/12202784",
-   "time": "2026-11-09 17:44"
+   "time": "2026-11-10 02:44"
   },
   {
    "source": "매일경제",
@@ -5151,7 +5583,7 @@
    "kind": "경제지",
    "title": "입점업체에 '갑질 의혹' … 쿠팡·배민 과징금 6천억",
    "link": "https://www.mk.co.kr/news/economy/12202785",
-   "time": "2026-11-09 17:44"
+   "time": "2026-11-10 02:44"
   }
  ]
 }
