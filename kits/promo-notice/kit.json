@@ -1,0 +1,12 @@
+{
+  "name": "promo-notice",
+  "title": "알리기 ② 알림 문구",
+  "parts": [],
+  "input_line": "kits/promo-notice 폴더에서 이 명령을 실행해 줘(올리지는 말고 파일만 만들어): python -X utf8 run.py 글.md https://내사이트/글주소/ 결과.md",
+  "gives": "결과.md — 한 줄 / 세 줄 / 다섯 줄 알림 문구, 해시태그 후보",
+  "see": "세 길이 중 올릴 곳에 맞는 것을 고르고, 숫자가 글과 같은지 본다. 과장 낱말이 없는지도 본다.",
+  "mounts": "내 컴퓨터에서 실행하는 도구(사이트 화면에는 안 붙음, 올리지 않고 파일까지만)",
+  "server": "불필요",
+  "minutes": "5",
+  "author": "마케터"
+}

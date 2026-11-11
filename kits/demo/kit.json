@@ -1,0 +1,13 @@
+{
+  "name": "demo",
+  "title": "조립 예시 키트",
+  "parts": [
+    "demo"
+  ],
+  "input_line": "python demo.py 로 demos/demos.json 의 조합 예시들을 각각 따로 찍어 /demo/ 아래에 올려 줘.",
+  "gives": "조합 목록(demos.json) → 조합마다 따로 찍은 사이트(/demo/이름/) + 목록 쪽",
+  "see": "/demo/ 에서 조합마다 다른 이름·메뉴의 사이트가 열립니다",
+  "mounts": "/demo/ (demo)",
+  "server": "불필요",
+  "minutes": "5"
+}

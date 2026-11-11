@@ -88,6 +88,18 @@ def trends(B):
         cp = os.path.join(B.HERE, 'data', 'trends_cache.json')
         if os.path.exists(cp):
             c = json.load(open(cp, encoding='utf-8')); items, at = c['items'], c['at'] + '(마지막으로 불러온 것)'
+    # 거르기(기본 켜짐): 내 주제 낱말과 겹치는 것만 남기고, 사건·사고·사람 소식으로 보이는 낱말은 뺀다. 조건은 kits/trends/data/config.json
+    cfg = data(B, 'trends', 'config.json', {}) or {}
+    topic = [w for w in (cfg.get('topic_words') or B.KEYWORDS) if w]
+    block = cfg.get('block_words', ['사고', '사망', '숨진', '구속', '체포', '재판', '열애', '결혼', '이혼', '불륜', '폭행', '피해자', '용의자', '논란', '소환'])
+    total = len(items)
+    if cfg.get('mode', 'topic_only') == 'topic_only':
+        if not topic:
+            return [box(B, '인기 키워드', '인기 키워드', '<p>내 주제 낱말이 아직 없어 목록을 보여 주지 않습니다. kits/trends/data/config.json 의 topic_words(또는 site.json 의 topic_keywords)에 내 주제 낱말을 넣으세요. 사람 이름이나 사건 소식이 그대로 나오는 것을 막기 위한 기본 설정입니다.</p>', '인기 키워드', 'trends')]
+        items = [x for x in items if any(w in x['keyword'] or any(w in n['title'] for n in x['news']) for w in topic) and not any(b in x['keyword'] or any(b in n['title'] for n in x['news']) for b in block)]
+        print(f'  인기 키워드 거르기: {total}개 중 주제 낱말 {topic} 에 맞는 {len(items)}개만 남김')
+        if not items:
+            return [box(B, '인기 키워드', '오늘의 인기 키워드', f'<p>오늘 구글 트렌드 {total}개 가운데 내 주제 낱말에 맞는 키워드가 없습니다. 주제 낱말을 늘리거나 내일 다시 확인하세요.</p>', '인기 키워드', 'trends')]
     if not items:
         return [box(B, '인기 키워드', '인기 키워드', '<p>이번 빌드에서 구글 트렌드 목록을 불러오지 못했습니다. 다음 빌드에서 다시 시도합니다.</p>', '인기 키워드', 'trends')]
     urls = []

@@ -35,6 +35,7 @@ jobs:
       - run: python collect.py
       - run: python group.py
       - run: python build.py
+      - run: python demo.py   # 조립 예시(/demo/)를 본 사이트 build 뒤에 따로 찍는다(parts.demo 가 켜져 있을 때 의미가 있음)
       - name: 바뀐 것이 있으면 커밋
         run: |
           git config user.name "github-actions[bot]"

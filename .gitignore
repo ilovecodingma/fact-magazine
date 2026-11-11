@@ -9,3 +9,5 @@ reply_drafts/
 logs/
 dist_mix/
 dist/
+promo_out/
+_cdp_shot.js

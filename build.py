@@ -91,6 +91,8 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
 .calc label{display:block;font:700 14px var(--sans);margin:14px 0 4px}.calc input{font:18px var(--sans);padding:10px;width:100%;border:1px solid var(--ink);background:#fff}.crs{margin-top:18px;border-top:2px solid var(--ink)}.cr{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);font:16px var(--sans)}.cr b{font:800 22px var(--serif)}
 .notice{font:14px/1.5 var(--sans);background:#fff8dc;border:1px solid #e6d9a0;padding:8px 12px;margin:14px 0 0}.notice a{color:var(--link);margin-left:8px}details.fq{border-top:1px solid var(--hair);padding:12px 0}details.fq summary{font:700 17px/1.5 var(--serif);cursor:pointer}details.fq p{font:15px/1.7 var(--sans);color:#333;margin:8px 0 0}pre{overflow-x:auto}
+nav.menu{position:relative}details.mn{position:relative}details.mn summary{list-style:none;cursor:pointer;font:600 14px/1 var(--sans)}details.mn summary::-webkit-details-marker{display:none}.mnp{position:absolute;right:0;top:26px;background:#fff;border:1px solid var(--ink);padding:6px 14px;display:flex;flex-direction:column;gap:12px;z-index:20;min-width:140px;text-align:left}
+@media(max-width:640px){nav.menu{gap:14px;flex-wrap:nowrap;justify-content:space-between}nav.menu a,details.mn summary{white-space:nowrap}}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -115,20 +117,53 @@ def page(path, title, desc, body, noindex=False):
     """HTML 쪽 하나를 docs/<path>/index.html 로 쓴다. 종합 일간지 첫 화면 같은 머리(제호·괘선·한 줄 메뉴)를 붙인다."""
     d = os.path.join(OUT, path)
     os.makedirs(d, exist_ok=True)
+    noindex = noindex or DEMO
     canon = f'{URL}/{path}/' if path else f'{URL}/'
     _logo = f'<a class="logo" href="{BASE}">{E(S["name"])}</a>'
     LOGO = f'<h1 style="margin:0">{_logo}</h1>' if not path else _logo   # 첫 화면에는 h1 이 하나 있어야 하므로 제호를 h1 로
-    canon_tag = '' if NOURL else f'<link rel="canonical" href="{canon}">'
-    rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
-    rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
+    canon_tag = '' if (NOURL or DEMO) else f'<link rel="canonical" href="{canon}">'
+    rss_tag = '' if (NOURL or DEMO) else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
+    rss_link = '' if (NOURL or DEMO) else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
-    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '') + (f'<a href="{BASE}calc/">계산기</a>' if part('calc', False) and kit_data('calc', 'calculators.json') else '') + (f'<a href="{BASE}glossary/">용어</a>' if part('glossary', False) and kit_data('glossary', 'terms.json') else '') + (f'<a href="{BASE}search/">검색</a>' if part('search', False) else '')
+    items = [('오늘' if part('info') else '처음', BASE)]   # 메뉴 후보(앞에서부터 보여 주고 5칸을 넘으면 「더 보기」에 접는다)
+    if load_games():
+        items.append(('게임', BASE + 'games/'))
+    if part('issue'):
+        items.append(('잡지', BASE + 'issue/'))
+    if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')):
+        items.append(('글', BASE + 'post/'))
+    if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')):
+        items.append(('연재', BASE + 'novel/'))
+    if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')):
+        items.append(('웹툰', BASE + 'toon/'))
+    if part('video', False) and EX.get('videos'):
+        items.append(('영상', BASE + 'video/'))
+    if part('calc', False) and kit_data('calc', 'calculators.json'):
+        items.append(('계산기', BASE + 'calc/'))
+    if part('glossary', False) and kit_data('glossary', 'terms.json'):
+        items.append(('용어', BASE + 'glossary/'))
+    if part('schedule', False) and kit_data('schedule', 'events.json'):
+        items.append(('일정', BASE + 'schedule/'))
+    if part('faq', False) and kit_data('faq', 'faq.json'):
+        items.append(('질문', BASE + 'faq/'))
+    if part('links', False) and kit_data('links', 'links.json'):
+        items.append(('링크', BASE + 'links/'))
+    if part('search', False):
+        items.append(('검색', BASE + 'search/'))
+    items += [('확인하는 방법', BASE + 'how/'), ('소개', BASE + 'about/'), ('문의', BASE + 'contact/')]
+    if part('demo', False):
+        items.append(('조립 예시', BASE + 'demo/'))
+    MAXN = 5
+    shown, rest = (items, []) if len(items) <= MAXN + 1 else (items[:MAXN], items[MAXN:])
+    GAMES_LINK = ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in shown)
+    if rest:
+        GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
-<div class="wrap"><nav class="menu"><a href="{BASE}">{'오늘' if part('info') else '처음'}</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
+<div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
 <footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in FOOT.items() if part(k, False))}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
@@ -302,7 +337,8 @@ def content_pages():
 
 
 SEARCH = []   # 사이트 안 검색 색인(쪽 주소·제목·설명) — page() 가 채운다
-KITS_DIR = os.path.join(HERE, 'kits')
+KITS_DIR = os.path.abspath(os.environ['KITS_DIR']) if os.environ.get('KITS_DIR') else os.path.join(HERE, 'kits')   # 데모 조합은 자기 자료 폴더를 쓸 수 있다
+DEMO = bool(os.environ.get('DEMO'))   # 데모(조립 예시)는 본 사이트와 내용이 겹치므로 검색에 안 나가게 한다(noindex, 사이트맵·RSS 없음)
 SAFE_EXPR = re.compile(r'^[A-Za-z0-9_+\-*/().,%<>=!?:&| ]+$')
 
 
@@ -554,7 +590,7 @@ def home(notes, topics, notice=''):
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
         secs = [('게임', 'games/', 'games', lambda: load_games(), '웹 게임'), ('계산기', 'calc/', 'calc', lambda: kit_data('calc', 'calculators.json'), '숫자를 넣으면 바로 계산'), ('용어 사전', 'glossary/', 'glossary', lambda: kit_data('glossary', 'terms.json'), '돈·생활 용어 풀이'),
                 ('글', 'post/', 'posts', lambda: os.path.isdir(os.path.join(HERE, 'posts')), '생활·돈 가이드 글'), ('연재', 'novel/', 'novel', lambda: os.path.isdir(os.path.join(HERE, 'novels')), '연재 소설'), ('웹툰', 'toon/', 'toon', lambda: os.path.isdir(os.path.join(HERE, 'toons')), '웹툰·만화'),
-                ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')]
+                ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('일정', 'schedule/', 'schedule', lambda: True, '날짜별 일정'), ('자주 묻는 질문', 'faq/', 'faq', lambda: True, '질문과 답'), ('링크 모음', 'links/', 'links', lambda: True, '분류별 링크'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')]
         gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok())
         mix = ''   # 켜진 키트의 실제 내용을 첫 화면에 모아 보여 준다
         if part('games', False) and load_games():
@@ -564,12 +600,21 @@ def home(notes, topics, notice=''):
         if part('glossary', False) and kit_data('glossary', 'terms.json'):
             ts = kit_data('glossary', 'terms.json')[:6]
             mix += '<section class="sec"><h2>용어</h2><ul class="rp">' + ''.join(f'<li><a href="{BASE}glossary/{re.sub(chr(32), chr(45), t["term"])}/"><b>{E(t["term"])}</b></a> — {E(t["short"])}</li>' for t in ts) + f'</ul><p class="sub"><a href="{BASE}glossary/">용어 전체 보기</a></p></section>'
+        if part('schedule', False) and kit_data('schedule', 'events.json'):   # 다가오는 일정 3개(찍은 날 기준)
+            today_s = datetime.date.today().isoformat()
+            ev = [e for e in sorted(kit_data('schedule', 'events.json'), key=lambda x: x['date']) if e['date'] >= today_s][:3]
+            if ev:
+                mix += '<section class="sec"><h2>다가오는 일정</h2>' + ''.join(f'<div class="tp"><span class="lb">{E(e["date"])}</span><b>{E(e["title"])}</b><span class="ln">{E(e.get("note", ""))}</span></div>' for e in ev) + f'<p class="sub"><a href="{BASE}schedule/">일정 전체 보기</a></p></section>'
+        if part('faq', False) and kit_data('faq', 'faq.json'):
+            mix += '<section class="sec"><h2>자주 묻는 질문</h2><ul class="rp">' + ''.join(f'<li><a href="{BASE}faq/">{E(x["q"])}</a></li>' for x in kit_data('faq', 'faq.json')[:3]) + '</ul></section>'
+        if part('links', False) and kit_data('links', 'links.json'):
+            mix += '<section class="sec"><h2>링크</h2>' + ''.join(f'<div class="tp"><span class="lb">{E(g["category"])}</span>' + ''.join(f'<span class="ln"><a href="{E(i["url"])}" rel="noopener nofollow" target="_blank">{E(i["name"])}</a> — {E(i.get("desc", ""))}</span>' for i in g['items'][:3]) + '</div>' for g in kit_data('links', 'links.json')[:2]) + f'<p class="sub"><a href="{BASE}links/">링크 모음 보기</a></p></section>'
         if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')):
             ps = sorted(glob.glob(os.path.join(HERE, 'posts', '*.md')))[-3:]
             if ps:
                 mix += '<section class="sec"><h2>글</h2><ul class="rp">' + ''.join(f'<li><a href="{BASE}post/{os.path.splitext(os.path.basename(f))[0]}/">{E(first_h1(open(f, encoding="utf-8").read(), os.path.basename(f)))}</a></li>' for f in ps) + '</ul></section>'
-        if mix:
-            gl = ''
+        covered = {'게임': '게임', '계산기': '계산기', '용어 사전': '용어', '글': '글', '일정': '다가오는 일정', '자주 묻는 질문': '자주 묻는 질문', '링크 모음': '링크'}   # 첫 화면에 내용이 이미 나온 키트는 카드에서 뺀다
+        gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok() and f'<h2>{covered.get(n, chr(0))}</h2>' not in mix)
         return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h2 style="font:800 28px/1.3 var(--serif);margin:0 0 10px">{E(S["name"])}</h2><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + mix + extras_html())
     if notes:
         n = notes[0]
@@ -628,8 +673,11 @@ def main():
         topics = []
     topics, notice = filter_topics(topics)
     urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages() + calc_pages() + glossary_pages() + search_page() + ebook_pages() + kits_page() + _kp.pages(sys.modules[__name__]) + status_page(notes)
-    feed(notes)
+    if not DEMO:
+        feed(notes)
     write_search_index()
+    if DEMO:
+        print(f'데모 쪽 {len(urls)}개 -> {OUT}'); return
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
         open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
             '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')
