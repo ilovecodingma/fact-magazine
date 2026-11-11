@@ -28,10 +28,10 @@ def main():
     import build as B   # 마크다운 변환(md)과 사이트 이름을 빌드와 같은 것으로 쓴다(빌드를 실행하지는 않음)
     title = sys.argv[sys.argv.index('--title') + 1] if '--title' in sys.argv else f'{B.S["name"]} 모음'
     chapters = []   # (구분, 제목, 본문 html)
-    for f in sorted(glob.glob(os.path.join(HERE, 'posts', '*.md'))):
+    for f in sorted(glob.glob(os.path.join(B.DATA_ROOT, 'posts', '*.md'))):
         t = open(f, encoding='utf-8').read()
         chapters.append(('글', B.first_h1(t, os.path.basename(f)), B.md(re.sub(r'^# .+\n', '', t, count=1))))
-    for nd in sorted(glob.glob(os.path.join(HERE, 'novels', '*'))):
+    for nd in sorted(glob.glob(os.path.join(B.DATA_ROOT, 'novels', '*'))):
         if not os.path.isdir(nd):
             continue
         intro = open(os.path.join(nd, '소개.md'), encoding='utf-8').read() if os.path.exists(os.path.join(nd, '소개.md')) else ''
@@ -49,10 +49,10 @@ def main():
            'h2{font-size:16pt;border-bottom:2px solid #111;padding-bottom:3mm}table{border-collapse:collapse}td{border:1px solid #999;padding:2mm}</style></head>'
            f'<body><div class="cover"><h1>{E(title)}</h1><p>{E(B.S["name"])}</p><p>글 {sum(1 for c in chapters if c[0] == "글")}편 · 연재 {sum(1 for c in chapters if c[0] == "연재")}화</p></div>'
            f'<div class="toc"><h2>차례</h2><ol>{toc}</ol></div>{body}</body></html>')
-    os.makedirs(os.path.join(HERE, 'ebooks'), exist_ok=True)
+    os.makedirs(os.path.join(B.DATA_ROOT, 'ebooks'), exist_ok=True)
     tmp = os.path.join(tempfile.mkdtemp(), 'book.html')
     open(tmp, 'w', encoding='utf-8').write(doc)
-    out = os.path.join(HERE, 'ebooks', re.sub(r'[\\/:*?"<>|\s]+', '-', title) + '.pdf')
+    out = os.path.join(B.DATA_ROOT, 'ebooks', re.sub(r'[\\/:*?"<>|\s]+', '-', title) + '.pdf')
     subprocess.run([browser(), '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--print-to-pdf=' + out, 'file:///' + tmp.replace('\\', '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
     if not (os.path.exists(out) and os.path.getsize(out) > 2000):
         sys.exit('PDF 를 만들지 못했습니다.')

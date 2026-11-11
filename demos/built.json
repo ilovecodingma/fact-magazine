@@ -4,5 +4,9 @@
  "serial": 18,
  "newsletter": 9,
  "tools": 41,
- "town": 10
+ "town": 10,
+ "shop": 10,
+ "club": 13,
+ "study": 21,
+ "works": 11
 }

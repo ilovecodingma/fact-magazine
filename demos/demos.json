@@ -84,5 +84,70 @@
     "kits_dir": "demos/town/kits",
     "about": "가상의 동네 「가상동」을 소재로 한 예시 사이트입니다. 모든 숫자·날짜·장소는 예시이며 실제 동네와 관계없습니다.",
     "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 동네 정보 사이트를 만들어 줘. schedule·links·faq·notice·search 키트만 켜고, 각 키트의 자료 파일(kits/키트/data/)을 우리 동네 내용으로 바꿔 줘. 이름은 「동네 정보 한입」, 숫자·날짜는 예시라고 표시해 줘."
+  },
+  {
+    "key": "shop",
+    "name": "달빛 빵집 안내",
+    "tagline": "가상의 빵집 안내 사이트(예시) — 공지·일정·자주 묻는 질문·사진첩·링크",
+    "mix": "가게 안내",
+    "kits": [
+      "notice",
+      "schedule",
+      "faq",
+      "gallery",
+      "links"
+    ],
+    "kits_dir": "demos/shop/kits",
+    "about": "가상의 빵집을 소재로 한 예시 사이트입니다. 시간·가격·날짜는 모두 예시입니다.",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 가게 안내 사이트를 만들어 줘. notice·schedule·faq·gallery·links 키트만 켜고 각 자료 파일(kits/키트/data/)을 내 가게 내용으로 바꿔 줘. 예시 표시는 지워 줘."
+  },
+  {
+    "key": "club",
+    "name": "작은 걸음 모임",
+    "tagline": "가상의 걷기 모임 사이트(예시) — 일정·위키·사진첩·공지·퀴즈",
+    "mix": "동아리·모임",
+    "kits": [
+      "schedule",
+      "wiki",
+      "gallery",
+      "notice",
+      "quiz"
+    ],
+    "kits_dir": "demos/club/kits",
+    "about": "가상의 걷기 모임을 소재로 한 예시 사이트입니다. 날짜와 내용은 모두 예시입니다.",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 모임 사이트를 만들어 줘. schedule·wiki·gallery·notice·quiz 키트만 켜고 자료 파일을 우리 모임 내용으로 바꿔 줘."
+  },
+  {
+    "key": "study",
+    "name": "공부 노트",
+    "tagline": "공부한 것을 모아 두는 사이트(예시) — 용어 사전·위키·퀴즈·전자책·검색",
+    "mix": "공부 노트",
+    "kits": [
+      "glossary",
+      "wiki",
+      "quiz",
+      "ebook",
+      "search"
+    ],
+    "kits_dir": "demos/study/kits",
+    "data_root": "demos/study",
+    "about": "공부한 내용을 정리해 두는 예시 사이트입니다(가상의 내용).",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 공부 노트 사이트를 만들어 줘. glossary·wiki·quiz·ebook·search 키트만 켜고 자료를 내 과목 내용으로 바꾸고, 글을 전자책 PDF 로 묶어 줘."
+  },
+  {
+    "key": "works",
+    "name": "내 작업 모음",
+    "tagline": "내가 만든 것을 모아 두는 사이트(예시) — 글·사진첩·타임라인·링크",
+    "mix": "내 작업 모음",
+    "kits": [
+      "posts",
+      "gallery",
+      "timeline",
+      "links"
+    ],
+    "kits_dir": "demos/works/kits",
+    "data_root": "demos/works",
+    "about": "내 작업을 모아 두는 예시 사이트입니다(가상의 내용).",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 작업 모음 사이트를 만들어 줘. posts·gallery·timeline·links 키트만 켜고 자료를 내 작업 내용으로 바꿔 줘."
   }
 ]

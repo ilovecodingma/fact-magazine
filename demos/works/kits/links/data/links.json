@@ -1,0 +1,17 @@
+[
+  {
+    "category": "내 채널(예시)",
+    "items": [
+      {
+        "name": "작업 블로그(예시)",
+        "url": "https://example.com/blog",
+        "desc": "예시 링크입니다"
+      },
+      {
+        "name": "연락하기(예시)",
+        "url": "https://example.com/contact",
+        "desc": "예시 링크입니다"
+      }
+    ]
+  }
+]

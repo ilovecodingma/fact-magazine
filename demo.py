@@ -30,6 +30,8 @@ def main():
         env = dict(os.environ, DEMO='1', OUT_DIR=os.path.join(out_root, d['key']), SITE_BASE=f'{B.BASE}demo/{d["key"]}/', SITE_URL=(f'{B.URL}/demo/{d["key"]}' if not B.NOURL else ''),
                    SITE_NAME=d['name'], SITE_TAGLINE=d['tagline'], SITE_ABOUT=d['about'], HOME_TITLE=d['name'] + ' | 조립 예시', HOME_DESC=d['tagline'], PARTS=json.dumps(parts, ensure_ascii=False),
                    SITE_EXTRAS=json.dumps({'videos': B.EX.get('videos', [])} if d.get('video') else {}, ensure_ascii=False), TOPIC_KEYWORDS='', GAMES_TITLE=d['name'] + ' 게임', GAMES_DESC=d['tagline'])
+        if d.get('data_root'):
+            env['DATA_ROOT'] = os.path.join(HERE, d['data_root'])   # 이 데모의 글·소설·웹툰·전자책 원본 폴더
         if d.get('kits_dir'):
             env['KITS_DIR'] = os.path.join(HERE, d['kits_dir'])
             # 이 데모가 켜는 키트 중 자기 자료 폴더에 없는 것은 본 키트 폴더에서 가져온다(예: search 는 자료가 없음)
