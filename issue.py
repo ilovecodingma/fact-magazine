@@ -47,7 +47,7 @@ def main():
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)
         if os.path.exists(out) and os.path.getsize(out) > 1000:
             st[d] = h; os.makedirs(os.path.dirname(st_p), exist_ok=True); json.dump(st, open(st_p, 'w', encoding='utf-8'), indent=1)
-            print('만듦:', out); made += 1
+            print('만듦:', os.path.relpath(out, HERE) if os.path.abspath(out).startswith(HERE) else os.path.basename(out)); made += 1
         else:
             print('실패:', d)
     print(f'PDF {made}개 새로 만듦. 이제 python build.py 를 다시 돌리면 호 쪽에 「인쇄용 PDF」 링크가 붙습니다.')

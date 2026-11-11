@@ -77,7 +77,7 @@ def main():
         sys.exit('알릴 노트가 없습니다.')
     name, url = site()
     for p in paths:
-        print('만듦:', make(p, name, url, out))
+        print('만듦:', os.path.relpath(make(p, name, url, out), HERE))
     print('올리지는 않았습니다. 파일을 읽어 보고 사람이(또는 로그인된 채널을 다루는 역할이) 올립니다.')
 
 

@@ -37,7 +37,7 @@ def main():
         if d.get('kits_dir'):
             env['KITS_DIR'] = os.path.join(HERE, d['kits_dir'])
         r = subprocess.run([sys.executable, '-X', 'utf8', os.path.join(HERE, 'build.py')], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
-        print(f'{d["name"]}: ' + (r.stdout.strip().splitlines() or [''])[-1] + f' → {out}')
+        print(f'{d["name"]}: ' + (r.stdout.strip().splitlines() or [''])[-1] + ' → ' + (os.path.relpath(out, HERE) if out.startswith(HERE) else os.path.basename(out)))
         sys.exit(r.returncode)
     allparts = list(B.S['parts'])
     out_root = os.path.join(B.OUT, 'demo')
@@ -82,7 +82,7 @@ def main():
                   f'<span class="ln">이렇게 입력하세요 → <code>{E(d["input_line"])}</code></span>' + (f'<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;align-items:flex-start">{pics}</div>' if pics else '') + '</div>')
     B.page('demo', f'조립 예시 — {B.S["name"]}', '키트를 섞어 만든 사이트 예시 여섯 개', f'<div class="page"><span class="lb">조립 예시</span><h1>조립 예시</h1><p>키트를 섞으면 이런 사이트가 됩니다. 아래 사이트는 모두 같은 저장소의 키트를 다르게 켜서 따로 찍은 것이고, 검색에는 나가지 않습니다.</p>{cards}</div>', noindex=True)
     json.dump(built, open(os.path.join(HERE, 'demos', 'built.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print('조립 예시', len(demos), '개 -> ', out_root)
+    print('조립 예시', len(demos), '개 -> ', os.path.relpath(out_root, HERE) if out_root.startswith(HERE) else os.path.basename(out_root))
 
 
 if __name__ == '__main__':

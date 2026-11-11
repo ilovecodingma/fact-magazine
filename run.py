@@ -48,44 +48,62 @@ def kits():
     return out
 
 
+LAST_OUT = {}   # 사이클 단계별 출력(점검 결과를 화면으로 찍는 데 쓴다)
+
+
+def text_png(br, title, blocks, out):
+    """글을 읽기 좋은 쪽으로 그려 찍는다(폴더 목록이나 파일 경로가 화면에 나오지 않게)."""
+    import html as H, tempfile
+    body = ''.join(f'<h2>{H.escape(h)}</h2><pre>{H.escape(t)}</pre>' for h, t in blocks)
+    doc = ('<!doctype html><meta charset="utf-8"><title>' + H.escape(title) + '</title><style>body{margin:0;background:#f6f4ef;font:17px/1.7 "Malgun Gothic",system-ui,sans-serif;color:#111}'
+           'main{max-width:860px;margin:0 auto;padding:28px 24px}h1{font-size:26px;border-bottom:3px double #111;padding-bottom:10px}h2{font-size:15px;color:#b5532a;margin:22px 0 6px}'
+           'pre{white-space:pre-wrap;word-break:break-word;font:inherit;background:#fff;border:1px solid #ddd;border-radius:10px;padding:14px 16px;margin:0}</style><main><h1>' + H.escape(title) + '</h1>' + body + '</main>')
+    f = os.path.join(tempfile.mkdtemp(), 't.html'); open(f, 'w', encoding='utf-8').write(doc)
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', 'file:///' + f.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+
+
 def cycle_shot(i, title, script):
-    """사이클 단계가 끝난 뒤 그 결과 쪽을 headless 로 찍는다: 1 첫 화면(docs)·호·새 노트, 2 promo_out 첫 글, 3 카드, 4 상태 쪽."""
-    import selftest as T, tempfile, shutil
-    sys.path.insert(0, HERE)
-    targets = {1: ['index.html', 'issue/index.html', 'notes'], 2: [], 3: [], 4: ['status/index.html']}
+    """사이클 단계가 끝난 뒤 그 결과를 headless 로 찍는다: 1 첫 화면·호·새 노트, 2 알림 문구·블로그 글(읽기 좋게 그린 쪽), 3 카드 그림, 4 점검 결과(상태 쪽이 켜져 있으면 그 쪽도)."""
+    import selftest as T, shutil
     docs = os.path.join(HERE, 'docs')
-    pages = []
-    if i == 1:
-        pages = [p for p in ('index.html', 'issue/index.html') if os.path.exists(os.path.join(docs, p))]
-        nd = os.path.join(docs, 'notes')
-        if os.path.isdir(nd):
-            pages += ['notes/' + n + '/index.html' for n in sorted(os.listdir(nd))[:1] if os.path.exists(os.path.join(nd, n, 'index.html'))]
-    elif i == 4:
-        pages = [p for p in ('status/index.html',) if os.path.exists(os.path.join(docs, p))]
-    files = []
-    if i == 2:
-        d = os.path.join(HERE, 'promo_out'); files = [os.path.join(d, f) for f in sorted(os.listdir(d))[:1]] if os.path.isdir(d) else []
-    if i == 3:
-        d = os.path.join(HERE, 'cards'); files = [os.path.join(d, f) for f in sorted(os.listdir(d)) if f.endswith('.png')][:2] if os.path.isdir(d) else []
     br = T.find_browser()
     if not br:
         print('  (브라우저가 없어 화면 저장을 건너뜁니다)'); return
     os.makedirs(SHOTS, exist_ok=True)
-    srv, port = T.start_server(docs)
-    try:
-        for n, p in enumerate(pages, 1):
-            out = os.path.join(SHOTS, f'사이클_{i}_{n}_{p.replace("/", "_").replace(".html", "")}.png')
-            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', f'http://127.0.0.1:{port}/{p}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
-            print('  화면 저장:', out, flush=True)
-        for n, f in enumerate(files, 1):
-            if f.endswith('.png'):
-                shutil.copy(f, os.path.join(SHOTS, f'사이클_{i}_{n}_{os.path.basename(f)}')); print('  그림 저장:', os.path.basename(f), flush=True)
-            else:
-                out = os.path.join(SHOTS, f'사이클_{i}_{n}_{os.path.basename(f)}.png')
-                subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', 'file:///' + f.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
-                print('  화면 저장:', out, flush=True)
-    finally:
-        srv.shutdown()
+    pages = []
+    if i == 1:
+        pages = [p for p in ('index.html', 'issue/index.html') if os.path.exists(os.path.join(docs, p))]
+        nd = os.path.join(docs, 'n')   # 확인 노트 쪽은 n/<노트 id>/
+        if os.path.isdir(nd):
+            pages += ['n/' + n + '/index.html' for n in sorted(os.listdir(nd), reverse=True)[:1] if os.path.exists(os.path.join(nd, n, 'index.html'))]
+    elif i == 4 and os.path.exists(os.path.join(docs, 'status', 'index.html')):
+        pages = ['status/index.html']
+    if pages:
+        srv, port = T.start_server(docs)
+        try:
+            for n, p in enumerate(pages, 1):
+                out = os.path.join(SHOTS, f'사이클_{i}_{n}_{p.replace("/", "_").replace(".html", "")}.png')
+                subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', f'http://127.0.0.1:{port}/{p}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+                print('  화면 저장:', os.path.basename(out), flush=True)
+        finally:
+            srv.shutdown()
+    if i == 2:
+        d = os.path.join(HERE, 'promo_out')
+        subs = sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x)))[:1] if os.path.isdir(d) else []
+        for sdir in subs:
+            blocks = []
+            for f in ('알림_짧게.txt', '알림_보통.txt', '블로그글.md'):
+                fp = os.path.join(d, sdir, f)
+                if os.path.exists(fp):
+                    t = open(fp, encoding='utf-8').read().strip()
+                    blocks.append((f.replace('_', ' ').rsplit('.', 1)[0], chr(10).join(t.splitlines()[:14]) + (chr(10) + '…' if len(t.splitlines()) > 14 else '')))
+            out = os.path.join(SHOTS, f'사이클_2_1_promo_{sdir}.png'); text_png(br, '알림 문구와 블로그 글 — ' + sdir, blocks, out); print('  화면 저장:', os.path.basename(out), flush=True)
+    if i == 3:
+        d = os.path.join(HERE, 'cards')
+        for n, f in enumerate([f for f in sorted(os.listdir(d)) if f.endswith('.png')][:2] if os.path.isdir(d) else [], 1):
+            shutil.copy(os.path.join(d, f), os.path.join(SHOTS, f'사이클_3_{n}_{f}')); print('  그림 저장:', f, flush=True)
+    if i == 4 and LAST_OUT.get(4):
+        out = os.path.join(SHOTS, '사이클_4_점검결과.png'); text_png(br, '점검(audit) 결과', [('python audit.py', LAST_OUT[4][-2500:])], out); print('  화면 저장:', os.path.basename(out), flush=True)
 
 
 def find_demo(word):
@@ -181,7 +199,10 @@ def main():
         steps = [('수집·묶기·대조·화면·호·쇼츠', ['run_daily.py'], '수집 건수·묶음·대조 결과·쪽 수·호 PDF·쇼츠는 위 출력의 단계별 줄'), ('알림 문구·블로그 글(promo)', ['promo.py'], 'promo_out/ 폴더'), ('공유용 카드 그림', ['card.py', '--square'], 'cards/ 폴더(png·svg)'), ('점검(audit)', ['audit.py'], '아래 점검 결과 줄')]
         for i, (t, a, where) in enumerate(steps, 1):
             print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}  (결과는 {where})', flush=True)
-            sh(a)
+            if i == 4:
+                r4 = subprocess.run(PY + a, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print(r4.stdout + r4.stderr, flush=True); LAST_OUT[4] = r4.stdout + r4.stderr
+            else:
+                sh(a)
             sys.stdout.flush()
             if SHOTS:
                 cycle_shot(i, t, a[0])

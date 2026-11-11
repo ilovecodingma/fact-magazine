@@ -689,7 +689,7 @@ def main():
         feed(notes)
     write_search_index()
     if DEMO:
-        print(f'데모 쪽 {len(urls)}개 -> {OUT}'); return
+        print(f'데모 쪽 {len(urls)}개 -> ' + (os.path.relpath(OUT, HERE) if OUT.startswith(HERE) else os.path.basename(OUT))); return
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
         open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
             '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')
