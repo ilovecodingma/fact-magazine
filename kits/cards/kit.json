@@ -71,6 +71,11 @@
         "eval": "fetch(document.querySelector('.tp img').getAttribute('src')).then(r=>r.status)",
         "equals": 200
       }
+    ],
+    "pre": [
+      [
+        "card.py"
+      ]
     ]
   },
   "try_change": "notes/ 의 노트 하나(예: notes/2026-11-11-export.json)의 제목에서 숫자를 바꾼 뒤 python card.py 를 돌려 cards/ 의 그림 속 큰 숫자가 같이 바뀌는지 열어 보세요(끝나면 되돌리세요)."

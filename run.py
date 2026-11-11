@@ -16,6 +16,11 @@
       python run.py 켜기 계산기 [용어 …]       키트를 켜고 다시 찍어 메뉴·쪽에 생겼는지 한 줄로 확인(끄기 도 같은 모양)
       python run.py 지금                      내 사이트에 지금 켜져 있는 것 목록과 메뉴
       python run.py 전부 [--yes]              묻지 않고 여덟 묶음을 끝까지(묻는 자리는 기본값: 켜 둔다)
+      python run.py 다듬기 [번호|다음] [--안 A|B] [--shots 폴더]   투박한 출발 모습을 걸음마다 고품질로(안 없이 부르면 안 A·B 미리보기만, --안 을 주면 적용하고 전·후 화면과 점수)
+      python run.py 되돌리기 <번호>            그 다듬기 걸음을 끈다(출발 모습 쪽으로)
+      python run.py 만듦새 [--shots 폴더]      첫 화면·글 쪽·휴대폰을 재서 점수(빈 영역·그림·최소 글자·대비·넘침·정보량)
+      python run.py 비교 [종류]                참고 사이트 화면과 내 첫 화면을 나란히 한 장으로(인터넷 필요)
+      python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
       python run.py 참고 [종류]               참고 사이트(실제 사이트와 「이렇게 번다」). --shots 폴더 면 그 사이트 화면을 headless 로 찍어 둔다
       python run.py 기획서                     기획서 한 장(기획서.md, 없으면 양식)
       python run.py 서비스 <종류> [단계 1~9]   서비스 하나를 끝까지: ㉠참고 ㉡기획서 ㉢기능 붙이기 ㉣내용 채우기 ㉤돈 자리 ㉥필수 쪽 ㉦겉모습 ㉧휴대폰 ㉨올릴 준비(종류: 정보 매거진·도구 모음·요리법 모음·가계부 앱)
@@ -148,17 +153,15 @@ def own_part(kj):
 
 
 def set_parts(names, on):
-    """site.json(과 site.local.json 에 parts 가 있으면 그쪽도)의 parts 를 바꾼다."""
-    for f in ('site.json', 'site.local.json'):
-        fp = os.path.join(HERE, f)
-        if not os.path.exists(fp):
-            continue
-        d = json.load(open(fp, encoding='utf-8'))
-        if f == 'site.local.json' and 'parts' not in d:
-            continue
-        for n in names:
-            d.setdefault('parts', {})[n] = on
-        json.dump(d, open(fp, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+    """독자 폴더의 선택은 site.local.json(git 추적 제외)에만 쓴다 — 추적되는 site.json 은 건드리지 않는다. site.local.json 에 parts 가 없으면 site.json 의 parts 를 복사해 시작한다."""
+    S0 = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+    fp = os.path.join(HERE, 'site.local.json')
+    d = json.load(open(fp, encoding='utf-8')) if os.path.exists(fp) else {}
+    if 'parts' not in d:
+        d['parts'] = dict(S0.get('parts') or {})
+    for n in names:
+        d['parts'][n] = on
+    json.dump(d, open(fp, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 
 
 def eff_parts():
@@ -266,6 +269,11 @@ def group_find(word):
 def run_group(g, headless_flags):
     print(f'━━ 묶음 「{g["name"]}」 ━━\n{g["intro"]}\n', flush=True)
     kits_ = [kit_json(k) for k in g['kits']]; kits_ = [k for k in kits_ if k]
+    off = {k for k, v in (prog_load().get('toggles') or {}).items() if v == '끔'}
+    skipped_off = [k['name'] for k in kits_ if k['name'] in off]
+    kits_ = [k for k in kits_ if k['name'] not in off]
+    if skipped_off:
+        print('독자가 꺼 둔 기능은 건너뜁니다(다시 켜지 않음):', ', '.join(skipped_off), '\n', flush=True)
     # ㉠ 화면에 붙는 키트를 한꺼번에 켜서 내 PC 사이트에 붙인다
     ons = []
     for kj in kits_:
@@ -286,10 +294,13 @@ def run_group(g, headless_flags):
         r = subprocess.run(PY + ['selftest.py', kj['name']] + headless_flags, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace')
         outp = r.stdout.strip()
         print('\n'.join('   ' + l for l in outp.splitlines()[-9:]), flush=True)
+        dirty = subprocess.run(['git', 'status', '--porcelain', 'kits/' + kj['name'] + '/data'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace').stdout.strip()
         if '건너뜀' in outp and '단계 가운데' not in outp:
             skip += 1
         elif r.returncode == 0:
             ok += 1
+        elif dirty:
+            ok += 1; print('   ※ 독자가 바꾼 자료라 시험의 ✗ 는 예시 값과 달라서 나온 것입니다(고장 아님). 바꾼 값은 python serve.py --open 으로 직접 확인하세요.', flush=True)
         else:
             bad += 1
         if kj.get('try_change'):
@@ -554,6 +565,213 @@ def service_cmd(rest):
     return rc
 
 
+POLFILE = os.path.join(HERE, '다듬기.json')
+THINK = os.path.join(HERE, '생각.md')
+MEAS = os.path.join(HERE, '만듦새.json')
+
+
+def pol_steps():
+    return json.load(open(POLFILE, encoding='utf-8'))['steps']
+
+
+def local_load():
+    fp = os.path.join(HERE, 'site.local.json')
+    return json.load(open(fp, encoding='utf-8')) if os.path.exists(fp) else {}
+
+
+def local_save(d):
+    json.dump(d, open(os.path.join(HERE, 'site.local.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+
+
+def cur_polish():
+    return {str(k): v for k, v in (local_load().get('polish') or {}).items() if v}
+
+
+def build_tmp(polish=None):
+    """지금 설정(site.local.json)으로 임시 폴더에 찍는다. polish 를 주면 그 층 설정으로(미리보기)."""
+    import tempfile
+    out = tempfile.mkdtemp(prefix='polish_')
+    env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
+    if polish is not None:
+        env['SITE_POLISH'] = json.dumps(polish)
+    subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    return out
+
+
+def newest_note(out):
+    nd = os.path.join(out, 'n')
+    ids = sorted(os.listdir(nd), reverse=True) if os.path.isdir(nd) else []
+    return ids[0] if ids else None
+
+
+def score_site(out):
+    """첫 화면(PC)·글 쪽(PC)·휴대폰 첫 화면의 만듦새 측정. {'pc':…, 'note':…, 'mobile':…}"""
+    import selftest as T
+    nid = newest_note(out); res = {}
+    pcs = T.measure_site(out, [''] + ([f'n/{nid}/'] if nid else []), 1280, 860, False)
+    res['pc'] = pcs[0] if pcs else {}
+    if nid and len(pcs) > 1:
+        res['note'] = pcs[1]
+    mob = T.measure_site(out, [''], 390, 844, True)
+    res['mobile'] = mob[0] if mob else {}
+    return res
+
+
+def grade_lines(res):
+    import selftest as T
+    lines = []; ok_n = tot = 0
+    for lab, key in (('PC 첫 화면', 'pc'), ('PC 글 쪽', 'note'), ('휴대폰 첫 화면', 'mobile')):
+        m = res.get(key)
+        if not m:
+            continue
+        gl = T.grade(m, imgs_needed=(key != 'note'))
+        row = []
+        for k, nm, v, th, ok in gl:
+            tot += 1; ok_n += 1 if ok else 0
+            row.append(f'{nm} {v}{"" if ok else " ✗(" + th + ")"}')
+        lines.append(f'  {lab}: ' + ' · '.join(row))
+    return lines, ok_n, tot
+
+
+def shots_for(out, tag):
+    if not SHOTS:
+        return
+    import selftest as T
+    os.makedirs(SHOTS, exist_ok=True); nid = newest_note(out)
+    jobs = [(['', ], [os.path.join(SHOTS, f'다듬기_{tag}_PC첫화면.png')], 1280, 860, False)]
+    if nid:
+        jobs.append(([f'n/{nid}/'], [os.path.join(SHOTS, f'다듬기_{tag}_글쪽.png')], 1280, 860, False))
+    jobs.append((['', ], [os.path.join(SHOTS, f'다듬기_{tag}_휴대폰.png')], 390, 844, True))
+    for pages, outs, w, h, mob in jobs:
+        if T.shoot_pages(out, pages, outs, w, h, mob):
+            print('  화면 저장:', outs[0], flush=True)
+
+
+def polish_cmd(rest):
+    steps = pol_steps(); cur = cur_polish()
+    opt = A[A.index('--안') + 1].upper() if '--안' in A and len(A) > A.index('--안') + 1 else None
+    if not rest:
+        print('다듬기 걸음(출발 모습 → 고품질). 지금 적용: ' + (', '.join(f'{k}{v}' for k, v in sorted(cur.items(), key=lambda x: int(x[0]))) or '없음(출발 모습)'))
+        for st in steps:
+            mark = ('적용 ' + cur[str(st['n'])]) if str(st['n']) in cur else ('준비됨' if st['status'] == 'ready' else '준비 중')
+            print(f'  {st["n"]:>2}. {st["title"]}  [{mark}]')
+        print('\n사용: python run.py 다듬기 1  (안 A·B 미리보기) → 독자가 고르면 python run.py 다듬기 1 --안 A --shots 폴더'); return 0
+    if rest[0] in ('다음', 'next'):
+        nxt = next((st for st in steps if st['status'] == 'ready' and str(st['n']) not in cur), None)
+        if not nxt:
+            print('준비된 걸음을 모두 적용했습니다.'); return 0
+        n = nxt['n']
+    elif rest[0].isdigit():
+        n = int(rest[0])
+    else:
+        print('사용: python run.py 다듬기 [번호|다음]'); return 1
+    st = next((x for x in steps if x['n'] == n), None)
+    if not st:
+        print('그런 걸음이 없습니다'); return 1
+    if st['status'] != 'ready':
+        print(f'걸음 {n} 「{st["title"]}」 은(는) 아직 준비 중입니다.'); return 0
+    print(f'━━ 다듬기 {n}. {st["title"]} ━━\n왜 하는가: {st["why"]}\n참고 사이트는: {st["ref"]}')
+    print('안: ' + ' / '.join(f'{k}) {v}' for k, v in st['options'].items()), flush=True)
+    pre = build_tmp(cur); shots_for(pre, f'{n}_전')
+    if opt is None:   # 미리보기: 안마다 첫 화면을 찍어 독자가 고르게 한다
+        import selftest as T
+        for o in st['options']:
+            out = build_tmp({**cur, str(n): o})
+            if SHOTS:
+                os.makedirs(SHOTS, exist_ok=True); fp = os.path.join(SHOTS, f'다듬기_{n}_안{o}_PC첫화면.png')
+                if T.shoot_pages(out, [''], [fp], 1280, 860):
+                    print(f'  미리보기 저장: {fp}  ({o}안)', flush=True)
+        print(f'\n독자에게 먼저 묻는다: 「어느 쪽이 마음에 드나요? 왜요?」 → 정리해서 생각.md 에 적고(python run.py 정리 …), 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 {n} --안 A|B')
+        return 0
+    if opt not in st['options']:
+        print('안은 ' + ' · '.join(st['options']) + ' 중 하나입니다'); return 1
+    sb = score_site(pre)
+    d = local_load(); d.setdefault('polish', {})[str(n)] = opt; local_save(d)
+    out, last, rcb = rebuild_local()
+    shots_for(out, f'{n}_후')
+    sa = score_site(out)
+    lb, ob, tb = grade_lines(sb); la, oa, ta = grade_lines(sa)
+    print(f'\n적용했습니다: 걸음 {n} · {opt}안 — 점수(통과한 항목) {ob}/{tb} → {oa}/{ta}\n[전]'); print('\n'.join(lb)); print('[후]'); print('\n'.join(la))
+    json.dump(sa, open(MEAS, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'\n확인 물음: {st["ask"]}   (답을 먼저 말하지 않는다 — 힌트: {st["ask_hint"]})')
+    prog_add(f'다듬기 {n} {st["title"]} {opt}안')
+    return 0
+
+
+def undo_cmd(rest):
+    if not rest or not rest[0].isdigit():
+        print('사용: python run.py 되돌리기 <번호>'); return 1
+    d = local_load(); p = d.get('polish') or {}
+    if str(int(rest[0])) not in p:
+        print('그 걸음은 적용돼 있지 않습니다'); return 0
+    p.pop(str(int(rest[0]))); d['polish'] = p; local_save(d)
+    out, last, rcb = rebuild_local()
+    if SHOTS:
+        shots_for(out, f'되돌리기{rest[0]}')
+    print(f'걸음 {rest[0]} 를 되돌렸습니다({last}). 지금 적용: ' + (', '.join(f'{k}{v}' for k, v in sorted(p.items(), key=lambda x: int(x[0]))) or '없음(출발 모습)')); prog_add(f'다듬기 {rest[0]} 되돌림'); return 0
+
+
+def quality_cmd():
+    out, last, rcb = rebuild_local()
+    res = score_site(out); lines, ok_n, tot = grade_lines(res)
+    print(f'━━ 만듦새(참고 사이트와 같은 급으로 보이는가) — 통과 {ok_n}/{tot} ━━'); print('\n'.join(lines))
+    bad = []
+    for lab, key in (('PC 첫 화면', 'pc'), ('휴대폰 첫 화면', 'mobile')):
+        m = res.get(key) or {}
+        if m.get('minFontEl') and m.get('minFont', 99) < 13:
+            bad.append(f'가장 작은 글자 {m["minFont"]}px: {m["minFontEl"]}')
+        if m.get('minContrastEl') and m.get('minContrast', 99) < 4.5:
+            bad.append(f'낮은 대비 {m["minContrast"]}: {m["minContrastEl"]}')
+    for b in bad[:4]:
+        print('  ✗', b)
+    shots_for(out, '만듦새')
+    json.dump(res, open(MEAS, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print('다듬기로 올릴 수 있는 것: python run.py 다듬기'); return 0 if ok_n == tot else 1
+
+
+def compare_cmd(rest):
+    R = ref_load(); import selftest as T, base64
+    kind = ' '.join(rest) if rest else '정보 매거진'
+    hit = next((r for r in R if kind.replace(' ', '') in r['kind'].replace(' ', '')), None)
+    if not hit or not hit['sites']:
+        print('참고 사이트를 찾지 못했습니다'); return 1
+    br = T.find_browser(); os.makedirs(SHOTS or os.path.join(HERE, '비교'), exist_ok=True); d = SHOTS or os.path.join(HERE, '비교')
+    out = build_tmp(cur_polish()); mine = os.path.join(d, '비교_내화면.png'); ref = os.path.join(d, '비교_참고화면.png')
+    T.shoot_pages(out, [''], [mine], 1280, 860)
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1280,860', '--virtual-time-budget=8000', f'--screenshot={ref}', hit['sites'][0]['url']], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+    import tempfile
+    html = '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#222;color:#fff;font:15px "Malgun Gothic",sans-serif}div{display:flex;gap:12px;padding:12px}figure{margin:0;flex:1}img{width:100%;display:block;border:2px solid #fff}figcaption{padding:6px 0;font-weight:700}</style><div>'
+    for cap, fp in (('참고 사이트: ' + hit['sites'][0]['url'], ref), ('우리 사이트(지금 모습)', mine)):
+        html += f'<figure><figcaption>{cap}</figcaption><img src="data:image/png;base64,{base64.b64encode(open(fp, "rb").read()).decode()}"></figure>' if os.path.exists(fp) else f'<figure><figcaption>{cap} (화면 없음)</figcaption></figure>'
+    html += '</div>'
+    hf = os.path.join(tempfile.mkdtemp(), 'c.html'); open(hf, 'w', encoding='utf-8').write(html); res = os.path.join(d, '비교_나란히.png')
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=2600,1000', f'--screenshot={res}', 'file:///' + hf.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+    print('나란히 비교 그림:', res); return 0
+
+
+def think_cmd():
+    print(open(THINK, encoding='utf-8').read() if os.path.exists(THINK) else '생각.md 가 아직 없습니다. 독자가 하고 싶은 말을 받으면 python run.py 정리 "<독자의 말>" 로 남기세요.'); return 0
+
+
+def organize_cmd(rest):
+    def opt(k):
+        return A[A.index(k) + 1] if k in A and len(A) > A.index(k) + 1 else ''
+    words = [w for i, w in enumerate(rest) if not w.startswith('--') and (i == 0 or not rest[i - 1].startswith('--'))]
+    said = ' '.join(words).strip()
+    if not said:
+        print('사용: python run.py 정리 "<독자의 말>" --한줄 "<세션이 정리한 한 줄>" --정함 "a;b" --미정 "c" --미룸 "d"'); return 1
+    new = not os.path.exists(THINK)
+    with open(THINK, 'a', encoding='utf-8') as f:
+        if new:
+            f.write('# 생각 — 독자의 말과 세션이 정리한 것\n> 세션이 곧바로 만들지 않고 먼저 정리한 기록입니다. 다음에 열면 이것부터 읽고 「지난번에 이렇게 정하셨습니다」로 시작합니다. 기획서.md 는 여기서 뽑아 만듭니다.\n')
+        f.write(f'\n## {time.strftime("%Y-%m-%d %H:%M")}\n- **독자의 말**: {said}\n- **정리한 한 줄**: {opt("--한줄") or "(아직)"}\n')
+        for lab, k in (('정한 것', '--정함'), ('아직 안 정한 것', '--미정'), ('미룬 것', '--미룸')):
+            if opt(k):
+                f.write(f'- **{lab}**: ' + '; '.join(x.strip() for x in opt(k).split(';') if x.strip()) + '\n')
+    print('생각.md 에 적었습니다. 확인받기: 「이렇게 이해했습니다: … 이대로 만들까요?」'); return 0
+
+
+
 def find_demo(word):
     """조립 예시를 키(tools)·조합 이름(도구 모음)·사이트 이름(한입 도구함)으로 찾는다. 공백 무시, 하나로 좁혀질 때만."""
     D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
@@ -573,7 +791,15 @@ def one_kit(name):
     if not k:
         print(f'「{name}」 키트를 찾지 못했습니다. 목록: python run.py 키트'); return 1
     print(f'━━ {k.get("title", k["name"])} ━━')
-    print('① 꼭 알아야 할 것(위에서부터 3가지)'); sh(['know.py', k['name'], '3'])
+    print('① 꼭 알아야 할 것(위에서부터 3가지)')
+    mk = (kit_json(k['name']) or {}).get('must_know') or []
+    for m_ in mk[:3]:
+        print('  -', m_.get('알것', ''))
+        if '--풀이' in A:
+            print('    까닭:', m_.get('까닭', ''), '/ 모르면:', m_.get('모르면', ''), '/ 근거:', m_.get('근거', ''))
+    print('확인 물음(스스로 답해 보세요 — 답은 독자가 먼저 말하게 합니다):')
+    for qi, m_ in enumerate(mk[:3], 1):
+        print(f'  Q{qi}. 「{m_.get("알것", "")[:40]}」 — 모르면 어떤 일이 생길까요?')
     print('② 보는 앞에서 스스로 시험'); rc = sh(['selftest.py', k['name']] + FLAGS)
     ex = os.path.join(HERE, 'kits', k['name'], '설명.md')
     if os.path.exists(ex):
@@ -717,6 +943,18 @@ def main():
         return review_cmd()
     if cmd in ('혼동', 'confused'):
         return confuse_cmd(rest)
+    if cmd in ('다듬기', 'polish'):
+        return polish_cmd(rest)
+    if cmd in ('되돌리기', 'undo'):
+        return undo_cmd(rest)
+    if cmd in ('만듦새', 'quality'):
+        return quality_cmd()
+    if cmd in ('비교', 'compare'):
+        return compare_cmd(rest)
+    if cmd in ('생각', 'think'):
+        return think_cmd()
+    if cmd in ('정리', 'organize'):
+        return organize_cmd(rest)
     if cmd in ('참고', 'ref'):
         return ref_cmd(rest)
     if cmd in ('기획서', 'plan'):

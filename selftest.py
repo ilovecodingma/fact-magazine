@@ -240,6 +240,114 @@ def shoot_pages(directory, pages, outs, width=1280, height=860, mobile=False):
     return ok
 
 
+
+def png_empty_ratio(data, block=32):
+    """PNG(RGB/RGBA 8비트, Chrome 이 저장한 것)를 직접 읽어 「배경색 한 가지로만 채워진 칸」의 비율을 잰다(빈 영역 비율)."""
+    import zlib, struct
+    pos = 8; idat = b''; w = h = 0; ct = 6
+    while pos < len(data):
+        ln, = struct.unpack('>I', data[pos:pos + 4]); typ = data[pos + 4:pos + 8]; body = data[pos + 8:pos + 8 + ln]; pos += 12 + ln
+        if typ == b'IHDR':
+            w, h, bd, ct = struct.unpack('>IIBB', body[:10])
+        elif typ == b'IDAT':
+            idat += body
+    ch = {2: 3, 6: 4}.get(ct, 4); raw = zlib.decompress(idat); stride = w * ch; rows = []; prev = bytearray(stride); i = 0
+    for y in range(h):
+        f = raw[i]; line = bytearray(raw[i + 1:i + 1 + stride]); i += 1 + stride
+        for x in range(stride):
+            a_ = line[x - ch] if x >= ch else 0; b_ = prev[x]; c_ = prev[x - ch] if x >= ch else 0
+            if f == 1: line[x] = (line[x] + a_) & 255
+            elif f == 2: line[x] = (line[x] + b_) & 255
+            elif f == 3: line[x] = (line[x] + (a_ + b_) // 2) & 255
+            elif f == 4:
+                pa, pb, pc = abs(b_ - c_), abs(a_ - c_), abs(a_ + b_ - 2 * c_)
+                line[x] = (line[x] + (a_ if pa <= pb and pa <= pc else (b_ if pb <= pc else c_))) & 255
+        rows.append(line); prev = line
+    from collections import Counter
+    cnt = Counter(bytes(rows[y][x * ch:x * ch + 3]) for y in range(0, h, 7) for x in range(0, w, 7)); bg = cnt.most_common(1)[0][0]
+    empty = tot = 0
+    for by in range(0, h - block + 1, block):
+        for bx in range(0, w - block + 1, block):
+            tot += 1; same = True
+            for y in range(by, by + block, 4):
+                row = rows[y]
+                for x in range(bx, bx + block, 4):
+                    if bytes(row[x * ch:x * ch + 3]) != bg:
+                        same = False; break
+                if not same: break
+            empty += 1 if same else 0
+    return empty / max(1, tot)
+
+
+MEASURE_JS = r"""(function(){
+ function lum(c){var a=c.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)});return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]}
+ function parse(s){var m=s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var p=m[1].split(',').map(parseFloat);return {c:p.slice(0,3),a:p.length>3?p[3]:1}}
+ function bgOf(e){while(e){var p=parse(getComputedStyle(e).backgroundColor);if(p&&p.a>0.5)return p.c;e=e.parentElement}return [255,255,255]}
+ var vw=innerWidth,vh=innerHeight,minF=999,minC=99,minFEl='',minCEl='',imgs=0,info=0,seen=0;
+ var all=document.querySelectorAll('body *');
+ all.forEach(function(e){var cs=getComputedStyle(e);if(cs.display==='none'||cs.visibility==='hidden')return;var r=e.getBoundingClientRect();if(r.width<2||r.height<2)return;
+  var own=''; e.childNodes.forEach(function(n){if(n.nodeType===3)own+=n.textContent}); own=own.trim();
+  if(own.length>=2){var fs=parseFloat(cs.fontSize);if(fs<minF){minF=fs;minFEl=e.tagName.toLowerCase()+'.'+(e.className||'')+' "'+own.slice(0,14)+'"'}
+   var fg=parse(cs.color);if(fg){var bg=bgOf(e),L1=lum(fg.c),L2=lum(bg),ratio=(Math.max(L1,L2)+0.05)/(Math.min(L1,L2)+0.05);if(ratio<minC){minC=ratio;minCEl=e.tagName.toLowerCase()+' "'+own.slice(0,14)+'"'}}
+   if(r.top<vh&&r.bottom>0&&r.left<vw)info++}
+  if((e.tagName==='IMG'||e.tagName==='SVG'||e.tagName==='CANVAS'||e.tagName==='svg')&&r.top<vh&&r.bottom>0&&r.width>60&&r.height>40)imgs++;
+ });
+ return JSON.stringify({minFont:Math.round(minF*10)/10,minFontEl:minFEl,minContrast:Math.round(minC*100)/100,minContrastEl:minCEl,imgs:imgs,info:info,overflow:document.documentElement.scrollWidth-innerWidth,pageH:document.documentElement.scrollHeight,vh:vh})
+})()"""
+
+
+def measure_site(directory, pages, width=1280, height=860, mobile=False):
+    """만듦새 재기: 쪽마다 (빈 영역 비율, 첫 화면 그림 수, 가장 작은 글자, 가장 낮은 대비, 가로 넘침, 첫 화면 정보량)을 CDP 로 잰다."""
+    srv, port = start_server(directory); br = find_browser(); res = []
+    if not br:
+        srv.shutdown(); return res
+    dp = free_port(9400); prof = tempfile.mkdtemp(prefix='stprof_')
+    proc = subprocess.Popen([br, '--headless=new', f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--disable-gpu', 'about:blank'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        tabs = None
+        for _ in range(60):
+            try:
+                tabs = json.loads(urllib.request.urlopen(f'http://127.0.0.1:{dp}/json', timeout=2).read())
+                if tabs: break
+            except Exception:
+                time.sleep(0.25)
+        pg = Page(WS(next(t for t in tabs if t['type'] == 'page')['webSocketDebuggerUrl'])); pg.call('Page.enable')
+        pg.call('Emulation.setDeviceMetricsOverride', width=width, height=height, deviceScaleFactor=1, mobile=bool(mobile))
+        for u in pages:
+            pg.call('Page.navigate', url=f'http://127.0.0.1:{port}/{u}'); time.sleep(1.6)
+            m = json.loads(pg.ev(MEASURE_JS) or '{}')
+            shot = base64.b64decode(pg.call('Page.captureScreenshot', format='png')['data'])
+            try:
+                m['empty'] = round(png_empty_ratio(shot), 3)
+            except Exception as e:
+                m['empty'] = None
+            res.append(m)
+    finally:
+        try:
+            proc.terminate(); proc.wait(timeout=5)
+        except Exception:
+            proc.kill()
+        srv.shutdown(); shutil.rmtree(prof, ignore_errors=True)
+    return res
+
+
+# 만듦새 기준(참고 사이트와 같은 급으로 보이는가): 빈 영역·그림·글자·대비·넘침·정보량
+THRESH = {'empty': ('첫 화면 빈 영역 비율', 0.55, '<='), 'imgs': ('첫 화면 그림 수', 1, '>='), 'minFont': ('가장 작은 글자(px)', 13, '>='), 'minContrast': ('가장 낮은 대비', 4.5, '>='), 'overflow': ('가로 넘침(px)', 2, '<='), 'info': ('첫 화면 정보량(글 덩어리)', 14, '>=')}
+
+
+def grade(m, imgs_needed=True):
+    """측정값 m → [(키, 이름, 값, 기준, 통과)]"""
+    out = []
+    for k, (nm, th, op) in THRESH.items():
+        v = m.get(k)
+        if v is None:
+            continue
+        if k == 'imgs' and not imgs_needed:
+            continue
+        ok = (v <= th) if op == '<=' else (v >= th)
+        out.append((k, nm, v, f'{op}{th}', ok))
+    return out
+
 def internet_ok():
     for u in ('https://www.naver.com', 'https://www.google.com'):
         try:
@@ -301,6 +409,8 @@ def run_kit(kit, headless, slow):
         miss = missing_needs(st['needs'])
         if miss:
             print(f'– {kit.get("title", name)}: 건너뜀: {miss}'); return ('skip', miss)
+    for pc in (st.get('pre') or []):   # 시험 전에 돌릴 준비 명령(예: 카드 그림 만들기)
+        subprocess.run([sys.executable, '-X', 'utf8'] + pc, cwd=HERE, capture_output=True, timeout=180)
     if st.get('runs'):
         return run_script_kit(kit)
     out = os.path.join(tempfile.mkdtemp(prefix='selftest_'), 'site')

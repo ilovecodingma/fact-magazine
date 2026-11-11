@@ -25,6 +25,11 @@ if os.environ.get('SITE_LABELS'):
         S['labels'] = json.loads(os.environ['SITE_LABELS'])   # 메뉴·첫 화면 칸 이름 바꾸기(예: {"compare": "메뉴"})
     except Exception:
         pass
+if os.environ.get('SITE_POLISH'):
+    try:
+        S['polish'] = json.loads(os.environ['SITE_POLISH'])   # 다듬기 층(걸음 번호: 고른 안)
+    except Exception:
+        pass
 if os.environ.get('SITE_MONETIZE'):
     try:
         S['monetize'] = json.loads(os.environ['SITE_MONETIZE'])   # 돈이 나올 자리 설정(광고·제휴·후원·소식 받기)
@@ -119,6 +124,9 @@ import themes as _th
 THEME = S.get('theme') if S.get('theme') in _th.NAMES else 'paper'   # 겉모습 틀: paper·card·shop·doc·play·one (themes.py)
 ACCENT = S.get('accent') or _th.DEFAULT_ACCENT[THEME]
 CSS += _th.CSS
+import polish as _pl
+POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
+CSS += _pl.css(POLISH, CSS)
 
 WEEK = '월화수목금토일'
 
@@ -176,7 +184,7 @@ def page(path, title, desc, body, noindex=False):
     if part('links', False) and kit_data('links', 'links.json'):
         items.append(('링크', BASE + 'links/'))
     for _k, _n, _u, _d in GENERIC:
-        if part(_k, False) and not part('info'):   # 뉴스를 끈 사이트(조립 예시 등)에서는 켜진 키트 칸을 메뉴에도 둔다
+        if part(_k, False):   # 켜진 키트는 메뉴(5칸을 넘으면 「더 보기」)에도 둔다
             items.append((LAB(_k, _n), BASE + _u))
     if part('search', False):
         items.append(('검색', BASE + 'search/'))
@@ -190,7 +198,7 @@ def page(path, title, desc, body, noindex=False):
         GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
-{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{PREF_HEAD}</head><body class="th-{THEME}" style="--ac:{E(ACCENT)}">
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{_pl.head(POLISH)}{PREF_HEAD}</head><body class="th-{THEME} {_pl.body_class(POLISH)}" style="--ac:{E(ACCENT)}">
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
@@ -562,7 +570,7 @@ def note_page(n):
     li = lambda xs: ''.join(f'<li>{E(x)}</li>' for x in xs)
     facts = ''.join(f'<li>{E(f["text"])}<span class="src">출처 · <a href="{E(f["url"])}" rel="noopener nofollow">{E(f["source"])}</a></span></li>' for f in n.get('facts', []))
     reports = ''.join(f'<li><a href="{E(r["url"])}" rel="noopener nofollow">{E(r["title"])}</a> · {E(r["source"])}</li>' for r in n.get('reports', []))
-    body = (f'<article class="art">{ex}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
+    body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
             f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실</h2><ol class="fn">{facts}</ol>' if facts else '')
@@ -727,9 +735,11 @@ def home(notes, topics, notice=''):
         covered = {'게임': '게임', '계산기': '계산기', '용어 사전': '용어', '글': '글', '일정': '다가오는 일정', '자주 묻는 질문': '자주 묻는 질문', '링크 모음': '링크'}   # 첫 화면에 내용이 이미 나온 키트는 카드에서 뺀다
         gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok() and f'<h2>{covered.get(n, chr(0))}</h2>' not in mix)
         return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h2 style="font:800 28px/1.3 var(--serif);margin:0 0 10px">{E(S["name"])}</h2><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + mix + extras_html())
+    if notes and POLISH.get(4):   # 다듬기 4: 대표 글 + 최신 목록 + 카드 격자
+        return page('', S.get('home_title') or f'{S["name"]} — {S["tagline"]}', S.get('home_desc') or S['tagline'], _pl.home_body(sys.modules[__name__], notes, topics, notice))
     if notes:
         n = notes[0]
-        lead = (f'<div class="lead"><span class="lb">오늘의 확인 노트</span><a href="{BASE}n/{n["id"]}/"><h2>{E(n["title"])}</h2></a>'
+        lead = (f'<div class="lead">{_pl.img_tag(sys.modules[__name__], n, "pimg", "")}<span class="lb">오늘의 확인 노트</span><a href="{BASE}n/{n["id"]}/"><h2>{E(n["title"])}</h2></a>'
                 f'<p>{E(n["summary"])}</p><div class="meta"><span class="v {VERDICTS[n["verdict"]]}">{E(n["verdict"])}</span> &nbsp;{E(n["date"])}</div></div>')
         side = ''.join(f'<div class="it"><div class="meta"><span class="v {VERDICTS[m["verdict"]]}">{E(m["verdict"])}</span> &nbsp;{E(m["date"])}</div>'
                        f'<a href="{BASE}n/{m["id"]}/"><h3>{E(m["title"])}</h3></a></div>' for m in notes[1:6])
