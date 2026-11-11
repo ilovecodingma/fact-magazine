@@ -9,7 +9,7 @@
 import os, subprocess, sys, threading, webbrowser
 import http.server, socketserver
 try:
-    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)   # 주소 줄이 바로 보이게(실제 포트를 읽을 수 있게)
 except Exception:
     pass
 

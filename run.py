@@ -3,7 +3,7 @@
 사용: python run.py 시작                     환경 점검 + 키트 전부 점검표
       python run.py 키트 계산기               그 키트 실습(꼭 알아야 할 것 → 보이는 브라우저에서 스스로 시험 → 바꿔 보기 제안)
       python run.py 키트 전부                 키트를 차례로(시험이 적힌 키트)
-      python run.py 섞기 계산기 용어 게임      고른 키트만 켜고 찍어 메뉴를 하나씩 눌러 보기
+      python run.py 섞기 계산기 용어 게임      고른 키트만 켜고 찍어 메뉴를 하나씩 눌러 보기(한글 이름 가능, 조립 예시 둘을 합칠 때는 섞기 도구함+동네정보)
       python run.py 조립 도구함               조립 예시 하나를 찍어 메뉴를 하나씩 눌러 보기(목록은 python run.py 조립)
       python run.py 사이클                    하루 한 바퀴(올리기·메일 빼고)를 단계별로 돌리기
       python run.py 알기 계산기 5             꼭 알아야 할 것 top-k   (python run.py 알기 하네스)
@@ -45,6 +45,18 @@ def kits():
     for p in sorted(glob.glob(os.path.join(HERE, 'kits', '*', 'kit.json'))):
         k = json.load(open(p, encoding='utf-8')); out[k['name']] = k
     return out
+
+
+def find_demo(word):
+    """조립 예시를 키(tools)·조합 이름(도구 모음)·사이트 이름(한입 도구함)으로 찾는다. 공백 무시, 하나로 좁혀질 때만."""
+    D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
+    w = word.replace(' ', '')
+    for f in (lambda d: [d['key']], lambda d: [d['mix'], d['name']]):
+        hit = [d for d in D if w in [x.replace(' ', '') for x in f(d)]]
+        if len(hit) == 1:
+            return hit[0]
+    hit = [d for d in D if w and any(w in x.replace(' ', '') for x in (d['key'], d['mix'], d['name']))]
+    return hit[0] if len(hit) == 1 else None
 
 
 def one_kit(name):
@@ -96,7 +108,15 @@ def main():
         if not rest:
             print('사용: python run.py 섞기 계산기 용어 게임'); return 1
         sys.path.insert(0, HERE); import selftest as T
-        names = [(T.resolve(r) or {'name': r})['name'] for r in rest]
+        names = []   # 키트 이름 + 조립 예시 이름(「도구함+동네정보」처럼 +로 이으면 예시들의 키트를 합친다)
+        for r in rest:
+            for w in r.split('+'):
+                d = find_demo(w); k = T.resolve(w)
+                got = k['name'] if k else None
+                for n in ([got] if got else (d['kits'] if d else [w])):
+                    if n not in names:
+                        names.append(n)
+        print('켜는 키트:', ' '.join(names))
         sh(['mix.py'] + names); out = os.path.join(HERE, 'site_local')
         env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
         r = subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((r.stdout.strip().splitlines() or [''])[-1])
@@ -106,6 +126,10 @@ def main():
         D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
         if not rest:
             print('조립 예시:'); [print(f'  {d["key"]:12} {d["name"]} — {d["tagline"][:50]}') for d in D]; print('\n사용: python run.py 조립 <이름>'); return 0
+        d0 = find_demo(' '.join(rest))
+        if not d0:
+            print('조립 예시를 찾지 못했습니다. 목록: python run.py 조립 (이름은 도구함·동네 정보처럼 한글도 됩니다)'); return 1
+        rest = [d0['key']]
         out = os.path.join(HERE, 'site_demo_' + rest[0])
         if sh(['demo.py', '--only', rest[0], '--out', out]) != 0:
             return 1
