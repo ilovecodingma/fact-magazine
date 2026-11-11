@@ -60,8 +60,8 @@ def main():
         if len(text.strip()) < 40 and not re.search(r'<(img|canvas|iframe|input)', main_html.group(1) if main_html else ''):   # 그림·게임·영상만 있는 쪽은 비어 있지 않은 것으로 본다
 
             problems.append(f'{rel}: 빈 쪽(본문 글자 {len(text.strip())}자)')
-        for href in re.findall(r'(?:href|src)="([^"#?]+)', h):
-            if href.startswith(('http', 'mailto:', 'data:', 'javascript:')):
+        for href in re.findall(r'(?:href|src)="([^"#?]+)', re.sub(r'(?s)<script.*?</script>', ' ', h)):   # 스크립트 안의 글자 조각은 링크가 아니다
+            if href.startswith(('http', 'mailto:', 'data:', 'javascript:', '/admin/', '/api/')):   # /admin/·/api/ 는 서버(server/app.py)가 내는 주소
                 continue
             if href.startswith(base) or (href.startswith('/') and base == '/'):
                 target = href[len(base):] if base != '/' else href[1:]

@@ -21,6 +21,14 @@ ARGS = sys.argv[1:]
 
 def parts():
     P = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8')).get('parts', {})
+    loc = os.path.join(HERE, 'site.local.json')   # 내 PC 에서 고른 부품(변환·켜기·끄기)이 있으면 그것이 이긴다 — build.py 와 같게
+    if os.path.exists(loc):
+        try:
+            lp = json.load(open(loc, encoding='utf-8')).get('parts')
+            if isinstance(lp, dict):
+                P = dict(P, **lp) if not json.load(open(loc, encoding='utf-8')).get('kind') else lp
+        except Exception:
+            pass
     return P
 
 

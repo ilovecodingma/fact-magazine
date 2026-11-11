@@ -91,8 +91,8 @@ def config(B):
             'font': 'big' if K.get('board_font') == '크게' else 'ref', 'full': B.S.get('kind', '').startswith('커뮤니티')}
 
 
-def shell(B):
-    return f'<div class="bd" id="bd"><p>불러오는 중…</p></div><script>{JS.replace("__BASE__", B.BASE).replace("__NAME__", B.S["name"].replace(chr(34), ""))}</script>'
+def shell(B, home=False):
+    return ('' if home else '<h1 style="position:absolute;left:-9999px;top:0">게시판</h1>') + f'<div class="bd" id="bd"><p>불러오는 중…</p></div><script>{JS.replace("__BASE__", B.BASE).replace("__NAME__", B.S["name"].replace(chr(34), ""))}</script>'
 
 
 def pages(B):
@@ -109,4 +109,4 @@ def pages(B):
 
 
 def home_body(B):
-    return shell(B)
+    return shell(B, True)

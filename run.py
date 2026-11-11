@@ -24,6 +24,7 @@
       python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
       python run.py 나누기 [레퍼런스 [조각 번호] | 새로 "<사이트>"]   레퍼런스 사이트를 기능 조각으로 나눠 보기
       python run.py 조각 [레퍼런스 번호 켜기|끄기]   나누기에서 본 조각 하나만 내 사이트에 켰다 끄기 · 분류 ["이름=낱말,낱말" …|기본]   독자가 말한 분류를 분류 탭으로 · 참고 미디엄   그 사이트가 무엇으로 버는지
+      python run.py 운영                      게시판·장터·순위 사이트에서 오늘 사람이 볼 것(승인 대기·주문 문의·별 요약, 읽기만) — 사이클 끝에도 나옴
       python run.py 손잡이 [이름 [값]]         플랫폼의 핵심 장치를 돌려 보기(본문폭·본문글자·줄높이·목록열·읽는시간·저장·듣기)
       python run.py 바꿔 "<무엇을 어떻게>" → (세션이 고침) → 바꿨다   걸음 없이 하는 작은 고침 · 되돌리기 [처음|목록|걸음 번호]   무엇을 바꿔도 한 줄로 돌아감
       python run.py 레퍼런스 [바꾸기 <이름> | 값 키=값 …]   레퍼런스(히트한 플랫폼, 지금은 미디엄)를 잰 값과 우리 사이트의 지금 값 차이표
@@ -1630,6 +1631,8 @@ def main():
             sys.stdout.flush()
             if SHOTS:
                 cycle_shot(i, t, a[0])
+        if any(eff_parts().get(k) for k in ('board', 'market', 'trend')):   # 방문자가 남긴 것을 받는 사이트: 오늘 사람이 볼 것
+            print('\n[덧붙임] 운영자의 하루 일', flush=True); sh(['ops.py'])
         print('\n올릴 묶음(만들어져 있는 것, 아직 올리지 않았습니다):', flush=True)
         for d, what in (('promo_out', '알림 문구·블로그 글'), ('cards', '공유용 카드 그림'), ('shorts', '쇼츠 영상'), ('넘김', '역할끼리 넘긴 파일')):
             p = os.path.join(HERE, d)
@@ -1703,6 +1706,8 @@ def main():
         return wrap_up_cmd()
     if cmd in ('나누기', 'split'):
         import play; return play.split_cmd(sys.modules[__name__], rest)
+    if cmd in ('운영', 'ops'):
+        return sh(['ops.py'] + rest)
     if cmd in ('조각', 'piece'):
         import play as PLY
         return PLY.piece_cmd(sys.modules[__name__], POS[1:])

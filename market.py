@@ -132,7 +132,7 @@ def card(B, p):
             f'<a href="{B.BASE}market/{E(p["slug"])}/" tabindex="-1"><img src="{_img(B, p)}" alt="" width="600" height="600" loading="lazy"></a><div class="cb"><h3><a href="{B.BASE}market/{E(p["slug"])}/">{E(p["name"])}</a></h3>{seller(p)}{stars(p)}</div><div class="cf"><span class="mk-price">{E(won(p))}</span></div></article>')
 
 
-def list_body(B, full):
+def list_body(B, full, home=False):
     P = load(B)
     cats = []
     for p in P:
@@ -153,7 +153,7 @@ def list_body(B, full):
             '<details><summary>별점</summary><div class="fo">' + ''.join(f'<a data-f="rate" data-v="{n}">{"★" * n} 이상</a>' for n in (4, 3, 2, 1)) + '</div></details></aside>')
     K = B.S.get('knobs') or {}
     cols = int(K.get('market_cols', 3))
-    return (f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, P, cats)}'
+    return (('' if home else '<h1 style="position:absolute;left:-9999px;top:0">장터</h1>') + f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, P, cats)}'
             f'<div class="mk-sec"><h2>추천 상품</h2><span class="mk-pager"><a data-fp="-1" aria-label="앞">←</a><span id="mkpg">1 / {len(feats)}</span><a data-fp="1" aria-label="다음">→</a></span></div><div class="mk-feats" id="mkfs">{fh}</div>'
             f'<div class="mk-sec"><h2>장터에서</h2><span class="mk-tabs"><a data-sort="trend" class="on">뜨는 것</a><a data-sort="best">많이 팔린 것</a><a data-sort="new">새로 나온 것</a></span></div>'
             f'<div class="mk-main">{filt}<div><div class="mk-grid" id="mkg" style="grid-template-columns:repeat({cols},minmax(0,1fr))">{"".join(card(B, p) for p in P)}</div><p id="mke" hidden>조건에 맞는 상품이 없습니다.</p></div></div></div></div><script>{LIST_JS}</script>')
@@ -198,4 +198,4 @@ def pages(B):
 
 
 def home_body(B):
-    return list_body(B, True)
+    return list_body(B, True, True)
