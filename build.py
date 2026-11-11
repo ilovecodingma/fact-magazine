@@ -165,32 +165,32 @@ def page(path, title, desc, body, noindex=False):
     PWA_REG = f'<script>if("serviceWorker" in navigator){{navigator.serviceWorker.register("{BASE}sw.js",{{scope:"{BASE}"}}).catch(function(){{}})}}</script>' if part('pwa', False) else ''
     items = [('오늘' if part('info') else '처음', BASE)]   # 메뉴 후보(앞에서부터 보여 주고 5칸을 넘으면 「더 보기」에 접는다)
     if load_games():
-        items.append(('게임', BASE + 'games/'))
+        items.append((LAB('games', '게임'), BASE + 'games/'))
     if part('issue'):
-        items.append(('잡지', BASE + 'issue/'))
+        items.append((LAB('issue', '잡지'), BASE + 'issue/'))
     if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')):
-        items.append(('글', BASE + 'post/'))
+        items.append((LAB('posts', '글'), BASE + 'post/'))
     if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')):
-        items.append(('연재', BASE + 'novel/'))
+        items.append((LAB('novel', '연재'), BASE + 'novel/'))
     if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')):
-        items.append(('웹툰', BASE + 'toon/'))
+        items.append((LAB('toon', '웹툰'), BASE + 'toon/'))
     if part('video', False) and EX.get('videos'):
-        items.append(('영상', BASE + 'video/'))
+        items.append((LAB('video', '영상'), BASE + 'video/'))
     if part('calc', False) and kit_data('calc', 'calculators.json'):
-        items.append(('계산기', BASE + 'calc/'))
+        items.append((LAB('calc', '계산기'), BASE + 'calc/'))
     if part('glossary', False) and kit_data('glossary', 'terms.json'):
-        items.append(('용어', BASE + 'glossary/'))
+        items.append((LAB('glossary', '용어'), BASE + 'glossary/'))
     if part('schedule', False) and kit_data('schedule', 'events.json'):
-        items.append(('일정', BASE + 'schedule/'))
+        items.append((LAB('schedule', '일정'), BASE + 'schedule/'))
     if part('faq', False) and kit_data('faq', 'faq.json'):
-        items.append(('질문', BASE + 'faq/'))
+        items.append((LAB('faq', '질문'), BASE + 'faq/'))
     if part('links', False) and kit_data('links', 'links.json'):
-        items.append(('링크', BASE + 'links/'))
+        items.append((LAB('links', '링크'), BASE + 'links/'))
     for _k, _n, _u, _d in GENERIC:
         if part(_k, False):   # 켜진 키트는 메뉴(5칸을 넘으면 「더 보기」)에도 둔다
             items.append((LAB(_k, _n), BASE + _u))
     if part('search', False):
-        items.append(('검색', BASE + 'search/'))
+        items.append((LAB('search', '검색'), BASE + 'search/'))
     items += ([('확인하는 방법', BASE + 'how/')] if part('info') else []) + [('소개', BASE + 'about/'), ('문의', BASE + 'contact/')]   # 확인하는 방법은 뉴스를 다루는 사이트에만
     if part('demo', False):
         items.append(('조립 예시', BASE + 'demo/'))

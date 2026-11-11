@@ -282,7 +282,7 @@ def png_empty_ratio(data, block=32):
 MEASURE_JS = r"""(function(){
  function lum(c){var a=c.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)});return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]}
  function parse(s){var m=s.match(/rgba?\(([^)]+)\)/);if(!m)return null;var p=m[1].split(',').map(parseFloat);return {c:p.slice(0,3),a:p.length>3?p[3]:1}}
- function bgOf(e){while(e){var p=parse(getComputedStyle(e).backgroundColor);if(p&&p.a>0.5)return p.c;e=e.parentElement}return [255,255,255]}
+ function bgOf(e){while(e){var cs=getComputedStyle(e),bi=cs.backgroundImage;if(bi&&bi!=='none'){var m=bi.match(/rgba?\([^)]+\)/);if(m){var q=parse(m[0]);if(q)return q.c}}var p=parse(cs.backgroundColor);if(p&&p.a>0.5)return p.c;e=e.parentElement}return [255,255,255]}
  var vw=innerWidth,vh=innerHeight,minF=999,minC=99,minFEl='',minCEl='',imgs=0,info=0,seen=0;
  var all=document.querySelectorAll('body *');
  all.forEach(function(e){var cs=getComputedStyle(e);if(cs.display==='none'||cs.visibility==='hidden')return;var r=e.getBoundingClientRect();if(r.width<2||r.height<2)return;

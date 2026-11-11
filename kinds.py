@@ -57,7 +57,7 @@ def recipe_img(B, r, cls='kd-img', kind='card'):
     return f'<img class="{cls}" src="{B.BASE}img/{E(name)}" width="{w}" height="{h}" alt="{E(r["name"])} 대표 그림(도형)" loading="lazy">'
 
 
-CSS = (".kd{--k:var(--pri,var(--ac,#e4572e))}.kd .kd-hero{display:grid;grid-template-columns:minmax(0,45fr) minmax(0,55fr);gap:26px;align-items:center;padding:24px 0 6px}\n"
+CSS = (".kd-s{font-size:14px;color:var(--mu,#555)}.kd{--k:var(--pri,var(--ac,#e4572e))}.kd .kd-hero{display:grid;grid-template-columns:minmax(0,45fr) minmax(0,55fr);gap:26px;align-items:center;padding:24px 0 6px}\n"
        ".kd-img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--hair,#e5e5e5);background:#f3f3f3}.kd .kd-hero h2{font:800 32px/1.3 var(--sans,system-ui);margin:6px 0 10px;border:0;padding:0}\n"
        ".kd .kd-hero p{font:17px/1.7 var(--sans,system-ui);color:var(--mu,#555);margin:0 0 12px}.kd .kd-btn{display:inline-block;background:var(--k);color:#fff;padding:11px 18px;border-radius:6px;font:700 15px/1 var(--sans,system-ui)}.kd .kd-btn:hover{text-decoration:none;opacity:.9}\n"
        ".kd .kd-chip{display:inline-block;font:700 13px/1 var(--sans,system-ui);border:1px solid var(--k);color:var(--k);padding:4px 8px;border-radius:999px;margin-right:6px}\n"
@@ -67,7 +67,7 @@ CSS = (".kd{--k:var(--pri,var(--ac,#e4572e))}.kd .kd-hero{display:grid;grid-temp
        ".kd h2.kd-h{font:800 18px/1.4 var(--sans,system-ui);margin:30px 0 12px;color:var(--k);border-left:5px solid var(--k);padding-left:10px}\n"
        ".kd .kd-banner{background:linear-gradient(135deg,var(--k),color-mix(in srgb,var(--k) 55%,#000));color:#fff;border-radius:14px;padding:34px 30px;margin:22px 0 4px}.kd .kd-banner h2{font:900 40px/1.2 'Noto Serif KR',serif;margin:0 0 8px;color:#fff;border:0;padding:0}.kd .kd-banner p{margin:0 0 14px;font:18px/1.6 var(--sans,system-ui);opacity:.95}\n"
        ".kd .kd-open{display:inline-block;background:#fff;color:var(--k);font:800 15px/1 var(--sans,system-ui);padding:9px 14px;border-radius:999px;margin-right:8px}.kd .kd-banner .kd-btn{background:#fff;color:var(--k)}\n"
-       ".kd .kd-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.kd .kd-item{display:flex;gap:12px;background:#fff;border:1px solid var(--hair,#e5e5e5);border-radius:10px;padding:10px;align-items:center}.kd .kd-item img{width:84px;height:56px;border-radius:8px;flex:none;object-fit:cover}.kd .kd-item b{display:block;font:700 16px/1.3 var(--sans,system-ui)}.kd .kd-item span{font:13px/1.4 var(--sans,system-ui);color:var(--mu,#555)}.kd .kd-item em{font:normal 800 15px var(--sans,system-ui);color:var(--k);margin-left:auto;white-space:nowrap}\n"
+       ".kd .kd-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.kd .kd-item{display:flex;gap:12px;background:#fff;border:1px solid var(--hair,#e5e5e5);border-radius:10px;padding:10px;align-items:center}.kd .kd-item img{width:84px;height:56px;border-radius:8px;flex:none;object-fit:cover}.kd .kd-item b{display:block;font:700 16px/1.3 var(--sans,system-ui)}.kd .kd-item span{display:block;font:13px/1.4 var(--sans,system-ui);color:var(--mu,#555)}.kd .kd-item em{font:normal 800 15px var(--sans,system-ui);color:var(--k);margin-left:auto;white-space:nowrap}\n"
        ".kd .kd-info{display:grid;grid-template-columns:1fr 1fr;gap:16px}.kd .kd-box{background:#fff;border:1px solid var(--hair,#e5e5e5);border-radius:10px;padding:14px 16px}.kd .kd-box h3{font:800 16px/1.4 var(--sans,system-ui);margin:0 0 6px;color:var(--k)}.kd .kd-box p,.kd .kd-box li{font:15px/1.7 var(--sans,system-ui);margin:0}.kd .kd-box ul{margin:0;padding-left:18px}\n"
        "@media(max-width:1000px){.kd .kd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kd .kd-menu{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.kd .kd-hero,.kd .kd-info{grid-template-columns:1fr}.kd .kd-hero h2{font-size:25px}.kd .kd-banner h2{font-size:30px}}@media(max-width:560px){.kd .kd-grid,.kd .kd-menu{grid-template-columns:1fr 1fr}}\n")
 
@@ -88,7 +88,7 @@ def _recipes_home(B):
     today = datetime.date.today(); pick = R[(today.year * 372 + today.month * 31 + today.day) % len(R)]
     mins = lambda r: f'약 {5 * len(r["steps"]) + 5}분'
     hero = (f'<section class="kd-hero"><a href="{B.BASE}recipes/{E(slug(pick["name"]))}/" tabindex="-1">{recipe_img(B, pick)}</a><div><span class="kd-chip">오늘의 추천</span><h2><a href="{B.BASE}recipes/{E(slug(pick["name"]))}/">{E(pick["name"])}</a></h2>'
-            f'<p>재료 {len(pick["ingredients"])}가지 · {len(pick["steps"])}단계 · {mins(pick)} · 2인분 <small>(시간·인분은 예시)</small></p><p>{E(", ".join(i.split()[0] for i in pick["ingredients"][:5]))} …</p><a class="kd-btn" href="{B.BASE}recipes/{E(slug(pick["name"]))}/">만드는 법 보기 →</a></div></section>')
+            f'<p>재료 {len(pick["ingredients"])}가지 · {len(pick["steps"])}단계 · {mins(pick)} · 2인분 <span class="kd-s">(시간·인분은 예시)</span></p><p>{E(", ".join(i.split()[0] for i in pick["ingredients"][:5]))} …</p><a class="kd-btn" href="{B.BASE}recipes/{E(slug(pick["name"]))}/">만드는 법 보기 →</a></div></section>')
     find = '<div class="kd-find"><input id="kdq" type="search" placeholder="냉장고에 있는 재료로 찾기 (예: 두부, 감자)" aria-label="재료로 요리 찾기"></div>'
     cards = ''.join(f'<article class="kd-card" data-t="{E((r["name"] + " " + " ".join(r["ingredients"])).lower())}"><a href="{B.BASE}recipes/{E(slug(r["name"]))}/">{recipe_img(B, r)}<div class="kd-cb"><b>{E(r["name"])}</b><span>{mins(r)} · 재료 {len(r["ingredients"])} · {len(r["steps"])}단계</span></div></a></article>' for r in R[:16])
     js = ('<script>(function(){var q=document.getElementById("kdq");if(!q)return;q.addEventListener("input",function(){var v=q.value.trim().toLowerCase();document.querySelectorAll(".kd-card").forEach(function(c){c.style.display=!v||c.dataset.t.indexOf(v)>=0?"":"none"})})})()</script>')
@@ -116,6 +116,6 @@ def _shop_home(B):
     faq = B.kit_data('faq', 'faq.json') or []
     faq_li = ''.join(f'<li><b>{E(x["q"])}</b><br>{E(x["a"])}</li>' for x in faq[:3])
     hours_li = ''.join(f'<li>{E(h)}</li>' for h in (hours or [])[:5])
-    info = (f'<h2 class="kd-h">가게 정보</h2><div class="kd-info"><div class="kd-box"><h3>영업 시간</h3><ul>{hours_li or "<li>영업 시간 쪽에서 확인하세요</li>"}</ul><p style="margin-top:8px"><small>(가상 가게 — 시간·가격은 예시)</small></p></div>'
+    info = (f'<h2 class="kd-h">가게 정보</h2><div class="kd-info"><div class="kd-box"><h3>영업 시간</h3><ul>{hours_li or "<li>영업 시간 쪽에서 확인하세요</li>"}</ul><p style="margin-top:8px"><span class="kd-s">(가상 가게 — 시간·가격은 예시)</span></p></div>'
             f'<div class="kd-box"><h3>자주 묻는 것</h3><ul>{faq_li or "<li>자료를 넣으면 여기에 나옵니다</li>"}</ul></div></div>')
     return f'<div class="kd">{banner}{menu_h}{info}</div>'
