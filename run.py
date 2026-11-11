@@ -1453,6 +1453,8 @@ def break_cmd(rest):
 
 def open_cmd(rest):
     print('━━ 열기 — 먼저 한 바퀴(10분) ━━\n[방문자의 길] 첫 화면 → 글 → 관련 글 → 도구(계산기·용어) → 소식 받기\n[운영자의 하루] 새 소식 모으기 → 확인 노트 쓰기 → 올릴 묶음 만들기 → 쉬는시간에 정하기\n내 PC 에서 사이트를 엽니다(멈추려면 Ctrl+C). 열리면 독자와 이 길을 따라 걸으며 「누가 이 길로 오나요?」부터 묻습니다.', flush=True)
+    if '--headless' in A:   # 창이 없는 조건: 찍기만 하고 여는 법만 알려 준 뒤 끝낸다(서버를 붙들고 있지 않는다)
+        out, last, rc = rebuild_local(); print(f'사이트를 찍었습니다({last}). 여는 법: python serve.py --no-demo → http://127.0.0.1:8000/ (포트가 쓰이는 중이면 다음 번호)'); return rc
     return subprocess.run(PY + ['serve.py', '--open', '--no-demo'], cwd=HERE).returncode
 
 
