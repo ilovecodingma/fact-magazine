@@ -1691,11 +1691,11 @@ def main():
     if cmd in ('나누기', 'split'):
         import play; return play.split_cmd(sys.modules[__name__], rest)
     if cmd in ('조각', 'piece'):
-        import play as PY
-        return PY.piece_cmd(sys.modules[__name__], POS[1:])
+        import play as PLY
+        return PLY.piece_cmd(sys.modules[__name__], POS[1:])
     if cmd in ('분류', 'cats'):
-        import play as PY
-        return PY.cats_cmd(sys.modules[__name__], POS[1:])
+        import play as PLY
+        return PLY.cats_cmd(sys.modules[__name__], POS[1:])
     if cmd in ('손잡이', 'knob'):
         import play; return play.knob_cmd(sys.modules[__name__], rest)
     if cmd in ('바꿔', 'change'):
