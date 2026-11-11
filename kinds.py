@@ -147,7 +147,7 @@ def _icon(kind, col, bg, w=600, h=300):
 def _img(B, name, svg, cls='kd-img', w=600, h=300):
     p = os.path.join(B.OUT, 'img'); os.makedirs(p, exist_ok=True)
     open(os.path.join(p, name), 'w', encoding='utf-8').write(svg)
-    return f'<img class="{cls}" src="{B.BASE}img/{E(name)}" width="{w}" height="{h}" alt="" loading="lazy">'
+    return f'<img class="{cls}" src="{B.BASE}img/{E(name)}" width="{w}" height="{h}" alt="" loading="lazy" style="max-width:100%;height:auto">'
 
 
 def _calc_kind(c):
