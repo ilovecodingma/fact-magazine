@@ -6,7 +6,8 @@ import json, os, re, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MIN_SOURCES = 3      # 이 수 이상의 매체가 다룬 묶음만 남긴다
-MIN_SHARED = 2       # 묶음에 들어가려면 겹치는 낱말이 최소 몇 개
+MIN_SHARED = 2       # 묶음에 들어가려면 씨앗 기사와 겹치는 낱말이 최소 몇 개
+MIN_RATIO = 0.4      # 그리고 짧은 쪽 제목 낱말의 이만큼 이상이 겹쳐야 한다
 STOP = set('속보 단독 종합 포토 사진 영상 오늘 내일 이후 관련 대한 위해 통해 따른 있는 없는 하는 한다 했다 된다 예정 전망 가능 이번 지난 올해 내년 최대 최소 확대 추진 발표 정부 시장'.split())
 
 
@@ -29,19 +30,19 @@ def main():
     for x in items:
         best, best_n = None, 0
         for g in groups:
-            n = len(x['w'] & g['words'])
-            if n >= MIN_SHARED and n > best_n and x['source'] not in {y['source'] for y in g['items'] if y['title'] == x['title']}:
+            n = len(x['w'] & g['seed'])   # 묶음의 첫 기사(씨앗)와만 비교한다 — 합집합과 비교하면 묶음이 점점 번져 다른 소식이 섞인다
+            if n >= MIN_SHARED and n / min(len(x['w']), len(g['seed'])) >= MIN_RATIO and n > best_n:
                 best, best_n = g, n
         if best:
-            best['items'].append(x); best['words'] |= x['w']
+            best['items'].append(x)
         else:
-            groups.append({'words': set(x['w']), 'items': [x]})
+            groups.append({'seed': set(x['w']), 'items': [x]})
     topics = []
     for g in groups:
         srcs = sorted({y['source'] for y in g['items']})
         if len(srcs) < MIN_SOURCES:
             continue
-        rep = max(g['items'], key=lambda y: len(y['w'] & g['words']))   # 묶음 낱말을 가장 많이 담은 제목을 대표로
+        rep = max(g['items'], key=lambda y: sum(len(y['w'] & z['w']) for z in g['items'] if z is not y))   # 다른 기사들과 가장 많이 겹치는 제목을 대표로
         topics.append({'title': rep['title'], 'media_count': len(srcs), 'media': srcs,
                        'latest': max(y['time'] for y in g['items']),
                        'items': [{k: y[k] for k in ('source', 'title', 'link', 'time')} for y in sorted(g['items'], key=lambda y: y['time'], reverse=True)]})

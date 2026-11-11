@@ -1,139 +1,7 @@
 {
- "made_at": "2026-11-11 10:06",
+ "made_at": "2026-11-11 10:08",
  "article_count": 584,
  "topics": [
-  {
-   "title": "엔비디아, 젠슨 황 파장에 시총 장중 3위로 밀려···미국 증시 일제히 하락",
-   "media_count": 8,
-   "media": [
-    "SBS",
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "포스트 젠슨 황이 없다…외도 스캔들에 휘청이는 ‘1인 제국’ 엔비디아",
-     "link": "https://www.hani.co.kr/arti/economy/global/1286646.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "“‘젠슨 황 연인’ 앨리스 황, 10조원 규모 엔비디아 칩 중국으로 밀반입” 의혹 제기",
-     "link": "https://www.khan.co.kr/article/202611110753001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "엔비디아, 젠슨 황 파장에 시총 장중 3위로 밀려···미국 증시 일제히 하락",
-     "link": "https://www.khan.co.kr/article/202611110716001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 삼전·닉스, 美증시 약세에 장초반 1% 안팎 하락",
-     "link": "https://www.yna.co.kr/view/AKR20261111046100008",
-     "time": "2026-11-11 09:32"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 시프트업, 3분기 영업이익 급감에 장초반 8%대↓",
-     "link": "https://www.yna.co.kr/view/AKR20261111041000008",
-     "time": "2026-11-11 09:20"
-    },
-    {
-     "source": "한국경제",
-     "title": "엔비디아 칩 中 밀반입 의혹에도…美 상무부 제재 지연",
-     "link": "https://www.hankyung.com/article/202611119052i",
-     "time": "2026-11-11 08:32"
-    },
-    {
-     "source": "뉴시스",
-     "title": "국제유가, 이란전 종식 기대에 하락…브렌트유 장중 90달러 붕괴",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862933",
-     "time": "2026-11-11 06:27"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 엔비디아 이틀간 9.6% 급락…시총 약 4300억달러 증발",
-     "link": "https://www.hankyung.com/article/2026111187687",
-     "time": "2026-11-11 06:07"
-    },
-    {
-     "source": "한국경제",
-     "title": "외도 인정 직격탄…젠슨 황, 이틀 만에 21조원 날아갔다",
-     "link": "https://www.hankyung.com/article/2026111187457",
-     "time": "2026-11-11 06:03"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘젠슨황 리스크’ 엔비디아 시총 1921억달러 증발, 주주들 “배상하라”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002683/2",
-     "time": "2026-11-11 04:30"
-    },
-    {
-     "source": "동아일보",
-     "title": "일파만파 ‘젠슨 황 스캔들’, FBI 조사-주주 소송",
-     "link": "https://www.donga.com/news/Inter/article/all/20261111/135002979/2",
-     "time": "2026-11-11 04:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "9개월 이란전, 이제 끝 보이나…브렌트유 80달러대 진입",
-     "link": "https://www.hankyung.com/article/202611108550i",
-     "time": "2026-11-10 19:46"
-    },
-    {
-     "source": "SBS",
-     "title": "[이슈빡] 젠슨 황 스캔들 일파만파…엔비디아 운명은? 한국 반도체에 불똥 튈까?",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839768&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 19:39"
-    },
-    {
-     "source": "SBS",
-     "title": "[이슈대담] '젠슨 황 리스크' 엔비디아 주가 폭락에 \"집단소송 움직임\"…'깐부' K-반도체 어쩌나",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839445&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 16:21"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 국제유가 급락에 항공주 급등…대한항공 11%대↑(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110051151008",
-     "time": "2026-11-10 15:59"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] NHN, 3분기 호실적·데이터센터 기대에 상한가(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110042551008",
-     "time": "2026-11-10 15:51"
-    },
-    {
-     "source": "뉴시스",
-     "title": "\"젠슨 황이 곧 엔비디아\"…엔비디아, 후계자 없는 '33년 1인 경영' 도마",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861753",
-     "time": "2026-11-10 12:10"
-    },
-    {
-     "source": "뉴시스",
-     "title": "엔비디아 주주들, 젠슨 황에 집단소송…\"中 스파이 의혹 여성과 관계 숨겨\"",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861842",
-     "time": "2026-11-10 11:44"
-    },
-    {
-     "source": "매일경제",
-     "title": "“너무 떨어졌나” 美증시 반등…‘젠슨황 쇼크’ 엔비디아 4.3% 뚝 [월가월부]",
-     "link": "https://www.mk.co.kr/news/economy/12203304",
-     "time": "2026-11-10 06:28"
-    }
-   ],
-   "id": "20261111-01"
-  },
   {
    "title": "유류세 인하 내년 1월까지 2개월 연장…휘발유 15%·경유 25% 유지",
    "media_count": 7,
@@ -191,17 +59,15 @@
      "time": "2026-11-11 09:00"
     }
    ],
-   "id": "20261111-02"
+   "id": "20261111-01"
   },
   {
-   "title": "9월 일본 경상수지 20조원 흑자·45% 급감…\"에너지 수입·클라우드 비용 증대\"",
-   "media_count": 7,
+   "title": "10월 취업자 13만9000명 증가…청년 고용률은 30개월째 하락",
+   "media_count": 5,
    "media": [
-    "SBS",
     "경향신문",
     "뉴시스",
     "동아일보",
-    "매일경제",
     "연합뉴스",
     "한겨레"
    ],
@@ -220,58 +86,16 @@
      "time": "2026-11-11 10:06"
     },
     {
-     "source": "경향신문",
-     "title": "소상공인 매출·이익 동반 감소…대출 연체액은 3분기 연속 증가",
-     "link": "https://www.khan.co.kr/article/202611102033005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "뉴시스",
-     "title": "청년 고용률 6년 만에 최저…제조업 일자리도 다시 감소(종합)",
-     "link": "https://www.newsis.com/view/NISX20261111_0003863248",
-     "time": "2026-11-11 09:43"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "충북지역 10월 고용률 66.7%…6월 이후 하락세",
-     "link": "https://www.yna.co.kr/view/AKR20261111048200064",
-     "time": "2026-11-11 09:35"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "3분기 서울 오피스빌딩 거래 24% 감소…사무실은 105% 증가",
-     "link": "https://www.yna.co.kr/view/AKR20261111035200003",
-     "time": "2026-11-11 09:33"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "취업자 넉달째 10만명대 증가…숙박음식 5년8개월만에 최대폭↓(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261111021351002",
-     "time": "2026-11-11 08:43"
-    },
-    {
      "source": "동아일보",
      "title": "10월 취업자 13.9만명 늘었지만…청년 고용률 6년래 최저",
      "link": "https://www.donga.com/news/Economy/article/all/20261111/135003641/1",
      "time": "2026-11-11 08:38"
     },
     {
-     "source": "SBS",
-     "title": "10월 취업자 넉 달째 10만 명대 증가…청년층 4년째 줄어",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840246&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 08:27"
-    },
-    {
      "source": "뉴시스",
      "title": "10월 취업자 13만9000명↑…청년 고용률 30개월째 하락(2보)",
      "link": "https://www.newsis.com/view/NISX20261111_0003863038",
      "time": "2026-11-11 08:17"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
-     "link": "https://www.mk.co.kr/news/economy/12204941",
-     "time": "2026-11-11 08:03"
     },
     {
      "source": "뉴시스",
@@ -281,99 +105,20 @@
     },
     {
      "source": "연합뉴스",
-     "title": "[2보] 취업자 13.9만명 증가·넉달째 10만명대↑…청년층 4년째 감소",
-     "link": "https://www.yna.co.kr/view/AKR20261111021300002",
-     "time": "2026-11-11 08:00"
-    },
-    {
-     "source": "연합뉴스",
      "title": "[1보] 10월 취업자 13만9천명 늘어…넉달째 10만명대",
      "link": "https://www.yna.co.kr/view/AKR20261111019200002",
      "time": "2026-11-11 08:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "10월 취업자 13만9000명↑…제조업 한 달 만에 감소 전환(1보)",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862995",
-     "time": "2026-11-11 08:00"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "국제유가 하락세 지속…8월 31일 이후 최저",
-     "link": "https://www.yna.co.kr/view/AKR20261111008700072",
-     "time": "2026-11-11 06:13"
-    },
-    {
-     "source": "뉴시스",
-     "title": "서울 주거비 부담에 경기로…'탈서울' 순이동 40% 증가",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862735",
-     "time": "2026-11-11 06:00"
-    },
-    {
-     "source": "동아일보",
-     "title": "소상공인 대출 연체 3분기째 증가… 빚낸 사업자 14%는 폐업",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001681/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "유가 하락세 지속…브렌트유 장중 배럴당 80달러대까지",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862847",
-     "time": "2026-11-10 20:16"
-    },
-    {
-     "source": "매일경제",
-     "title": "수도권선 발주만 받아와도 대출 … 지방선 중기 기술신용대출 감소",
-     "link": "https://www.mk.co.kr/news/economy/12204130",
-     "time": "2026-11-10 17:21"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[올댓차이나] TSMC 10월 매출 23.8조원·59%↑…AI 수요에 34개월째 증가",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862654",
-     "time": "2026-11-10 17:01"
-    },
-    {
-     "source": "뉴시스",
-     "title": "서울 빌딩 거래액 45% 급감…9월 대형 거래 실종",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861979",
-     "time": "2026-11-10 14:31"
-    },
-    {
-     "source": "뉴시스",
-     "title": "9월 건설수주 49.3% 늘었지만…건설기업 체감경기 악화",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862053",
-     "time": "2026-11-10 13:45"
-    },
-    {
-     "source": "뉴시스",
-     "title": "9월 일본 경상수지 20조원 흑자·45% 급감…\"에너지 수입·클라우드 비용 증대\"",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861984",
-     "time": "2026-11-10 12:25"
-    },
-    {
-     "source": "뉴시스",
-     "title": "매물은 8만건 쌓이는데 거래는 '뚝'…서울 집값 향방은",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861918",
-     "time": "2026-11-10 12:08"
-    },
-    {
-     "source": "SBS",
-     "title": "소상공인 대출 연체 늘고 매출 줄었다…개인사업자 연체액 '16.4조'",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838493&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 10:28"
     }
    ],
-   "id": "20261111-03"
+   "id": "20261111-02"
   },
   {
-   "title": "[특징주] 삼성전자 4%·SK하이닉스 6%대 급등…시총 합산 2천조 회복(종합)",
-   "media_count": 6,
+   "title": "금융보안원도 해킹에 뚫려…금융사 직원 개인정보 300여 건 유출",
+   "media_count": 5,
    "media": [
     "SBS",
     "경향신문",
     "동아일보",
-    "매일경제",
     "연합뉴스",
     "한겨레"
    ],
@@ -392,34 +137,16 @@
      "time": "2026-11-11 10:06"
     },
     {
-     "source": "경향신문",
-     "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
-     "link": "https://www.khan.co.kr/article/202611102040001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
      "source": "동아일보",
      "title": "해킹당한 금융보안원 850여 건 정보 유출…“금융사에 개별 안내”",
      "link": "https://www.donga.com/news/Economy/article/all/20261111/135004541/1",
      "time": "2026-11-11 10:05"
     },
     {
-     "source": "연합뉴스",
-     "title": "[특징주] 금융보안원 해킹에 사이버보안주 다시 급등",
-     "link": "https://www.yna.co.kr/view/AKR20261111044100008",
-     "time": "2026-11-11 09:33"
-    },
-    {
      "source": "SBS",
      "title": "금융보안원도 뚫렸다…개인 정보 300여 건 유출",
      "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840041&plink=RSSLINK&cooper=RSSREADER",
      "time": "2026-11-11 07:50"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘디지털 보안 총괄’ 금융보안원도 뚫렸다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002955/2",
-     "time": "2026-11-11 04:30"
     },
     {
      "source": "SBS",
@@ -444,357 +171,14 @@
      "title": "금융보안원도 해킹에 뚫려…금융사 보안평가 정보 일부 유출(종합)",
      "link": "https://www.yna.co.kr/view/AKR20261110174700002",
      "time": "2026-11-10 20:34"
-    },
-    {
-     "source": "SBS",
-     "title": "'금융보안 문지기' 금융보안원도 해킹으로 정보 유출",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839827&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 20:34"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[2보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
-     "link": "https://www.yna.co.kr/view/AKR20261110173800002",
-     "time": "2026-11-10 19:51"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
-     "link": "https://www.mk.co.kr/news/economy/12204282",
-     "time": "2026-11-10 19:47"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[1보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
-     "link": "https://www.yna.co.kr/view/AKR20261110173700002",
-     "time": "2026-11-10 19:43"
-    },
-    {
-     "source": "매일경제",
-     "title": "“내 정보 털렸나?” 확인하려다 또 털려…해킹 뒤 날아온 문자메시지 ‘주의’",
-     "link": "https://www.mk.co.kr/news/economy/12204033",
-     "time": "2026-11-10 16:17"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 삼성전자 4%·SK하이닉스 6%대 급등…시총 합산 2천조 회복(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110046151008",
-     "time": "2026-11-10 16:16"
     }
    ],
-   "id": "20261111-04"
+   "id": "20261111-03"
   },
   {
-   "title": "네이버·두나무 결합에 경쟁제한 우려…공정위, 시정조치 전제로 심의 착수",
-   "media_count": 6,
+   "title": "[속보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
+   "media_count": 4,
    "media": [
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "공정위, 네이버-두나무 기업결합 심의 착수…18일 결론 나나",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286583.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "“네이버·두나무 합병, 경쟁 제한 우려”",
-     "link": "https://www.khan.co.kr/article/202611102032005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "동아일보",
-     "title": "공정위, 네이버-두나무 기업결합 심의 착수",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001677/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "'네이버·두나무 합병' 심의 돌입…공정위 \"10개 시장 경쟁제한 우려\"",
-     "link": "https://www.hankyung.com/article/2026111083041",
-     "time": "2026-11-10 18:10"
-    },
-    {
-     "source": "매일경제",
-     "title": "네이버·두나무 결합 심사 … 연내 결론날듯",
-     "link": "https://www.mk.co.kr/news/economy/12204134",
-     "time": "2026-11-10 17:21"
-    },
-    {
-     "source": "뉴시스",
-     "title": "네이버·두나무 결합에 경쟁제한 우려…이르면 이달 결론(종합)",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862044",
-     "time": "2026-11-10 14:47"
-    },
-    {
-     "source": "뉴시스",
-     "title": "네이버·두나무 결합에 경쟁제한 우려…공정위, 시정조치 전제로 심의 착수",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861898",
-     "time": "2026-11-10 12:00"
-    }
-   ],
-   "id": "20261111-05"
-  },
-  {
-   "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
-   "media_count": 6,
-   "media": [
-    "SBS",
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "의사 부부가 ‘위장퇴사’로 저소득자 청약…부정청약 354건 적발",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286560.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
-     "link": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
-     "link": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "SBS",
-     "title": "가짜 퇴사에 혼인신고 미루기…부정 청약 적발",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840045&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 06:26"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘퇴사 뒤 재입사’ 꼼수… 의사부부 등 부정청약 354건 적발",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002975/2",
-     "time": "2026-11-11 04:30"
-    },
-    {
-     "source": "SBS",
-     "title": "가짜로 퇴사하고, 혼인신고 미루고…목표는 청약",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839934&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 00:41"
-    },
-    {
-     "source": "SBS",
-     "title": "위장 퇴사에 위장 미혼…부정청약 '354건' 적발",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838860&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 13:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "아파트 당첨되려 서류상 미혼…위장미혼 청약 18건 적발",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861971",
-     "time": "2026-11-10 13:09"
-    },
-    {
-     "source": "매일경제",
-     "title": "노모·장모 위장전입하고 4년째 혼인신고 미뤄…부정청약 354건 적발",
-     "link": "https://www.mk.co.kr/news/economy/12203691",
-     "time": "2026-11-10 11:02"
-    },
-    {
-     "source": "매일경제",
-     "title": "“아파트 로또청약 나만 안 되는 이유 있었네”…부정 의심사례 354건 적발",
-     "link": "https://www.mk.co.kr/news/economy/12203675",
-     "time": "2026-11-10 10:56"
-    }
-   ],
-   "id": "20261111-06"
-  },
-  {
-   "title": "7일 걸리던 집계 10분 만에…우미건설, AI로 현장 업무 개선",
-   "media_count": 6,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "코스피·코스닥 ‘매수 사이드카’…“AI·반도체 주가 낙폭 과도”",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1286548.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 美 '빅스텝' 우려속 보합권 등락…코스닥 2%대 상승(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261111037351008",
-     "time": "2026-11-11 09:30"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 美 '빅스텝' 우려속 보합권 등락…코스닥 1%대 상승",
-     "link": "https://www.yna.co.kr/view/AKR20261111037300008",
-     "time": "2026-11-11 09:05"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 코스피, 보합권서 등락…코스닥 1%대 상승",
-     "link": "https://www.yna.co.kr/view/AKR20261111036500008",
-     "time": "2026-11-11 09:02"
-    },
-    {
-     "source": "동아일보",
-     "title": "韓 디지털·AI 경쟁력 세계 10위…1년 만에 8계단 상승",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135003483/1",
-     "time": "2026-11-11 08:06"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[마켓뷰] 겨우 반등했는데…코스피, 美 '빅스텝' 우려에 다시 흔들리나",
-     "link": "https://www.yna.co.kr/view/AKR20261111021500008",
-     "time": "2026-11-11 08:04"
-    },
-    {
-     "source": "뉴시스",
-     "title": "7일 걸리던 집계 10분 만에…우미건설, AI로 현장 업무 개선",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862646",
-     "time": "2026-11-11 05:00"
-    },
-    {
-     "source": "동아일보",
-     "title": "기본소득으로 농촌 활력, AI로 유통 혁신… ‘K푸드+’ 세계로 간다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/134995340/2",
-     "time": "2026-11-11 04:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[올댓차이나] 대만 증시, 美 반도체 강세에 이틀째 상승 마감…2.52%↑",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862856",
-     "time": "2026-11-10 20:29"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[올댓차이나] 홍콩 증시, 美 증시 강세로 사흘 만에 반등 마감…항셍 0.44%↑",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862816",
-     "time": "2026-11-10 19:10"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "\"코스피 변동성, 韓 고유 요인이 작용한 것…반도체 집중 구조\"(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110122251008",
-     "time": "2026-11-10 17:28"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피·코스닥 4% 급등…매수 사이드카 발동",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839380&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 17:02"
-    },
-    {
-     "source": "매일경제",
-     "title": "[영상] AI 반도체 : 테크를 넘어 금융산업으로 확장",
-     "link": "https://www.mk.co.kr/news/economy/12203962",
-     "time": "2026-11-10 17:00"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839353&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 16:57"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "국고채 금리 대체로 하락…주가 급등에도 외인 선물 매수(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110148451008",
-     "time": "2026-11-10 16:48"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "국고채 금리 대체로 하락…3년물 연 3.633%",
-     "link": "https://www.yna.co.kr/view/AKR20261110148400008",
-     "time": "2026-11-10 16:40"
-    },
-    {
-     "source": "뉴시스",
-     "title": "일본 닛케이225, 3거래일 만에 6만선 회복…상승 마감",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862379",
-     "time": "2026-11-10 16:15"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피·코스닥, 4%대 급등 마감…급락딛고 4거래일만 반등(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110131951008",
-     "time": "2026-11-10 16:03"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'AI 시즌오프' 공포 진정되나…여전한 우려 속 코스피 급반등(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110070851008",
-     "time": "2026-11-10 15:48"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 광통신주, '데이터센터 우려 과도' 평가에 급등 마감(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110056051008",
-     "time": "2026-11-10 15:39"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
-     "link": "https://www.yna.co.kr/view/AKR20261110131900008",
-     "time": "2026-11-10 15:36"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
-     "link": "https://www.yna.co.kr/view/AKR20261110130600008",
-     "time": "2026-11-10 15:33"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피·코스닥 4~5% 급등세…매수 사이드카 발동",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838857&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 12:02"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[올댓차이나] 홍콩 증시, 美 증시 강세로 사흘 만에 상승… 항셍 0.13%↑",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861904",
-     "time": "2026-11-10 11:26"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[올댓차이나] 중국 증시 상승 출발…상하이지수 0.58%↑",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861844",
-     "time": "2026-11-10 11:10"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피·코스닥 5%대 급등…양 시장 동시 매수 사이드카",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838428&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-10 09:25"
-    }
-   ],
-   "id": "20261111-07"
-  },
-  {
-   "title": "[1보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
-   "media_count": 5,
-   "media": [
-    "뉴시스",
     "동아일보",
     "연합뉴스",
     "한겨레",
@@ -825,46 +209,189 @@
      "title": "[1보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
      "link": "https://www.yna.co.kr/view/AKR20261111035600002",
      "time": "2026-11-11 09:00"
-    },
-    {
-     "source": "한국경제",
-     "title": "중국 원유 수입 9.4% 증가…경유 수출은 급감",
-     "link": "https://www.hankyung.com/article/202611118916i",
-     "time": "2026-11-11 08:08"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보] 10월 중국 수출 35.2%↑ 수입 41.6%↑…무역총액 37.9%↑",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861928",
-     "time": "2026-11-10 11:40"
     }
    ],
-   "id": "20261111-08"
+   "id": "20261111-04"
   },
   {
-   "title": "반도체 호황에 대기업 수출 2배… 상위 10개사 비중 60% 첫 돌파",
-   "media_count": 5,
+   "title": "네이버·두나무 결합에 경쟁제한 우려…공정위, 시정조치 전제로 심의 착수",
+   "media_count": 4,
    "media": [
-    "경향신문",
     "뉴시스",
-    "매일경제",
-    "연합뉴스",
+    "동아일보",
+    "한겨레",
     "한국경제"
    ],
    "latest": "2026-11-11 10:06",
    "items": [
     {
-     "source": "경향신문",
-     "title": "대기업 수출 103% 늘었는데 중기는 10%…심화되는 양극화",
-     "link": "https://www.khan.co.kr/article/202611102109015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "source": "한겨레",
+     "title": "공정위, 네이버-두나무 기업결합 심의 착수…18일 결론 나나",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286583.html",
+     "time": "2026-11-11 10:06"
+    },
+    {
+     "source": "동아일보",
+     "title": "공정위, 네이버-두나무 기업결합 심의 착수",
+     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001677/2",
+     "time": "2026-11-11 00:30"
+    },
+    {
+     "source": "한국경제",
+     "title": "'네이버·두나무 합병' 심의 돌입…공정위 \"10개 시장 경쟁제한 우려\"",
+     "link": "https://www.hankyung.com/article/2026111083041",
+     "time": "2026-11-10 18:10"
+    },
+    {
+     "source": "뉴시스",
+     "title": "네이버·두나무 결합에 경쟁제한 우려…공정위, 시정조치 전제로 심의 착수",
+     "link": "https://www.newsis.com/view/NISX20261110_0003861898",
+     "time": "2026-11-10 12:00"
+    }
+   ],
+   "id": "20261111-05"
+  },
+  {
+   "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
+   "media_count": 4,
+   "media": [
+    "SBS",
+    "경향신문",
+    "동아일보",
+    "한겨레"
+   ],
+   "latest": "2026-11-11 10:06",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "의사 부부가 ‘위장퇴사’로 저소득자 청약…부정청약 354건 적발",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286560.html",
      "time": "2026-11-11 10:06"
     },
     {
      "source": "경향신문",
-     "title": "반도체 호황에 대기업 수출 2배… 상위 10개사 비중 60% 첫 돌파",
-     "link": "https://www.khan.co.kr/article/202611101503001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
+     "link": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
      "time": "2026-11-11 10:06"
     },
+    {
+     "source": "경향신문",
+     "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
+     "link": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-11 10:06"
+    },
+    {
+     "source": "동아일보",
+     "title": "‘퇴사 뒤 재입사’ 꼼수… 의사부부 등 부정청약 354건 적발",
+     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002975/2",
+     "time": "2026-11-11 04:30"
+    },
+    {
+     "source": "SBS",
+     "title": "위장 퇴사에 위장 미혼…부정청약 '354건' 적발",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838860&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-10 13:30"
+    }
+   ],
+   "id": "20261111-06"
+  },
+  {
+   "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
+   "media_count": 4,
+   "media": [
+    "SBS",
+    "경향신문",
+    "매일경제",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-11 10:06",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
+     "link": "https://www.khan.co.kr/article/202611102040001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-11 10:06"
+    },
+    {
+     "source": "SBS",
+     "title": "'금융보안 문지기' 금융보안원도 해킹으로 정보 유출",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839827&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-10 20:34"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[2보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
+     "link": "https://www.yna.co.kr/view/AKR20261110173800002",
+     "time": "2026-11-10 19:51"
+    },
+    {
+     "source": "매일경제",
+     "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
+     "link": "https://www.mk.co.kr/news/economy/12204282",
+     "time": "2026-11-10 19:47"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[1보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
+     "link": "https://www.yna.co.kr/view/AKR20261110173700002",
+     "time": "2026-11-10 19:43"
+    }
+   ],
+   "id": "20261111-07"
+  },
+  {
+   "title": "코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "동아일보",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-11 00:30",
+   "items": [
+    {
+     "source": "동아일보",
+     "title": "뉴욕증시 반등 힘입어… 코스피, 4거래일만에 상승 마감",
+     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001679/2",
+     "time": "2026-11-11 00:30"
+    },
+    {
+     "source": "SBS",
+     "title": "코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008839353&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-10 16:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "코스피·코스닥, 4%대 급등 마감…급락딛고 4거래일만 반등(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261110131951008",
+     "time": "2026-11-10 16:03"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
+     "link": "https://www.yna.co.kr/view/AKR20261110131900008",
+     "time": "2026-11-10 15:36"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[속보] 코스피·코스닥, 4%대 급등 마감…4거래일만 반등",
+     "link": "https://www.yna.co.kr/view/AKR20261110130600008",
+     "time": "2026-11-10 15:33"
+    }
+   ],
+   "id": "20261111-08"
+  },
+  {
+   "title": "반도체 수출 4배로 껑충…'1조 달러' 곧 달성 전망(종합)",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "연합뉴스",
+    "한국경제"
+   ],
+   "latest": "2026-11-11 09:31",
+   "items": [
     {
      "source": "연합뉴스",
      "title": "반도체 수출 4배로 껑충…'1조 달러' 곧 달성 전망(종합)",
@@ -878,24 +405,6 @@
      "time": "2026-11-11 09:07"
     },
     {
-     "source": "한국경제",
-     "title": "국산 가격 두 배 뛰었는데…저렴한 '100% 착즙주스'의 비밀 [프라이스&]",
-     "link": "https://www.hankyung.com/article/202611108675i",
-     "time": "2026-11-11 06:00"
-    },
-    {
-     "source": "매일경제",
-     "title": "이자에 짓눌린 산단…연체액 2배 껑충",
-     "link": "https://www.mk.co.kr/news/economy/12204237",
-     "time": "2026-11-10 17:43"
-    },
-    {
-     "source": "뉴시스",
-     "title": "블루웨이브가 국내 산업 미칠 영향은?…반도체 '흐림' 전력기기 '맑음'",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861777",
-     "time": "2026-11-10 14:11"
-    },
-    {
      "source": "뉴시스",
      "title": "[올댓차이나] 10월 中 수출 35.2% 급증…\"누적 무역흑자 1조 달러 돌파\"",
      "link": "https://www.newsis.com/view/NISX20261110_0003862055",
@@ -905,94 +414,11 @@
    "id": "20261111-09"
   },
   {
-   "title": "이형일 “종부세 실거주 우대” 수정 선그어…李대통령, 오늘 與 김민석-한병도와 만찬",
-   "media_count": 4,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-11 04:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "이형일 “종부세 실거주 우대” 수정 선그어…李대통령, 오늘 與 김민석-한병도와 만찬",
-     "link": "https://www.donga.com/news/Politics/article/all/20261111/135003004/2",
-     "time": "2026-11-11 04:30"
-    },
-    {
-     "source": "매일경제",
-     "title": "이형일 \"종부세 실거주 우대 원칙 지켜야\"",
-     "link": "https://www.mk.co.kr/news/economy/12204287",
-     "time": "2026-11-10 20:00"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "거주-비거주 차등원칙 견지한 정부…이형일 \"실거주 우대해야\"(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261110162851001",
-     "time": "2026-11-10 18:47"
-    },
-    {
-     "source": "뉴시스",
-     "title": "이형일 \"종부세 거주·비거주 차등 지켜야…불가피한 비거주는 보호\"",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862593",
-     "time": "2026-11-10 17:25"
-    }
-   ],
-   "id": "20261111-10"
-  },
-  {
-   "title": "민주당이 은행 규제 강화한다는데…월가는 AI 투자 둔화 더 걱정",
-   "media_count": 4,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "연합뉴스",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 08:47",
-   "items": [
-    {
-     "source": "연합뉴스",
-     "title": "KB증권 \"美 규제 우려에도 2028년까지 AI 투자 방향성 안 꺾여\"",
-     "link": "https://www.yna.co.kr/view/AKR20261111031400008",
-     "time": "2026-11-11 08:47"
-    },
-    {
-     "source": "한국경제",
-     "title": "민주당이 은행 규제 강화한다는데…월가는 AI 투자 둔화 더 걱정",
-     "link": "https://www.hankyung.com/article/202611118977i",
-     "time": "2026-11-11 08:19"
-    },
-    {
-     "source": "동아일보",
-     "title": "“등 떠밀린 AI 투자, 줄 점검없는 번지점프 같아”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135000787/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "美 9월 도매재고 0.7% 늘어…\"AI 투자에 전기제품 쌓여\"",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862767",
-     "time": "2026-11-10 17:58"
-    },
-    {
-     "source": "뉴시스",
-     "title": "美 경제 떠받친 AI, 규제했다간 거품 터질라…민주당의 딜레마",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862162",
-     "time": "2026-11-10 15:29"
-    }
-   ],
-   "id": "20261111-11"
-  },
-  {
-   "title": "수출 호황에도 커지는 소득·자산·세대 격차…정부, 양극화 대응 TF 띄운다",
-   "media_count": 4,
+   "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
+   "media_count": 3,
    "media": [
     "뉴시스",
     "매일경제",
-    "연합뉴스",
     "한겨레"
    ],
    "latest": "2026-11-11 10:06",
@@ -1010,280 +436,16 @@
      "time": "2026-11-11 09:49"
     },
     {
-     "source": "연합뉴스",
-     "title": "양극화 대응에 팔 걷는 정부…경제부총리가 태스크포스 팀장",
-     "link": "https://www.yna.co.kr/view/AKR20261110136900002",
-     "time": "2026-11-11 09:00"
-    },
-    {
      "source": "뉴시스",
      "title": "수출 호황에도 커지는 소득·자산·세대 격차…정부, 양극화 대응 TF 띄운다",
      "link": "https://www.newsis.com/view/NISX20261110_0003862618",
      "time": "2026-11-11 09:00"
     }
    ],
-   "id": "20261111-12"
+   "id": "20261111-10"
   },
   {
-   "title": "3분기 수출 72% 증가… 상위 10개 기업 비중 첫 60% 넘어",
-   "media_count": 4,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "3분기 수출액 60%, 10개 기업이 벌어…무역집중도 역대 최대",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286581.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "동아일보",
-     "title": "3분기 수출 72% 증가… 상위 10개 기업 비중 첫 60% 넘어",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001671/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "매일경제",
-     "title": "韓수출 쏠림 심화 …'톱10' 기업이 60% 차지",
-     "link": "https://www.mk.co.kr/news/economy/12204135",
-     "time": "2026-11-10 17:21"
-    },
-    {
-     "source": "뉴시스",
-     "title": "반도체 수출 호황에 10대 기업 무역집중도 60.9%…역대 최고 수준",
-     "link": "https://www.newsis.com/view/NISX20261110_0003861399",
-     "time": "2026-11-10 12:00"
-    }
-   ],
-   "id": "20261111-13"
-  },
-  {
-   "title": "[영상] 아틀라스, ‘360도 회전’ 점프…발에 바퀴 달고 드리프트까지",
-   "media_count": 4,
-   "media": [
-    "SBS",
-    "경향신문",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "[영상] 아틀라스, ‘360도 회전’ 점프…발에 바퀴 달고 드리프트까지",
-     "link": "https://www.hani.co.kr/arti/economy/car/1286568.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "경향신문",
-     "title": "[포토뉴스]피겨 선수처럼 민첩하게…아틀라스, 공중서 ‘360도 회전’",
-     "link": "https://www.khan.co.kr/article/202611102041015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "SBS",
-     "title": "발 대신 바퀴…피겨 선수처럼 '360도 폴짝'",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840068&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 06:48"
-    },
-    {
-     "source": "한국경제",
-     "title": "[포토] 회전 점프하는 아틀라스",
-     "link": "https://www.hankyung.com/article/2026111085001",
-     "time": "2026-11-11 00:44"
-    }
-   ],
-   "id": "20261111-14"
-  },
-  {
-   "title": "미 소비자물가 한달 새 0.4% 상승···다음달 금리 인상 가능성 커졌다",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "미 소비자물가 한달 새 0.4% 상승···다음달 금리 인상 가능성 커졌다",
-     "link": "https://www.khan.co.kr/article/202611102254001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보]뉴욕증시, 금리 인상 가능성에 하락 마감…다우 0.3%↓",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862935",
-     "time": "2026-11-11 06:04"
-    },
-    {
-     "source": "동아일보",
-     "title": "뉴욕증시 반등 힘입어… 코스피, 4거래일만에 상승 마감",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001679/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "미 10월 소비자물가 0.4% 올라…근원물가는 0.3% 상승(2보)",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862898",
-     "time": "2026-11-10 22:38"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 美 10월 CPI 전월보다 0.4%↑…핵심 CPI는 0.3% 상승",
-     "link": "https://www.hankyung.com/article/202611108646i",
-     "time": "2026-11-10 22:36"
-    }
-   ],
-   "id": "20261111-15"
-  },
-  {
-   "title": "원주 기업 2곳 CES 2027 혁신상…3년 연속 수상기업 배출",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "연합뉴스",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "LG엔솔·삼성SDI, 배터리 기술로 ‘CES 혁신상’",
-     "link": "https://www.khan.co.kr/article/202611102035015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "동아일보",
-     "title": "삼성 갤Z 폴드8, CES 모바일 최고 혁신상",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001665/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "삼성 AI칩·LG TV…'CES 혁신상' 휩쓸어",
-     "link": "https://www.hankyung.com/article/2026111084171",
-     "time": "2026-11-10 18:23"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "원주 기업 2곳 CES 2027 혁신상…3년 연속 수상기업 배출",
-     "link": "https://www.yna.co.kr/view/AKR20261110137300062",
-     "time": "2026-11-10 15:59"
-    }
-   ],
-   "id": "20261111-16"
-  },
-  {
-   "title": "에너지바우처 예산 500억 남는데…기초수급 10곳 중 3곳 지원 못받아",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "에너지바우처 끊긴 2만5000가구, 정부가 찾아 재신청 지원",
-     "link": "https://www.khan.co.kr/article/202611101533001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "뉴시스",
-     "title": "에너지바우처 예산 500억 남는데…기초수급 10곳 중 3곳 지원 못받아",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862716",
-     "time": "2026-11-11 07:00"
-    },
-    {
-     "source": "매일경제",
-     "title": "[단독] 농어촌 지원 늘리자는 민주당…2000억 예산 배정에 ‘5000억 더’",
-     "link": "https://www.mk.co.kr/news/economy/12204189",
-     "time": "2026-11-10 17:33"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "강원남부지식재산센터, 창업기업 3곳 IP 지원 성과 점검",
-     "link": "https://www.yna.co.kr/view/AKR20261110147200062",
-     "time": "2026-11-10 16:35"
-    }
-   ],
-   "id": "20261111-17"
-  },
-  {
-   "title": "AI·로봇·건강검진·치료까지…삼성전자 육성 스타트업 1000곳",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 00:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "삼성전자, ‘2026 C랩 스타트업 데모데이’ 개최",
-     "link": "https://www.donga.com/news/Economy/article/all/20261110/135001663/2",
-     "time": "2026-11-11 00:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "AI·로봇·건강검진·치료까지…삼성전자 육성 스타트업 1000곳",
-     "link": "https://www.hankyung.com/article/2026111084161",
-     "time": "2026-11-10 18:23"
-    },
-    {
-     "source": "뉴시스",
-     "title": "교통안전공단, 철도 AI·종합시험운행 워크숍 개최",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862642",
-     "time": "2026-11-10 17:59"
-    }
-   ],
-   "id": "20261111-18"
-  },
-  {
-   "title": "팬데믹·자연재해 닥치면 달러 신속 지원…아세안+3 RFF 도입",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "아세안+한·중·일, 역내 금융안전망 강화…긴급지원 새로 도입",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286746.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "아세안+3에 자연재해 등 위기 때 쓰는 단기자금지원제도 도입",
-     "link": "https://www.yna.co.kr/view/AKR20261110177400002",
-     "time": "2026-11-11 10:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "팬데믹·자연재해 닥치면 달러 신속 지원…아세안+3 RFF 도입",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862962",
-     "time": "2026-11-11 10:00"
-    }
-   ],
-   "id": "20261111-19"
-  },
-  {
-   "title": "신현송 한은 총재, BIS CPMI 의장 선임…지급결제 기준 제정",
+   "title": "신현송 한은 총재, BIS ‘지급·시장인프라 위원회’ 의장 선출",
    "media_count": 3,
    "media": [
     "경향신문",
@@ -1317,38 +479,7 @@
      "time": "2026-11-10 19:00"
     }
    ],
-   "id": "20261111-20"
-  },
-  {
-   "title": "[현장] 인디 브랜드·외국인…‘무신사 뷰티 성수’, 홍대점서 찾은 흥행 공식 심어",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 10:06",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "[현장] 인디 브랜드·외국인…‘무신사 뷰티 성수’, 홍대점서 찾은 흥행 공식 심어",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286641.html",
-     "time": "2026-11-11 10:06"
-    },
-    {
-     "source": "한국경제",
-     "title": "외국인도 맛보더니 감탄…명동에 뜬 '오렌지 초콜릿' 정체 [현장+]",
-     "link": "https://www.hankyung.com/article/202611106629g",
-     "time": "2026-11-10 21:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "건설 현장 찾은 대학생들…건설협회, 스마트건설 체험 행사",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862068",
-     "time": "2026-11-10 14:33"
-    }
-   ],
-   "id": "20261111-21"
+   "id": "20261111-11"
   },
   {
    "title": "제네시스, 초대형 전기 SUV ‘GV90’ 출시…가격 1억3950만원부터",
@@ -1379,7 +510,7 @@
      "time": "2026-11-10 18:23"
     }
    ],
-   "id": "20261111-22"
+   "id": "20261111-12"
   }
  ]
 }
