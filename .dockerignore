@@ -1,0 +1,7 @@
+.git
+__pycache__
+docs
+site_local
+site_demo_*
+selftest_shots
+*.mp4

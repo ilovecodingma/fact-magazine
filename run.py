@@ -21,6 +21,11 @@
       python run.py 만듦새 [--shots 폴더]      첫 화면·글 쪽·휴대폰을 재서 점수(빈 영역·그림·최소 글자·대비·넘침·정보량)
       python run.py 비교 [종류]                참고 사이트 화면과 내 첫 화면을 나란히 한 장으로(인터넷 필요)
       python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
+      python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
+      python run.py 방식 프런트|백엔드|바꾸기   화면을 만드는 방식·방문자가 남기는 것을 받는 방식(서비스의 말로 묻고, 세션은 경우만 말하고, 독자가 고른다)
+      python run.py 내서비스 [칸 "<칸>" "<정리한 말>"]   상담하며 정리한 「내 서비스 한 장」(내_서비스.md)의 어느 칸이 채워졌는지 보기·적기
+      python run.py 고름 <걸음> <고른 것> [까닭]   독자가 고른 것을 기록(1·2장은 독자가 고르기 전에는 적용하지 않는다) · 고른것 [--shots] · 미룬것
+      python run.py 서버 [끄기|상태|다시|로그|암호]   도커로 백엔드(사이트 제공+API+PostgreSQL) 켜기 · 도커 [열기|확인|설치]   PC 를 보고 추천 → 독자가 고르면 공식 사이트로 · 자료 <모음> · 실험 좋아요|롤백|색인|제약|백업 · 내놓기 [24시간|클라우드]
       python run.py 참고 [종류]               참고 사이트(실제 사이트와 「이렇게 번다」). --shots 폴더 면 그 사이트 화면을 headless 로 찍어 둔다
       python run.py 기획서                     기획서 한 장(기획서.md, 없으면 양식)
       python run.py 서비스 <종류> [단계 1~9]   서비스 하나를 끝까지: ㉠참고 ㉡기획서 ㉢기능 붙이기 ㉣내용 채우기 ㉤돈 자리 ㉥필수 쪽 ㉦겉모습 ㉧휴대폰 ㉨올릴 준비(종류: 정보 매거진·도구 모음·요리법 모음·가계부 앱)
@@ -560,7 +565,7 @@ def service_cmd(rest):
                 rebuild_local()
             print('휴대폰 폭(390px)으로도 열어 봅니다.'); _shot_site(out, ['', 'search/'], f'{kind.replace(" ", "")}_8휴대폰', 390, 844)
         elif st == 9:
-            rb = subprocess.run(PY + ['audit.py', '--dir', 'site_local'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); print((rb.stdout + rb.stderr).strip()[-900:])
+            rb = subprocess.run(PY + ['audit.py', '--dir', 'site_local'], cwd=HERE, env=dict(os.environ, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace'); print((rb.stdout + rb.stderr).strip()[-900:])
             print('\n주소 값(site.json 의 url·base)과 올릴 곳은 독자가 정합니다. 올리기는 하지 않았습니다.\n▶ 올릴까요? (이 자리에서 멈춥니다 — 독자가 「올려」라고 할 때만, 가입·로그인은 독자 몫)')
     return rc
 
@@ -587,13 +592,15 @@ def cur_polish():
     return {str(k): v for k, v in (local_load().get('polish') or {}).items() if v}
 
 
-def build_tmp(polish=None):
+def build_tmp(polish=None, parts=None):
     """지금 설정(site.local.json)으로 임시 폴더에 찍는다. polish 를 주면 그 층 설정으로(미리보기)."""
     import tempfile
     out = tempfile.mkdtemp(prefix='polish_')
     env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', OUT_DIR=out)
     if polish is not None:
         env['SITE_POLISH'] = json.dumps(polish)
+    if parts is not None:
+        env['PARTS'] = json.dumps(parts)
     subprocess.run(PY + ['build.py'], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
     return out
 
@@ -663,7 +670,11 @@ def polish_cmd(rest):
             print(f'적용했습니다: 이름 「{nm[0]}」' + (f' — {nm[1]}' if nm[1] else '')); out, last, rcb = rebuild_local(); shots_for(out, '0_이름'); prog_add(f'다듬기 0 이름 {nm[0]}')
         return 0
     if rest[0] in ('다음', 'next'):
-        nxt = next((st for st in steps if st['status'] == 'ready' and str(st['n']) not in cur), None)
+        nxt = next((st for st in steps if st['status'] == 'ready' and str(st['n']) not in cur and not chosen(f'다듬기{st["n"]}')), None)
+        if nxt and nxt['n'] > 1 and not chosen(f'다듬기{nxt["n"] - 1}') and f'다듬기{nxt["n"] - 1}' not in choices():
+            prev = next((x for x in steps if x['n'] == nxt['n'] - 1), None)
+            if prev and prev['status'] == 'ready' and str(prev['n']) not in cur:
+                print(f'멈춥니다 — 앞 걸음({prev["n"]}. {prev["title"]})을 아직 고르지 않았습니다. 하겠다/나중에/건너뜀 중 독자가 고른 뒤에 열립니다.'); return 1
         if not nxt:
             print('준비된 걸음을 모두 적용했습니다.'); return 0
         n = nxt['n']
@@ -676,7 +687,7 @@ def polish_cmd(rest):
         print('그런 걸음이 없습니다'); return 1
     if st['status'] != 'ready':
         print(f'걸음 {n} 「{st["title"]}」 은(는) 아직 준비 중입니다.'); return 0
-    print(f'━━ 다듬기 {n}. {st["title"]} ━━\n왜 하는가: {st["why"]}\n참고 사이트는: {st["ref"]}')
+    print(f'━━ 다듬기 {n}. {st["title"]} ━━\n[상담: 먼저 물을 것] {st.get("q", "")}\n[독자에게 말할 것(왜)] {st["why"]}\n[참고 사이트는] {st["ref"]}')
     print('안: ' + ' / '.join(f'{k}) {v}' for k, v in st['options'].items()), flush=True)
     pre = build_tmp(cur); shots_for(pre, f'{n}_전')
     if opt is None:   # 미리보기: 안마다 첫 화면을 찍어 독자가 고르게 한다
@@ -687,10 +698,12 @@ def polish_cmd(rest):
                 os.makedirs(SHOTS, exist_ok=True); fp = os.path.join(SHOTS, f'다듬기_{n}_안{o}_PC첫화면.png')
                 if T.shoot_pages(out, [''], [fp], 1280, 860):
                     print(f'  미리보기 저장: {fp}  ({o}안)', flush=True)
-        print(f'\n독자에게 먼저 묻는다: 「어느 쪽이 마음에 드나요? 왜요?」 → 정리해서 생각.md 에 적고(python run.py 정리 …), 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 {n} --안 A|B')
+        print(f'\n[고를 것] 안 {" · ".join(st["options"])} 또는 나중에/건너뜀(이것도 고르는 것입니다)\n독자에게 먼저 묻는다: 「어느 쪽이 마음에 드나요? 왜요?」 → 정리해서 생각.md 에 적고(python run.py 정리 …), 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 {n} --안 A|B')
         return 0
     if opt not in st['options']:
         print('안은 ' + ' · '.join(st['options']) + ' 중 하나입니다'); return 1
+    if not need_choice(f'다듬기{n}', opt):
+        return 1
     sb = score_site(pre)
     d = local_load(); d.setdefault('polish', {})[str(n)] = opt; local_save(d)
     out, last, rcb = rebuild_local()
@@ -699,7 +712,16 @@ def polish_cmd(rest):
     lb, ob, tb = grade_lines(sb); la, oa, ta = grade_lines(sa)
     print(f'\n적용했습니다: 걸음 {n} · {opt}안 — 점수(통과한 항목) {ob}/{tb} → {oa}/{ta}\n[전]'); print('\n'.join(lb)); print('[후]'); print('\n'.join(la))
     json.dump(sa, open(MEAS, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'\n확인 물음: {st["ask"]}   (답을 먼저 말하지 않는다 — 힌트: {st["ask_hint"]})')
+    other = ', '.join(f'{k}) {v}' for k, v in st['options'].items() if k != opt)
+    print(f'\n[방금 일어난 일] 걸음 {n} 「{st["title"]}」 {opt}안을 적용했습니다. 고르지 않은 안은: {other}')
+    print(f'[독자가 해 볼 일] 화면(전·후 두 장)을 보고 마음에 안 드는 곳이 있는지 말하기, 또는 python run.py 되돌리기 {n} 로 끄고 다른 안 고르기')
+    print(f'[물음] 먼저 「왜 그쪽을 고르셨나요?」 한 줄을 묻습니다. 그다음: {st["ask"]}   (답을 먼저 말하지 않는다 — 힌트: {st["ask_hint"]})')
+    if st.get('expand'):
+        print(f'[넓혀 보기(독자가 고르면 「해 볼 것」, 아니면 「미룬 것」에 적는다)] {st["expand"]}')
+    if st.get('card'):
+        print(f'[내_서비스.md] 이 걸음으로 채워질 칸: 「{st["card"]}」 → 독자의 답을 되말하고 python run.py 내서비스 칸 "{st["card"]}" "<정리한 말>" 로 적습니다.')
+    nx = next((x for x in steps if x['n'] > n and x['status'] == 'ready'), None)
+    print(f'[다음 걸음] ' + (f'{nx["n"]}. {nx["title"]} — 독자가 이 걸음을 하겠다/나중에/건너뛴다 중 고른 뒤에 python run.py 다듬기 {nx["n"]}' if nx else '다듬기 걸음을 모두 보았습니다.') + '\n\n여기서 멈추고 독자에게 묻습니다.')
     prog_add(f'다듬기 {n} {st["title"]} {opt}안')
     return 0
 
@@ -775,6 +797,468 @@ def organize_cmd(rest):
             if opt(k):
                 f.write(f'- **{lab}**: ' + '; '.join(x.strip() for x in opt(k).split(';') if x.strip()) + '\n')
     print('생각.md 에 적었습니다. 확인받기: 「이렇게 이해했습니다: … 이대로 만들까요?」'); return 0
+
+
+
+# ---------------------------------------------------------------- 고르기(1·2장은 독자가 고르지 않으면 넘어가지 못한다)
+def choices():
+    return prog_load().get('choices') or {}
+
+
+def chosen(key):
+    c = choices().get(key)
+    return c['pick'] if c else None
+
+
+def record_choice(key, pick, why='', by='독자'):
+    d = prog_load(); d.setdefault('choices', {})[key] = {'pick': pick, 'why': why, 'by': by, 't': time.strftime('%Y-%m-%d %H:%M')}
+    d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': f'고름 {key}={pick}'}); d['last'] = d['done'][-1]['what']
+    json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    with open(THINK, 'a', encoding='utf-8') as f:
+        if not os.path.exists(THINK) or os.path.getsize(THINK) == 0:
+            f.write('# 생각 — 독자의 말과 세션이 정리한 것\n')
+        f.write(f'\n## {time.strftime("%Y-%m-%d %H:%M")} 고름\n- **걸음**: {key}\n- **정함**: {pick}\n- **까닭(독자의 말)**: {why or "(아직 안 물음)"}\n')
+
+
+def choose_cmd(rest):
+    if len(rest) < 2:
+        print('사용: python run.py 고름 <걸음> <고른 것> [까닭 한 줄]   예: 고름 다듬기1 A "읽기 편해서"   (나중에·건너뜀 도 고르는 것입니다)'); return 1
+    record_choice(rest[0], rest[1], ' '.join(rest[2:]))
+    print(f'기록했습니다: {rest[0]} = {rest[1]}' + ('' if len(rest) > 2 else '\n다음 할 일: 세션이 「왜 그쪽을 고르셨나요?」 한 줄을 묻고 python run.py 고름 으로 까닭을 덧붙인 뒤, 적용 명령을 부릅니다.')); return 0
+
+
+def need_choice(key, opt):
+    """--안 을 줄 때 독자가 고른 기록이 있어야 한다. 없으면 --고른이 독자 --까닭 으로 한 번에 기록할 수 있지만 독자의 말 없이는 부르지 않는다."""
+    if '--고른이' in A and len(A) > A.index('--고른이') + 1 and A[A.index('--고른이') + 1] == '독자':
+        why = A[A.index('--까닭') + 1] if '--까닭' in A and len(A) > A.index('--까닭') + 1 else ''
+        record_choice(key, opt, why); return True
+    c = chosen(key)
+    if c == opt:
+        return True
+    print(f'멈춥니다 — 이 걸음은 독자가 직접 고르는 걸음입니다.\n먼저 독자에게 묻고(안을 보여 주고 장단을 말한 뒤) 독자의 말을 python run.py 정리 "<말>" 로 생각.md 에 적으세요.\n그다음 python run.py 고름 {key} {opt} "<까닭 한 줄>" 로 기록해야 적용됩니다.' + (f'\n(지금 기록된 선택: {c})' if c else ''))
+    return False
+
+
+def chosen_cmd():
+    ch = choices(); rows = []
+    for k, v in ch.items():
+        rows.append(f'- {k}: {v["pick"]}  ← {v.get("why") or "(까닭 없음)"}  ({v["t"]})')
+    text = '# 내가 고른 것\n' + ('\n'.join(rows) if rows else '(아직 고른 것이 없습니다)')
+    open(os.path.join(HERE, '고른것.md'), 'w', encoding='utf-8').write(text + '\n'); print(text)
+    if SHOTS:
+        _text_shot('내가 고른 것', [('고른 안과 까닭', '\n'.join(rows) or '(없음)')], '고른것')
+    return 0
+
+
+def deferred_cmd():
+    rows = [f'- {k}: {v["pick"]} ({v.get("why") or ""})' for k, v in choices().items() if v['pick'] in ('나중에', '건너뜀')]
+    print('미뤄 둔 것:\n' + ('\n'.join(rows) if rows else '(없음)') + '\n\n다시 하려면 해당 걸음을 다시 부르고 새로 고릅니다(python run.py 고름 … 로 덮어씀).'); return 0
+
+
+# ---------------------------------------------------------------- 도커·서버
+def sh_out(cmd, timeout=20):
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout)
+        return r.returncode, (r.stdout or '').strip()
+    except Exception as e:
+        return 1, repr(e)[:80]
+
+
+def pc_info():
+    """읽기만: 운영체제·판·CPU·메모리·디스크·가상화·WSL2·도커 상태."""
+    import platform
+    sysn = platform.system(); info = {'system': sysn, 'arch': platform.machine(), 'release': platform.release()}
+    ram = None
+    if sysn == 'Windows':
+        import ctypes
+        class MS(ctypes.Structure):
+            _fields_ = [('l', ctypes.c_ulong), ('m', ctypes.c_ulong), ('t', ctypes.c_ulonglong), ('a', ctypes.c_ulonglong), ('pt', ctypes.c_ulonglong), ('pa', ctypes.c_ulonglong), ('vt', ctypes.c_ulonglong), ('va', ctypes.c_ulonglong), ('ae', ctypes.c_ulonglong)]
+        m = MS(); m.l = ctypes.sizeof(MS); ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m)); ram = m.t / 2 ** 30
+        rc, cap = sh_out(['powershell', '-NoProfile', '-Command', '(Get-CimInstance Win32_OperatingSystem).Caption'])
+        info['edition'] = cap if rc == 0 else 'Windows ' + platform.release()
+        rc, v = sh_out(['powershell', '-NoProfile', '-Command', '(Get-CimInstance Win32_Processor | Select -First 1).VirtualizationFirmwareEnabled'])
+        info['virt'] = (v.strip().lower() == 'true') if rc == 0 and v.strip().lower() in ('true', 'false') else None
+        rc, w = sh_out(['wsl', '--status'])
+        rc2, w2 = sh_out(['wsl', '-l', '-v'])
+        info['wsl'] = '있음' if (rc2 == 0 and w2) or rc == 0 else '없음'
+    elif sysn == 'Darwin':
+        rc, v = sh_out(['sysctl', '-n', 'hw.memsize']); ram = int(v) / 2 ** 30 if rc == 0 and v.isdigit() else None
+        rc, pv = sh_out(['sw_vers', '-productVersion']); info['edition'] = 'macOS ' + pv
+    else:
+        try:
+            for ln in open('/proc/meminfo'):
+                if ln.startswith('MemTotal'):
+                    ram = int(ln.split()[1]) / 2 ** 20
+        except Exception:
+            pass
+        try:
+            info['edition'] = [ln.split('=', 1)[1].strip().strip('"') for ln in open('/etc/os-release') if ln.startswith('PRETTY_NAME')][0]
+        except Exception:
+            info['edition'] = 'Linux'
+    info['ram'] = ram
+    import shutil as _sh
+    info['disk'] = _sh.disk_usage(HERE).free / 2 ** 30
+    dk = _sh.which('docker'); info['docker_cmd'] = bool(dk)
+    if dk:
+        rc, v = sh_out(['docker', 'version', '--format', '{{.Server.Version}}'], 15); info['engine'] = v if rc == 0 and v else None
+        rc, v = sh_out(['docker', 'compose', 'version', '--short'], 15); info['compose'] = v if rc == 0 else None
+    else:
+        info['engine'] = info['compose'] = None
+    return info
+
+
+DOCKER_URLS = {'Windows': 'https://docs.docker.com/desktop/setup/install/windows-install/', 'Darwin': 'https://docs.docker.com/desktop/setup/install/mac-install/', 'Linux': 'https://docs.docker.com/engine/install/'}
+
+
+def docker_recommend(i):
+    sysn, arch = i['system'], (i['arch'] or '').lower(); arm = arch in ('arm64', 'aarch64'); warn = []
+    if sysn == 'Windows':
+        pick = 'Docker Desktop(WSL2 방식) — 윈도우 ' + ('ARM64' if arm else 'x64(AMD64)') + ' 판'; btn = '「Docker Desktop for Windows – ' + ('ARM64' if arm else 'x86_64 / AMD64') + '」'
+    elif sysn == 'Darwin':
+        pick = 'Docker Desktop — 맥 ' + ('Apple silicon' if arm else 'Intel chip') + ' 판'; btn = '「Docker Desktop for Mac – ' + ('Apple silicon' if arm else 'Intel chip') + '」'
+    else:
+        pick = 'Docker Engine + compose 플러그인(배포판 공식 절차)'; btn = '배포판 이름(Ubuntu·Debian·Fedora …)을 고르는 쪽'
+    if i['ram'] is not None and i['ram'] < 8:
+        warn.append(f'메모리가 {i["ram"]:.0f}GB 라 도커가 느리거나 다른 프로그램이 답답해질 수 있습니다 → 선택지: ① 그래도 쓰기(다른 프로그램을 닫고) ② 가벼운 설정(도커 설정에서 메모리를 2GB 로 제한) ③ 도커 없이 계속하기')
+    if i['disk'] < 20:
+        warn.append(f'남은 디스크가 {i["disk"]:.0f}GB 입니다(도커 이미지는 수 GB). 정리하거나 도커 없이 계속하는 길이 있습니다')
+    if i.get('virt') is False and not i.get('engine'):   # 도커 엔진이 이미 떠 있으면 가상화는 켜져 있는 것(윈도우가 펌웨어 값을 거짓으로 알릴 수 있음)
+        warn.append('가상화가 꺼져 있습니다 → 컴퓨터 설정(BIOS/UEFI)에서 Virtualization(Intel VT-x / AMD-V·SVM)을 켜야 합니다(제조사마다 방법이 달라 안내만 합니다) 또는 도커 없이 계속하기')
+    return pick, btn, warn
+
+
+def docker_cmd(rest):
+    i = pc_info(); pick, btn, warn = docker_recommend(i)
+    sub_ = rest[0] if rest else '보기'
+    if sub_ == '확인':
+        print('━━ 도커 확인 ━━'); print(f'  docker 명령: {"✓" if i["docker_cmd"] else "✗ 없음"}'); print(f'  엔진: {"✓ " + i["engine"] if i["engine"] else "✗ 안 떠 있음(Docker Desktop 을 실행해 고래 아이콘이 안정될 때까지 기다리세요)"}'); print(f'  compose: {"✓ " + i["compose"] if i["compose"] else "✗"}')
+        if '--실행' in A and i['engine']:
+            rc, o = sh_out(['docker', 'run', '--rm', 'hello-world'], 180); print('  hello-world:', '✓ 상자가 돌았습니다' if rc == 0 and 'Hello from Docker' in o else '✗ ' + o[-200:])
+        elif i['engine']:
+            print('  다음: 독자에게 「hello-world 로 한 번 돌려 볼까요(이미지를 내려받습니다)?」 묻고, 예면 python run.py 도커 확인 --실행')
+        print('\n여기서 멈추고 결과를 독자에게 말합니다. 다 되면 python run.py 서버 로 이어갑니다.' if i['engine'] else '\n여기서 멈춥니다: 엔진이 안 떠 있으면 어느 단계에서 왜 막혔는지 같이 봅니다.'); return 0
+    if sub_ == '열기':
+        if '--예' not in A:
+            print('독자가 「공식 사이트를 열어 주세요」라고 한 뒤에만 열립니다. 독자에게 「공식 사이트를 열까요?」 물어보고, 예면 python run.py 도커 열기 --예'); return 1
+        import webbrowser
+        url = DOCKER_URLS.get(i['system'], DOCKER_URLS['Linux']); webbrowser.open(url)
+        print(f'독자의 브라우저로 공식 설치 쪽을 열었습니다: {url}\n누를 곳: {btn}\n앞으로 나올 창을 미리 말해 줍니다: 내려받은 설치 파일 실행 → (관리자 승인 창) → WSL2 설치/업데이트 안내(윈도우) → 재부팅 요청 → Docker Desktop 첫 실행 약관 동의(회사 PC·큰 회사는 유료 조건이 있습니다) → 고래 아이콘이 안정될 때까지 기다림.\n설치와 창 진행은 독자가 합니다. 끝났다고 하면 python run.py 도커 확인'); return 0
+    if sub_ == '설치':
+        if '--예' not in A or '--명령' not in A:
+            print('명령으로 설치하는 둘째 길은 독자가 「명령으로 해 주세요」라고 했을 때만입니다(관리자 승인 창·재부팅이 따라옵니다). 독자에게 묻고, 예면 python run.py 도커 설치 --예 --명령'); return 1
+        cmd = {'Windows': ['winget', 'install', '-e', '--id', 'Docker.DockerDesktop'], 'Darwin': ['brew', 'install', '--cask', 'docker']}.get(i['system'])
+        if not cmd:
+            print('이 운영체제는 배포판 공식 절차를 따릅니다: ' + DOCKER_URLS['Linux']); return 0
+        print('실행:', ' '.join(cmd)); return subprocess.run(cmd).returncode
+    # 보기(기본): PC 를 읽고 추천을 말한 뒤 멈춤
+    print('━━ 도커 — 먼저 왜 쓰는지 ━━\n[독자에게 말할 것] 도커는 프로그램을 「상자」에 담아 돌리는 도구입니다. 내 PC 를 어지르지 않고, 나중에 클라우드에 올릴 때도 같은 상자를 그대로 가져갑니다.')
+    print('\n[지금 이 PC(읽기만 했습니다)]')
+    print(f'  운영체제: {i.get("edition")} · CPU: {i["arch"]} · 메모리: {("%.0f GB" % i["ram"]) if i["ram"] else "알 수 없음"} · 남은 디스크: {i["disk"]:.0f} GB')
+    if i['system'] == 'Windows' and not i['engine']:
+        print(f'  가상화: {"켜짐" if i.get("virt") else ("꺼짐" if i.get("virt") is False else "알 수 없음")} · WSL2: {i.get("wsl")}')
+    print(f'  도커: 명령 {"있음" if i["docker_cmd"] else "없음"} · 엔진 {i["engine"] or "안 떠 있음/없음"} · compose {i["compose"] or "없음"}')
+    if i['engine'] and i['compose']:
+        print('\n[판단] 이미 도커가 있고 엔진도 떠 있습니다. 설치는 필요 없습니다. → python run.py 서버'); print('\n여기서 멈추고 독자에게 「도커가 이미 있습니다. 서버를 켜 볼까요?」 묻습니다.'); return 0
+    print(f'\n[추천] 이 PC 는 {i.get("edition")} · {i["arch"]} 입니다. {pick} 이 맞습니다. 이것으로 할까요?')
+    for w in warn:
+        print('  ⚠', w)
+    print(f'\n[고를 것] ① 이 판으로 공식 사이트를 열기(내려받기·설치는 독자가) ② 명령으로 설치(둘째 길) ③ 도커 없이 계속하기(백엔드 걸음만 건너뛰고 나중에 이어서)')
+    print('\n여기서 멈추고 독자에게 묻습니다: 「도커를 써 볼까요?」 → 「이 판을 추천합니다, 이것으로 할까요?」 → 「공식 사이트를 열까요?」 (한 번에 하나, 답을 python run.py 고름 도커 … 로 기록)'); return 0
+
+
+def env_ensure():
+    p = os.path.join(HERE, '.env')
+    if not os.path.exists(p):
+        import secrets as _s
+        open(p, 'w').write('DB_PASSWORD=' + _s.token_hex(12) + '\n')
+
+
+def server_cmd(rest):
+    sub_ = rest[0] if rest else '켜기'
+    if sub_ == '암호':
+        import getpass, hashlib
+        pw = getpass.getpass('운영자 암호(화면에 안 보임): ') if sys.stdin.isatty() else os.environ.get('FM_ADMIN_PW', '')
+        if len(pw) < 8:
+            print('암호는 8자 이상이어야 합니다(터미널에서 직접 입력하거나, 세션에서는 `! python run.py 서버 암호` 로 독자가 직접 입력).'); return 1
+        os.makedirs(os.path.join(HERE, 'data', 'app'), exist_ok=True); salt = os.urandom(8).hex()
+        json.dump({'salt': salt, 'iters': 120000, 'hash': hashlib.pbkdf2_hmac('sha256', pw.encode(), bytes.fromhex(salt), 120000).hex()}, open(os.path.join(HERE, 'data', 'app', 'admin.json'), 'w'))
+        print('운영자 암호를 정했습니다(파일에는 해시만 저장됩니다).'); return 0
+    dc = ['docker', 'compose']
+    env_ensure()
+    if sub_ in ('끄기', 'down'):
+        return subprocess.run(dc + ['down'], cwd=HERE).returncode
+    if sub_ in ('상태', 'ps'):
+        subprocess.run(dc + ['ps'], cwd=HERE)
+        try:
+            import urllib.request as ur
+            print(ur.urlopen('http://127.0.0.1:8080/api/health', timeout=3).read().decode()[:200])
+        except Exception:
+            print('서버가 응답하지 않습니다(꺼져 있거나 아직 뜨는 중).')
+        return 0
+    if sub_ == '로그':
+        return subprocess.run(dc + ['logs', '--tail', '40', 'app'], cwd=HERE).returncode
+    i = pc_info()
+    if not (i['engine'] and i['compose']):
+        print('멈춥니다 — 도커가 없거나 엔진이 안 떠 있습니다.\n독자에게: 「도커가 있으면 서버(백엔드) 걸음을 할 수 있습니다. 설치해 볼까요, 아니면 백엔드 없이 계속할까요?」 → python run.py 도커 로 PC 를 보고 추천하거나, 백엔드 걸음을 건너뜀으로 고르고(python run.py 고름 백엔드 건너뜀 "도커 없음") 계속합니다.'); return 1
+    if sub_ == '다시':
+        subprocess.run(dc + ['restart'], cwd=HERE); return 0
+    if not os.path.exists(os.path.join(HERE, 'data', 'app', 'admin.json')):
+        print('멈춥니다 — 운영자 암호가 아직 없습니다. 독자가 직접 정합니다: ! python run.py 서버 암호'); return 1
+    P_ = eff_parts()
+    if not P_.get('backend'):
+        print('백엔드 키트가 꺼져 있습니다. 먼저 python run.py 켜기 backend 로 켜세요(필요하면 댓글·문의·소식 받기도).'); return 1
+    env_ensure(); out, last, rcb = rebuild_local()
+    print(f'사이트를 찍었습니다({last}). 도커로 서버를 켭니다(처음에는 이미지를 내려받아 몇 분 걸립니다)…', flush=True)
+    rc = subprocess.run(dc + ['up', '-d', '--build'], cwd=HERE).returncode
+    if rc != 0:
+        print('도커 실행에 실패했습니다. python run.py 서버 로그 로 이유를 같이 봅니다.'); return rc
+    import urllib.request as ur
+    for _ in range(60):
+        try:
+            h = ur.urlopen('http://127.0.0.1:8080/api/health', timeout=3).read().decode(); break
+        except Exception:
+            time.sleep(2)
+    else:
+        print('아직 안 떴습니다. python run.py 서버 상태 / 서버 로그'); return 1
+    print(f'서버가 켜졌습니다 → http://127.0.0.1:8080/   운영자 화면 → http://127.0.0.1:8080/admin/\n{h}\n끄기: python run.py 서버 끄기 · 상태: 서버 상태 · 로그: 서버 로그\n\n여기서 멈추고 독자에게 보여 줍니다: 사이트를 열어 댓글 칸이 켜진 것을 보고, 자료가 어디에 쌓이는지(JSON 문서) 설명합니다.'); return 0
+
+
+def docs_cmd(rest):
+    col = rest[0] if rest else 'comments'
+    rc, o = sh_out(['docker', 'compose', 'exec', '-T', 'app', 'python', '/app/app.py', '--dump', col], 30)
+    print(o if rc == 0 else '서버가 꺼져 있거나 모음 이름이 틀렸습니다(모음: visits·comments·likes·contacts·subscribers·poll_votes·kv). python run.py 서버 로 켜세요.'); return 0 if rc == 0 else 1
+
+
+def lab_cmd(rest):
+    import lab
+    if not rest or rest[0] not in lab.EXPS:
+        print('실험: ' + ' · '.join(lab.EXPS) + '\n사용: python run.py 실험 좋아요 [--shots 폴더]  (임시 폴더에서만 돌고 끝나면 지웁니다. PostgreSQL 에서도 같은 개념입니다)'); return 0
+    r = lab.EXPS[rest[0]]()
+    print(f'━━ {r["title"]} ━━\n[독자에게 말할 것] {r["say"]}\n[눈앞의 결과]'); [print('  ' + x) for x in r['show']]
+    print(f'\n[물음] {r["ask"]}\n[힌트·풀이(독자가 답한 뒤에)] {r["hint"]}\n\n여기서 멈추고 독자에게 묻습니다.')
+    _text_shot(r['title'], [('독자에게 말할 것', r['say']), ('눈앞의 결과', '\n'.join(r['show'])), ('물음', r['ask'])], '실험_' + rest[0])
+    prog_add('실험 ' + rest[0]); return 0 if r['ok'] else 1
+
+
+def release_cmd(rest):
+    w = ' '.join(rest)
+    if not rest:
+        print('━━ 내놓기 — 먼저 묻습니다 ━━\n「이 PC 를 24시간 켜 둘 수 있나요?」\n  예 → python run.py 내놓기 24시간  (지금 그대로 둔 채 바깥에서 들어오게만 연다)\n  아니오 → python run.py 내놓기 클라우드  (화면과 백엔드를 클라우드에 올린다)\n\n여기서 멈추고 독자에게 묻습니다. 답은 python run.py 고름 내놓기 24시간|클라우드 로 기록. 실제로 바깥에 여는 일은 이 도구가 하지 않습니다(자세한 안내: 올리기.md).'); return 0
+    P_ = eff_parts(); ok = lambda c: '✓' if c else '☐'
+    adm = os.path.exists(os.path.join(HERE, 'data', 'app', 'admin.json'))
+    if '24' in w:
+        print('━━ 내놓기 · 24시간 PC 길 점검표 ━━'); print(f'{ok(adm)} 운영자 암호를 정함(python run.py 서버 암호)'); print(f'{ok(P_.get("backend"))} backend 키트 켜짐'); print(f'{ok(os.path.exists(os.path.join(HERE, ".env")))} 데이터베이스 암호(.env) 만들어짐(서버를 한 번 켜면 생김)')
+        print('사람이 할 것(가입·로그인·공유기 설정은 독자 몫): ☐ PC 가 꺼지지 않게 절전 끄기·재부팅 뒤 저절로 다시 뜨게 ☐ 바깥 주소 붙이기(터널 서비스 또는 공유기 포트 설정, 도메인은 선택) ☐ 바깥에 열 때: 운영자 화면 암호가 강한지·/admin/ 주소를 알리지 않기·쓰기 횟수 제한 확인 ☐ db 백업 한 줄(실험 백업 참고)')
+    elif '클라우드' in w or 'cloud' in w:
+        print('━━ 내놓기 · 클라우드 길 점검표 ━━'); print(f'{ok(True)} 같은 상자(Dockerfile·compose.yaml)를 그대로 올릴 수 있게 준비됨'); print(f'{ok(adm)} 운영자 암호'); print('사람이 할 것(가입·결제는 독자 몫, 세션은 안내와 준비까지): ☐ 올릴 곳 고르기(올리기.md 의 선택지와 드는 돈) ☐ 클라우드 db 만들고 DATABASE_URL 넣기 ☐ 백업 파일(JSON)을 클라우드 db 에 넣기 ☐ 올린 뒤 site.json 의 url·base 에 주소 넣고 다시 찍기')
+    else:
+        print('24시간 또는 클라우드 중에서 고르세요'); return 1
+    print('\n여기서 멈춥니다(바깥에 여는 일은 하지 않았습니다).'); return 0
+
+
+SVC = os.path.join(HERE, '내_서비스.md')
+SVC_CARDS = ['누구에게', '무엇을 주나', '왜 다시 오나', '무엇으로 버나', '날마다 쓸 시간', '하지 않을 것', '닮고 싶은 곳', '만드는 방식', '해 볼 것', '미룬 것']
+
+
+def svc_load():
+    d = {}
+    if os.path.exists(SVC):
+        cur = None
+        for ln in open(SVC, encoding='utf-8').read().splitlines():
+            if ln.startswith('## '):
+                cur = ln[3:].strip(); d[cur] = []
+            elif cur and ln.strip() and not ln.startswith('> '):
+                d[cur].append(ln.strip())
+    return d
+
+
+def svc_save(d):
+    out = '# 내 서비스 한 장\n> 상담하며 독자의 답을 되말하고 정리한 것입니다. 2장의 기획서와 3장의 운영 규칙은 이 한 장에서 나옵니다.\n'
+    for c in SVC_CARDS:
+        out += f'\n## {c}\n' + ''.join(f'{x}\n' for x in d.get(c, []))
+    open(SVC, 'w', encoding='utf-8').write(out)
+
+
+def service_card_cmd(rest):
+    d = svc_load()
+    if rest and rest[0] == '칸':
+        if len(rest) < 3 or rest[1] not in SVC_CARDS:
+            print('사용: python run.py 내서비스 칸 "<칸 이름>" "<정리한 말>"   칸: ' + ' · '.join(SVC_CARDS)); return 1
+        d.setdefault(rest[1], []).append('- ' + ' '.join(rest[2:])); svc_save(d); print(f'「{rest[1]}」 칸에 적었습니다.')
+    d = svc_load()
+    print('━━ 내 서비스 한 장 — 어느 칸이 채워졌나 ━━')
+    for c in SVC_CARDS:
+        v = d.get(c) or []
+        print(f'  {"✓" if v else "☐"} {c}' + (': ' + ' / '.join(x[2:] for x in v)[:90] if v else ''))
+    ch = choices()
+    if ch:
+        print('  지금까지 고른 것: ' + ' · '.join(f'{k}={v["pick"]}' for k, v in ch.items()))
+    empty = [c for c in SVC_CARDS[:7] if not d.get(c)]
+    print('\n비어 있는 칸은 다음 걸음의 상담 물음에서 채웁니다: ' + (', '.join(empty) if empty else '모두 채워졌습니다')); return 0
+
+
+
+# ---------------------------------------------------------------- 만드는 방식(프런트엔드·백엔드) — 서비스의 말로 묻고, 세션은 경우를 말하고, 독자가 고른다
+WAYS = {
+    '프런트': dict(key='방식프런트', title='화면을 만드는 방식', q='방문자가 이 서비스에서 주로 무엇을 하나요? 읽고 가나요, 직접 만지나요(계산·입력·게임), 날마다 열어 쓰나요?',
+        opts={'가': dict(name='미리 찍어 두는 화면(지금 방식)', good='글과 정보가 중심이고, 빠르게 열려야 하고, 돈을 안 들이고, 검색에서 잘 잡히길 바랄 때', hard='방문자가 값을 넣고 바로 바뀌는 것(계산기·가계부)이 중심이면 그 쪽은 따로 얹어야 합니다', parts_on=[], preview=''),
+              '나': dict(name='누르면 그 자리에서 바뀌는 화면을 얹기', good='도구·가계부·퀴즈·게임처럼 방문자가 만지는 것이 중심일 때(지금 틀 위에 그런 쪽만 따로 붙입니다)', hard='만질 것을 하나하나 만들어야 해서 손이 더 가고, 글 중심 사이트에는 필요 없습니다', parts_on=['calc', 'quiz'], preview='calc/'),
+              '다': dict(name='앱처럼 쓰는 화면(홈 화면 설치·오프라인)', good='방문자가 날마다 여는 도구이고, 인터넷이 없어도 열려야 하고, 홈 화면에 두고 싶을 때', hard='처음 열 때 저장하는 쪽을 관리해야 하고, 갱신이 반영되기까지 시간이 걸릴 수 있습니다', parts_on=['pwa', 'prefs'], preview='app/')}),
+    '백엔드': dict(key='방식백엔드', title='방문자가 남기는 것을 받는 방식', q='방문자가 이 서비스에 남기게 하고 싶은 것이 있나요(댓글·문의·소식 받기 주소)? 받으면 운영에서 무엇이 늘까요(날마다 확인·답·관리)?',
+        opts={'가': dict(name='받지 않는다(백엔드 없음)', good='읽고 가는 서비스이고, 운영 손을 가장 적게 쓰고 싶고, 개인정보를 맡고 싶지 않을 때(도커를 못 쓰는 PC 도 이 길로 끝까지 갑니다)', hard='방문자의 목소리와 방문 수를 알기 어렵습니다', parts_off=['backend', 'comments', 'contact', 'subscribe'], preview=''),
+              '나': dict(name='내 PC 의 도커 서버로 받는다(PostgreSQL·JSON 문서)', good='댓글·통계·문의·소식 받기·운영자 화면이 필요하고, 방문자와 이어지는 서비스를 하고 싶을 때', hard='PC 를 켜 두거나 클라우드로 옮겨야 하고, 남의 글과 메일 주소를 맡는 책임이 생기며, 날마다 확인할 것이 늘어납니다', parts_on=['backend', 'comments', 'contact', 'subscribe'], preview='contact/'),
+              '다': dict(name='바깥 서비스에 맡긴다(댓글·양식·통계를 대신해 주는 곳)', good='서버를 두기 싫지만 댓글·문의는 받고 싶을 때', hard='준비 중입니다(가입은 사람 몫이고 자료가 남의 곳에 쌓입니다)', parts_on=None, preview='')})}
+
+
+def ways_cmd(rest):
+    if not rest or rest[0] not in WAYS:
+        if rest and rest[0] == '바꾸기':
+            for k, v in WAYS.items():
+                record = choices().get(v['key'])
+                print(f'  {k}: {record["pick"] + " ← " + (record.get("why") or "") if record else "(아직 안 고름)"}')
+            print('\n바꾸려면 python run.py 방식 프런트(또는 백엔드) 로 다시 미리보기 → 독자가 새로 고르고 python run.py 고름 … 기록 → --안 으로 적용.'); return 0
+        print('방식 걸음: 프런트(화면을 만드는 방식) · 백엔드(방문자가 남기는 것을 받는 방식)\n사용: python run.py 방식 프런트 [--shots 폴더]  /  방식 바꾸기'); return 0
+    k = rest[0]; W = WAYS[k]; opt = A[A.index('--안') + 1] if '--안' in A and len(A) > A.index('--안') + 1 else None
+    print(f'━━ 방식 · {W["title"]} ━━\n[상담: 먼저 물을 것] {W["q"]}')
+    d = svc_load(); print('[독자가 앞에서 한 말(내_서비스.md)] ' + (' / '.join(f'{c}: {d[c][0][2:]}' for c in ("누구에게", "무엇을 주나", "왜 다시 오나") if d.get(c))[:200] or '(아직 없음 — 먼저 물어서 채웁니다)'))
+    print('\n[고를 것 — 세션은 고르지 않고, 어떤 경우에 어느 쪽이 좋은지만 말합니다]')
+    for o, v in W['opts'].items():
+        print(f'  ({o}) {v["name"]}\n      이런 경우에 좋습니다: {v["good"]}\n      이런 경우에는 손이 더 갑니다: {v["hard"]}')
+    if opt is None:
+        if SHOTS:
+            import selftest as T
+            base = dict(eff_parts()); os.makedirs(SHOTS, exist_ok=True)
+            for o, v in W['opts'].items():
+                if v.get('parts_on') is None:
+                    continue
+                pr = dict(base)
+                for p_ in (v.get('parts_on') or []):
+                    pr[p_] = True
+                for p_ in (v.get('parts_off') or []):
+                    pr[p_] = False
+                out = build_tmp(None, pr); fp = os.path.join(SHOTS, f'방식_{k}_{o}안.png')
+                mob = (k == '프런트' and o == '다')
+                if T.shoot_pages(out, [v['preview'] or ''], [fp], 390 if mob else 1280, 844 if mob else 860, mob):
+                    print(f'  미리보기 저장: {fp}  ({o}안)', flush=True)
+        print(f'\n독자에게 묻습니다: 「지금까지 말씀하신 것으로는 어느 경우에 가깝나요? 어느 쪽으로 할까요?」 — 독자가 「뭐가 좋아요?」라고 물으면 독자가 앞에서 한 말에 비추어 어느 경우에 해당하는지를 짚어 주되, 정해 주지는 않습니다.\n답을 python run.py 정리 로 적고, python run.py 고름 {W["key"]} <가|나|다> "<까닭>" 로 기록한 뒤 python run.py 방식 {k} --안 <가|나|다>\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
+    if opt not in W['opts']:
+        print('안은 가·나·다 중 하나입니다'); return 1
+    v = W['opts'][opt]
+    if v.get('parts_on') is None:
+        print('(다)안은 준비 중입니다. 지금은 (가)(나) 중에서 고르거나, 나중에를 고릅니다.'); return 0
+    if not need_choice(W['key'], opt):
+        return 1
+    if v.get('parts_off'):
+        set_parts(v['parts_off'], False)
+    if v.get('parts_on'):
+        set_parts(v['parts_on'], True)
+    out, last, rcb = rebuild_local()
+    d = svc_load(); d.setdefault('만드는 방식', []).append(f'- {W["title"]}: ({opt}) {v["name"]} ← {(choices().get(W["key"]) or {}).get("why") or "까닭 미기록"}'); svc_save(d)
+    other = ' / '.join(f'({o}) {x["name"]}' for o, x in W['opts'].items() if o != opt)
+    print(f'\n[방금 일어난 일] ({opt}) {v["name"]} 을 적용했습니다({last}). 고르지 않은 안: {other}')
+    if k == '백엔드' and opt == '나':
+        print('[다음] 도커 갈림: python run.py 도커 로 PC 를 보고(이미 있으면 바로) → python run.py 서버. 도커를 못 쓰는 PC 면 (가) 로 돌아가 같은 길을 끝까지 갑니다.')
+    if k == '백엔드' and opt == '가':
+        print('[다음] 댓글·통계·운영자 화면 걸음은 이 길에서는 나오지 않습니다. 3장의 운영자 화면 자리는 상태 쪽과 쉬는시간 출력이 대신합니다.')
+    print('[물음] 이 방식을 고르니 서비스가 누구에게 더 맞아졌나요? 운영하는 나의 하루는 어떻게 달라지나요?\n[내_서비스.md] 「만드는 방식」 칸에 까닭과 함께 적었습니다.\n\n여기서 멈추고 독자에게 묻습니다.')
+    prog_add(f'방식 {k} {opt}'); return 0
+
+
+
+# ---------------------------------------------------------------- 2장 변환: 다듬은 사이트를 다른 종류로(글자·색·짜임은 물려받고 기능 조합·메뉴만 갈아 끼움)
+def convert_kinds():
+    D = json.load(open(os.path.join(HERE, 'demos', 'demos.json'), encoding='utf-8'))
+    out = {}
+    for k, v in KINDS.items():
+        out[k] = dict(parts=v['parts'], note='서비스 종류(참고 사이트·기획서 걸음이 있는 종류)')
+    for d in D:
+        nm = d['mix']
+        if nm in out or d['key'] in ('magazine', 'tools', 'recipes', 'ledger', 'newsletter'):
+            continue
+        ps = []
+        for k in d['kits']:
+            kj = kit_json(k)
+            if kj and kj.get('parts'):
+                ps += list(kj['parts'])
+        out[nm] = dict(parts=sorted(set(ps + ['prefs'])), note=d['tagline'][:40])
+    return out
+
+
+def convert_cmd(rest):
+    K = convert_kinds()
+    if not rest:
+        print('━━ 변환 — 다듬은 사이트를 다른 종류로 ━━\n[독자에게 말할 것] 1장에서 다듬은 글자·색·짜임은 그대로 물려받고, 기능 조합·메뉴·첫 화면 구획만 그 종류에 맞게 갈아 끼웁니다. 같은 바탕에서 몇 분이면 다른 사이트가 됩니다.\n종류:'); [print(f'  - {k}  ({v["note"]})') for k, v in K.items()]
+        print('\n사용: python run.py 변환 <종류> [--shots 폴더]  → 미리보기에서 멈춤 / 독자가 고르면 python run.py 고름 변환 <종류> "<까닭>" 후 python run.py 변환 <종류> --적용 / python run.py 변환 되돌리기'); return 0
+    if rest[0] == '되돌리기':
+        prev = prog_load().get('convert_prev')
+        if not prev:
+            print('되돌릴 변환이 없습니다'); return 0
+        allp = list(json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))['parts']); set_parts(allp, False); set_parts([p for p, v in prev.items() if v], True)
+        out, last, rcb = rebuild_local(); d = prog_load(); d.pop('convert_prev', None); json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); print(f'변환을 되돌렸습니다({last}).'); return 0
+    w = ' '.join(rest).replace(' ', ''); kind = next((k for k in K if w == k.replace(' ', '') or (w and w in k.replace(' ', ''))), None)
+    if not kind:
+        print('그런 종류가 없습니다: ' + ' · '.join(K)); return 1
+    apply_ = '--적용' in A
+    base = dict(eff_parts()); pr = {p: False for p in base}
+    for p in K[kind]['parts']:
+        pr[p] = True
+    print(f'━━ 변환 · {kind} ━━\n[상담: 먼저 물을 것] 지금 사이트를 「{kind}」로 바꾼다면 방문자는 누구이고, 무엇을 하러 오나요? 돈은 어디서 나올 것 같나요? (참고: python run.py 참고 {kind.split()[0]})')
+    keep = ', '.join(f'{k}{v}' for k, v in sorted(cur_polish().items(), key=lambda x: int(x[0]))) or '없음(출발 모습)'
+    off = [p for p, v in base.items() if v and not pr.get(p)]; on = [p for p, v in pr.items() if v and not base.get(p)]
+    print(f'[그대로인 것] 다듬기 층({keep}), 이름·소개, 겉모습 틀, 만들어 둔 글\n[바뀌는 것] 켜지는 기능: {", ".join(on) or "없음"} / 꺼지는 기능: {", ".join(off) or "없음"}')
+    if not apply_:
+        if SHOTS:
+            import selftest as T
+            out = build_tmp(None, pr); os.makedirs(SHOTS, exist_ok=True); n_ = kind.replace(' ', '')
+            for nm_, w_, h_, mob in (('PC첫화면', 1280, 860, False), ('휴대폰', 390, 844, True)):
+                fp = os.path.join(SHOTS, f'변환_{n_}_{nm_}.png')
+                if T.shoot_pages(out, [''], [fp], w_, h_, mob):
+                    print('  미리보기 저장:', fp, flush=True)
+        print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 {kind.replace(" ", "")} 바꿈 "<까닭>" → python run.py 변환 {kind} --적용\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
+    if not need_choice('변환', '바꿈') and not (chosen('변환') == '바꿈'):
+        return 1
+    t0 = time.time(); d = prog_load(); d['convert_prev'] = base; json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    allp = list(base); set_parts(allp, False); set_parts(K[kind]['parts'], True); out, last, rcb = rebuild_local()
+    shots_for(out, '변환_' + kind.replace(' ', ''))
+    print(f'\n[방금 일어난 일] 「{kind}」로 바꿨습니다({last}) — 걸린 시간 {time.time() - t0:.0f}초. 되돌리려면 python run.py 변환 되돌리기\n[다음 걸음] 내 주제의 내용으로 채우기 → 돈이 나올 자리 → 둘째 변환을 해 보거나 되돌리기. 독자의 말로 내_서비스.md 가 어떻게 바뀌는지 같이 봅니다.\n\n여기서 멈추고 독자에게 묻습니다.'); prog_add('변환 ' + kind); return 0
+
+
+# ---------------------------------------------------------------- 3장 쉬는시간: 지금 사람이 볼 것만(올릴 묶음·정할 것·어긋난 것·어제 대비)
+def break_cmd(rest):
+    def cnt(d):
+        p = os.path.join(HERE, d)
+        return len([f for f in os.listdir(p) if not f.startswith('.')]) if os.path.isdir(p) else 0
+    hh = time.localtime().tm_hour; part = '아침' if hh < 11 else ('점심' if hh < 17 else '저녁')
+    print(f'━━ 쉬는시간 ({part}) — 지금 사람이 볼 것만 ━━')
+    out = os.path.join(HERE, 'site_local')
+    if not os.path.isdir(out):
+        out, last, rcb = rebuild_local()
+    nid = newest_note(out)
+    print('① 올릴 묶음(만들어져 있고 아직 안 올린 것)')
+    for d, ch in (('promo_out', '블로그·알림 문구'), ('cards', '공유 카드 그림'), ('shorts', '쇼츠 영상'), ('넘김', '다른 역할이 넘긴 파일')):
+        print(f'   - {ch}: {cnt(d)}개 ({d}/)')
+    print('② 정해야 하는 것(사람만 정함)')
+    todo = []
+    if cnt('promo_out'):
+        todo.append('올릴까요? — 올릴 채널별 묶음을 보고 「올려」 한마디(올리기·로그인은 사람 몫)')
+    ch = choices()
+    later = [k for k, v in ch.items() if v['pick'] in ('나중에', '건너뜀')]
+    if later:
+        todo.append('미뤄 둔 선택: ' + ', '.join(later))
+    print('   ' + ('\n   '.join('- ' + t for t in todo) if todo else '- 지금 정할 것이 없습니다'))
+    print('③ 어긋난 것')
+    rb = subprocess.run(PY + ['audit.py', '--dir', 'site_local'], cwd=HERE, env=dict(os.environ, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace'); print('   ' + (rb.stdout + rb.stderr).strip().splitlines()[-1][:120])
+    mt = os.path.join(HERE, '만듦새.json')
+    print('④ 어제 대비 바뀐 것')
+    lg = os.path.join(HERE, 'logs', 'daily.md')
+    print('   ' + (open(lg, encoding='utf-8').read().strip().splitlines()[-1][:120] if os.path.exists(lg) else '- 하루 한 바퀴 기록이 아직 없습니다(python run.py 사이클)'))
+    print('\n[운영자 화면] 서버가 켜져 있으면 http://127.0.0.1:8080/admin/ (오늘 방문·새 댓글·문의), 꺼져 있으면 이 출력과 상태 쪽이 그 자리를 대신합니다.')
+    prog_add('쉬는시간 ' + part); return 0
+
+
+def open_cmd(rest):
+    print('━━ 열기 — 먼저 한 바퀴(10분) ━━\n[방문자의 길] 첫 화면 → 글 → 관련 글 → 도구(계산기·용어) → 소식 받기\n[운영자의 하루] 새 소식 모으기 → 확인 노트 쓰기 → 올릴 묶음 만들기 → 쉬는시간에 정하기\n내 PC 에서 사이트를 엽니다(멈추려면 Ctrl+C). 열리면 독자와 이 길을 따라 걸으며 「누가 이 길로 오나요?」부터 묻습니다.', flush=True)
+    return subprocess.run(PY + ['serve.py', '--open', '--no-demo'], cwd=HERE).returncode
 
 
 
@@ -942,6 +1426,8 @@ def main():
             print('묶음을 찾지 못했습니다: python run.py 묶음'); return 1
         return run_group(g, FLAGS or ['--headless'])
     if cmd in ('전부', 'all'):
+        if '--예' not in A:
+            print('이 장은 고르면서 가는 장입니다. 그래도 한꺼번에 할까요? (독자가 예라고 한 뒤에만: python run.py 전부 --예)'); return 1
         return all_cmd()
     if cmd in ('독자', 'reader'):
         return reader_cmd(rest)
@@ -949,6 +1435,32 @@ def main():
         return review_cmd()
     if cmd in ('혼동', 'confused'):
         return confuse_cmd(rest)
+    if cmd in ('변환', 'convert'):
+        return convert_cmd(rest)
+    if cmd in ('쉬는시간', 'break'):
+        return break_cmd(rest)
+    if cmd in ('열기', 'open'):
+        return open_cmd(rest)
+    if cmd in ('방식', 'way'):
+        return ways_cmd(rest)
+    if cmd in ('내서비스', 'mysvc'):
+        return service_card_cmd(rest)
+    if cmd in ('고름', 'pick'):
+        return choose_cmd(rest)
+    if cmd in ('고른것', 'chosen'):
+        return chosen_cmd()
+    if cmd in ('미룬것', 'deferred'):
+        return deferred_cmd()
+    if cmd in ('도커', 'docker'):
+        return docker_cmd(rest)
+    if cmd in ('서버', 'server'):
+        return server_cmd(rest)
+    if cmd in ('자료', 'docs'):
+        return docs_cmd(rest)
+    if cmd in ('실험', 'lab'):
+        return lab_cmd(rest)
+    if cmd in ('내놓기', 'release'):
+        return release_cmd(rest)
     if cmd in ('다듬기', 'polish'):
         return polish_cmd(rest)
     if cmd in ('되돌리기', 'undo'):
