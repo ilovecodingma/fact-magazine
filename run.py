@@ -44,7 +44,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 A = sys.argv[1:]
 PY = [sys.executable, '-X', 'utf8']
 FLAGS = [a for a in A if a in ('--headless',)] + (['--slow', A[A.index('--slow') + 1]] if '--slow' in A else []) + (['--shots', os.path.abspath(A[A.index('--shots') + 1])] if '--shots' in A and len(A) > A.index('--shots') + 1 else [])
-POS = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] not in ('--slow', '--shots'))]
+POS = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] not in ('--slow', '--shots', '--이름', '--소개', '--까닭', '--고른이', '--안', '--한줄', '--정함', '--미정', '--미룸'))]
 SHOTS = os.path.abspath(A[A.index('--shots') + 1]) if '--shots' in A and len(A) > A.index('--shots') + 1 else None
 PROG = os.path.join(HERE, '진도.json')
 
