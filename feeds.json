@@ -1,0 +1,18 @@
+{
+  "_설명": "수집할 RSS 목록입니다. 2026-11-11 개발 세션이 하나씩 열어 보고 200 과 기사 수를 확인한 주소만 넣었습니다. 기사 본문은 가져오지 않고 제목·매체·시각·링크만 씁니다.",
+  "feeds": [
+    {"source": "연합뉴스", "section": "경제", "kind": "통신사", "url": "https://www.yna.co.kr/rss/economy.xml"},
+    {"source": "연합뉴스", "section": "사회", "kind": "통신사", "url": "https://www.yna.co.kr/rss/society.xml"},
+    {"source": "뉴시스", "section": "경제", "kind": "통신사", "url": "https://www.newsis.com/RSS/economy.xml"},
+    {"source": "SBS", "section": "경제", "kind": "방송사", "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=02&plink=RSSREADER"},
+    {"source": "한겨레", "section": "경제", "kind": "일간지", "url": "https://www.hani.co.kr/rss/economy/"},
+    {"source": "경향신문", "section": "경제", "kind": "일간지", "url": "https://www.khan.co.kr/rss/rssdata/economy_news.xml"},
+    {"source": "동아일보", "section": "경제", "kind": "일간지", "url": "https://rss.donga.com/economy.xml"},
+    {"source": "매일경제", "section": "경제", "kind": "경제지", "url": "https://www.mk.co.kr/rss/30100041/"},
+    {"source": "한국경제", "section": "경제", "kind": "경제지", "url": "https://www.hankyung.com/feed/economy"}
+  ],
+  "_못_쓴_곳": [
+    {"name": "KBS 경제", "url": "https://world.kbs.co.kr/rss/rss_news.htm?lang=k", "결과": "200 이지만 기사 0건(영문 월드 서비스 주소)"},
+    {"name": "공식 기관 정책 소식", "결과": "작가가 넣은 주소는 404, 개발도 공식 기관 RSS 를 아직 찾지 못함 — 찾으면 이 파일에 추가"}
+  ]
+}

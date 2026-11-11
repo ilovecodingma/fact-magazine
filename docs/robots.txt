@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sungprofile.cloud/fact-magazine/sitemap.xml
