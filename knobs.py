@@ -18,6 +18,12 @@ DEFS.update({
     '게시판글자': dict(key='board_font', vals=['본', '크게'], ref='본', unit='', why='해커 뉴스는 제목 10pt(13.3px)·아랫줄 7pt(9.3px)의 작은 글자로 한 화면에 30줄을 넣습니다(휴대폰에서는 11pt·9pt). 영문 기준이라 한글은 답답할 수 있어 「크게」(16px·13px)를 고를 수 있습니다. 크게 하면 한 화면에 보이는 줄이 줄어듭니다.'),
     '공개방식': dict(key='moderation', vals=['승인뒤', '바로'], ref='바로', unit='', why='해커 뉴스는 올리면 바로 보이고, 신고(flag)와 운영자가 나중에 걸러 냅니다. 혼자 운영하는 작은 게시판은 지켜보는 눈이 적어 「승인 뒤 공개」가 안전합니다(그만큼 날마다 확인할 일이 생깁니다).'),
 })
+DEFS.update({
+    '사는단추': dict(key='buy_mode', vals=['주문문의', '바깥주소'], ref='결제', unit='', why='검로드의 「I want this!」는 바로 결제 화면으로 갑니다(검로드가 결제·세금을 맡고 수수료를 뗍니다 — 가격 쪽: 직접 판매 10% + 50센트, 둘러보기를 거친 판매 30%). 혼자서는 결제·정산을 다루기 어려워, 이 틀은 주문 문의를 받거나(서버가 운영자 화면에 쌓음) 바깥 판매 주소로 보냅니다.'),
+    '값정하기': dict(key='pwyw', vals=['켬', '끔'], ref='켬', unit='', why='검로드에는 사는 사람이 값을 정하는 상품이 있습니다(값 뒤에 + 표시). 최소 값만 정해 두고 더 내고 싶은 사람은 더 냅니다. 켜 두면 「+」가 붙은 상품의 주문 문의에 「내고 싶은 값」 칸이 생깁니다.'),
+    '상품열': dict(key='market_cols', vals=[2, 3, 4], ref=3, unit='열', why='검로드 둘러보기는 왼쪽 거르기 상자 옆에 3열 카드입니다. 열을 줄이면 그림이 커지고 늘리면 한 화면에 더 많이 보입니다.'),
+    '딱지색': dict(key='market_color', vals=['#ff90e8', '#90a8ed', '#ffc900', '#23a094'], ref='#ff90e8', unit='', why='검로드의 값 딱지와 사는 단추는 분홍(#ff90e8)이 기본이고, 판매자가 자기 색으로 바꿀 수 있습니다(본 상품 쪽은 파랑이었습니다).'),
+})
 NEED = {'읽는시간': 10, '저장': 10, '듣기': 10, '목록열': 4}   # 이 손잡이가 보이려면 먼저 얹어야 하는 다듬기 걸음
 
 
@@ -44,6 +50,8 @@ def parse(name, raw):
     for v in d['vals']:
         if str(v) == str(raw):
             return v
+    if all(isinstance(x, str) for x in d['vals']):
+        return None
     try:
         f = float(raw)
         lo, hi = min(x for x in d['vals'] if not isinstance(x, str)), max(x for x in d['vals'] if not isinstance(x, str))

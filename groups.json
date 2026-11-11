@@ -90,7 +90,8 @@
         "contact",
         "subscribe",
         "admin",
-        "board"
+        "board",
+        "market"
       ]
     },
     {
@@ -168,6 +169,7 @@
     "comments": "",
     "contact": "contact/",
     "subscribe": "subscribe/",
-    "board": "board/"
+    "board": "board/",
+    "market": "market/"
   }
 }

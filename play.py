@@ -118,6 +118,14 @@ def changed_cmd(R, rest):
 
 
 # ---------------------------------------------------------------- 손잡이
+def _first_product():
+    try:
+        P = json.load(open(os.path.join(HERE, 'kits', 'market', 'data', 'products.json'), encoding='utf-8'))
+        return next((p['slug'] for p in P if p.get('pwyw')), P[0]['slug'])
+    except Exception:
+        return ''
+
+
 def knob_cmd(R, rest):
     import knobs as KN
     L = R.local_load(); K = L.get('knobs') or {}; cur = R.cur_polish()
@@ -137,7 +145,7 @@ def knob_cmd(R, rest):
     if R.SHOTS:
         import selftest as T
         os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'손잡이_{nm}_전.png'); pre = R.build_tmp(cur); nid = R.newest_note(pre)
-        T.shoot_pages(pre, [('board/' if nm in ('순위셈법', '한쪽줄수', '공개방식', '게시판글자') else (f'n/{nid}/' if (nid and nm != '목록열') else ''))], [before], 1280, 860)
+        T.shoot_pages(pre, [('market/' if nm in ('상품열', '딱지색') else ('market/' + _first_product() + '/') if nm in ('사는단추', '값정하기') else 'board/' if nm in ('순위셈법', '한쪽줄수', '공개방식', '게시판글자') else (f'n/{nid}/' if (nid and nm != '목록열') else ''))], [before], 1280, 860)
     if rest[1] != '기본' and KN.parse(nm, rest[1]) is None:
         print(f'그 값으로는 돌릴 수 없습니다(화면이 망가질 수 있는 값은 막아 둡니다). 돌릴 수 있는 값: {" / ".join(str(x) for x in d["vals"])}'); return 1
     snap(f'손잡이 {nm} → {rest[1]}')
@@ -148,7 +156,7 @@ def knob_cmd(R, rest):
     L['knobs'] = K; R.local_save(L); t0 = time.time(); out, last, rc = R.rebuild_local()
     if R.SHOTS and before:
         import selftest as T
-        nid = R.newest_note(out); after = os.path.join(R.SHOTS, f'손잡이_{nm}_후.png'); T.shoot_pages(out, [('board/' if nm in ('순위셈법', '한쪽줄수', '공개방식', '게시판글자') else (f'n/{nid}/' if (nid and nm != '목록열') else ''))], [after], 1280, 860)
+        nid = R.newest_note(out); after = os.path.join(R.SHOTS, f'손잡이_{nm}_후.png'); T.shoot_pages(out, [('market/' if nm in ('상품열', '딱지색') else ('market/' + _first_product() + '/') if nm in ('사는단추', '값정하기') else 'board/' if nm in ('순위셈법', '한쪽줄수', '공개방식', '게시판글자') else (f'n/{nid}/' if (nid and nm != '목록열') else ''))], [after], 1280, 860)
         R.side_by_side(before, after, os.path.join(R.SHOTS, f'손잡이_{nm}_전후.png'), '돌리기 전', f'{nm} = {val}')
     need = KN.NEED.get(nm)
     print(f'돌렸습니다: {nm} = {val}{d["unit"] if val != "기본" else ""}  (레퍼런스는 {d["ref"]}{d["unit"]}, {time.time() - t0:.0f}초)' + (f'\n※ 이 손잡이는 다듬기 {need} 을 얹어야 화면에 보입니다.' if need and str(need) not in cur else ''))

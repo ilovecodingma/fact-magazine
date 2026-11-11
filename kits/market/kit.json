@@ -1,0 +1,124 @@
+{
+  "name": "market",
+  "title": "디지털 상품 장터 키트 — 레퍼런스: 검로드",
+  "parts": [
+    "market",
+    "backend"
+  ],
+  "input_line": "market 키트를 켜고 둘러보기·거르기·상품 쪽을 확인한 뒤, 서버를 켜서 「살래요!」 주문 문의가 운영자 화면에 도착하는지 봐 줘.",
+  "gives": "둘러보기(찾기 칸·분류 알약·추천 상품·정렬·거르기 상자·3열 상품 카드·분홍 값 딱지)와 상품 쪽(대표 그림·이름·판매자·평가·설명·값 딱지·살래요!·찜·공유·평가 막대·후기). 결제는 없고 주문 문의 또는 바깥 판매 주소로 보냄.",
+  "see": "/market/ 와 /market/<상품>/",
+  "mounts": "/market/ 와 메뉴",
+  "server": "둘러보기·상품 쪽은 서버 없이 됨. 주문 문의를 받으려면 필요(python run.py 서버)",
+  "minutes": "15",
+  "selftest": {
+    "server": true,
+    "parts": [
+      "market",
+      "backend",
+      "contact"
+    ],
+    "steps": [
+      {
+        "say": "둘러보기를 엽니다(찾기 칸·분류·추천 상품·상품 카드)",
+        "goto": "market/",
+        "wait": 1.5,
+        "expect": {
+          "sel": ".mk-grid .mk-card",
+          "min_count": 9
+        }
+      },
+      {
+        "say": "「많이 팔린 것」으로 정렬합니다",
+        "click": "[data-sort=best]",
+        "wait": 0.4,
+        "expect": {
+          "sel": ".mk-grid .mk-card h3",
+          "contains": "혼자 만드는 사이트 길잡이"
+        }
+      },
+      {
+        "say": "분류 「돈 관리」를 누르면 그 분류만 남습니다",
+        "click": ".mk-cats a[data-cat=\"돈 관리\"]",
+        "wait": 1.2,
+        "eval": "[].filter.call(document.querySelectorAll('.mk-grid .mk-card'),function(c){return c.style.display!=='none'}).length",
+        "equals": 2
+      },
+      {
+        "say": "상품 쪽을 엽니다",
+        "goto": "market/camp-checklist/",
+        "wait": 1.2,
+        "expect": {
+          "sel": ".mk-l h1",
+          "contains": "캠핑 준비물 점검표"
+        }
+      },
+      {
+        "say": "값 딱지에 「+」가 붙어 있습니다(사는 사람이 값을 정하는 상품)",
+        "expect": {
+          "sel": ".mk-buy .mk-price",
+          "contains": "+"
+        }
+      },
+      {
+        "say": "「살래요!」를 누르면 주문 문의 칸이 열립니다",
+        "click": "#mkwant",
+        "wait": 0.4,
+        "expect": {
+          "sel": "#mkform button",
+          "contains": "주문 문의 보내기"
+        }
+      },
+      {
+        "say": "메일 주소를 넣습니다",
+        "type": [
+          "#mkform input[name=email]",
+          "buyer@example.com"
+        ]
+      },
+      {
+        "say": "내고 싶은 값을 넣습니다",
+        "type": [
+          "#mkform input[name=amount]",
+          "5000"
+        ]
+      },
+      {
+        "say": "「주문 문의 보내기」를 누르면 접수 안내가 나옵니다",
+        "click": "#mkform button",
+        "wait": 1.0,
+        "expect": {
+          "sel": "#mkmsg",
+          "contains": "주문 문의를 보냈습니다"
+        }
+      },
+      {
+        "say": "운영자 화면에 주문 문의 1건이 쌓였습니다",
+        "wait": 0.3,
+        "eval": "fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'test-pass-1234'})}).then(function(r){return r.json()}).then(function(){return fetch('/api/admin/summary').then(function(r){return r.json()})}).then(function(s){return s.contacts===1&&s.contact_list[0].message.indexOf('캠핑 준비물 점검표')>=0})",
+        "equals": true
+      }
+    ]
+  },
+  "must_know": [
+    {
+      "알것": "이 틀에는 결제가 없고 「살래요!」는 주문 문의나 바깥 판매 주소로 간다",
+      "까닭": "결제·정산·세금은 혼자 다루기 어렵다",
+      "모르면": "카드 정보를 직접 받으려다 큰 사고가 난다",
+      "근거": "market.py, 손잡이 사는단추"
+    },
+    {
+      "알것": "상품은 자료 파일 한 건이 카드 하나와 상품 쪽 하나가 된다",
+      "까닭": "자료만 늘리면 가게가 커진다",
+      "모르면": "상품마다 쪽을 손으로 만든다",
+      "근거": "kits/market/data/products.json"
+    },
+    {
+      "알것": "주문 문의의 메일 주소는 서버 db 에만 쌓이고 운영자 화면에서만 본다",
+      "까닭": "남의 개인정보를 맡는 일",
+      "모르면": "주문자 정보를 아무 데나 둔다",
+      "근거": "server/app.py /api/contact"
+    }
+  ],
+  "try_change": "python run.py 손잡이 딱지색 #ffc900 으로 값 딱지와 사는 단추 색을 바꿔 보고, kits/market/data/products.json 의 첫 상품 이름과 값을 내 것으로 고쳐 보세요(python run.py 바꿔 …)."
+}
