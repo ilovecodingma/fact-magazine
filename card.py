@@ -61,7 +61,7 @@ def svg(n, name):
     ty = 270
     tt = ''.join(f'<text x="70" y="{ty + i * 62}" font-size="52" font-weight="800">{E(l)}</text>' for i, l in enumerate(lines))
     size = max(48, min(110, int(900 / max(1, 0.8 * len(num))))) if num else 0   # 긴 숫자는 글자 크기를 낮춰 칸에 다 들어가게(줄이거나 자르지 않음)
-    big = f'<text x="1130" y="560" text-anchor="end" font-size="{size}" font-weight="900" fill="{col}">{E(num)}</text>' if num else ''
+    big = f'<text x="1130" y="515" text-anchor="end" font-size="{size}" font-weight="900" fill="{col}">{E(num)}</text>' if num else ''
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="\'Noto Serif KR\',\'Nanum Myeongjo\',Batang,serif">'
             f'<rect width="1200" height="630" fill="#fff"/><rect x="14" y="14" width="1172" height="602" fill="none" stroke="#111" stroke-width="6"/><rect x="26" y="26" width="1148" height="578" fill="none" stroke="#111" stroke-width="2"/>'
             f'<text x="70" y="90" font-size="30" font-weight="900" letter-spacing="2">{E(name)}</text><line x1="70" y1="112" x2="1130" y2="112" stroke="#111" stroke-width="3"/>'
