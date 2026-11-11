@@ -170,7 +170,7 @@ def start_server(directory):
     return srv, port
 
 
-BANNER_JS = r"""(function(){var d=document.getElementById('__st');if(!d){d=document.createElement('div');d.id='__st';d.style.cssText='position:fixed;left:0;right:0;top:0;z-index:2147483647;background:#111;color:#fff;font:700 16px/1.5 system-ui,Malgun Gothic,sans-serif;padding:10px 16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.4)';(document.body||document.documentElement).appendChild(d)}d.textContent=%s})()"""
+BANNER_JS = r"""(function(){var d=document.getElementById('__st');if(!d){d=document.createElement('div');d.id='__st';d.style.cssText='position:fixed;left:0;right:0;top:0;z-index:2147483647;background:#111;color:#fff;font:700 16px/1.5 system-ui,Malgun Gothic,sans-serif;padding:10px 16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.4)';(document.body||document.documentElement).appendChild(d)}document.documentElement.style.paddingTop='48px';d.textContent=%s})()"""
 HILITE_JS = r"""(function(s){var e=document.querySelector(s);if(!e)return false;e.scrollIntoView({block:'center'});e.style.outline='4px solid #e0245e';e.style.outlineOffset='3px';return true})(%s)"""
 CENTER_JS = r"""(function(s){var e=document.querySelector(s);if(!e)return null;e.scrollIntoView({block:'center'});var r=e.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})(%s)"""
 

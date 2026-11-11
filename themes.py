@@ -9,9 +9,9 @@ DEFAULT_ACCENT = {'paper': '#111111', 'card': '#e4572e', 'shop': '#b5532a', 'doc
 CSS = r"""
 /* ===== 카드 잡지형: 밝은 회색 바탕에 흰 카드, 왼쪽 정렬 제호, 알약 모양 메뉴 ===== */
 body.th-card{--bg:#f2f0ec;--hair:#e4e0d8;--link:var(--ac);font-family:var(--sans)}
-body.th-card .dateline{display:none}
-body.th-card .mast{background:#fff;border:0;box-shadow:0 1px 0 #e4e0d8,0 6px 18px rgba(0,0,0,.05)}
-body.th-card .logo{text-align:left;font:900 30px/1 var(--sans);color:var(--ac);margin:16px 0}
+body.th-card .dateline{color:rgba(255,255,255,.85);border:0;text-align:left;padding:22px 0 0;font-size:14px}
+body.th-card .mast{background:linear-gradient(135deg,var(--ac),color-mix(in srgb,var(--ac) 55%,#000));border:0;box-shadow:0 6px 18px rgba(0,0,0,.12);padding-bottom:18px}
+body.th-card .logo{text-align:left;font:900 44px/1.1 var(--sans);color:#fff;margin:8px 0 4px;text-shadow:0 2px 0 rgba(0,0,0,.15)}
 body.th-card nav.menu{justify-content:flex-start;border:0;padding:16px 0 4px;gap:8px}
 body.th-card nav.menu a,body.th-card details.mn summary{background:#fff;border-radius:999px;padding:9px 16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 body.th-card nav.menu a:hover{background:var(--ac);color:#fff;text-decoration:none}
@@ -20,9 +20,9 @@ body.th-card .gl{gap:16px}body.th-card .cols{column-count:auto;display:grid;grid
 body.th-card .side{border:0;padding-left:0}body.th-card .front{gap:20px}
 body.th-card .sec{border-top:0;margin-top:34px}body.th-card .sec h2{display:inline-block;background:var(--ac);color:#fff;padding:7px 14px;border-radius:999px;font-size:14px}
 body.th-card h1,body.th-card h2,body.th-card h3,body.th-card .lead h2{font-family:var(--sans)}
-body.th-card .page{max-width:1000px}body.th-card .page>h2{font-size:30px;color:var(--ac)}
+body.th-card .page{max-width:1000px}body.th-card .page>h2{display:none}body.th-card .page>p{font-size:20px;margin:6px 0 20px}
 body.th-card footer{border-top:0}
-@media(max-width:900px){body.th-card .cols{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){body.th-card .cols{grid-template-columns:1fr}body.th-card nav.menu{flex-wrap:wrap}}
+@media(max-width:900px){body.th-card .cols{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){body.th-card .logo{font-size:32px}body.th-card .cols{grid-template-columns:1fr}body.th-card nav.menu{flex-wrap:wrap}}
 
 /* ===== 가게형: 크림 바탕, 큰 색 띠 머리, 둥근 버튼 메뉴, 점선 카드 ===== */
 body.th-shop{--bg:#fbf3e6;--hair:#e8d6bd;--mu:#7a6551;--link:var(--ac);font-family:var(--sans)}

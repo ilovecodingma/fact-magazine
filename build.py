@@ -26,7 +26,7 @@ if os.environ.get('SITE_LABELS'):
     except Exception:
         pass
 LAB = lambda k, d: (S.get('labels') or {}).get(k, d)
-GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록')]
+GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록'), ('ledger', '가계부', 'ledger/', '적은 내용이 이 기기에만 남는 가계부'), ('dday', '디데이', 'dday/', '날짜까지 며칠 남았는지'), ('pwa', '앱으로 쓰기', 'app/', '홈 화면에 추가해 앱처럼')]
 if os.environ.get('SITE_EXTRAS'):
     try:
         S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
