@@ -206,6 +206,7 @@ def page(path, title, desc, body, noindex=False):
 {NAVBLOCK}
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}{MON}</main>
 <footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{MON_LINK}{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
+    doc = _pl.post(sys.modules[__name__], doc, items, path)   # 다듬기 8 푸터·9 아래 메뉴
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     if not explicit_noindex:   # 조립 예시(DEMO)도 사이트 안 검색에는 들어간다(검색 엔진용 noindex 와 별개)
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
@@ -572,6 +573,8 @@ def note_page(n):
     li = lambda xs: ''.join(f'<li>{E(x)}</li>' for x in xs)
     facts = ''.join(f'<li>{E(f["text"])}<span class="src">출처 · <a href="{E(f["url"])}" rel="noopener nofollow">{E(f["source"])}</a></span></li>' for f in n.get('facts', []))
     reports = ''.join(f'<li><a href="{E(r["url"])}" rel="noopener nofollow">{E(r["title"])}</a> · {E(r["source"])}</li>' for r in n.get('reports', []))
+    if POLISH.get(7):   # 다듬기 7: 글 쪽 재구성
+        return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], _pl.note_body(sys.modules[__name__], n, _kp.related_html(sys.modules[__name__], '노트', n['id'])), noindex=bool(n.get('example')))
     body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "", "wide")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
             f'<p class="sum">{E(n["summary"])}</p>'
@@ -793,7 +796,7 @@ def main():
     tp = os.path.join(HERE, 'data', 'topics.json')
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
     notes = load_notes(with_example) if part('info') else []   # info 부품이 꺼져 있으면 뉴스·노트는 만들지 않는다
-    _pl.set_cats(notes)   # 다듬기 3: 분야 탭
+    _pl.set_cats(notes); _pl.set_notes(notes)   # 다듬기 3: 분야 탭, 7: 관련 글
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)

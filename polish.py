@@ -104,6 +104,43 @@ def css5():
             "body.pl5 .art .pimg{border-radius:10px;margin:0 0 16px;border:1px solid var(--hair);aspect-ratio:3/1}\n")
 
 
+def css6(opt):
+    return ("body.pl6 .nbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}body.pl6 .nb{display:block;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:16px 18px;border-top:4px solid var(--sec,#b45309)}\n"
+            "body.pl6 .nb:hover{text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.08)}body.pl6 .nb-c{display:block;font:700 13px/1 var(--sans);color:var(--mu)}body.pl6 .nb b{display:block;font:900 30px/1.2 var(--sans);margin:8px 0 6px;letter-spacing:-.02em}body.pl6 .nb-t{display:block;font:14px/1.5 var(--sans);color:var(--mu)}\n"
+            "body.pl6 .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}body.pl6 .cover{display:block;background:var(--pri,#111);color:#fff;border-radius:12px;padding:22px 26px}body.pl6 .cover:hover{text-decoration:none;opacity:.95}\n"
+            "body.pl6 .cover small{display:block;font:700 13px/1 var(--sans);opacity:.8;letter-spacing:.08em}body.pl6 .cover b{display:block;font:900 30px/1.2 'Noto Serif KR',serif;margin:10px 0 8px}body.pl6 .cover ul{margin:0;padding-left:18px;font:15px/1.7 var(--sans)}body.pl6 .cover span{display:inline-block;margin-top:12px;font:700 14px/1 var(--sans);border-bottom:2px solid #fff}\n"
+            "body.pl6 .subs{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:22px 26px}body.pl6 .subs b{display:block;font:800 20px/1.4 var(--sans);margin-bottom:6px}body.pl6 .subs p{font:15px/1.7 var(--sans);color:var(--mu);margin:0 0 14px}body.pl6 .subs a.btn{margin:0 8px 8px 0;display:inline-block;padding:10px 16px;border-radius:6px;background:var(--pri,#111);color:#fff;font:700 14px/1 var(--sans)}body.pl6 .subs a.btn.alt{background:#fff;color:var(--pri,#111);border:1px solid var(--pri,#111)}\n"
+            "@media(max-width:900px){body.pl6 .nbs{grid-template-columns:repeat(2,minmax(0,1fr))}body.pl6 .duo{grid-template-columns:1fr}}\n")
+
+
+def css7(opt):
+    c = ("body.pl7 .vband{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-radius:8px;margin:0 0 18px;font:15px/1.5 var(--sans)}body.pl7 .vband b{font:800 17px/1 var(--sans)}\n"
+         "body.pl7 .vband.ok{background:#dcefe3;color:#0b4a27}body.pl7 .vband.part{background:#f7e7c8;color:#6b3a00}body.pl7 .vband.no{background:#f6d9d5;color:#8a1610}\n"
+         "body.pl7 .nbox{border:2px solid var(--pri,#111);border-radius:12px;padding:16px 20px;margin:0 0 22px;background:#fff}body.pl7 .nbox span{font:700 13px/1 var(--sans);color:var(--mu)}body.pl7 .nbox b{display:block;font:900 44px/1.15 var(--sans);margin:6px 0 4px;letter-spacing:-.02em}body.pl7 .nbox em{font:normal 15px/1.6 var(--sans);color:var(--mu)}\n"
+         "body.pl7 ul.srcs{list-style:none;margin:0;padding:0;display:grid;gap:12px}body.pl7 .src-card{border:1px solid var(--hair);border-radius:10px;padding:14px 16px;background:#fff}body.pl7 .src-card p{margin:0 0 10px;font-size:17px;line-height:1.7}\n"
+         "body.pl7 .src-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font:14px/1.4 var(--sans);color:var(--mu)}body.pl7 .src-meta b{color:var(--ink)}body.pl7 .src-meta a{margin-left:auto;padding:7px 12px;border:1px solid var(--pri,#111);border-radius:6px;color:var(--pri,#111);font-weight:700}\n"
+         "body.pl7 .unc{border:1px dashed var(--sec,#b45309);border-radius:10px;padding:12px 16px 4px;background:#fffaf0}body.pl7 .rel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:8px}body.pl7 .rel a{display:block;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:#fff}body.pl7 .rel a:hover{text-decoration:none}\n"
+         "body.pl7 .rel .rb{padding:10px 12px 14px;font:700 15px/1.45 var(--sans)}body.pl7 .share{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0}body.pl7 .share button,body.pl7 .share a{font:700 14px/1 var(--sans);padding:10px 16px;border:1px solid var(--hair);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;width:auto}\n"
+         "@media(max-width:700px){body.pl7 .rel{grid-template-columns:1fr}body.pl7 .nbox b{font-size:34px}}@media print{body.pl7 .share,body.pl7 .rel,header,nav,footer,.bnav{display:none!important}}\n")
+    if opt == 'B':
+        c += "body.pl7 .vband{border-left:6px solid currentColor;border-radius:0 8px 8px 0}body.pl7 .nbox{border-width:0;border-left:6px solid var(--sec,#b45309);border-radius:0 12px 12px 0}\n"
+    return c
+
+
+def css8(opt):
+    return ("body.pl8 .trust{background:#fff;border-top:1px solid var(--hair);padding:26px 0}body.pl8 .trust .wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}body.pl8 .trust b{display:block;font:800 17px/1.4 var(--sans);color:var(--pri,#111);margin-bottom:6px}body.pl8 .trust p{margin:0;font:15px/1.7 var(--sans);color:var(--mu)}\n"
+            "body.pl8 footer.ft{margin-top:0;padding:30px 0 20px;border-top:4px solid var(--pri,#111);background:var(--bgs,#f3f3f3);font:15px/1.8 var(--sans);color:var(--mu)}body.pl8 .ft-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:28px}body.pl8 .ft b{display:block;color:var(--ink);font:800 16px/1.4 var(--sans);margin-bottom:8px}body.pl8 .ft a{display:block;margin:0 0 6px;color:var(--ink)}\n"
+            "body.pl8 .ft-c{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--hair);font:13px/1.7 var(--sans)}\n"
+            "@media(max-width:760px){body.pl8 .trust .wrap,body.pl8 .ft-grid{grid-template-columns:1fr}}\n")
+
+
+def css9(opt):
+    return ("body.pl9 .bnav{display:none}\n"
+            "@media(max-width:640px){body.pl9{padding-bottom:64px}body.pl9 .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1px solid var(--hair);box-shadow:0 -4px 14px rgba(0,0,0,.08)}\n"
+            "body.pl9 .bnav a{flex:1;text-align:center;padding:10px 4px 12px;font:700 13px/1.3 var(--sans);color:var(--mu)}body.pl9 .bnav a b{display:block;font-size:20px;line-height:1.2}body.pl9 .bnav a.on,body.pl9 .bnav a:hover{color:var(--pri,#111);text-decoration:none}\n"
+            "body.pl9 .bnav a.cta{background:var(--pri,#111);color:#fff}}\n")
+
+
 def css(act, base_css=''):
     out = []
     if 1 in act: out.append(css1(act[1], base_css))
@@ -111,6 +148,10 @@ def css(act, base_css=''):
     if 3 in act: out.append(css3(act[3]))
     if 4 in act: out.append(css4(act[4]))
     if 5 in act: out.append(css5())
+    if 6 in act: out.append(css6(act[6]))
+    if 7 in act: out.append(css7(act[7]))
+    if 8 in act: out.append(css8(act[8]))
+    if 9 in act: out.append(css9(act[9]))
     return '\n'.join(out)
 
 
@@ -277,4 +318,99 @@ def home_body(B, notes, topics, notice=''):
     tp = ''.join(f'<div class="pt">{topic_img(B, t, i)}<div class="pt-b"><span class="lb">{t["media_count"]}개 매체</span><b>{E(t["title"])}</b>'
                  + ''.join(f'<span class="ln"><a href="{E(i_["link"])}" rel="noopener nofollow">{E(i_["source"])}</a> {E(i_["title"][:46])}</span>' for i_ in t['items'][:3]) + '</div></div>' for i, t in enumerate(topics[:12]))
     topics_h = (f'<section class="sec"><h2>여러 매체가 함께 다룬 소식</h2><p class="sub">제목·매체·링크만 모았습니다. 이 가운데 제도·숫자·날짜가 걸린 소식을 골라 확인 노트로 씁니다.{note}</p><div class="pt-grid">{tp}</div></section>') if tp else ''
-    return hero + grid + more + topics_h + B.extras_html() + FILTER_JS
+    nb = numbers_band(B, notes) if 6 in B.POLISH else ''
+    cs = cover_subscribe(B, notes) if 6 in B.POLISH and B.POLISH[6] != 'B' else ''
+    return hero + grid + nb + more + cs + topics_h + B.extras_html() + FILTER_JS
+
+
+# ---------------------------------------------------------------- 6 오늘의 숫자 띠·호 표지·소식 받기
+NOTES = []
+
+
+def set_notes(notes):
+    global NOTES
+    NOTES = notes
+
+
+def _num(n):
+    try:
+        import card as C
+        return C.big_number(n)
+    except Exception:
+        return ''
+
+
+def numbers_band(B, notes):
+    items = [(n, _num(n)) for n in notes if _num(n)][:4]
+    if not items:
+        return ''
+    boxes = ''.join(f'<a class="nb" href="{B.BASE}n/{n["id"]}/" data-cat="{E(cat_of(n))}"><span class="nb-c">{E(cat_of(n))} · {E(n["verdict"])}</span><b style="color:{COLR.get(n["verdict"], "#111")}">{E(num)}</b><span class="nb-t">{E(n["title"][:34])}{"…" if len(n["title"]) > 34 else ""}</span></a>' for n, num in items)
+    return f'<section class="sec"><h2>오늘의 숫자</h2><div class="nbs">{boxes}</div></section>'
+
+
+def cover_subscribe(B, notes):
+    BASE = B.BASE; n0 = notes[0]; same = [n for n in notes if n['date'] == n0['date']][:3]
+    href = BASE + (f'issue/{n0["date"]}/' if B.part('issue') else f'n/{n0["id"]}/')
+    cover = (f'<a class="cover" href="{href}"><small>오늘 호 · {E(n0["date"])}</small><b>{E(B.S["name"])}</b><ul>' + ''.join(f'<li>{E(n["title"][:40])}</li>' for n in same) + '</ul><span>이번 호 보기 →</span></a>')
+    M = (B.S.get('monetize') or {}); nl = (M.get('newsletter') or {}).get('url')
+    btn = (f'<a class="btn" href="{E(nl)}" rel="noopener" target="_blank">메일로 받기</a>' if nl else '') + (f'<a class="btn alt" href="{BASE}feed.xml">RSS 로 받기</a>' if not (B.NOURL or B.DEMO) else '') + f'<a class="btn alt" href="{BASE}contact/">문의하기</a>'
+    subs = f'<div class="subs"><b>새 확인 노트를 받아 보세요</b><p>공식 자료로 확인한 노트를 올릴 때마다 알려 드립니다. 광고성 메일은 보내지 않습니다.</p>{btn}</div>'
+    return f'<section class="sec"><h2>오늘 호와 소식 받기</h2><div class="duo">{cover}{subs}</div></section>'
+
+
+# ---------------------------------------------------------------- 7 글 쪽(판정 띠·핵심 숫자·출처 카드·관련 글·공유)
+VDESC = {'확인됨': '공식 자료에서 같은 내용을 직접 찾았습니다.', '일부만 확인됨': '일부만 찾았고 나머지는 찾지 못했습니다.', '아직 확인 안 됨': '공식 자료에서 찾지 못했습니다. 틀렸다는 뜻은 아닙니다.'}
+
+
+def related_notes(n, k=3):
+    tags = set(n.get('tags') or [])
+    sc = sorted((m for m in NOTES if m['id'] != n['id']), key=lambda m: (-len(tags & set(m.get('tags') or [])), m['date']), reverse=False)
+    sc = sorted(sc, key=lambda m: -len(tags & set(m.get('tags') or [])))
+    return sc[:k]
+
+
+def note_body(B, n, extra_html=''):
+    BASE = B.BASE; V = B.VERDICTS; v = n['verdict']
+    li = lambda xs: ''.join(f'<li>{E(x)}</li>' for x in xs)
+    num = _num(n)
+    wide = img_tag(B, n, 'pimg', '', 'wide')
+    ex = '<span class="ex">예시 — 화면 틀 시험용 가짜 노트입니다</span>' if n.get('example') else ''
+    facts = ''.join(f'<li class="src-card"><p>{E(f["text"])}</p><div class="src-meta"><b>{E(f["source"])}</b><span>확인 시각 {E(n["checked_at"][:16])}</span><a href="{E(f["url"])}" rel="noopener nofollow" target="_blank">출처 열기 ↗</a></div></li>' for f in n.get('facts', []))
+    reports = ''.join(f'<li><a href="{E(r["url"])}" rel="noopener nofollow">{E(r["title"])}</a> · {E(r["source"])}</li>' for r in n.get('reports', []))
+    rel = related_notes(n)
+    relh = ('<h2>관련 확인 노트</h2><div class="rel">' + ''.join(f'<a href="{BASE}n/{m["id"]}/">{img_tag(B, m, "pimg", "")}<div class="rb">{E(m["title"])}</div></a>' for m in rel) + '</div>') if rel else ''
+    share = (f'<div class="share"><button type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(function(){{this.textContent=\'복사했습니다\'}}.bind(this))">링크 복사</button>'
+             '<button type="button" onclick="window.print()">인쇄</button>' + (f'<a href="{BASE}feed.xml">RSS</a>' if not (B.NOURL or B.DEMO) else '') + '</div>')
+    return (f'<article class="art">{ex}{wide}<span class="lb">확인 노트 · {E(cat_of(n))}</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
+            f'<div class="vband {V[v]}"><b>{E(v)}</b><span>{E(VDESC.get(v, ""))}</span></div>'
+            f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
+            + (f'<div class="nbox"><span>핵심 숫자</span><b style="color:{COLR.get(v, "#111")}">{E(num)}</b><em>{E(n["question"])}</em></div>' if num else '')
+            + f'<p class="sum">{E(n["summary"])}</p>'
+            + (f'<h2>확인한 사실과 출처</h2><ul class="srcs">{facts}</ul>' if facts else '')
+            + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
+            + (f'<h2>아직 확인 안 된 것</h2><div class="unc"><ul>{li(n["unconfirmed"])}</ul></div>' if n.get('unconfirmed') else '')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + extra_html + relh + share + '</article>')
+
+
+# ---------------------------------------------------------------- 8 푸터·믿을 근거 / 9 아래 고정 메뉴 (완성된 쪽 HTML 을 한 번 손본다)
+def post(B, doc, items, path):
+    act = B.POLISH; BASE = B.BASE; name = E(B.S['name'])
+    if 8 in act:
+        links = ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in items[:6])
+        legal = (f'<a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a><a href="{BASE}privacy/">개인정보 처리방침</a>' + (f'<a href="{BASE}disclosure/">광고·제휴 고지</a>' if B.part('monetize', False) else '')
+                 + (f'<a href="{BASE}how/">확인하는 방법</a>' if B.part('info') else '') + ('' if (B.NOURL or B.DEMO) else f'<a href="{BASE}feed.xml">RSS</a>'))
+        trust = ('<section class="trust"><div class="wrap"><div><b>공식 자료로만 판정합니다</b><p>정부·기관이 직접 낸 자료에서 숫자와 날짜를 찾아 맞춰 봅니다. 찾지 못한 것은 지어내지 않고 「아직 확인 안 됨」으로 둡니다.</p></div>'
+                 '<div><b>출처를 눌러 확인합니다</b><p>확인한 사실마다 출처 링크와 확인 시각을 붙입니다. 기사 본문은 옮기지 않고 제목·매체·링크만 모읍니다.</p></div>'
+                 '<div><b>틀리면 고칩니다</b><p>정정 요청은 문의 쪽으로 받습니다. 고친 내용은 노트에 적고, 판정이 바뀌면 그 사실을 알립니다.</p></div></div></section>') if B.part('info') else ''
+        foot = (f'{trust}<footer class="ft"><div class="wrap"><div class="ft-grid"><div><b>{name}</b><p>{E(B.S.get("about") or B.S["tagline"])}</p></div><div><b>둘러보기</b>{links}</div><div><b>알림</b>{legal}</div></div>'
+                f'<p class="ft-c">{"기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다. " if B.part("info") else ""}© {name}</p></div></footer>')
+        doc = re.sub(r'<footer>.*?</footer>', lambda m: foot, doc, count=1, flags=re.S)
+    if 9 in act:
+        it = items[:3]
+        icons = ['⌂', '☰', '⌕']
+        cells = ''.join(f'<a href="{u}" class="{"on" if (u == BASE and not path) else ""}"><b>{icons[i]}</b>{E(n)}</a>' for i, (n, u) in enumerate(it))
+        M = (B.S.get('monetize') or {}); nl = (M.get('newsletter') or {}).get('url')
+        sub = nl or (BASE + 'feed.xml' if not (B.NOURL or B.DEMO) else BASE + 'contact/')
+        cells += f'<a href="{E(sub)}" class="{"cta" if act[9] == "B" else ""}"><b>✉</b>소식 받기</a>'
+        doc = doc.replace('</body>', f'<nav class="bnav" aria-label="아래 메뉴">{cells}</nav></body>', 1)
+    return doc
