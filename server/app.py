@@ -259,7 +259,7 @@ class H(http.server.SimpleHTTPRequestHandler):
     def api_get(self, path, q):
         S = store()
         if path == '/api/health':
-            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search', 'board']})
+            return self.send_json({'ok': True, 'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'db': 'postgres' if isinstance(S, PgStore) else 'file', 'features': ['visit', 'comments', 'likes', 'contact', 'subscribe', 'poll', 'kv', 'search', 'board', 'market']})
         if path == '/api/comments':
             slug = clean(q.get('slug', [''])[0], 120)
             rows = S.find('comments', {'slug': slug, 'status': 'approved'}, 50)

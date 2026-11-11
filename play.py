@@ -197,6 +197,8 @@ def split_cmd(R, rest):
         print(f'━━ 나누기 · {d["name"]} ━━\n{d["one_line"]}\n(근거: {d.get("source", "")})\n')
         for p in P:
             print(f'  {p["n"]:>2}. {p["name"]:<14} [{p["ours"]}] {"· 서버 필요" if p.get("server") else ""} — {p["does"]}')
+        if d.get('biggest_diff'):
+            print(f'\n※ 본과 가장 크게 다른 것: {d["biggest_diff"]}')
         have = sum(1 for p in P if p['ours'].startswith('있음')); near = sum(1 for p in P if p['ours'].startswith('비슷')); none = len(P) - have - near
         print(f'\n조각 {len(P)}개: 우리 저장소에 있음 {have} · 비슷함 {near} · 없음 {none} / 서버 없이 되는 것 {sum(1 for p in P if not p.get("server"))}개')
         print(f'[독자에게 말할 것] 사이트 하나도 이렇게 조각으로 나눠 볼 수 있습니다. 조각을 하나씩 골라 자세히 보고(python run.py 나누기 {key} <번호>) 내 사이트에 켜 봅니다.\n[물음] 이 가운데 없으면 {d["name"]} 이(가) 아니게 되는 조각은 무엇일까요?\n\n여기서 멈추고 독자에게 묻습니다.')
