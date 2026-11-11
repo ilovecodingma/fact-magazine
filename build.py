@@ -11,7 +11,10 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-S['url'] = os.environ.get('SITE_URL', S['url']).rstrip('/')   # 자동 갱신(GitHub Actions)에서는 환경변수로 주소를 넣는다
+for _k, _env in (('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
+    if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
+        S[_k] = os.environ[_env]
+S['url'] = S['url'].rstrip('/')
 BASE, URL = S['base'], S['url']
 E = html.escape
 VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안 됨': 'no'}
@@ -82,7 +85,7 @@ def home(notes, topics):
     tp = ''.join(f'<div class="card"><small>{t["media_count"]}개 매체가 함께 다룸 · {E(" · ".join(t["media"]))}</small><b>{E(t["title"])}</b>'
                  + ''.join(f'<div class="mu">· <a href="{E(i["link"])}" rel="noopener nofollow">{E(i["source"])}</a> {E(i["title"][:46])}</div>' for i in t['items'][:4]) + '</div>' for t in topics[:8])
     body = f'<h1>오늘의 확인 노트</h1>{cards}<h2>오늘 여러 매체가 함께 다룬 소식</h2><p class="mu">제목·매체·링크만 모았습니다. 이 가운데 제도·숫자·날짜가 걸린 소식을 골라 확인 노트로 씁니다.</p>{tp}'
-    return page('', f'{S["name"]} — {S["tagline"]}', S['tagline'], body)
+    return page('', S.get('home_title') or f'{S["name"]} — {S["tagline"]}', S.get('home_desc') or S['tagline'], body)   # 첫 화면 제목·설명은 따로 정할 수 있다(검색 결과에 그대로 보이는 문구)
 
 
 def static_pages():
