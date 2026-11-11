@@ -48,7 +48,11 @@ def main():
     if on('issue'):
         steps += [('호 발행(PDF)', [PY, '-X', 'utf8', 'issue.py'], None), ('화면 다시(PDF 링크)', [PY, '-X', 'utf8', 'build.py'], clean)]
     if on('shorts'):
-        steps.append(('쇼츠', [PY, '-X', 'utf8', 'shorts.py'], None))
+        import shutil
+        if os.environ.get('FFMPEG') or shutil.which('ffmpeg'):
+            steps.append(('쇼츠', [PY, '-X', 'utf8', 'shorts.py'], None))
+        else:
+            print('▷ 쇼츠 — 건너뜀: ffmpeg 가 없습니다(설치: 윈도우 `winget install Gyan.FFmpeg`, 맥 `brew install ffmpeg`, 리눅스 `sudo apt install ffmpeg`. 깔면 다음 한 바퀴부터 만들어집니다)')
     if '--deploy' in ARGS:
         steps += [('올리기: 커밋', ['git', 'add', '-A'], None), ('올리기: 푸시', ['git', 'commit', '-m', f'자동 갱신 {datetime.date.today()}'], None), ('올리기: 푸시', ['git', 'push'], None)]
     if '--mail' in ARGS and on('mail'):

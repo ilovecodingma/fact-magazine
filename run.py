@@ -8,6 +8,7 @@
       python run.py 사이클                    하루 한 바퀴(올리기·메일 빼고)를 단계별로 돌리기
       python run.py 알기 계산기 5             꼭 알아야 할 것 top-k   (python run.py 알기 하네스)
       python run.py 점검                      doctor
+      python run.py 올리기전                  구문 검사 + 장·키트·조립·사이클 명령을 한 번씩 실제로 돌려 보기(올리기 전 필수)
       python run.py 진도 [보기|기록 글]        어디까지 했는지
       python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
 옵션: --headless(창 없이) --slow 초(단계 간격)
@@ -111,10 +112,35 @@ def main():
         rc = sh(['selftest.py', '--tour', out, '조립 예시 ' + rest[0]] + FLAGS)
         print(f'내 PC 에서 직접 열려면: python -m http.server --directory site_demo_{rest[0]} 또는 python serve.py (조립 예시 목록 /demo/)'); prog_add('조립 ' + rest[0]); return rc
     if cmd in ('사이클', 'cycle'):
-        print('━━ 하루 한 바퀴(올리기·메일 제외) ━━'); steps = [('수집·묶기·대조·화면·호·쇼츠', ['run_daily.py']), ('알림 문구·블로그 글(promo)', ['promo.py']), ('공유용 카드 그림', ['card.py', '--square']), ('점검(audit)', ['audit.py'])]
-        for i, (t, a) in enumerate(steps, 1):
-            print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}'); sh(a)
-        print('\n여기서 사람이 올려라고 합니다: 블로그·영상·인스타에 올리기와 소식지 메일 발송은 사람 승인 후에(이 사이클은 올리지 않았습니다).'); prog_add('사이클 한 바퀴(예행)'); return 0
+        print('━━ 하루 한 바퀴(올리기·메일 제외) ━━', flush=True)
+        steps = [('수집·묶기·대조·화면·호·쇼츠', ['run_daily.py'], '수집 건수·묶음·대조 결과·쪽 수·호 PDF·쇼츠는 위 출력의 단계별 줄'), ('알림 문구·블로그 글(promo)', ['promo.py'], 'promo_out/ 폴더'), ('공유용 카드 그림', ['card.py', '--square'], 'cards/ 폴더(png·svg)'), ('점검(audit)', ['audit.py'], '아래 점검 결과 줄')]
+        for i, (t, a, where) in enumerate(steps, 1):
+            print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}  (결과는 {where})', flush=True)
+            sh(a)
+            sys.stdout.flush()
+        print('\n올릴 묶음(만들어져 있는 것, 아직 올리지 않았습니다):', flush=True)
+        for d, what in (('promo_out', '알림 문구·블로그 글'), ('cards', '공유용 카드 그림'), ('shorts', '쇼츠 영상'), ('넘김', '역할끼리 넘긴 파일')):
+            p = os.path.join(HERE, d)
+            n = len([f for f in os.listdir(p) if not f.startswith('.')]) if os.path.isdir(p) else 0
+            print(f'  - {d}/ ({what}): {n}개', flush=True)
+        print('\n여기서 사람이 올립니다: 블로그·영상·인스타에 올리기와 소식지 메일 발송은 사람 승인 후에(이 사이클은 올리지 않았습니다). 결과 화면은 python serve.py --open 으로 열어 볼 수 있습니다.', flush=True)
+        prog_add('사이클 한 바퀴(예행)'); return 0
+    if cmd in ('올리기전', 'precheck'):
+        import ast
+        bad = 0
+        for f in sorted(glob.glob(os.path.join(HERE, '*.py'))):
+            try:
+                ast.parse(open(f, encoding='utf-8').read())
+            except SyntaxError as e:
+                bad += 1; print(f'✗ 구문 오류 {os.path.basename(f)} {e.lineno}행: {e.msg}')
+        print('구문 검사:', '모두 통과' if not bad else f'{bad}개 파일에 오류')
+        for t in (['장', '1'], ['장', '2'], ['장', '3'], ['진도'], ['키트'], ['조립'], ['알기', '계산기', '1'], ['키트', '계산기', '--headless', '--slow', '0.1'], ['조립', 'tools', '--headless', '--slow', '0.1']):
+            r = subprocess.run(PY + ['run.py'] + t, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace')
+            ok = r.returncode == 0 and 'Traceback' not in r.stderr and '없습니다' not in r.stdout.split(chr(10))[0]
+            bad += 0 if ok else 1; print(('✓' if ok else '✗'), 'run.py ' + ' '.join(t))
+        r = subprocess.run(PY + ['run_daily.py', '--dry'], cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace'); ok = r.returncode == 0
+        bad += 0 if ok else 1; print(('✓' if ok else '✗'), 'run_daily.py --dry')
+        print(chr(10) + '올려도 됩니다' if not bad else chr(10) + f'올리지 마세요: {bad}건 실패'); return 1 if bad else 0
     if cmd in ('알기', 'know'):
         return sh(['know.py'] + rest)
     if cmd in ('진도', 'progress'):
