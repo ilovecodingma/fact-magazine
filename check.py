@@ -28,7 +28,10 @@ def numbers(text):
 def page_text(url):
     """출처 쪽 글자만 가져온다(태그·스크립트 제거, 쉼표 뺀 숫자 비교용으로 쉼표도 제거)."""
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (fact-magazine check)'})
-    raw = urllib.request.urlopen(req, timeout=30).read().decode('utf-8', 'ignore')
+    # 쿠키를 받아 다시 열어야 하는 사이트(처음엔 307 로 되돌려 보냄)가 있어 쿠키 보관함을 함께 쓴다
+    import http.cookiejar
+    op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+    raw = op.open(req, timeout=30).read().decode('utf-8', 'ignore')
     raw = re.sub(r'(?s)<style\b.*?</style>', ' ', raw)   # 스크립트 안 글자는 남긴다: 정책브리핑은 요약문이 <script> 안에 들어 있다
     return html.unescape(re.sub(r'<[^>]+>', ' ', raw)).replace(',', '')
 

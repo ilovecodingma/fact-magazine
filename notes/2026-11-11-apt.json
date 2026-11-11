@@ -1,0 +1,60 @@
+{
+  "id": "2026-11-11-apt",
+  "date": "2026-11-11",
+  "title": "부정청약 354건 적발, 국토교통부 합동점검 결과",
+  "question": "이번 합동점검에서 적발된 부정청약은 몇 건인가?",
+  "verdict": "일부만 확인됨",
+  "summary": "국토교통부가 11월 10일 낸 보도자료 제목에 부정청약 354건 적발이라고 적혀 있다. 매체들이 전한 건수와 같다. 유형별 건수와 구체적인 사례는 첨부 문서에 있어 확인하지 못했다.",
+  "facts": [
+    {
+      "text": "국토교통부는 부정청약 관계부처 합동점검 결과 부정청약 354건을 적발했다고 밝혔다.",
+      "source": "국토교통부 보도자료 「부정청약 관계부처 합동점검 결과」",
+      "url": "https://www.molit.go.kr/USR/NEWS/m_71/dtl.jsp?lcmspage=1&id=95092578"
+    },
+    {
+      "text": "보도자료는 2026-11-10 에 등록됐고, 직장 소재지와 전·월세 내역 확인 등 조사 기법을 강화했다고 제목에 적었다.",
+      "source": "국토교통부 같은 자료",
+      "url": "https://www.molit.go.kr/USR/NEWS/m_71/dtl.jsp?lcmspage=1&id=95092578"
+    }
+  ],
+  "differs": [
+    "매체 제목의 건수(354건)는 서로 같다. 매체마다 앞세운 사례가 다르다."
+  ],
+  "unconfirmed": [
+    "유형별 건수와 매체들이 전한 개별 사례. 보도자료 본문이 첨부 문서라 열어 보지 못했다.",
+    "적발된 건에 대한 처분 내용."
+  ],
+  "reports": [
+    {
+      "source": "경향신문",
+      "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
+      "url": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news"
+    },
+    {
+      "source": "경향신문",
+      "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
+      "url": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news"
+    },
+    {
+      "source": "한겨레",
+      "title": "의사 부부가 ‘위장퇴사’로 저소득자 청약…부정청약 354건 적발",
+      "url": "https://www.hani.co.kr/arti/economy/economy_general/1286560.html"
+    },
+    {
+      "source": "동아일보",
+      "title": "‘퇴사 뒤 재입사’ 꼼수… 의사부부 등 부정청약 354건 적발",
+      "url": "https://www.donga.com/news/Economy/article/all/20261111/135002975/2"
+    },
+    {
+      "source": "SBS",
+      "title": "위장 퇴사에 위장 미혼…부정청약 '354건' 적발",
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008838860&plink=RSSLINK&cooper=RSSREADER"
+    }
+  ],
+  "checked_at": "2026-11-11 13:29",
+  "tags": [
+    "청약",
+    "부정청약",
+    "국토교통부"
+  ]
+}

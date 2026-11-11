@@ -4,7 +4,7 @@
 build.py 는 노트가 있는 날짜마다 docs/issue/<날짜>/ 쪽과 print.html 을 만든다. 이 스크립트는 print.html 을 PDF 로 찍어 issues_pdf/<날짜>.pdf 에 둔다(없는 날짜만).
 사용: python issue.py            새로 만들 호만
       python issue.py --force    모든 호 다시 만들기"""
-import glob, os, shutil, subprocess, sys
+import glob, json, os, shutil, subprocess, sys
 try:
     sys.stdout.reconfigure(encoding='utf-8')
 except Exception:
@@ -37,11 +37,16 @@ def main():
     for p in pages:
         d = os.path.basename(os.path.dirname(p))
         out = os.path.join(PDF, d + '.pdf')
-        if os.path.exists(out) and not force:
-            print('이미 있음:', d); continue
+        import hashlib   # 그날 호의 내용이 바뀌었으면(노트가 늘었으면) PDF 를 다시 만든다
+        st_p = os.path.join(HERE, 'data', 'issue_state.json')
+        st = json.load(open(st_p, encoding='utf-8')) if os.path.exists(st_p) else {}
+        h = hashlib.sha256(open(p, 'rb').read()).hexdigest()[:16]
+        if os.path.exists(out) and not force and st.get(d) == h:
+            print('이미 있음(내용 그대로):', d); continue
         subprocess.run([br, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--print-to-pdf=' + out, 'file:///' + p.replace('\\', '/')],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)
         if os.path.exists(out) and os.path.getsize(out) > 1000:
+            st[d] = h; os.makedirs(os.path.dirname(st_p), exist_ok=True); json.dump(st, open(st_p, 'w', encoding='utf-8'), indent=1)
             print('만듦:', out); made += 1
         else:
             print('실패:', d)
