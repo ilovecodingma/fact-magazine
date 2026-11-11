@@ -122,7 +122,7 @@ def page(path, title, desc, body, noindex=False):
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
-<div class="wrap"><nav class="menu"><a href="{BASE}">오늘</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
+<div class="wrap"><nav class="menu"><a href="{BASE}">{'오늘' if part('info') else '처음'}</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
 <main class="wrap">{body}</main>
 <footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
@@ -540,7 +540,21 @@ def home(notes, topics, notice=''):
                 ('글', 'post/', 'posts', lambda: os.path.isdir(os.path.join(HERE, 'posts')), '생활·돈 가이드 글'), ('연재', 'novel/', 'novel', lambda: os.path.isdir(os.path.join(HERE, 'novels')), '연재 소설'), ('웹툰', 'toon/', 'toon', lambda: os.path.isdir(os.path.join(HERE, 'toons')), '웹툰·만화'),
                 ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')]
         gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok())
-        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h2 style="font:800 28px/1.3 var(--serif);margin:0 0 10px">{E(S["name"])}</h2><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + extras_html())
+        mix = ''   # 켜진 키트의 실제 내용을 첫 화면에 모아 보여 준다
+        if part('games', False) and load_games():
+            mix += '<section class="sec"><h2>게임</h2><div class="gl">' + ''.join(f'<a href="{BASE}games/{g["slug"]}/"><span class="lb">{E(g.get("kind", "게임"))}</span><h3>{E(g["title"])}</h3><p>{E(g.get("intro", g["desc"])[:70])}</p></a>' for g in load_games()) + '</div></section>'
+        if part('calc', False) and kit_data('calc', 'calculators.json'):
+            mix += '<section class="sec"><h2>계산기</h2><div class="gl">' + ''.join(f'<a href="{BASE}calc/{c["slug"]}/"><span class="lb">계산기</span><h3>{E(c["title"])}</h3><p>{E(c["desc"])}</p></a>' for c in kit_data('calc', 'calculators.json')) + '</div></section>'
+        if part('glossary', False) and kit_data('glossary', 'terms.json'):
+            ts = kit_data('glossary', 'terms.json')[:6]
+            mix += '<section class="sec"><h2>용어</h2><ul class="rp">' + ''.join(f'<li><a href="{BASE}glossary/{re.sub(chr(32), chr(45), t["term"])}/"><b>{E(t["term"])}</b></a> — {E(t["short"])}</li>' for t in ts) + f'</ul><p class="sub"><a href="{BASE}glossary/">용어 전체 보기</a></p></section>'
+        if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')):
+            ps = sorted(glob.glob(os.path.join(HERE, 'posts', '*.md')))[-3:]
+            if ps:
+                mix += '<section class="sec"><h2>글</h2><ul class="rp">' + ''.join(f'<li><a href="{BASE}post/{os.path.splitext(os.path.basename(f))[0]}/">{E(first_h1(open(f, encoding="utf-8").read(), os.path.basename(f)))}</a></li>' for f in ps) + '</ul></section>'
+        if mix:
+            gl = ''
+        return page('', S.get('home_title') or S['name'], S.get('home_desc') or S['tagline'], f'<div class="page"><h2 style="font:800 28px/1.3 var(--serif);margin:0 0 10px">{E(S["name"])}</h2><p>{E(S["tagline"])}</p><div class="gl">{gl}</div></div>' + mix + extras_html())
     if notes:
         n = notes[0]
         lead = (f'<div class="lead"><span class="lb">오늘의 확인 노트</span><a href="{BASE}n/{n["id"]}/"><h2>{E(n["title"])}</h2></a>'
