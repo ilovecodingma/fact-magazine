@@ -1,7 +1,7 @@
 {
-  "name": "한 번 더 확인",
-  "tagline": "뉴스가 말한 제도·숫자·날짜를 공식 자료로 한 번 더 확인합니다",
-  "url": "https://sungprofile.cloud/fact-magazine",
+  "name": "내 사이트 이름",
+  "tagline": "한 줄 소개를 여기에 씁니다",
+  "url": "https://내계정.github.io/fact-magazine",
   "base": "/fact-magazine/",
-  "contact": "문의는 사이트 운영자 메일(준비 중)로 받습니다."
+  "contact": "문의 방법을 여기에 씁니다."
 }

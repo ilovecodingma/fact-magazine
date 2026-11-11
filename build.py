@@ -8,6 +8,10 @@ import json, os, sys, glob, html, shutil, datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'docs')
 S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+_local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
+if os.path.exists(_local):
+    S.update(json.load(open(_local, encoding='utf-8')))
+S['url'] = os.environ.get('SITE_URL', S['url']).rstrip('/')   # 자동 갱신(GitHub Actions)에서는 환경변수로 주소를 넣는다
 BASE, URL = S['base'], S['url']
 E = html.escape
 VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안 됨': 'no'}
