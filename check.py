@@ -6,6 +6,10 @@
 한계: 숫자·날짜 글자가 원문에 있는지만 본다. 뜻이 맞는지는 사람이 읽어야 한다.
       정책브리핑은 보기 쪽 요약문이 잘려 있어 목록 쪽 요약문까지 함께 본다(느슨한 대조 — 같은 숫자가 목록의 다른 글에 있어도 통과할 수 있다)."""
 import json, os, re, sys, glob, shutil, time, html, urllib.request
+try:
+    sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
+except Exception:
+    pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 NUM = re.compile(r'\d[\d,.]*')
@@ -59,19 +63,22 @@ def check_note(n):
 
 def main():
     dry = '--dry-run' in sys.argv
-    held = 0
+    held = checked = passed = 0
     for p in sorted(glob.glob(os.path.join(HERE, 'notes', '*.json'))):
         n = json.load(open(p, encoding='utf-8'))
         if n.get('example'):
             continue
         ok, pr = check_note(n)
+        checked += 1; passed += ok
         print(('통과' if ok else '보류'), os.path.basename(p))
         for x in pr:
             print('   -', x)
         if not ok and not dry:
             os.makedirs(os.path.join(HERE, '보류'), exist_ok=True)
             shutil.move(p, os.path.join(HERE, '보류', os.path.basename(p))); held += 1
-    print(f'보류 {held}건')
+    if checked == 0:
+        print('대조할 노트가 없습니다(notes/ 에 노트를 넣어야 합니다)')
+    print(f'대조 {checked}건: 통과 {passed}건, 보류 {checked - passed}건' + ('' if dry else f' (보류/ 로 옮긴 것 {held}건)'))
     return 0
 
 

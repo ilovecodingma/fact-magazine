@@ -4,6 +4,10 @@
 「예시」 노트(example:true)는 화면 틀 시험용이라 --example 을 줄 때만 넣는다. 공개본에는 올리지 않는다.
 실행: python build.py [--example]"""
 import json, os, sys, glob, html, shutil, datetime
+try:
+    sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
+except Exception:
+    pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'docs')
@@ -11,10 +15,11 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-for _k, _env in (('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
+for _k, _env in (('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
+KEYWORDS = [k.strip() for k in (os.environ.get('TOPIC_KEYWORDS') or ','.join(S.get('topic_keywords', []))).split(',') if k.strip()]   # 주제 키워드(런북 6절)
 BASE, URL = S['base'], S['url']
 E = html.escape
 VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안 됨': 'no'}
@@ -79,12 +84,23 @@ def note_page(n):
     return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], body, noindex=bool(n.get('example')))
 
 
-def home(notes, topics):
+def filter_topics(topics):
+    """주제 키워드가 있으면 묶음 제목이나 기사 제목에 키워드가 든 묶음만 남긴다. 0건이면 필터 없이 보여 주고 알린다. (남은 묶음, 안내 글)"""
+    if not KEYWORDS:
+        return topics, ''
+    keep = [t for t in topics if any(k in t['title'] or any(k in i['title'] for i in t['items']) for k in KEYWORDS)]
+    if keep:
+        return keep, ''
+    print('주의: 키워드', KEYWORDS, '에 맞는 묶음이 0건이라 필터 없이 보여 줍니다. 피드(feeds.json)나 키워드를 바꿔 보세요.')
+    return topics, '주제 키워드에 맞는 소식이 아직 없어 전체 소식을 보여 줍니다.'
+
+
+def home(notes, topics, notice=''):
     cards = ''.join(f'<a class="card" href="{BASE}n/{n["id"]}/"><small>{E(n["date"])}</small><b>{E(n["title"])}</b><span class="v {VERDICTS[n["verdict"]]}">{E(n["verdict"])}</span></a>' for n in notes[:6])
     cards = cards or '<p class="mu">오늘의 확인 노트를 준비 중입니다.</p>'
     tp = ''.join(f'<div class="card"><small>{t["media_count"]}개 매체가 함께 다룸 · {E(" · ".join(t["media"]))}</small><b>{E(t["title"])}</b>'
                  + ''.join(f'<div class="mu">· <a href="{E(i["link"])}" rel="noopener nofollow">{E(i["source"])}</a> {E(i["title"][:46])}</div>' for i in t['items'][:4]) + '</div>' for t in topics[:8])
-    body = f'<h1>오늘의 확인 노트</h1>{cards}<h2>오늘 여러 매체가 함께 다룬 소식</h2><p class="mu">제목·매체·링크만 모았습니다. 이 가운데 제도·숫자·날짜가 걸린 소식을 골라 확인 노트로 씁니다.</p>{tp}'
+    body = f'<h1>오늘의 확인 노트</h1>{cards}<h2>오늘 여러 매체가 함께 다룬 소식</h2><p class="mu">제목·매체·링크만 모았습니다. 이 가운데 제도·숫자·날짜가 걸린 소식을 골라 확인 노트로 씁니다. {E(notice)}</p>{tp}'
     return page('', S.get('home_title') or f'{S["name"]} — {S["tagline"]}', S.get('home_desc') or S['tagline'], body)   # 첫 화면 제목·설명은 따로 정할 수 있다(검색 결과에 그대로 보이는 문구)
 
 
@@ -93,8 +109,7 @@ def static_pages():
            '<ul><li><span class="v ok">확인됨</span> 공식 자료에서 같은 내용을 직접 찾았습니다.</li><li><span class="v part">일부만 확인됨</span> 일부만 찾았고 나머지는 찾지 못했습니다.</li>'
            '<li><span class="v no">아직 확인 안 됨</span> 공식 자료에서 찾지 못했습니다. 틀렸다는 뜻이 아닙니다.</li></ul>'
            '<p>확인한 사실마다 출처 링크를 붙입니다. 찾지 못한 것은 「아직 확인 안 된 것」 칸에 따로 적고 지어서 채우지 않습니다. 연예인·정치인·사건 당사자 이야기는 다루지 않습니다.</p>')
-    about = ('<h1>소개</h1><p>「한 번 더 확인」은 여러 매체가 함께 다룬 생활·경제 소식 가운데 제도·숫자·날짜를 공식 자료와 맞춰 보는 작은 정보 매거진입니다. '
-             '수집과 빌드는 자동으로 돌고, 확인 노트는 사람이 살피는 흐름 안에서 에이전트가 씁니다. 에이전트 여러 개가 역할을 나눠 일하는 과정을 보여 주는 실습 사이트이기도 합니다.</p>')
+    about = '<h1>소개</h1><p>' + E(S.get('about') or f'「{S["name"]}」은 여러 매체가 함께 다룬 소식 가운데 제도·숫자·날짜를 공식 자료와 맞춰 보는 작은 정보 사이트입니다. 수집과 빌드는 자동으로 돌고, 확인 노트는 사람이 살피는 흐름 안에서 에이전트가 씁니다.') + '</p>'
     contact = f'<h1>문의</h1><p>{E(S["contact"])}</p>'
     priv = ('<h1>개인정보 처리방침</h1><p>이 사이트는 회원가입·댓글·결제를 받지 않고 방문자의 개인정보를 직접 수집하지 않습니다. '
             '호스팅 서비스(GitHub Pages)가 접속 기록을 남길 수 있으며 이는 해당 서비스의 방침을 따릅니다.</p>')
@@ -120,7 +135,8 @@ def main():
     tp = os.path.join(HERE, 'data', 'topics.json')
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
     notes = load_notes(with_example)
-    urls = [home(notes, topics)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes]
+    topics, notice = filter_topics(topics)
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes]
     feed(notes)
     open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')

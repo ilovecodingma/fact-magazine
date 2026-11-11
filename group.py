@@ -3,6 +3,11 @@
 방법은 단순하다. 제목에서 두 글자 이상 낱말(숫자 포함)을 뽑고, 낱말이 충분히 겹치는 제목끼리 같은 묶음으로 본다.
 묶음에 서로 다른 매체가 MIN_SOURCES 곳 이상 들어 있어야 「함께 다룬 소식」이다.  실행: python group.py"""
 import json, os, re, datetime
+import sys
+try:
+    sys.stdout.reconfigure(encoding='utf-8')   # 윈도우에서 한글 출력이 깨지지 않게
+except Exception:
+    pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MIN_SOURCES = 3      # 이 수 이상의 매체가 다룬 묶음만 남긴다

@@ -17,6 +17,8 @@ jobs:
       SITE_CONTACT: ${{ vars.SITE_CONTACT }}
       HOME_TITLE: ${{ vars.HOME_TITLE }}
       HOME_DESC: ${{ vars.HOME_DESC }}
+      SITE_ABOUT: ${{ vars.SITE_ABOUT }}
+      TOPIC_KEYWORDS: ${{ vars.TOPIC_KEYWORDS }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

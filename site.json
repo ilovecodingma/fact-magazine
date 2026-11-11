@@ -3,5 +3,7 @@
   "tagline": "한 줄 소개를 여기에 씁니다",
   "url": "https://내계정.github.io/fact-magazine",
   "base": "/fact-magazine/",
-  "contact": "문의 방법을 여기에 씁니다."
+  "contact": "문의 방법을 여기에 씁니다.",
+  "about": "",
+  "topic_keywords": []
 }
