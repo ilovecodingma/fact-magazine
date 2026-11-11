@@ -76,15 +76,15 @@ def scenes(note, name, url):
 
 PAGE = """<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 *{box-sizing:border-box}html,body{margin:0;width:1080px;height:1920px;background:#fff;color:#111;overflow:hidden}
-body{font-family:'Noto Serif KR','Nanum Myeongjo','Batang',serif;padding:120px 90px 330px;position:relative}
+body{font-family:'Noto Serif KR','Nanum Myeongjo','Batang',serif;padding:120px 90px 420px;position:relative}
 .top{position:absolute;left:0;right:0;top:0;text-align:center;border-bottom:6px double #111;padding:36px 0 22px}
 .top b{font-size:64px;font-weight:900;letter-spacing:-1px}.top div{font:600 26px system-ui,'Malgun Gothic',sans-serif;color:#555;margin-bottom:8px}
-.main{position:absolute;left:90px;right:90px;top:280px;bottom:360px;display:flex;flex-direction:column;justify-content:center}
+.main{position:absolute;left:90px;right:90px;top:280px;bottom:420px;display:flex;flex-direction:column;justify-content:center}
 .lb{font:800 34px system-ui,'Malgun Gothic',sans-serif;letter-spacing:2px;color:#555;border-top:4px solid #111;padding-top:18px;margin:0 0 40px}
 h1{font-size:84px;line-height:1.35;font-weight:800;margin:0 0 60px;letter-spacing:-2px}
 .stamp{display:inline-block;font:900 64px system-ui,'Malgun Gothic',sans-serif;border:6px solid;padding:14px 34px}
 .fact{font-size:50px;line-height:1.55;margin:0 0 44px;font-weight:600}.src{display:block;font:600 32px system-ui,'Malgun Gothic',sans-serif;color:#0b3d91;margin-top:8px}
-.foot{position:absolute;left:90px;right:90px;bottom:330px;border-top:4px solid #111;padding-top:24px;font:600 34px/1.5 system-ui,'Malgun Gothic',sans-serif;color:#333}.foot b{font:900 54px 'Noto Serif KR','Nanum Myeongjo','Batang',serif;color:#111}
+.foot{position:absolute;left:90px;right:90px;bottom:420px;border-top:4px solid #111;padding-top:24px;font:600 34px/1.5 system-ui,'Malgun Gothic',sans-serif;color:#333}.foot b{font:900 54px 'Noto Serif KR','Nanum Myeongjo','Batang',serif;color:#111}
 </style></head><body><div class="top"><div>%s</div><b>%s</b></div><div class="main">%s</div></body></html>"""
 
 
@@ -112,6 +112,29 @@ def wav_len(wav):
         return w.getnframes() / float(w.getframerate())
 
 
+def gate(ff, out, voiced):
+    """사람 없이 돌 때의 품질 문턱. 문제 목록을 돌려준다(빈 목록이면 통과).
+    ① 영상 전체를 끝까지 디코드해 오류가 없는지 ② 해상도 1080x1920·길이 15~60초 ③ 소리가 있으면 너무 작지 않은지(평균 음량 -35dB 보다 커야 함)."""
+    bad = []
+    r = subprocess.run([ff, '-v', 'error', '-i', out, '-f', 'null', '-'], capture_output=True, text=True)
+    if r.stderr.strip():
+        bad.append('디코드 오류: ' + r.stderr.strip()[:120])
+    info = subprocess.run([ff, '-hide_banner', '-i', out], capture_output=True, text=True).stderr
+    if '1080x1920' not in info:
+        bad.append('해상도가 1080x1920 이 아님')
+    m = re.search(r'Duration: (\d+):(\d+):([\d.]+)', info)
+    if m:
+        sec = int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3))
+        if not 15 <= sec <= 60:
+            bad.append(f'길이 {sec:.0f}초(15~60초가 아님)')
+    if voiced:
+        v = subprocess.run([ff, '-hide_banner', '-i', out, '-af', 'volumedetect', '-f', 'null', '-'], capture_output=True, text=True).stderr
+        m = re.search(r'mean_volume: (-?[\d.]+) dB', v)
+        if m and float(m.group(1)) < -35:
+            bad.append('소리가 너무 작음(평균 ' + m.group(1) + 'dB)')
+    return bad
+
+
 def make(note_path, ff, br):
     note = json.load(open(note_path, encoding='utf-8'))
     name, url = site()
@@ -119,6 +142,7 @@ def make(note_path, ff, br):
     os.makedirs(OUT, exist_ok=True)
     tmp = tempfile.mkdtemp(prefix='shorts_')
     parts = []
+    voiced_any = False
     date = note['date']
     try:
         for i, (body, say) in enumerate(sc, 1):
@@ -127,6 +151,7 @@ def make(note_path, ff, br):
             if not screenshot(br, hp, png):
                 sys.exit('장면 그림을 만들지 못했습니다(브라우저 실행 실패): ' + br)
             voiced = speak(say, wav)
+            voiced_any = voiced_any or voiced
             dur = (wav_len(wav) + 1.0) if voiced else max(6.0, len(say) / 7.0)
             dur = min(max(dur, 5.0), 16.0)
             seg = os.path.join(tmp, f'seg{i}.mp4')
@@ -141,9 +166,15 @@ def make(note_path, ff, br):
         lst = os.path.join(tmp, 'list.txt')
         open(lst, 'w', encoding='utf-8').write(''.join("file '" + p.replace('\\', '/') + "'\n" for p in parts))
         out = os.path.join(OUT, note['id'] + '.mp4')
-        r = subprocess.run([ff, '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', '-movflags', '+faststart', out], capture_output=True, text=True)
+        r = subprocess.run([ff, '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c:v', 'copy', '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-c:a', 'aac', '-ar', '44100', '-movflags', '+faststart', out], capture_output=True, text=True)
         if r.returncode != 0:
             sys.exit('ffmpeg 이어 붙이기 실패: ' + r.stderr[-300:])
+        problems = gate(ff, out, voiced_any)
+        for p in problems:
+            print('  품질 문턱 실패:', p)
+        if problems:
+            os.replace(out, out.replace('.mp4', '_보류.mp4'))   # 문턱을 못 넘으면 올리지 않고 보류로 이름을 바꾼다
+            out = out.replace('.mp4', '_보류.mp4')
         for i in range(1, 4):   # 장면 그림도 같이 남긴다(확인·책 캡처용)
             shutil.copy(os.path.join(tmp, f's{i}.png'), os.path.join(OUT, f'{note["id"]}_장면{i}.png'))
     finally:
