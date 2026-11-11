@@ -112,7 +112,7 @@ BUY_JS = r"""(function(){var w=document.getElementById("mkwant");if(!w)return;va
 if(mode==="link")return;
 w.onclick=function(e){e.preventDefault();box.hidden=!box.hidden;if(!box.hidden)box.querySelector("input").focus()};
 box.onsubmit=function(e){e.preventDefault();var f=box,amt=f.amount?f.amount.value:"";
- fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:f.name.value,email:f.email.value,message:"[주문 문의] "+w.dataset.name+" / "+w.dataset.price+(amt?" / 내가 정한 값 "+amt+"원":"")+" / "+f.note.value})}).then(function(r){return r.json()}).then(function(j){msg.textContent=j.ok?"주문 문의를 보냈습니다. 판매자가 메일로 안내합니다(결제는 이 사이트에서 하지 않습니다).":(j.error||"보내지 못했습니다");msg.style.color=j.ok?"#0b5d2f":"#a11a12";if(j.ok)f.reset()}).catch(function(){msg.textContent="서버가 켜져 있을 때 됩니다(python run.py 서버). 그때까지는 문의 쪽으로 보내 주세요.";msg.style.color="#a11a12"})};
+ fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:f.name.value,email:f.email.value,message:"[주문 문의] "+w.dataset.name+" / "+w.dataset.price+(amt?" / 내가 정한 값 "+amt+"원":"")+" / "+f.note.value})}).then(function(r){return r.json()}).then(function(j){msg.textContent=j.ok?"주문 문의를 보냈습니다. 판매자가 메일로 안내합니다(결제는 이 사이트에서 하지 않습니다).":(j.error||"보내지 못했습니다");msg.style.color=j.ok?"#0b5d2f":"#a11a12";if(j.ok)f.reset()}).catch(function(){msg.textContent="지금은 보낼 수 없습니다. 잠시 뒤 다시 해 주세요.";msg.style.color="#a11a12"})};
 var wl=document.getElementById("mkwl");if(wl){var K="fm_mk_wish",L=[];try{L=JSON.parse(localStorage.getItem(K)||"[]")}catch(e){}function p(){wl.firstChild.textContent=L.indexOf(w.dataset.slug)>=0?"찜했습니다 ":"찜하기 "}p();wl.onclick=function(){var i=L.indexOf(w.dataset.slug);if(i>=0)L.splice(i,1);else L.push(w.dataset.slug);try{localStorage.setItem(K,JSON.stringify(L))}catch(e){}p()}}
 var sh=document.getElementById("mksh");if(sh)sh.onclick=function(){if(navigator.clipboard)navigator.clipboard.writeText(location.href).then(function(){sh.textContent="주소를 복사했습니다"})}})();"""
 
@@ -172,7 +172,7 @@ def product_body(B, p, full):
             f'<form class="mk-form" id="mkform" hidden><input name="name" maxlength="40" placeholder="이름" aria-label="이름"><input name="email" type="email" required maxlength="120" placeholder="안내받을 메일 주소" aria-label="메일 주소">'
             + ('<input name="amount" type="number" inputmode="numeric" min="' + str(int(p.get('price', 0))) + '" placeholder="내고 싶은 값(원, ' + f'{int(p.get("price", 0)):,}' + ' 이상)" aria-label="내고 싶은 값">' if pwyw else '')
             + '<textarea name="note" maxlength="500" placeholder="남길 말(선택)" aria-label="남길 말"></textarea><button class="mk-want" type="submit">주문 문의 보내기</button></form><p class="mk-msg" id="mkmsg" role="status"></p>'
-              '<p class="mk-small">이 사이트는 결제를 받지 않습니다. 주문 문의를 보내면 판매자가 메일로 안내합니다.</p>')
+              '<p class="mk-small">주문 문의를 보내면 판매자가 메일로 안내합니다.</p>')
     note = f'<div class="mk-note">{E(p["note"])}</div>' if p.get('note') else ''
     return (f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, [], _cats(load(B)), p.get('category', ''))}</div><div class="mk-pp"><div class="mk-in"><div class="mk-box"><img class="mk-cover" src="{_img(B, p, True)}" alt="{E(p["name"])} 대표 그림" width="1280" height="720">'
             f'<div class="mk-cols"><div class="mk-l"><h1>{E(p["name"])}</h1><div class="mk-meta"><div>{seller(p)}</div><div>{"★" * round(r.get("avg", 0))} {r.get("count", 0)}개 평가</div></div><div class="mk-desc">{desc}</div></div>'

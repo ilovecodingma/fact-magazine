@@ -39,6 +39,9 @@ def get(S, name):
 
 def css(S):
     K = S.get('knobs') or {}; out = ''
+    if S.get('accent'):   # 독자가 정한 색은 어느 틀·어느 다듬기 층에서도 보이게(강조색·머리 색·링크 색)
+        a = str(S['accent']).replace(';', '').replace('}', '')
+        out += f":root{{--ac:{a};--pri:{a};--link:{a}}}\nbody a.btn,body .btn-pri,body .mast .sub-btn{{background:{a};border-color:{a}}}\n"
     if K.get('body_width'):
         out += f"body .art,body .page{{box-sizing:content-box;max-width:{int(K['body_width'])}px}}\n"
     if K.get('body_px') or K.get('line_height'):

@@ -26,7 +26,9 @@
       python run.py 조각 [레퍼런스 번호 켜기|끄기]   나누기에서 본 조각 하나만 내 사이트에 켰다 끄기 · 분류 ["이름=낱말,낱말" …|기본]   독자가 말한 분류를 분류 탭으로 · 참고 미디엄   그 사이트가 무엇으로 버는지
       python run.py 운영                      게시판·장터·순위 사이트에서 오늘 사람이 볼 것(승인 대기·주문 문의·별 요약, 읽기만) — 사이클 끝에도 나옴
       python run.py 손잡이 [이름 [값]]         플랫폼의 핵심 장치를 돌려 보기(본문폭·본문글자·줄높이·목록열·읽는시간·저장·듣기)
-      python run.py 바꿔 "<무엇을 어떻게>" → (세션이 고침) → 바꿨다   걸음 없이 하는 작은 고침 · 되돌리기 [처음|목록|걸음 번호]   무엇을 바꿔도 한 줄로 돌아감
+      python run.py 본 [글|게시판|장터|순위]    유명 플랫폼을 본뜬 출발점을 한 번에 띄우기(튜토리얼의 첫 화면)
+      python run.py 자동 맛보기 [--뒤 분] | 방송 | 예약 [시각|끄기|상태] [--예]   사람 없이 하루 한 바퀴와 알릴 글·그림·영상까지 → 넘김/자리비운동안.md · 방송 화면 · 날마다 저절로
+      python run.py 바꿔 "<독자가 한 말>" → (세션이 무엇이든 고침) → 바꿨다   말 한 줄로 고치고 스스로 확인(구문·찍기) · 되돌리기 [처음|목록|걸음 번호]   무엇을 바꿔도 한 줄로 돌아감
       python run.py 레퍼런스 [바꾸기 <이름> | 값 키=값 …]   레퍼런스(히트한 플랫폼, 지금은 미디엄)를 잰 값과 우리 사이트의 지금 값 차이표
       python run.py 맺음                      걸음·장을 맺을 때 「오늘 배운 것 세 줄 + 헷갈려 한 것 + 다음에 할 것」 초안(내_서비스.md·고른 것에서)
       python run.py 방식 프런트|백엔드|바꾸기   화면을 만드는 방식·방문자가 남기는 것을 받는 방식(서비스의 말로 묻고, 세션은 경우만 말하고, 독자가 고른다)
@@ -1716,6 +1718,15 @@ def main():
         return PLY.cats_cmd(sys.modules[__name__], POS[1:])
     if cmd in ('손잡이', 'knob'):
         import play; return play.knob_cmd(sys.modules[__name__], rest)
+    if cmd in ('상태창', 'status'):
+        import play; return play.status_cmd(sys.modules[__name__], rest)
+    if cmd in ('자동', 'auto'):
+        rc = sh(['auto.py'] + A[1:])
+        if rc == 0 and rest and not ('예약' in rest and '--예' not in A) and '상태' not in rest:
+            import play; prog_add('자동 ' + ' '.join(rest[:2])); play.status_cmd(sys.modules[__name__])
+        return rc
+    if cmd in ('본', 'mirror'):
+        import play; return play.mirror_cmd(sys.modules[__name__], rest)
     if cmd in ('바꿔', 'change'):
         import play; return play.change_cmd(sys.modules[__name__], rest)
     if cmd in ('바꿨다', 'changed'):

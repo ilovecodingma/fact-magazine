@@ -44,7 +44,7 @@ function paint(){if(!R)return;var rows=qa(".tr-row[data-id]",R);rows.forEach(fun
 rows.sort(function(a,b){return b.__n-a.__n}).forEach(function(r,i){R.appendChild(r);r.hidden=r.hidden||i>=1e9});var n=0;rows.forEach(function(r){if(!r.hidden){n++;if(n>(C.rows||25))r.hidden=true}});var e=q(".tr-empty",R);if(e)e.hidden=n>0;var m=q("#trm");if(m)R.appendChild(m);
 var h=q(".tr-hero p");if(h&&h.dataset.t)h.textContent=h.dataset.t.replace("{w}",WORD[per]);
 qa(".tr-dev[data-owner]").forEach(function(r){r.__n=+r.dataset[KEY[per]];r.hidden=r.__n===0});var D=q("#trd");if(D){qa(".tr-dev",D).sort(function(a,b){return b.__n-a.__n}).forEach(function(r,i){D.appendChild(r);q(".no",r).textContent=i+1})}}
-function star(b){var id=b.dataset.id,msg=q("#trm");if(!up){if(msg)msg.textContent="별은 서버가 켜져 있어야 쌓입니다(python run.py 서버). 지금은 예시 자료의 별 수로 화면만 보입니다.";return}
+function star(b){var id=b.dataset.id,msg=q("#trm");if(!up){if(msg)msg.textContent="지금은 별을 줄 수 없습니다. 잠시 뒤 다시 해 주세요.";return}
 api("/api/trend/star",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id})}).then(function(j){if(j.error){if(msg)msg.textContent=j.error;return}mine[id]=j.on;load()})}
 function apply(j){var S=j.stars||{};qa("[data-id]").forEach(function(r){var s=S[r.dataset.id]||{};r.dataset.ltotal=s.total||0;r.dataset.ltoday=s.today||0;r.dataset.lweek=s.week||0;r.dataset.lmonth=s.month||0});(j.mine||[]).forEach(function(i){mine[i]=true});
 qa(".tr-star").forEach(function(b){var on=!!mine[b.dataset.id];b.setAttribute("aria-pressed",on);var c=q("[data-id='"+b.dataset.id+"']");var tot=c?(+c.dataset.stars+(+(c.dataset.ltotal||0))):0;b.textContent=(on?"★ 별 줌":"☆ 별")+(b.classList.contains("big")?"  "+fmt(tot):"")});
@@ -54,7 +54,7 @@ var d=document.createElement("p");d.textContent=p.desc||"";var m=document.create
 function load(){return api("/api/trend").then(function(j){if(j&&j.ok){up=true;apply(j)}}).catch(function(){})}
 qa(".tr-star").forEach(function(b){b.onclick=function(){star(b)}});var sp=q("#trper"),sc=q("#trcat");if(sp){sp.value=per;sp.onchange=function(){per=sp.value;paint()}}if(sc)sc.onchange=function(){cat=sc.value;paint()};
 var u=new URLSearchParams(location.search);if(u.get("since")&&KEY[u.get("since")]){per=u.get("since");if(sp)sp.value=per}
-var f=q("#trf");if(f)f.onsubmit=function(e){e.preventDefault();var o={},mg=q(".tr-fm",f);qa("input,textarea,select",f).forEach(function(i){o[i.name]=i.value});api("/api/trend/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o)}).then(function(j){mg.textContent=j.error||j.message;if(j.ok)f.reset()}).catch(function(){mg.textContent="올리기는 서버가 켜져 있어야 됩니다(python run.py 서버)."})};
+var f=q("#trf");if(f)f.onsubmit=function(e){e.preventDefault();var o={},mg=q(".tr-fm",f);qa("input,textarea,select",f).forEach(function(i){o[i.name]=i.value});api("/api/trend/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o)}).then(function(j){mg.textContent=j.error||j.message;if(j.ok)f.reset()}).catch(function(){mg.textContent="지금은 올릴 수 없습니다. 잠시 뒤 다시 해 주세요."})};
 var s=q(".tr-top input");if(s)s.oninput=function(){var v=s.value.trim().toLowerCase();qa(".tr-row[data-id]").forEach(function(r){r.style.display=!v||r.textContent.toLowerCase().indexOf(v)>=0?"":"none"})};
 paint();api("/api/health").then(function(h){if(h&&h.ok){var a=q(".tr-top .adm");if(a)a.setAttribute("href","/adm"+"in/");return load()}}).catch(function(){})})()"""
 
@@ -63,7 +63,7 @@ GUIDE = ('<h1 style="font-size:24px;font-weight:600;margin-bottom:16px">안내</
          '<p><b>별은 한 사람이 한 항목에 한 번</b>입니다. 다시 누르면 거둡니다. 가입은 없습니다.</p><p><b>올리기.</b> 누구나 항목을 올릴 수 있고, 운영자가 확인한 뒤 순위에 들어갑니다. 광고·남의 것을 자기 것처럼 올린 것은 싣지 않습니다.</p>')
 
 
-SRC = '<p style="color:var(--mu);font-size:12px;margin:12px 0 0">보기로 넣어 둔 항목과 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달)에서 본 값입니다. 내 항목으로 바꾸려면 kits/trend/data/items.json 을 고칩니다.</p>'
+SRC = ''   # 화면에는 설명을 넣지 않는다(자료의 출처는 kits/trend/README.md 에)
 
 
 def load(B):

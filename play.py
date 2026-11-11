@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""만지는 재미를 위한 명령: 나누기(레퍼런스를 조각으로) · 손잡이(돌려 보기) · 바꿔/바꿨다(작은 고침) · 간직과 되돌리기(마지막·처음). run.py 가 부른다. 파이썬 기본 기능만 쓴다.
-고치기 전 모습은 .간직/<번호>/ 에 저절로 간직한다(site.local.json 과 kits/*/data, notes, posts — git 에는 올라가지 않는다)."""
+"""에이전트와 고쳐 가는 길: 본(본뜬 출발점 띄우기) · 바꿔/바꿨다(말 한 줄로 무엇이든 고치고 스스로 확인) · 간직과 되돌리기(마지막·처음) · 손잡이 · 나누기. run.py 가 부른다. 파이썬 기본 기능만 쓴다.
+고치기 전 모습은 .간직/<번호>/ 에 저절로 간직한다(설정·글·기능 자료·틀 파일 — git 에는 올라가지 않는다)."""
 import json, os, shutil, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -11,9 +11,9 @@ PLAT = os.path.join(HERE, '참고', '플랫폼.json')
 
 # ---------------------------------------------------------------- 간직·되돌리기
 def _items():
-    out = ['site.local.json', 'notes', 'posts']
-    kd = os.path.join(HERE, 'kits')
-    out += [os.path.join('kits', k, 'data') for k in sorted(os.listdir(kd)) if os.path.isdir(os.path.join(kd, k, 'data'))]
+    """간직하는 것: 내 설정·글·기능 자료와 틀 파일(*.py·server·kits) 전부. 그래서 무엇을 고쳐도 돌아온다."""
+    out = ['site.local.json', 'site.json', '다듬기.json', 'notes', 'posts', 'kits', 'server']
+    out += sorted(f for f in os.listdir(HERE) if f.endswith('.py'))
     return out
 
 
@@ -30,7 +30,7 @@ def snap(what):
         elif os.path.isfile(src):
             os.makedirs(os.path.dirname(os.path.join(d, it)) or d, exist_ok=True); shutil.copy2(src, os.path.join(d, it))
     json.dump({'t': time.strftime('%Y-%m-%d %H:%M:%S'), 'what': what, 'had_local': os.path.exists(os.path.join(HERE, 'site.local.json'))}, open(os.path.join(d, '_무엇.json'), 'w', encoding='utf-8'), ensure_ascii=False)
-    for old in nums[:-30]:   # 서른 개까지만(처음 모습 0번은 남긴다)
+    for old in nums[:-20]:   # 스무 개까지만(처음 모습 0번은 남긴다)
         if old != 0:
             shutil.rmtree(os.path.join(KEEP, str(old)), ignore_errors=True)
     return n
@@ -89,32 +89,177 @@ PENDING = os.path.join(KEEP, '_바꾸는중.json')
 def change_cmd(R, rest):
     what = ' '.join(rest).strip()
     if not what:
-        print('사용: python run.py 바꿔 "<무엇을 어떻게>"   예: 바꿔 "한 줄 소개를 「퇴근길 5분 경제」로"\n세션이 이 말을 받아 해당 자료·설정만 고친 뒤 python run.py 바꿨다 로 다시 찍고 전·후를 보입니다.'); return 1
+        print('사용: python run.py 바꿔 "<독자가 한 말 그대로>"   예: 바꿔 "글마다 댓글을 달 수 있게"\n고치기 전 모습을 간직한 뒤 세션이 고치고, python run.py 바꿨다 로 스스로 확인하고 전·후를 보입니다.'); return 1
     n = snap(what); os.makedirs(KEEP, exist_ok=True)
     before = None
     if R.SHOTS:
         import selftest as T
         os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'바꿔_{n}_전.png'); T.shoot_pages(R.build_tmp(R.cur_polish()), [''], [before], 1280, 860)
     json.dump({'n': n, 'what': what, 'before': before, 't0': time.time()}, open(PENDING, 'w', encoding='utf-8'), ensure_ascii=False)
-    print(f'지금 모습을 간직했습니다({n}번). 이제 세션이 「{what}」에 해당하는 것만 고칩니다.\n'
-          '[어디를 고치나] 이름·한 줄 소개·색·틀 → site.local.json / 글·노트 → notes/·posts/ / 계산기·용어·일정 같은 자료 → kits/<기능>/data/ / 크기·폭 같은 값 → python run.py 손잡이\n'
-          '[막아 둔 것] build.py·run.py 같은 틀 파일은 이 길로 고치지 않습니다(망가질 수 있어, 필요하면 먼저 독자에게 알리고 따로 합니다).\n고친 뒤: python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>"'); return 0
+    print(f'지금 모습을 간직했습니다({n}번) — 설정·글·자료·틀 파일 전부. 이제 「{what}」를 고칩니다.\n'
+          '[어디든 고쳐도 됩니다] 이름·소개·색 → site.local.json / 글 → notes/·posts/ / 기능 자료 → kits/<기능>/data/ / 화면 틀·새 기능 → *.py·kits/·server/\n'
+          '[고친 뒤] python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>" — 구문·찍기를 스스로 확인하고, 깨졌으면 알려 줍니다(python run.py 되돌리기 한 줄로 돌아옴).'); return 0
+
+
+def _check():
+    """고친 뒤 스스로 확인: 틀 파일 구문 → 사이트 찍기. 돌려주는 값 = 안 된 것 목록."""
+    import ast
+    bad = []
+    for f in sorted(x for x in os.listdir(HERE) if x.endswith('.py')):
+        try:
+            ast.parse(open(os.path.join(HERE, f), encoding='utf-8').read())
+        except SyntaxError as e:
+            bad.append(f'{f} {e.lineno}행: {e.msg}')
+    return bad
+
+
+def _changed(n):
+    """간직해 둔 n번과 지금을 견줘 달라진 파일 이름들."""
+    import filecmp
+    d = os.path.join(KEEP, str(n)); out = []
+
+    def walk(rel):
+        a = os.path.join(d, rel); b = os.path.join(HERE, rel)
+        if os.path.isdir(a) or os.path.isdir(b):
+            names = set(os.listdir(a) if os.path.isdir(a) else []) | set(os.listdir(b) if os.path.isdir(b) else [])
+            for x in sorted(names):
+                if x != '__pycache__':
+                    walk(os.path.join(rel, x))
+        elif not (os.path.isfile(a) and os.path.isfile(b) and filecmp.cmp(a, b, shallow=False)):
+            out.append(rel.replace(os.sep, '/'))
+    for it in _items():
+        if os.path.exists(os.path.join(d, it)) or os.path.exists(os.path.join(HERE, it)):
+            walk(it)
+    return out
+
+
+def _seen(out, want):
+    """찍힌 사이트(html·css·js)에 그 글자가 있는지."""
+    seen = {w: False for w in want}
+    if not want:
+        return seen
+    for root, _, fs in os.walk(out):
+        for f in fs:
+            if f.endswith(('.html', '.css', '.js', '.json', '.xml')):
+                try:
+                    t = open(os.path.join(root, f), encoding='utf-8', errors='replace').read()
+                except Exception:
+                    continue
+                for w in want:
+                    if not seen[w] and w in t:
+                        seen[w] = True
+        if all(seen.values()):
+            break
+    return seen
+
+
+def _flow(said, did, files, check, secs):
+    """흐름 한 줄을 기록/흐름.md 에 쌓는다: 들어온 말 → 한 일 → 고친 파일 → 스스로 확인 → 걸린 시간 → 되돌리는 한 줄."""
+    fp = os.path.join(HERE, '기록', '흐름.md'); os.makedirs(os.path.dirname(fp), exist_ok=True)
+    new = not os.path.exists(fp)
+    with open(fp, 'a', encoding='utf-8') as f:
+        if new:
+            f.write('# 흐름 — 말 한 줄이 들어와 무엇이 되었나\n\n| 때 | 들어온 말 | 한 일 | 고친 파일 | 스스로 확인 | 걸린 시간 | 되돌리기 |\n|---|---|---|---|---|---|---|\n')
+        c = lambda x: str(x).replace('|', '/').replace('\n', ' ')
+        f.write(f'| {time.strftime("%m-%d %H:%M")} | {c(said)} | {c(did)} | {c(", ".join(files) or "-")} | {check} | {secs:.0f}초 | python run.py 되돌리기 |\n')
 
 
 def changed_cmd(R, rest):
     if not os.path.exists(PENDING):
-        print('먼저 python run.py 바꿔 "<무엇을 어떻게>" 로 시작하세요(고치기 전 모습을 간직합니다).'); return 1
-    p = json.load(open(PENDING, encoding='utf-8')); os.remove(PENDING)
+        print('먼저 python run.py 바꿔 "<독자가 한 말>" 로 시작하세요(고치기 전 모습을 간직합니다).'); return 1
+    p = json.load(open(PENDING, encoding='utf-8'))
+    bad = _check()
+    if bad:
+        print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 고치기 전으로 돌아갑니다.'); return 1
     out, last, rc = R.rebuild_local()
     if rc != 0:
-        print('찍기에 실패했습니다. python run.py 되돌리기 로 고치기 전으로 돌아갈 수 있습니다.'); return 1
+        print('✗ 확인에서 걸렸습니다(사이트 찍기). 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 돌아갑니다.'); return 1
+    os.remove(PENDING)
+    want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 시킨 것이 화면에 나타났는가: 찍힌 사이트에서 이 글자들을 찾는다
+    rest = [x for x in rest if x not in want]
     did = ' '.join(rest).strip() or p['what']
+    seen = _seen(out, want); miss = [w for w in want if not seen[w]]
+    files = _changed(p['n']); secs = time.time() - p['t0']
+    _flow(p['what'], did, files, '구문 ✓ · 찍기 ✓' + (f' · 화면에 나타남 {len(want) - len(miss)}/{len(want)}' if want else ''), secs)
     if R.SHOTS and p.get('before') and os.path.exists(p['before']):
         import selftest as T
         after = os.path.join(R.SHOTS, f'바꿔_{p["n"]}_후.png'); T.shoot_pages(out, [''], [after], 1280, 860)
         R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '고치기 전', '고친 뒤')
-    print(f'고쳤습니다: {did}  ({time.time() - p["t0"]:.0f}초, {last})\n되돌리려면 python run.py 되돌리기\n[물음] 왜 그렇게 바꾸고 싶으셨나요? — 답을 내_서비스 한 장에 적습니다(python run.py 내서비스 칸 …).\n\n여기서 멈추고 독자에게 묻습니다.')
-    R.prog_add('바꿈: ' + did); return 0
+    print(f'✓ 고쳤습니다: {did}  ({secs:.0f}초)\n  고친 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
+    if want:
+        print(f'{"✓" if not miss else "✗"} 시킨 것이 화면에 나타났는가: {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
+    else:
+        print('– 시킨 것이 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
+    print(f'✓ 스스로 확인: 틀 파일 구문 통과 · 사이트 찍기 통과({last})\n마음에 안 들면 python run.py 되돌리기 한 줄로 고치기 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
+    R.prog_add('바꿈: ' + did); status_cmd(R); return 0
+
+
+# ---------------------------------------------------------------- 상태창 (잰 것만 적는다)
+def status_cmd(R, rest=None):
+    """게임의 상태창처럼: 네 고개(만들었다·올렸다·고쳐 봤다·운영팀)와 지금까지 잰 숫자, 다음에 열리는 것."""
+    done = [x['what'] for x in R.prog_load().get('done', [])]; L = R.local_load()
+    mirrors = [w[2:].strip() for w in done if w.startswith('본 ')]
+    changes = [w for w in done if w.startswith('바꿈: ')]; undos = [w for w in done if w.startswith('되돌리기')]
+    autos = [w for w in done if w.startswith('자동 ')]
+    url = str(L.get('url') or ''); live = url.startswith('http') and 'localhost' not in url and '프로젝트이름' not in url
+    card = R.svc_load(); filled = sum(1 for c in R.SVC_CARDS if card.get(c)); files = set()
+    fp = os.path.join(HERE, '기록', '흐름.md')
+    if os.path.exists(fp):
+        for ln in open(fp, encoding='utf-8').read().splitlines()[4:]:
+            c = [x.strip() for x in ln.strip('|').split('|')]
+            if len(c) >= 4 and c[3] != '-':
+                files.update(x.strip() for x in c[3].split(','))
+    sched = False
+    if os.name == 'nt' and any('예약' in a for a in autos):
+        import subprocess
+        sched = subprocess.run(['schtasks', '/Query', '/TN', 'MyServiceDaily'], capture_output=True).returncode == 0
+    q = [('만들었다', bool(mirrors), '본뜬 것: ' + (', '.join(dict.fromkeys(mirrors)) or '아직')),
+         ('올렸다', live, '공개 주소: ' + (url if live else '아직')),
+         ('고쳐 봤다', len(changes) >= 3, f'말 한 줄로 고친 것 {len(changes)}번 · 되돌린 것 {len(undos)}번 · 손댄 파일 {len(files)}개'),
+         ('운영팀', any('맛보기' in a for a in autos), f'사람 없이 돈 것 {sum(1 for a in autos if "맛보기" in a)}번 · 방송 화면 {"켜 봄" if any("방송" in a for a in autos) else "아직"} · 날마다 예약 {"걸림" if sched else "아직"}')]
+    lv = sum(1 for _, ok, _ in q if ok)
+    nxt = next((n for n, ok, _ in q if not ok), None)
+    hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 보자」', '운영팀': '「3장을 진행해 보자」'}
+    name = L.get('name') or '내 사이트'
+    print('┌─ 상태창 ' + '─' * 44)
+    print(f'│ {name}   고개 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
+    for n, ok, d in q:
+        print(f'│ {"■" if ok else "□"} {n:<6} {d}')
+    print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 튜토리얼 끝. 이제부터는 차례가 없습니다'))
+    print('└' + '─' * 52)
+    return 0
+
+
+# ---------------------------------------------------------------- 본(유명 플랫폼을 본뜬 출발점) 띄우기
+MIRRORS = {
+    '글': dict(name='글 읽는 곳', ref='미디엄', polish={'1': 'B', '3': 'B', '4': 'C', '7': 'B', '8': 'B', '9': 'A', '10': 'A'}),
+    '게시판': dict(name='링크와 추천 게시판', ref='해커 뉴스', kind='커뮤니티(링크+추천 게시판)'),
+    '장터': dict(name='디지털 상품 장터', ref='검로드', kind='쇼핑몰(디지털 상품 장터)'),
+    '순위': dict(name='날마다 순위', ref='깃허브 트렌딩', kind='날마다 순위(트렌딩)'),
+}
+
+
+def mirror_cmd(R, rest):
+    """본 [글|게시판|장터|순위] — 독자가 고르는 걸음 없이, 본뜬 출발점을 한 번에 띄운다(튜토리얼의 첫 화면)."""
+    if not rest or rest[0] not in MIRRORS:
+        print('━━ 본 — 본뜬 출발점을 한 번에 띄웁니다 ━━')
+        for k, m in MIRRORS.items():
+            print(f'  python run.py 본 {k:<4} {m["name"]} (본: {m["ref"]})' + ('' if 'polish' in m else ' — 받는 것이 있어 서버가 붙습니다'))
+        return 0 if not rest else 1
+    key = rest[0]; m = MIRRORS[key]; t0 = time.time(); snap(f'본 {key} 띄우기')
+    if 'polish' in m:
+        L = R.local_load(); L['polish'] = dict(m['polish']); R.local_save(L)
+        out, last, rc = R.rebuild_local()
+    else:
+        R.record_choice('변환', '바꿈', f'본 {key} 로 시작')
+        if '--적용' not in R.A:
+            R.A.append('--적용')
+        rc = R.convert_cmd([m['kind']]); out = os.path.join(HERE, 'site_local'); last = ''
+    if rc != 0:
+        print('✗ 띄우지 못했습니다. python run.py 되돌리기 로 돌아갈 수 있습니다.'); return 1
+    R.shots_for(out, '본_' + key)
+    print(f'\n✓ 「{m["name"]}」(본: {m["ref"]})을 띄웠습니다 — {time.time() - t0:.0f}초. {last}\n[다음] python serve.py --open --no-demo 로 열어 독자에게 보이고, 코스의 첫 과제(이름을 내 것으로)로 갑니다. 처음으로 돌아가려면 python run.py 되돌리기 처음')
+    R.prog_add('본 ' + key); status_cmd(R); return 0
 
 
 # ---------------------------------------------------------------- 손잡이
