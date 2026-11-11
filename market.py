@@ -16,7 +16,7 @@ CSS = (".mk{--mkp:#ff90e8;background:#242423;color:#fff;font:16px/1.4 -apple-sys
        ".mk-btn{display:inline-flex;align-items:center;height:48px;padding:0 16px;border:1px solid #777;border-radius:4px;text-decoration:none;white-space:nowrap}.mk-btn.light{background:#ddd;color:#000!important;border-color:#ddd}"
        ".mk-cats{display:flex;gap:4px;align-items:center;padding:0 0 36px;border-bottom:1px solid #555;margin:0 -64px;padding-left:64px;padding-right:64px;overflow-x:auto;scrollbar-width:none}.mk-cats a{padding:8px 13px;border-radius:999px;text-decoration:none;white-space:nowrap;border:1px solid transparent;cursor:pointer}.mk-cats a.on{background:#000;border-color:#777}"
        ".mk h2{font:400 20px/1.3 inherit;margin:0}.mk-sec{display:flex;justify-content:space-between;align-items:center;margin:64px 0 16px}.mk-pager{display:flex;gap:12px;align-items:center}.mk-pager a{cursor:pointer;text-decoration:none}"
-       ".mk-feat{display:grid;grid-template-columns:378px 1fr;background:#000;border:1px solid #777;border-radius:4px;min-height:378px;max-width:704px;overflow:hidden}.mk-feat img{width:378px;height:378px;object-fit:cover;display:block;border-right:1px solid #777}.mk-feat .fb{padding:16px 24px;display:flex;flex-direction:column}"
+       ".mk-feat{display:grid;grid-template-columns:378px 1fr;background:#000;border:1px solid #777;border-radius:4px;min-height:378px;max-width:704px;overflow:hidden}.mk-feat img{width:378px;aspect-ratio:1/1;object-fit:cover;display:block;border-right:1px solid #777}.mk-feat .fb{padding:16px 24px;display:flex;flex-direction:column}"
        ".mk-feat h3{font:400 20px/1.3 inherit;margin:0 0 12px}.mk-feat h3 a{text-decoration:none}.mk-feat p{font-size:14px;color:#bbb;margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}.mk-feat .ft{margin-top:auto;display:flex;justify-content:space-between;align-items:center}"
        ".mk-seller{display:inline-flex;gap:8px;align-items:center;text-decoration:underline}.mk-av{width:20px;height:20px;border-radius:50%;border:1px solid #fff;display:inline-block;flex:none}"
        ".mk-price{display:inline-block;background:var(--mkp);color:#000;padding:2px 22px 2px 8px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%);font-size:16px;line-height:1.5}"
@@ -33,6 +33,9 @@ CSS = (".mk{--mkp:#ff90e8;background:#242423;color:#fff;font:16px/1.4 -apple-sys
        ".mk-rate{padding:24px;display:grid;gap:10px}.mk-rate h3{font:400 20px/1.3 inherit;margin:0;display:flex;justify-content:space-between}.mk-bar{display:grid;grid-template-columns:60px 1fr 44px;gap:10px;align-items:center;font-size:15px}.mk-bar i{display:block;height:20px;border:1px solid #000;border-radius:4px;overflow:hidden}.mk-bar i b{display:block;height:100%;background:var(--mkp)}"
        ".mk-rev{border-top:1px solid #000;padding:16px 0 0;margin-top:8px}.mk-rev p{margin:8px 0}.mk-form{display:grid;gap:8px}.mk-form input,.mk-form textarea{font:15px inherit;padding:10px;border:1px solid #000;border-radius:4px;width:100%}.mk-msg{font-size:14px;min-height:1.2em}"
        ".mkfull .mast,.mkfull nav.menu,.mkfull .bnav,.mkfull .notice,.mkfull footer,.mkfull .trust,.mkfull .mon{display:none!important}.mkfull main.wrap{max-width:none;padding:0}.mkfull body{background:#242423}"
+       ".mk h1,.mk h2,.mk h3{font-weight:400!important;font-family:inherit!important;letter-spacing:0!important;border:0!important;color:inherit}.mk-card img,.mk-feat img,.mk-cover{height:auto}.mk-form[hidden],.mk [hidden]{display:none!important}"
+       ".mk button,.mk input,.mk textarea{font-size:16px;font-family:inherit}.mk-search input{font-size:16px!important;padding:0;border:0!important;background:none!important;color:#fff!important}.mk-out{font-size:16px!important}.mk-want{font-size:16px!important;font-weight:400}"
+       ".mk-feats{display:flex;gap:24px;overflow:hidden;scroll-behavior:smooth}.mk-feats .mk-feat{flex:none;width:704px;max-width:100%}"
        "@media(max-width:1000px){.mk-in{padding:0 16px}.mk-cats{margin:0 -16px;padding-left:16px;padding-right:16px}.mk-main{grid-template-columns:1fr;gap:24px}.mk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mk-cols{grid-template-columns:1fr}.mk-r{border-left:0;border-top:1px solid #000}.mk-feat{grid-template-columns:1fr}.mk-feat img{width:100%;height:auto;aspect-ratio:1/1;border-right:0;border-bottom:1px solid #777}.mk-head{flex-wrap:wrap}.mk-logo{font-size:32px}.mk-search{order:3;flex-basis:100%}}"
        "@media(max-width:560px){.mk-grid{grid-template-columns:1fr}.mk-l h1{font-size:30px}.mk-pp{padding:0}}\n")
 
@@ -74,9 +77,17 @@ def seller(p, color='#4aa3ff'):
     return f'<span class="mk-seller"><i class="mk-av" style="background:{c}"></i>{E(p.get("seller", ""))}</span>'
 
 
+def _cats(P):
+    cats = []
+    for p in P:
+        if p.get('category') and p['category'] not in cats:
+            cats.append(p['category'])
+    return cats
+
+
 def head(B, P, cats, cur=''):
     name = E(B.S['name'])
-    pills = f'<a class="{"on" if not cur else ""}" data-cat="" href="{B.BASE}market/">전체</a>' + ''.join(f'<a data-cat="{E(c)}" href="{B.BASE}market/?cat={E(c)}">{E(c)}</a>' for c in cats[:8]) + (f'<a href="{B.BASE}market/">더 보기 ⌄</a>' if len(cats) > 8 else '')
+    pills = f'<a class="{"on" if not cur else ""}" data-cat="" href="{B.BASE}market/">전체</a>' + ''.join(f'<a class="{"on" if c == cur else ""}" data-cat="{E(c)}" href="{B.BASE}market/?cat={E(c)}">{E(c)}</a>' for c in cats[:8]) + (f'<a href="{B.BASE}market/">더 보기 ⌄</a>' if len(cats) > 8 else '')
     return (f'<div class="mk-head"><a class="mk-logo" href="{B.BASE}market/">{name}</a><form class="mk-search" action="{B.BASE}market/" method="get" role="search"><span aria-hidden="true">⌕</span><input name="q" id="mkq" placeholder="상품 찾기" aria-label="상품 찾기"></form>'
             f'<a class="mk-btn" href="/admin/">로그인</a><a class="mk-btn light" href="{B.BASE}market/sell/">팔기 시작</a></div><nav class="mk-cats" aria-label="분류">{pills}</nav>')
 
@@ -93,7 +104,7 @@ function draw(){var L=cards.filter(function(c){var d=c.dataset;return (!S.cat||d
 document.querySelectorAll("[data-sort]").forEach(function(a){a.onclick=function(){S.sort=a.dataset.sort;draw()}});
 document.querySelectorAll("[data-f]").forEach(function(a){a.onclick=function(){S[a.dataset.f]=S[a.dataset.f]===a.dataset.v?"":a.dataset.v;draw()}});
 ["min","max"].forEach(function(k){var i=document.getElementById("mk"+k);if(i)i.oninput=function(){S[k]=i.value;draw()}});
-var F=[].slice.call(document.querySelectorAll(".mk-feat")),fi=0,pg=document.getElementById("mkpg");function feat(){F.forEach(function(f,i){f.style.display=i===fi?"":"none"});if(pg)pg.textContent=(fi+1)+" / "+F.length}
+var F=[].slice.call(document.querySelectorAll(".mk-feat")),fi=0,pg=document.getElementById("mkpg"),fs=document.getElementById("mkfs");function feat(){if(fs&&F[fi])fs.scrollLeft=F[fi].offsetLeft-fs.offsetLeft;if(pg)pg.textContent=(fi+1)+" / "+F.length}
 document.querySelectorAll("[data-fp]").forEach(function(a){a.onclick=function(){fi=(fi+(+a.dataset.fp)+F.length)%F.length;feat()}});feat();draw()})();"""
 
 BUY_JS = r"""(function(){var w=document.getElementById("mkwant");if(!w)return;var mode=w.dataset.mode,box=document.getElementById("mkform"),msg=document.getElementById("mkmsg");
@@ -142,7 +153,7 @@ def list_body(B, full):
     K = B.S.get('knobs') or {}
     cols = int(K.get('market_cols', 3))
     return (f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, P, cats)}'
-            f'<div class="mk-sec"><h2>추천 상품</h2><span class="mk-pager"><a data-fp="-1" aria-label="앞">←</a><span id="mkpg">1 / {len(feats)}</span><a data-fp="1" aria-label="다음">→</a></span></div>{fh}'
+            f'<div class="mk-sec"><h2>추천 상품</h2><span class="mk-pager"><a data-fp="-1" aria-label="앞">←</a><span id="mkpg">1 / {len(feats)}</span><a data-fp="1" aria-label="다음">→</a></span></div><div class="mk-feats" id="mkfs">{fh}</div>'
             f'<div class="mk-sec"><h2>장터에서</h2><span class="mk-tabs"><a data-sort="trend" class="on">뜨는 것</a><a data-sort="best">많이 팔린 것</a><a data-sort="new">새로 나온 것</a></span></div>'
             f'<div class="mk-main">{filt}<div><div class="mk-grid" id="mkg" style="grid-template-columns:repeat({cols},minmax(0,1fr))">{"".join(card(B, p) for p in P)}</div><p id="mke" hidden>조건에 맞는 상품이 없습니다.</p></div></div></div></div><script>{LIST_JS}</script>')
 
@@ -162,7 +173,7 @@ def product_body(B, p, full):
             + '<textarea name="note" maxlength="500" placeholder="남길 말(선택)" aria-label="남길 말"></textarea><button class="mk-want" type="submit">주문 문의 보내기</button></form><p class="mk-msg" id="mkmsg" role="status"></p>'
               '<p class="mk-small">이 사이트는 결제를 받지 않습니다. 주문 문의를 보내면 판매자가 메일로 안내합니다.</p>')
     note = f'<div class="mk-note">{E(p["note"])}</div>' if p.get('note') else ''
-    return (f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, [], [])}</div><div class="mk-pp"><div class="mk-in"><div class="mk-box"><img class="mk-cover" src="{_img(B, p, True)}" alt="{E(p["name"])} 대표 그림" width="1280" height="720">'
+    return (f'{FULL_JS if full else ""}<div class="mk" style="--mkp:{E(K.get("market_color", PINK))}"><div class="mk-in">{head(B, [], _cats(load(B)), p.get('category', ''))}</div><div class="mk-pp"><div class="mk-in"><div class="mk-box"><img class="mk-cover" src="{_img(B, p, True)}" alt="{E(p["name"])} 대표 그림" width="1280" height="720">'
             f'<div class="mk-cols"><div class="mk-l"><h1>{E(p["name"])}</h1><div class="mk-meta"><div>{seller(p)}</div><div>{"★" * round(r.get("avg", 0))} {r.get("count", 0)}개 평가</div></div><div class="mk-desc">{desc}</div></div>'
             f'<div class="mk-r"><div class="mk-buy"><div><span class="mk-price">{E(won(p))}</span></div><div style="font-size:14px">들어 있는 것: {E(p.get("includes", ""))}</div>{want}{note}'
             f'<div class="mk-two"><button class="mk-out" id="mkwl" type="button">찜하기 <span aria-hidden="true">⌄</span></button><button class="mk-out" id="mksh" type="button">공유</button></div><p class="mk-small" style="text-decoration:underline">{E(p.get("refund", "환불 안내는 판매자에게 문의하세요"))}</p></div>'
