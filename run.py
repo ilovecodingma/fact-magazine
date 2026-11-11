@@ -23,7 +23,7 @@
       python run.py 혼동 <키트> <적을 말>       헷갈려 한 것을 진도에 적기
 옵션: --headless(창 없이) --slow 초(단계 간격) --shots 폴더(단계마다 화면을 png 로 저장, 사이클은 단계 결과 쪽) · 보이는 창 위치는 환경변수 SELFTEST_POS=2000,100
 설명: 이 파일은 얇은 껍데기다 — 실제 일은 doctor.py·selftest.py·know.py·mix.py·demo.py·run_daily.py 가 한다. 올리기·메일 발송·로그인은 하지 않는다."""
-import glob, json, os, subprocess, sys, time
+import glob, json, os, re, subprocess, sys, time
 try:
     sys.stdout.reconfigure(encoding='utf-8')
 except Exception:
