@@ -87,6 +87,7 @@ footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font
 .ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 32px}.ex-grid h3{font:800 18px/1.4 var(--serif);margin:14px 0 8px}.ex-grid ul{list-style:none;margin:0;padding:0;font:15px/1.7 var(--sans)}.ex-grid li{padding:6px 0;border-bottom:1px solid var(--hair)}.ex-grid a{color:var(--link)}
 .ad-lb{display:inline-block;font:700 11px/1 var(--sans);border:1px solid var(--mu);color:var(--mu);padding:2px 5px;margin-left:6px;vertical-align:middle}.ad-nt{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
 .yt-row{display:flex;gap:12px;flex-wrap:wrap}.yt-row iframe{width:162px;height:288px;border:0;background:#111}
+.mdt{border-collapse:collapse;margin:12px 0;font:14.5px/1.6 var(--sans)}.mdt td{border:1px solid var(--hair);padding:6px 10px}.nv p{font-size:inherit;line-height:1.95;margin:0 0 1em}.fz{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}.fz button{font:700 13px var(--sans);border:1px solid var(--ink);background:#fff;padding:4px 10px;cursor:pointer;margin:0;width:auto}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
 .gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
@@ -112,7 +113,7 @@ def page(path, title, desc, body, noindex=False):
     rss_tag = '' if NOURL else f'<link rel="alternate" type="application/rss+xml" title="{E(S["name"])}" href="{BASE}feed.xml">'
     rss_link = '' if NOURL else f'<a href="{BASE}feed.xml">RSS</a>'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
-    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') and ISSUE_DATES else '')
+    GAMES_LINK = (f'<a href="{BASE}games/">게임</a>' if load_games() else '') + (f'<a href="{BASE}issue/">잡지</a>' if part('issue') and ISSUE_DATES else '') + (f'<a href="{BASE}post/">글</a>' if part('posts', False) and os.path.isdir(os.path.join(HERE, 'posts')) else '') + (f'<a href="{BASE}novel/">연재</a>' if part('novel', False) and os.path.isdir(os.path.join(HERE, 'novels')) else '') + (f'<a href="{BASE}toon/">웹툰</a>' if part('toon', False) and os.path.isdir(os.path.join(HERE, 'toons')) else '') + (f'<a href="{BASE}video/">영상</a>' if part('video', False) and EX.get('videos') else '')
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css"></head><body>
@@ -158,6 +159,122 @@ def issue_pages(notes):
             shutil.copy(pdf, os.path.join(OUT, 'issue', d, f'{d}.pdf'))
     lst = ''.join(f'<a href="{BASE}issue/{d}/"><span class="lb">제{k}호</span><h3>{E(d)} 확인 노트 {len(by[d])}건</h3><p>{E(" · ".join(n["title"] for n in by[d])[:120])}</p></a>' for k, d in reversed(list(enumerate(dates, 1))))
     urls.append(page('issue', f'잡지 — {S["name"]}', '확인 노트를 날짜별로 묶은 호 모음', f'<div class="page"><span class="lb">잡지</span><h1>{E(S["name"])} 발행호</h1><div class="gl">{lst}</div></div>'))
+    return urls
+
+
+def md(text):
+    """아주 작은 마크다운 → HTML: # ## ### 제목, - 목록, 1. 목록, | 표 |, **굵게**, [글자](주소), 빈 줄로 문단. 나머지는 글자 그대로(HTML 은 막는다)."""
+    def inline(t):
+        t = E(t)
+        t = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
+        t = re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', r'<a href="\2" rel="noopener nofollow">\1</a>', t)
+        return re.sub(r'(?<![">])(https?://[^\s<)]+)', r'<a href="\1" rel="noopener nofollow">\1</a>', t)
+    out, para, lst, tbl = [], [], [], []
+
+    def flush():
+        nonlocal para, lst, tbl
+        if para:
+            out.append('<p>' + inline(' '.join(para)) + '</p>'); para = []
+        if lst:
+            tag = lst[0][0]; out.append(f'<{tag}>' + ''.join(f'<li>{inline(x[1])}</li>' for x in lst) + f'</{tag}>'); lst = []
+        if tbl:
+            rows = [r for r in tbl if not re.fullmatch(r'\|[\s:|-]+\|?', r.strip())]
+            out.append('<table class="mdt">' + ''.join('<tr>' + ''.join(f'<td>{inline(c.strip())}</td>' for c in r.strip().strip('|').split('|')) + '</tr>' for r in rows) + '</table>'); tbl = []
+    for line in text.splitlines():
+        s = line.rstrip()
+        if not s.strip():
+            flush(); continue
+        m = re.match(r'(#{1,3}) (.+)', s)
+        if m:
+            flush(); lv = len(m.group(1)); out.append(f'<h{lv + 1}>{inline(m.group(2))}</h{lv + 1}>'); continue
+        if s.startswith('|'):
+            if para or lst: flush()
+            tbl.append(s); continue
+        m = re.match(r'(?:- |\* )(.+)', s)
+        if m:
+            if para or tbl: flush()
+            lst.append(('ul', m.group(1))); continue
+        m = re.match(r'\d+\. (.+)', s)
+        if m:
+            if para or tbl: flush()
+            lst.append(('ol', m.group(1))); continue
+        if lst or tbl: flush()
+        para.append(s.strip())
+    flush()
+    return ''.join(out)
+
+
+def first_h1(text, default):
+    m = re.search(r'^# (.+)$', text, re.M)
+    return m.group(1).strip() if m else default
+
+
+def content_pages():
+    """글(posts/*.md)·연재 소설(novels/<작품>/소개.md + 01.md…)·웹툰(toons/<작품>/meta.json + 회차 그림)·영상 모음(extras.videos). 켜진 부품만."""
+    urls = []
+    # 글
+    pdir = os.path.join(HERE, 'posts')
+    if part('posts', False) and os.path.isdir(pdir):
+        posts = []
+        for f in sorted(glob.glob(os.path.join(pdir, '*.md'))):
+            t = open(f, encoding='utf-8').read(); slug = os.path.splitext(os.path.basename(f))[0]
+            posts.append((slug, first_h1(t, slug), t))
+        notice = S.get('post_notice') or '세법·제도는 해마다 바뀔 수 있으니 글 끝의 출처에서 현행 내용을 확인하세요.'
+        for slug, title, t in posts:
+            body = re.sub(r'^# .+\n', '', t, count=1)
+            urls.append(page(f'post/{slug}', f'{title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'[#*|\[\]]', '', body))[:140],
+                             f'<article class="art"><span class="lb">글</span><h1>{E(title)}</h1><p class="ad-nt" style="margin:0 0 16px">{E(notice)}</p>{md(body)}</article>'))
+        lst = ''.join(f'<a href="{BASE}post/{s}/"><span class="lb">글</span><h3>{E(t)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", x, flags=re.M)).strip()[:100])}</p></a>' for s, t, x in posts)
+        urls.append(page('post', f'글 — {S["name"]}', '생활·돈 가이드 글 모음', f'<div class="page"><span class="lb">글</span><h1>글</h1><div class="gl">{lst}</div></div>'))
+    # 연재 소설
+    ndir = os.path.join(HERE, 'novels')
+    if part('novel', False) and os.path.isdir(ndir):
+        cards = ''
+        for nd in sorted(glob.glob(os.path.join(ndir, '*'))):
+            if not os.path.isdir(nd): continue
+            slug = os.path.basename(nd)
+            intro = open(os.path.join(nd, '소개.md'), encoding='utf-8').read() if os.path.exists(os.path.join(nd, '소개.md')) else ''
+            title = first_h1(intro, slug)
+            eps = [(os.path.splitext(os.path.basename(f))[0], open(f, encoding='utf-8').read()) for f in sorted(glob.glob(os.path.join(nd, '[0-9]*.md')))]
+            toc = ''.join(f'<li><a href="{BASE}novel/{slug}/{n}/">{E(first_h1(t, n + "화"))}</a></li>' for n, t in eps)
+            urls.append(page(f'novel/{slug}', f'{title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'^#.*$', '', intro, flags=re.M)).strip()[:140],
+                             f'<article class="art"><span class="lb">연재 소설</span><h1>{E(title)}</h1>{md(re.sub(chr(94) + "# .+" + chr(10), "", intro, count=1))}<h2>회차</h2><ul class="rp">{toc}</ul></article>'))
+            for k, (n, t) in enumerate(eps):
+                prev = f'<a href="{BASE}novel/{slug}/{eps[k-1][0]}/">← 이전 화</a>' if k > 0 else '<span></span>'
+                nxt = f'<a href="{BASE}novel/{slug}/{eps[k+1][0]}/">다음 화 →</a>' if k + 1 < len(eps) else '<span></span>'
+                ctl = ('<div class="fz"><button type="button" data-d="-1">가-</button><button type="button" data-d="1">가+</button></div>'
+                       '<script>(function(){var a=document.querySelector(".nv"),k="fm_fz",v=17;try{v=+localStorage.getItem(k)||17}catch(e){}function s(){a.style.fontSize=v+"px"}s();'
+                       'document.querySelectorAll(".fz button").forEach(function(b){b.onclick=function(){v=Math.max(14,Math.min(26,v+(+b.dataset.d)*2));try{localStorage.setItem(k,v)}catch(e){}s()}})})()</script>')
+                urls.append(page(f'novel/{slug}/{n}', f'{first_h1(t, n + "화")} — {title} — {S["name"]}', re.sub(r'\s+', ' ', re.sub(r'^#.*$', '', t, flags=re.M)).strip()[:140],
+                                 f'<article class="art"><span class="lb">{E(title)}</span>{ctl}<div class="nv">{md(t)}</div><div class="by">{prev}<a href="{BASE}novel/{slug}/">목차</a>{nxt}</div></article>'))
+            cards += f'<a href="{BASE}novel/{slug}/"><span class="lb">연재 소설</span><h3>{E(title)}</h3><p>{E(re.sub(chr(10), " ", re.sub(r"^#.*$", "", intro, flags=re.M)).strip()[:100])}</p></a>'
+        urls.append(page('novel', f'연재 — {S["name"]}', '연재 소설 모음', f'<div class="page"><span class="lb">연재</span><h1>연재 소설</h1><div class="gl">{cards}</div></div>'))
+    # 웹툰
+    tdir = os.path.join(HERE, 'toons')
+    if part('toon', False) and os.path.isdir(tdir):
+        cards = ''
+        for td in sorted(glob.glob(os.path.join(tdir, '*', 'meta.json'))):
+            m = json.load(open(td, encoding='utf-8')); slug = os.path.basename(os.path.dirname(td))
+            toc = ''.join(f'<li><a href="{BASE}toon/{slug}/{e["id"]}/">{E(e["title"])}</a></li>' for e in m['episodes'])
+            urls.append(page(f'toon/{slug}', f'{m["title"]} — {S["name"]}', m['intro'], f'<article class="art"><span class="lb">{E(m.get("kind", "웹툰"))}</span><h1>{E(m["title"])}</h1><p>{E(m["intro"])}</p><h2>회차</h2><ul class="rp">{toc}</ul></article>'))
+            for e in m['episodes']:
+                imgs = ''.join(f'<img src="{BASE}toon/{slug}/{e["id"]}/{p}" alt="{E(e["title"])} {i}컷" loading="lazy" style="display:block;width:100%;height:auto;margin:0 0 10px;border:1px solid var(--hair)">' for i, p in enumerate(e['panels'], 1))
+                urls.append(page(f'toon/{slug}/{e["id"]}', f'{e["title"]} — {m["title"]} — {S["name"]}', m['intro'], f'<article class="art"><span class="lb">{E(m["title"])}</span><h1>{E(e["title"])}</h1>{imgs}<div class="by"><a href="{BASE}toon/{slug}/">회차 목록</a></div></article>'))
+                for p in e['panels']:
+                    os.makedirs(os.path.join(OUT, 'toon', slug, e['id']), exist_ok=True)
+                    shutil.copy(os.path.join(tdir, slug, e['id'], p), os.path.join(OUT, 'toon', slug, e['id'], p))
+            cards += f'<a href="{BASE}toon/{slug}/"><span class="lb">{E(m.get("kind", "웹툰"))}</span><h3>{E(m["title"])}</h3><p>{E(m["intro"])}</p></a>'
+        urls.append(page('toon', f'웹툰 — {S["name"]}', '웹툰·만화 모음', f'<div class="page"><span class="lb">웹툰</span><h1>웹툰</h1><div class="gl">{cards}</div></div>'))
+    # 영상 모음 (값은 extras.videos — 유튜브 주소 목록)
+    vids = [v for v in (EX.get('videos') or []) if re.search(r'(youtu\.be/|youtube\.com/(shorts/|watch\?v=))([A-Za-z0-9_-]{11})', v.get('url', ''))]
+    if part('video', False) and vids:
+        h = ''
+        for v in vids:
+            vid = re.search(r'(youtu\.be/|youtube\.com/(shorts/|watch\?v=))([A-Za-z0-9_-]{11})', v['url']).group(3)
+            sh = '/shorts/' in v['url']
+            h += (f'<div class="tp"><b>{E(v.get("title", "영상"))}</b><iframe src="https://www.youtube-nocookie.com/embed/{vid}" loading="lazy" title="{E(v.get("title", "영상"))}" allowfullscreen '
+                  f'style="width:{"270px" if sh else "100%"};aspect-ratio:{"9/16" if sh else "16/9"};border:0;background:#111;display:block;margin-top:8px"></iframe><span class="ln"><a href="{E(v["url"])}" rel="noopener nofollow" target="_blank">유튜브에서 보기</a></span></div>')
+        urls.append(page('video', f'영상 — {S["name"]}', '확인 노트로 만든 영상 모음', f'<div class="page"><span class="lb">영상</span><h1>영상</h1>{h}</div>'))
     return urls
 
 
@@ -325,7 +442,7 @@ def main():
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes)
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages() + issue_pages(notes) + content_pages()
     feed(notes)
     if not NOURL:   # 공개 주소가 정해졌을 때만 사이트맵을 만든다
         open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(

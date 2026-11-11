@@ -23,6 +23,7 @@ jobs:
       SITE_ABOUT: ${{ vars.SITE_ABOUT }}
       TOPIC_KEYWORDS: ${{ vars.TOPIC_KEYWORDS }}
       MIN_SOURCES: ${{ vars.MIN_SOURCES }}
+      PARTS: ${{ vars.PARTS }}   # 부품 켜기·끄기(JSON 글자). 없으면 site.json 의 parts
       GAMES_TITLE: ${{ vars.GAMES_TITLE }}
       GAMES_DESC: ${{ vars.GAMES_DESC }}
     steps:
