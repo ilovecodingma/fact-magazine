@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+"""손잡이: 레퍼런스 플랫폼의 핵심 장치를 독자가 돌려 보는 값. site.local.json 의 "knobs" 에 저장되고 build.py 가 css() 를 얹는다. 파이썬 기본 기능만 쓴다.
+python run.py 손잡이            목록·지금 값·레퍼런스 값과 그렇게 해 둔 까닭
+python run.py 손잡이 본문폭 760  돌려 보기(다시 찍고, --shots 면 전·후 화면)"""
+
+DEFS = {
+    '본문폭': dict(key='body_width', vals=[560, 620, 680, 760, 840], ref=680, unit='px', why='한 줄이 너무 길면 다음 줄을 찾다 눈이 줄을 놓치고, 너무 짧으면 자주 꺾여 읽기가 끊깁니다. 미디엄은 680px(글자 크기의 34배)로 두었습니다.'),
+    '본문글자': dict(key='body_px', vals=[16, 17, 18, 20, 22], ref=20, unit='px', why='미디엄은 20px 입니다. 긴 글을 오래 읽어도 눈이 덜 피곤하라고 보통 사이트(16px)보다 크게 둡니다. 숫자·표가 많은 글은 조금 작아야 한눈에 들어옵니다.'),
+    '줄높이': dict(key='line_height', vals=[1.5, 1.6, 1.75, 1.9], ref=1.6, unit='배', why='미디엄은 글자의 1.6배입니다. 한글은 글자가 꽉 차 보여서 영문보다 조금 넓게(1.7 안팎) 두는 곳이 많습니다.'),
+    '목록열': dict(key='cols', vals=[2, 3, 4], ref=3, unit='열', why='미디엄 목록은 3열 그림 카드입니다. 열이 많으면 한 화면에 많이 보이지만 카드 제목이 작아지고, 적으면 한 건 한 건이 크게 보입니다.'),
+    '읽는시간': dict(key='readtime', vals=['켬', '끔'], ref='켬', unit='', why='미디엄은 글 머리에 「2 min read」를 둡니다. 읽기 전에 얼마나 걸릴지 알면 시작하는 사람이 늘어납니다.'),
+    '저장': dict(key='save', vals=['켬', '끔'], ref='켬', unit='', why='미디엄은 글마다 저장(북마크)을 둡니다. 저장해 둔 글을 읽으러 다시 옵니다. 우리는 서버 없이 이 기기의 브라우저에만 저장합니다.'),
+    '듣기': dict(key='listen', vals=['켬', '끔'], ref='켬', unit='', why='미디엄은 글을 읽어 주는 듣기 단추를 둡니다. 읽을 수 없는 시간(걷기·운전)에도 쓰게 하려는 것입니다.'),
+}
+NEED = {'읽는시간': 10, '저장': 10, '듣기': 10, '목록열': 4}   # 이 손잡이가 보이려면 먼저 얹어야 하는 다듬기 걸음
+
+
+def get(S, name):
+    d = DEFS[name]; v = (S.get('knobs') or {}).get(d['key'])
+    return v
+
+
+def css(S):
+    K = S.get('knobs') or {}; out = ''
+    if K.get('body_width'):
+        out += f"body .art,body .page{{box-sizing:content-box;max-width:{int(K['body_width'])}px}}\n"
+    if K.get('body_px') or K.get('line_height'):
+        px = K.get('body_px'); lh = K.get('line_height')
+        rule = (f"font-size:calc({px}px*var(--fz,1));" if px else '') + (f"line-height:{lh};" if lh else '')
+        out += f"body .art p.sum,body .art li,body .art .src-card p,body .page p,body .page li{{{rule}}}\n"
+    if K.get('cols'):
+        out += f"@media(min-width:1001px){{body .pg{{grid-template-columns:repeat({int(K['cols'])},minmax(0,1fr))}}}}\n"
+    return out
+
+
+def parse(name, raw):
+    d = DEFS[name]
+    for v in d['vals']:
+        if str(v) == str(raw):
+            return v
+    try:
+        f = float(raw)
+        lo, hi = min(x for x in d['vals'] if not isinstance(x, str)), max(x for x in d['vals'] if not isinstance(x, str))
+        if lo * 0.7 <= f <= hi * 1.3:
+            return int(f) if f == int(f) and d['key'] != 'line_height' else f
+    except Exception:
+        pass
+    return None

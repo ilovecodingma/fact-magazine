@@ -21,14 +21,18 @@ def minutes(n):
 
 def head_html(B, n, cats):
     tags = ''.join(f'<a href="{B.BASE}{("?cat=" + E(t)) if t in cats else ""}">{E(t)}</a>' for t in (n.get('tags') or [])[:4])
-    return (f'<div class="mh"><span class="tg">{tags}</span><a class="au" href="{B.BASE}about/">{E(B.S["name"])}</a><span class="rt">읽는 데 {minutes(n)}분</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
+    K = B.S.get('knobs') or {}
+    rt = '' if K.get('readtime') == '끔' else f'<span class="rt">읽는 데 {minutes(n)}분</span>'
+    return (f'<div class="mh"><span class="tg">{tags}</span><a class="au" href="{B.BASE}about/">{E(B.S["name"])}</a>{rt}<span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
 
 
 def actions_html(B, n, opt):
     if opt == 'B':   # 가볍게: 공유만
         return '<div class="ma"><button type="button" data-act="share">링크 복사</button><button type="button" onclick="window.print()">인쇄</button></div>' + JS
-    return (f'<div class="ma" data-id="{E(n["id"])}" data-title="{E(n["title"])}"><button type="button" data-act="save" aria-pressed="false">저장</button><button type="button" data-act="listen" aria-pressed="false">듣기</button>'
-            f'<button type="button" data-act="share">링크 복사</button><button type="button" onclick="window.print()">인쇄</button><a href="{B.BASE}saved/">저장한 글 보기</a></div>' + JS)
+    K = B.S.get('knobs') or {}
+    sv = K.get('save') != '끔'; ls = K.get('listen') != '끔'
+    return (f'<div class="ma" data-id="{E(n["id"])}" data-title="{E(n["title"])}">' + ('<button type="button" data-act="save" aria-pressed="false">저장</button>' if sv else '') + ('<button type="button" data-act="listen" aria-pressed="false">듣기</button>' if ls else '')
+            + '<button type="button" data-act="share">링크 복사</button><button type="button" onclick="window.print()">인쇄</button>' + (f'<a href="{B.BASE}saved/">저장한 글 보기</a>' if sv else '') + '</div>' + JS)
 
 
 JS = ('<script>(function(){var box=document.querySelector(".ma");if(!box)return;var K="fm_saved";function get(){try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}}'

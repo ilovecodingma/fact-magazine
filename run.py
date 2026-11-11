@@ -22,6 +22,9 @@
       python run.py 비교 [종류]                참고 사이트 화면과 내 첫 화면을 나란히 한 장으로(인터넷 필요)
       python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
       python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
+      python run.py 나누기 [레퍼런스 [조각 번호] | 새로 "<사이트>"]   레퍼런스 사이트를 기능 조각으로 나눠 보기
+      python run.py 손잡이 [이름 [값]]         플랫폼의 핵심 장치를 돌려 보기(본문폭·본문글자·줄높이·목록열·읽는시간·저장·듣기)
+      python run.py 바꿔 "<무엇을 어떻게>" → (세션이 고침) → 바꿨다   걸음 없이 하는 작은 고침 · 되돌리기 [처음|목록|걸음 번호]   무엇을 바꿔도 한 줄로 돌아감
       python run.py 레퍼런스 [바꾸기 <이름> | 값 키=값 …]   레퍼런스(히트한 플랫폼, 지금은 미디엄)를 잰 값과 우리 사이트의 지금 값 차이표
       python run.py 맺음                      걸음·장을 맺을 때 「오늘 배운 것 세 줄 + 헷갈려 한 것 + 다음에 할 것」 초안(내_서비스.md·고른 것에서)
       python run.py 방식 프런트|백엔드|바꾸기   화면을 만드는 방식·방문자가 남기는 것을 받는 방식(서비스의 말로 묻고, 세션은 경우만 말하고, 독자가 고른다)
@@ -731,6 +734,7 @@ def polish_cmd(rest):
     if not need_choice(f'다듬기{n}', opt):
         return 1
     sb = score_site(pre)
+    import play; play.snap(f'다듬기 {n} {opt}안')
     d = local_load(); d.setdefault('polish', {})[str(n)] = opt; local_save(d)
     out, last, rcb = rebuild_local()
     shots_for(out, f'{n}_후')
@@ -754,7 +758,7 @@ def polish_cmd(rest):
 
 def undo_cmd(rest):
     if not rest or not rest[0].isdigit():
-        print('사용: python run.py 되돌리기 <번호>'); return 1
+        import play; return play.undo_cmd(sys.modules[__name__], rest)
     d = local_load(); p = d.get('polish') or {}
     if str(int(rest[0])) not in p:
         print('그 걸음은 적용돼 있지 않습니다'); return 0
@@ -1360,6 +1364,7 @@ def convert_cmd(rest):
         print(f'\n[고를 것] 이 종류로 바꿀지 / 나중에 / 안 바꿈. 세션은 정하지 않고, 독자가 앞에서 한 말(내_서비스.md)에 비추어 어느 경우에 해당하는지만 짚어 줍니다.\n독자가 고르면 python run.py 고름 변환 바꿈 "{kind} 로 바꿔 보려는 까닭" → python run.py 변환 {kind} --적용 [--이름 "새 이름" --소개 "한 줄"]\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
     if not need_choice('변환', '바꿈'):
         return 1
+    import play; play.snap(f'변환 {kind}')
     t0 = time.time(); d = prog_load(); L = local_load()
     before_png = None
     if SHOTS:
@@ -1457,6 +1462,20 @@ def reference_cmd(rest):
     if SHOTS:
         _text_shot('레퍼런스와 우리 사이트 — 차이표', [('차이표', '\n'.join(lines))], '레퍼런스_차이표')
     return 0
+
+
+def side_by_side(a, b, out, cap_a, cap_b):
+    """그림 두 장을 나란히 붙인 한 장."""
+    import selftest as T, base64, tempfile
+    br = T.find_browser()
+    if not (br and os.path.exists(a) and os.path.exists(b)):
+        return
+    h_ = '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#222;color:#fff;font:16px "Malgun Gothic",sans-serif}div{display:flex;gap:12px;padding:12px}figure{margin:0;flex:1}img{width:100%;display:block;border:2px solid #fff}figcaption{padding:6px 0;font-weight:700}</style><div>'
+    for cap, fp in ((cap_a, a), (cap_b, b)):
+        h_ += f'<figure><figcaption>{cap}</figcaption><img src="data:image/png;base64,{base64.b64encode(open(fp, "rb").read()).decode()}"></figure>'
+    hf = os.path.join(tempfile.mkdtemp(), 'c.html'); open(hf, 'w', encoding='utf-8').write(h_ + '</div>')
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=2600,1000', f'--screenshot={out}', 'file:///' + hf.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+    print('  전·후 나란히:', out, flush=True)
 
 
 def find_demo(word):
@@ -1640,6 +1659,14 @@ def main():
         return open_cmd(rest)
     if cmd in ('맺음', 'wrapup'):
         return wrap_up_cmd()
+    if cmd in ('나누기', 'split'):
+        import play; return play.split_cmd(sys.modules[__name__], rest)
+    if cmd in ('손잡이', 'knob'):
+        import play; return play.knob_cmd(sys.modules[__name__], rest)
+    if cmd in ('바꿔', 'change'):
+        import play; return play.change_cmd(sys.modules[__name__], rest)
+    if cmd in ('바꿨다', 'changed'):
+        import play; return play.changed_cmd(sys.modules[__name__], rest)
     if cmd in ('레퍼런스', 'reference'):
         return reference_cmd(rest)
     if cmd in ('방식', 'way'):

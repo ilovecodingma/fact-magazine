@@ -127,7 +127,8 @@ CSS += _th.CSS
 import polish as _pl
 import backend as _be
 import kinds as _kn
-CSS += _be.CSS + _kn.CSS
+import knobs as _kb
+CSS += _be.CSS + _kn.CSS + _kb.css(S)   # 손잡이(본문 폭·글자·줄 높이·목록 열)는 맨 뒤에 얹어 이긴다
 POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
 CSS += _pl.css(POLISH, CSS)
 
