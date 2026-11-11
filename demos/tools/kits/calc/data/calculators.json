@@ -1,0 +1,97 @@
+[
+ {
+  "slug": "dutch-pay",
+  "title": "더치페이 계산기",
+  "desc": "총 금액을 인원수로 똑같이 나눕니다(예시).",
+  "inputs": [
+   {
+    "id": "total",
+    "label": "총 금액",
+    "unit": "원",
+    "default": 84000
+   },
+   {
+    "id": "n",
+    "label": "인원 수",
+    "unit": "명",
+    "default": 4
+   }
+  ],
+  "vars": [],
+  "results": [
+   {
+    "label": "1인당 금액",
+    "format": "won",
+    "expr": "total/n"
+   }
+  ],
+  "note": "나누어떨어지지 않으면 올림해서 한 명이 조금 더 낼 수 있습니다."
+ },
+ {
+  "slug": "average3",
+  "title": "점수 세 개 평균 계산기",
+  "desc": "점수 세 개의 평균을 구합니다(예시).",
+  "inputs": [
+   {
+    "id": "a",
+    "label": "점수 1",
+    "unit": "점",
+    "default": 80
+   },
+   {
+    "id": "b",
+    "label": "점수 2",
+    "unit": "점",
+    "default": 90
+   },
+   {
+    "id": "c",
+    "label": "점수 3",
+    "unit": "점",
+    "default": 70
+   }
+  ],
+  "vars": [],
+  "results": [
+   {
+    "label": "합",
+    "format": "num",
+    "expr": "a+b+c"
+   },
+   {
+    "label": "평균",
+    "format": "num",
+    "expr": "(a+b+c)/3"
+   }
+  ],
+  "note": "합을 개수로 나눈 값입니다."
+ },
+ {
+  "slug": "plan-year",
+  "title": "요금제 연간 비용 계산기",
+  "desc": "월 요금으로 1년 비용을 미리 봅니다(가상 요금, 예시).",
+  "inputs": [
+   {
+    "id": "fee",
+    "label": "월 요금",
+    "unit": "원",
+    "default": 9900
+   },
+   {
+    "id": "m",
+    "label": "개월 수",
+    "unit": "개월",
+    "default": 12
+   }
+  ],
+  "vars": [],
+  "results": [
+   {
+    "label": "기간 총 비용",
+    "format": "won",
+    "expr": "fee*m"
+   }
+  ],
+  "note": "월 요금 × 개월 수입니다. 할인·세금은 반영하지 않았습니다."
+ }
+]

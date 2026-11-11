@@ -16,17 +16,22 @@
   },
   {
     "key": "games",
-    "name": "한입 게임방",
-    "tagline": "브라우저에서 바로 하는 작은 게임 모음",
-    "mix": "게임 모음",
+    "name": "게임놀이터",
+    "tagline": "쉬는 시간에 가볍게 풀어보는 상식 퀴즈 놀이터",
+    "mix": "게임 놀이터",
     "kits": [
       "games",
+      "quiz",
       "search"
     ],
-    "about": "이 사이트는 「조립 예시」입니다. 게임 키트와 검색 키트만 켜서 만든 게임 모음입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「게임 모음」 조합(games·search)으로 내 사이트를 만들어 줘. 이름은 「한입 게임방」.",
+    "about": "10문제로 머리를 깨워 보세요. 정답과 한 줄 설명까지 바로 확인할 수 있습니다. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 games · quiz · search 키트만 켜서 「게임놀이터」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
     "theme": "play",
-    "accent": "#ff4f8b"
+    "accent": "#ff4f8b",
+    "kits_dir": "demos/games/kits",
+    "labels": {
+      "quiz": "상식 퀴즈"
+    }
   },
   {
     "key": "serial",
@@ -42,40 +47,28 @@
     ],
     "about": "이 사이트는 「조립 예시」입니다. 연재 소설·웹툰·글·전자책·검색 키트를 켜서 만든 연재 사이트입니다.",
     "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「연재 사이트」 조합(novel·toon·posts·ebook·search)으로 내 사이트를 만들어 줘. 이름은 「한입 연재관」.",
-    "theme": "card",
-    "accent": "#8e44ad"
-  },
-  {
-    "key": "newsletter",
-    "name": "한입 소식지",
-    "tagline": "확인 노트와 쇼츠 영상을 모아 소식으로 전하는 사이트",
-    "mix": "영상·소식지",
-    "kits": [
-      "news",
-      "shorts",
-      "video",
-      "mail"
-    ],
-    "video": true,
-    "about": "이 사이트는 「조립 예시」입니다. 뉴스·쇼츠·영상 모음·소식지 메일 키트를 켠 조합입니다(메일 키트는 화면이 없고 내 컴퓨터에서 소식지를 보냅니다).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「영상·소식지」 조합(news·shorts·video·mail)으로 내 사이트를 만들어 줘. 이름은 「한입 소식지」.",
-    "theme": "paper"
+    "theme": "doc",
+    "accent": "#7b3fb3"
   },
   {
     "key": "tools",
-    "name": "한입 도구함",
-    "tagline": "숫자를 넣으면 바로 계산되는 도구와 용어 풀이",
+    "name": "도구함",
+    "tagline": "비교표와 간단 계산기를 한곳에 모은 생활 도구함",
     "mix": "도구 모음",
     "kits": [
       "calc",
+      "compare",
       "glossary",
-      "search",
-      "status"
+      "search"
     ],
-    "about": "이 사이트는 「조립 예시」입니다. 계산기·용어 사전·검색·상태 쪽 키트만 켠 도구 모음입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「도구 모음」 조합(calc·glossary·search·status)으로 내 사이트를 만들어 줘. 이름은 「한입 도구함」.",
+    "about": "요금제를 한눈에 비교하고, 자주 쓰는 계산은 바로 해 보세요. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 calc · compare · glossary · search 키트만 켜서 「도구함」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
     "theme": "doc",
-    "accent": "#2f6fed"
+    "accent": "#2f6fed",
+    "kits_dir": "demos/tools/kits",
+    "labels": {
+      "compare": "요금제 비교"
+    }
   },
   {
     "key": "town",
@@ -92,80 +85,136 @@
     "kits_dir": "demos/town/kits",
     "about": "가상의 동네 「가상동」을 소재로 한 예시 사이트입니다. 모든 숫자·날짜·장소는 예시이며 실제 동네와 관계없습니다.",
     "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 동네 정보 사이트를 만들어 줘. schedule·links·faq·notice·search 키트만 켜고, 각 키트의 자료 파일(kits/키트/data/)을 우리 동네 내용으로 바꿔 줘. 이름은 「동네 정보 한입」, 숫자·날짜는 예시라고 표시해 줘.",
-    "theme": "card",
+    "theme": "shop",
     "accent": "#1c9a6c"
   },
   {
-    "key": "shop",
-    "name": "달빛 빵집 안내",
-    "tagline": "가상의 빵집 안내 사이트(예시) — 공지·일정·자주 묻는 질문·사진첩·링크",
-    "mix": "가게 안내",
+    "key": "club",
+    "name": "골목 책방 독서모임",
+    "tagline": "한 달에 두 번, 동네에서 책 이야기를 나누는 모임",
+    "mix": "모임 안내",
     "kits": [
-      "notice",
       "schedule",
       "faq",
-      "gallery",
-      "links"
-    ],
-    "kits_dir": "demos/shop/kits",
-    "about": "가상의 빵집을 소재로 한 예시 사이트입니다. 시간·가격·날짜는 모두 예시입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 가게 안내 사이트를 만들어 줘. notice·schedule·faq·gallery·links 키트만 켜고 각 자료 파일(kits/키트/data/)을 내 가게 내용으로 바꿔 줘. 예시 표시는 지워 줘.",
-    "theme": "shop",
-    "accent": "#b5532a"
-  },
-  {
-    "key": "club",
-    "name": "작은 걸음 모임",
-    "tagline": "가상의 걷기 모임 사이트(예시) — 일정·위키·사진첩·공지·퀴즈",
-    "mix": "동아리·모임",
-    "kits": [
-      "schedule",
-      "wiki",
-      "gallery",
       "notice",
-      "quiz"
+      "search"
     ],
     "kits_dir": "demos/club/kits",
-    "about": "가상의 걷기 모임을 소재로 한 예시 사이트입니다. 날짜와 내용은 모두 예시입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 모임 사이트를 만들어 줘. schedule·wiki·gallery·notice·quiz 키트만 켜고 자료 파일을 우리 모임 내용으로 바꿔 줘.",
-    "theme": "play",
-    "accent": "#18a999"
+    "about": "혼자 읽던 책을 함께 이야기해 보세요. 편안한 분위기에서 누구나 환영합니다. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 schedule · faq · notice · search 키트만 켜서 「골목 책방 독서모임」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
+    "theme": "card",
+    "accent": "#0f766e",
+    "labels": {}
+  },
+  {
+    "key": "shop",
+    "name": "구름공방",
+    "tagline": "아침마다 구워내는 동네 작은 빵집(가상 예시)",
+    "mix": "가게 홈페이지",
+    "kits": [
+      "compare",
+      "wiki",
+      "faq",
+      "notice",
+      "search"
+    ],
+    "kits_dir": "demos/shop/kits",
+    "about": "새벽에 반죽하고 아침에 구워, 따뜻할 때 건넵니다. 오늘도 갓 나온 빵 향기로 하루를 시작해 보세요. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 compare · wiki · faq · notice · search 키트만 켜서 「구름공방」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
+    "theme": "shop",
+    "accent": "#b5532a",
+    "labels": {
+      "compare": "메뉴",
+      "wiki": "영업 시간"
+    }
+  },
+  {
+    "key": "recipes",
+    "name": "오늘 뭐 먹지",
+    "tagline": "날씨에 맞춰 고르는 집밥 요리법 모음(가상 예시)",
+    "mix": "요리법 모음",
+    "kits": [
+      "recipes",
+      "search"
+    ],
+    "kits_dir": "demos/recipes/kits",
+    "about": "비 오는 날엔 따끈한 국물, 더운 날엔 시원한 냉국. 오늘 날씨에 어울리는 한 끼를 골라 보세요. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 recipes · search 키트만 켜서 「오늘 뭐 먹지」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
+    "theme": "card",
+    "accent": "#e4572e"
   },
   {
     "key": "study",
-    "name": "공부 노트",
-    "tagline": "공부한 것을 모아 두는 사이트(예시) — 용어 사전·위키·퀴즈·전자책·검색",
+    "name": "사진기초 공부노트",
+    "tagline": "사진 찍기의 기초를 여덟 장의 노트로 정리했습니다",
     "mix": "공부 노트",
     "kits": [
-      "glossary",
       "wiki",
+      "glossary",
       "quiz",
-      "ebook",
       "search"
     ],
     "kits_dir": "demos/study/kits",
     "data_root": "demos/study",
-    "about": "공부한 내용을 정리해 두는 예시 사이트입니다(가상의 내용).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 공부 노트 사이트를 만들어 줘. glossary·wiki·quiz·ebook·search 키트만 켜고 자료를 내 과목 내용으로 바꾸고, 글을 전자책 PDF 로 묶어 줘.",
+    "about": "조리개, 셔터 속도, 구도까지. 처음 카메라를 잡는 분도 차근차근 따라올 수 있는 공부 노트입니다. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 wiki · glossary · quiz · search 키트만 켜서 「사진기초 공부노트」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
     "theme": "doc",
-    "accent": "#d9480f"
+    "accent": "#c2410c",
+    "labels": {
+      "wiki": "공부 노트"
+    }
+  },
+  {
+    "key": "deadline",
+    "name": "마감캘린더",
+    "tagline": "놓치기 쉬운 마감과 행사 날짜를 한 줄씩 모아 둔 가상의 달력",
+    "mix": "일정·마감 모음",
+    "kits": [
+      "schedule",
+      "search"
+    ],
+    "kits_dir": "demos/deadline/kits",
+    "about": "이번 겨울, 챙겨야 할 날짜를 한눈에 보세요. 마감 전에 미리 확인하고 여유 있게 준비하세요. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 schedule · search 키트만 켜서 「마감캘린더」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
+    "theme": "play",
+    "accent": "#ff7a00"
   },
   {
     "key": "works",
-    "name": "내 작업 모음",
-    "tagline": "내가 만든 것을 모아 두는 사이트(예시) — 글·사진첩·타임라인·링크",
+    "name": "솔이의 그림 서랍",
+    "tagline": "취미로 그린 일러스트를 모아 둔 가상의 작업 모음",
     "mix": "내 작업 모음",
     "kits": [
-      "posts",
       "gallery",
       "timeline",
-      "links"
+      "links",
+      "posts"
     ],
     "kits_dir": "demos/works/kits",
     "data_root": "demos/works",
-    "about": "내 작업을 모아 두는 예시 사이트입니다(가상의 내용).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 작업 모음 사이트를 만들어 줘. posts·gallery·timeline·links 키트만 켜고 자료를 내 작업 내용으로 바꿔 줘.",
+    "about": "안녕하세요, 별명은 솔이입니다. 평일 저녁과 주말에 취미로 일러스트를 그리고 있습니다. 주로 고양이, 작은 동네 풍경, 계절 소품을 따뜻한 색감으로 담습니다. 이곳은 그동안의 작업을 정리해 두는 가상의 작업 모음입니다. (가상 예시)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 gallery · timeline · links · posts 키트만 켜서 「솔이의 그림 서랍」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
     "theme": "one",
-    "accent": "#7a5cff"
+    "accent": "#7a5cff",
+    "labels": {
+      "gallery": "그림",
+      "timeline": "작업 일지"
+    }
+  },
+  {
+    "key": "flea",
+    "name": "벼룩시장 한 장",
+    "tagline": "동네 벼룩시장 안내를 종이 한 장에 담았습니다(가상 예시)",
+    "mix": "행사 한 장",
+    "kits": [
+      "schedule",
+      "faq",
+      "notice"
+    ],
+    "kits_dir": "demos/flea/kits",
+    "about": "쓰던 물건에 새 주인을 찾아 주세요. 오시는 날짜와 순서, 자주 묻는 질문을 한 장으로 정리했습니다. (모든 이름·숫자·날짜는 가상 예시입니다.)",
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 schedule · faq · notice 키트만 켜서 「벼룩시장 한 장」 같은 사이트를 만들어 줘. 각 키트의 자료 파일(kits/키트/data/)을 내 내용으로 바꾸고, 숫자·가격·날짜에는 「예시」라고 표시해 줘.",
+    "theme": "one",
+    "accent": "#e11d48"
   }
 ]

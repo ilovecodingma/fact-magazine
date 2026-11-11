@@ -1,15 +1,30 @@
 [
   {
-    "category": "내 채널(예시)",
+    "category": "가상동 생활",
     "items": [
       {
-        "name": "작업 블로그(예시)",
-        "url": "https://example.com/blog",
+        "name": "가상동 주민센터(예시)",
+        "url": "https://example.com/center",
         "desc": "예시 링크입니다"
       },
       {
-        "name": "연락하기(예시)",
-        "url": "https://example.com/contact",
+        "name": "가상동 마을 도서관(예시)",
+        "url": "https://example.com/library",
+        "desc": "예시 링크입니다"
+      }
+    ]
+  },
+  {
+    "category": "함께 쓰는 곳",
+    "items": [
+      {
+        "name": "마을버스 안내(예시)",
+        "url": "https://example.com/bus",
+        "desc": "예시 링크입니다"
+      },
+      {
+        "name": "동네 소식 게시판(예시)",
+        "url": "https://example.com/board",
         "desc": "예시 링크입니다"
       }
     ]

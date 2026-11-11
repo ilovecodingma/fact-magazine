@@ -452,7 +452,34 @@ def notfound(B):
 
 
 ORDER += [('tags', tags), ('dday', dday), ('survey', survey), ('ledger', ledger), ('cards', cards_page), ('onepage', onepage_page), ('notfound', notfound)]
-FOOT4 = {'tags': ('태그', 'tags/'), 'dday': ('디데이', 'dday/'), 'survey': ('설문', 'survey/'), 'ledger': ('가계부', 'ledger/'), 'cards': ('카드 그림', 'cards/'), 'onepage': ('한 장 요약', 'onepage/')}
+FOOT4 = {'recipes': ('요리법', 'recipes/'), 'tags': ('태그', 'tags/'), 'dday': ('디데이', 'dday/'), 'survey': ('설문', 'survey/'), 'ledger': ('가계부', 'ledger/'), 'cards': ('카드 그림', 'cards/'), 'onepage': ('한 장 요약', 'onepage/')}
+
+
+# ---------------- 요리법 모음 키트 ----------------
+def recipes(B):
+    R = data(B, 'recipes', 'recipes.json', [])
+    if not R:
+        return []
+    slug = lambda n: re.sub(r'\s+', '-', n.strip())
+    items = ''.join(f'<li class="rc" data-t="{E((r["name"] + " " + " ".join(r["ingredients"])).lower())}"><a href="{B.BASE}recipes/{E(slug(r["name"]))}/"><b>{E(r["name"])}</b></a> <span class="ln">{E(", ".join(i.split()[0] for i in r["ingredients"][:4]))} …</span></li>' for r in R)
+    names = json.dumps([[r['name'], slug(r['name'])] for r in R], ensure_ascii=False)
+    js = ('<script>(function(){var N=%s,t=new Date(),k=(t.getFullYear()*372+t.getMonth()*31+t.getDate())%%N.length,e=document.getElementById("td");'
+          'e.innerHTML="오늘의 추천: <a href=\\"%srecipes/"+N[k][1]+"/\\"><b>"+N[k][0]+"</b></a>";'
+          'var q=document.getElementById("rq");q.addEventListener("input",function(){var v=q.value.trim().toLowerCase();document.querySelectorAll(".rc").forEach(function(l){l.style.display=!v||l.dataset.t.indexOf(v)>=0?"":"none"})})})()</script>') % (names, B.BASE)
+    body = (f'<p class="notice" id="td"></p><input id="rq" type="search" placeholder="요리 이름이나 재료로 거르기 (예: 두부)" style="font:18px var(--sans);padding:12px;width:100%;border:2px solid var(--ink);margin:14px 0">'
+            f'<ul class="rp" style="list-style:none;padding:0">{items}</ul>{js}')
+    KIT_LINKS.append(('요리법', 'recipes/'))
+    urls = [box(B, '요리법', f'요리법 {len(R)}가지', body, f'집밥 요리법 {len(R)}가지: 오늘의 추천과 재료로 거르기', 'recipes', '<p class="dek">가상의 요리법 모음입니다. 분량과 시간은 예시입니다.</p>')]
+    pr = ('<style>@media print{header,nav.menu,footer,.noprint{display:none!important}body{background:#fff!important;color:#000!important;font-size:13pt}main{max-width:none}}</style>')
+    for r in R:
+        ing = ''.join(f'<li>{E(i)}</li>' for i in r['ingredients']); st = ''.join(f'<li>{E(x)}</li>' for x in r['steps'])
+        b = (f'{pr}<div class="page"><span class="lb noprint">요리법</span><h1>{E(r["name"])}</h1><h2>재료</h2><ul>{ing}</ul><h2>만드는 순서</h2><ol>{st}</ol>'
+             f'<p class="noprint"><button type="button" onclick="window.print()" style="font:700 15px var(--sans);padding:8px 16px;cursor:pointer;width:auto">인쇄 한 장으로 보기</button> &nbsp;<a href="{B.BASE}recipes/">← 목록</a></p></div>')
+        urls.append(B.page(f'recipes/{slug(r["name"])}', f'{r["name"]} 만드는 법 — {B.S["name"]}', f'{r["name"]} 재료와 만드는 순서', b))
+    return urls
+
+
+ORDER.insert(len(ORDER) - 1, ('recipes', recipes))   # notfound 앞에
 
 
 def pages(B):

@@ -20,6 +20,13 @@ for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
+if os.environ.get('SITE_LABELS'):
+    try:
+        S['labels'] = json.loads(os.environ['SITE_LABELS'])   # 메뉴·첫 화면 칸 이름 바꾸기(예: {"compare": "메뉴"})
+    except Exception:
+        pass
+LAB = lambda k, d: (S.get('labels') or {}).get(k, d)
+GENERIC = [('recipes', '요리법', 'recipes/', '오늘의 추천과 재료로 거르기'), ('quiz', '퀴즈', 'quiz/', '풀어 보는 퀴즈'), ('compare', '비교표', 'compare/', '정렬·거르기 되는 표'), ('wiki', '위키', 'wiki/', '서로 이어진 글'), ('gallery', '사진첩', 'gallery/', '그림 모음'), ('timeline', '타임라인', 'timeline/', '날짜순 기록')]
 if os.environ.get('SITE_EXTRAS'):
     try:
         S['extras'] = json.loads(os.environ['SITE_EXTRAS'])
@@ -158,6 +165,9 @@ def page(path, title, desc, body, noindex=False):
         items.append(('질문', BASE + 'faq/'))
     if part('links', False) and kit_data('links', 'links.json'):
         items.append(('링크', BASE + 'links/'))
+    for _k, _n, _u, _d in GENERIC:
+        if part(_k, False) and not part('info'):   # 뉴스를 끈 사이트(조립 예시 등)에서는 켜진 키트 칸을 메뉴에도 둔다
+            items.append((LAB(_k, _n), BASE + _u))
     if part('search', False):
         items.append(('검색', BASE + 'search/'))
     items += ([('확인하는 방법', BASE + 'how/')] if part('info') else []) + [('소개', BASE + 'about/'), ('문의', BASE + 'contact/')]   # 확인하는 방법은 뉴스를 다루는 사이트에만
@@ -601,7 +611,7 @@ def home(notes, topics, notice=''):
     if not part('info'):   # 정보 부품이 꺼진 서비스(예: 게임 모음)의 첫 화면은 게임 목록
         secs = [('게임', 'games/', 'games', lambda: load_games(), '웹 게임'), ('계산기', 'calc/', 'calc', lambda: kit_data('calc', 'calculators.json'), '숫자를 넣으면 바로 계산'), ('용어 사전', 'glossary/', 'glossary', lambda: kit_data('glossary', 'terms.json'), '돈·생활 용어 풀이'),
                 ('글', 'post/', 'posts', lambda: os.path.isdir(os.path.join(HERE, 'posts')), '생활·돈 가이드 글'), ('연재', 'novel/', 'novel', lambda: os.path.isdir(os.path.join(HERE, 'novels')), '연재 소설'), ('웹툰', 'toon/', 'toon', lambda: os.path.isdir(os.path.join(HERE, 'toons')), '웹툰·만화'),
-                ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('일정', 'schedule/', 'schedule', lambda: True, '날짜별 일정'), ('자주 묻는 질문', 'faq/', 'faq', lambda: True, '질문과 답'), ('링크 모음', 'links/', 'links', lambda: True, '분류별 링크'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')]
+                ('전자책', 'ebook/', 'ebook', lambda: True, '글을 묶은 PDF 전자책'), ('일정', 'schedule/', 'schedule', lambda: True, '날짜별 일정'), ('자주 묻는 질문', 'faq/', 'faq', lambda: True, '질문과 답'), ('링크 모음', 'links/', 'links', lambda: True, '분류별 링크'), ('검색', 'search/', 'search', lambda: True, '사이트 안 검색')] + [(LAB(k, n), u, k, (lambda: True), d) for k, n, u, d in GENERIC]
         gl = ''.join(f'<a href="{BASE}{u}"><span class="lb">{E(n)}</span><h3>{E(n)}</h3><p>{E(d)}</p></a>' for n, u, k, ok, d in secs if part(k, False) and ok())
         mix = ''   # 켜진 키트의 실제 내용을 첫 화면에 모아 보여 준다
         if part('games', False) and load_games():
