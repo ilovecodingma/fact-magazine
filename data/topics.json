@@ -1,6 +1,6 @@
 {
- "made_at": "2026-11-11 11:46",
- "article_count": 807,
+ "made_at": "2026-11-11 02:49",
+ "article_count": 809,
  "topics": [
   {
    "title": "유류세 인하 내년 1월까지 2개월 연장…휘발유 15%·경유 25% 유지",
@@ -15,19 +15,25 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 18:04",
    "items": [
+    {
+     "source": "매일경제",
+     "title": "[속보] 유류세 인하 내년 1월까지 2개월 연장…“유류비 부담 경감”",
+     "link": "https://www.mk.co.kr/news/economy/12204996",
+     "time": "2026-11-11 18:04"
+    },
     {
      "source": "한겨레",
      "title": "유류세 인하 내년 1월까지…중동전쟁 불확실성에 2개월 더 연장",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1286731.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "유류세 인하 내년 1월까지 2개월 연장···휘발유 15%, 경유·부탄 25% 감경",
      "link": "https://www.khan.co.kr/article/202611111014001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "SBS",
@@ -46,12 +52,6 @@
      "title": "유류세 인하 내년 1월까지 2개월 연장…중동 리스크 반영",
      "link": "https://www.hankyung.com/article/2026111192087",
      "time": "2026-11-11 09:11"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] 유류세 인하 내년 1월까지 2개월 연장…“유류비 부담 경감”",
-     "link": "https://www.mk.co.kr/news/economy/12204996",
-     "time": "2026-11-11 09:04"
     },
     {
      "source": "연합뉴스",
@@ -78,19 +78,19 @@
     "연합뉴스",
     "한겨레"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "10월 취업자 13만9천명 증가…청년 고용률 30개월째 감소",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1286725.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "10월 취업자 13만9000명 증가…청년 고용률은 30개월째 하락",
      "link": "https://www.khan.co.kr/article/202611110800011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "연합뉴스",
@@ -135,19 +135,19 @@
     "연합뉴스",
     "한겨레"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "금융보안원마저 뚫렸다…해킹에 금융사 정보 유출",
      "link": "https://www.hani.co.kr/arti/economy/finance/1286705.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "금융보안원도 해킹에 뚫려…금융사 보안 정보 유출",
      "link": "https://www.khan.co.kr/article/202611102155005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "동아일보",
@@ -212,16 +212,16 @@
      "time": "2026-11-11 11:45"
     },
     {
+     "source": "SBS",
+     "title": "[속보] 4~5%대 급등한 코스닥, 이틀 연속 매수 사이드카 발동",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840836&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-11 11:43"
+    },
+    {
      "source": "연합뉴스",
      "title": "4~5%대 급등 코스닥, 이틀 연속 매수 사이드카 발동",
      "link": "https://www.yna.co.kr/view/AKR20261111088900008",
      "time": "2026-11-11 11:37"
-    },
-    {
-     "source": "SBS",
-     "title": "[속보] 4%대 급등 코스닥, 매수 사이드카 발동",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840836&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 11:34"
     },
     {
      "source": "연합뉴스",
@@ -265,13 +265,13 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "11월 1∼10일 수출 335억달러…‘연간 수출 1조달러’ 초읽기",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1286739.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "동아일보",
@@ -303,13 +303,13 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "공정위, 네이버-두나무 기업결합 심의 착수…18일 결론 나나",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1286583.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "동아일보",
@@ -341,19 +341,19 @@
     "동아일보",
     "한겨레"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "경향신문",
      "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
      "link": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
      "link": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "한겨레",
@@ -385,13 +385,19 @@
     "매일경제",
     "연합뉴스"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "경향신문",
      "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
      "link": "https://www.khan.co.kr/article/202611102040001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
+    },
+    {
+     "source": "매일경제",
+     "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
+     "link": "https://www.mk.co.kr/news/economy/12204282",
+     "time": "2026-11-11 04:47"
     },
     {
      "source": "SBS",
@@ -406,12 +412,6 @@
      "time": "2026-11-10 19:51"
     },
     {
-     "source": "매일경제",
-     "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
-     "link": "https://www.mk.co.kr/news/economy/12204282",
-     "time": "2026-11-10 19:47"
-    },
-    {
      "source": "연합뉴스",
      "title": "[1보] '금융보안 문지기' 금융보안원도 해킹으로 정보유출",
      "link": "https://www.yna.co.kr/view/AKR20261110173700002",
@@ -421,32 +421,32 @@
    "id": "20261111-08"
   },
   {
-   "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
+   "title": "이형일 \"종부세 실거주 우대 원칙 지켜야\"",
    "media_count": 3,
    "media": [
     "뉴시스",
-    "매일경제",
-    "연합뉴스"
+    "동아일보",
+    "매일경제"
    ],
-   "latest": "2026-11-11 08:03",
+   "latest": "2026-11-11 05:00",
    "items": [
     {
      "source": "매일경제",
-     "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
-     "link": "https://www.mk.co.kr/news/economy/12204941",
-     "time": "2026-11-11 08:03"
+     "title": "이형일 \"종부세 실거주 우대 원칙 지켜야\"",
+     "link": "https://www.mk.co.kr/news/economy/12204287",
+     "time": "2026-11-11 05:00"
     },
     {
-     "source": "연합뉴스",
-     "title": "[1보] 10월 취업자 13만9천명 늘어…넉달째 10만명대",
-     "link": "https://www.yna.co.kr/view/AKR20261111019200002",
-     "time": "2026-11-11 08:00"
+     "source": "동아일보",
+     "title": "이형일 “종부세 실거주 우대” 수정 선그어…李대통령, 오늘 與 김민석-한병도와 만찬",
+     "link": "https://www.donga.com/news/Politics/article/all/20261111/135003004/2",
+     "time": "2026-11-11 04:30"
     },
     {
      "source": "뉴시스",
-     "title": "10월 취업자 13만9000명↑…제조업 한 달 만에 감소 전환(1보)",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862995",
-     "time": "2026-11-11 08:00"
+     "title": "이형일 \"종부세 거주·비거주 차등 지켜야…불가피한 비거주는 보호\"",
+     "link": "https://www.newsis.com/view/NISX20261110_0003862593",
+     "time": "2026-11-10 17:25"
     }
    ],
    "id": "20261111-09"
@@ -483,37 +483,6 @@
    "id": "20261111-10"
   },
   {
-   "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 11:46",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286730.html",
-     "time": "2026-11-11 11:46"
-    },
-    {
-     "source": "매일경제",
-     "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
-     "link": "https://www.mk.co.kr/news/politics/12205085",
-     "time": "2026-11-11 09:49"
-    },
-    {
-     "source": "뉴시스",
-     "title": "수출 호황에도 커지는 소득·자산·세대 격차…정부, 양극화 대응 TF 띄운다",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862618",
-     "time": "2026-11-11 09:00"
-    }
-   ],
-   "id": "20261111-11"
-  },
-  {
    "title": "신현송 한은 총재, BIS ‘지급·시장인프라 위원회’ 의장 선출",
    "media_count": 3,
    "media": [
@@ -521,25 +490,25 @@
     "연합뉴스",
     "한겨레"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "신현송 한국은행 총재, BIS 핵심 위원회 의장 선임",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1286692.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "신현송 한은 총재, BIS ‘지급·시장인프라 위원회’ 의장 선출",
      "link": "https://www.khan.co.kr/article/202611102021005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "경향신문",
      "title": "신현송 한은 총재, BIS ‘지급 및 시장인프라 위원회’ 의장 선출",
      "link": "https://www.khan.co.kr/article/202611101900001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "연합뉴스",
@@ -548,7 +517,7 @@
      "time": "2026-11-10 19:00"
     }
    ],
-   "id": "20261111-12"
+   "id": "20261111-11"
   },
   {
    "title": "제네시스, 초대형 전기 SUV ‘GV90’ 출시…가격 1억3950만원부터",
@@ -558,13 +527,13 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "한겨레",
      "title": "제네시스, 초대형 전기 SUV ‘GV90’ 출시…가격 1억3950만원부터",
      "link": "https://www.hani.co.kr/arti/economy/car/1286600.html",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "동아일보",
@@ -579,7 +548,7 @@
      "time": "2026-11-10 18:23"
     }
    ],
-   "id": "20261111-13"
+   "id": "20261111-12"
   },
   {
    "title": "“‘젠슨 황 연인’ 앨리스 황, 10조원 규모 엔비디아 칩 중국으로 밀반입” 의혹 제기",
@@ -589,13 +558,13 @@
     "동아일보",
     "한국경제"
    ],
-   "latest": "2026-11-11 11:46",
+   "latest": "2026-11-11 11:49",
    "items": [
     {
      "source": "경향신문",
      "title": "“‘젠슨 황 연인’ 앨리스 황, 10조원 규모 엔비디아 칩 중국으로 밀반입” 의혹 제기",
      "link": "https://www.khan.co.kr/article/202611110753001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 11:46"
+     "time": "2026-11-11 11:49"
     },
     {
      "source": "한국경제",
@@ -610,7 +579,75 @@
      "time": "2026-11-11 08:50"
     }
    ],
+   "id": "20261111-13"
+  },
+  {
+   "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "매일경제",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-11 17:03",
+   "items": [
+    {
+     "source": "매일경제",
+     "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
+     "link": "https://www.mk.co.kr/news/economy/12204941",
+     "time": "2026-11-11 17:03"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "취업자 넉달째 10만명대 증가…숙박음식 5년8개월만에 최대폭↓(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261111021351002",
+     "time": "2026-11-11 08:43"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[1보] 10월 취업자 13만9천명 늘어…넉달째 10만명대",
+     "link": "https://www.yna.co.kr/view/AKR20261111019200002",
+     "time": "2026-11-11 08:00"
+    },
+    {
+     "source": "뉴시스",
+     "title": "10월 취업자 13만9000명↑…제조업 한 달 만에 감소 전환(1보)",
+     "link": "https://www.newsis.com/view/NISX20261111_0003862995",
+     "time": "2026-11-11 08:00"
+    }
+   ],
    "id": "20261111-14"
+  },
+  {
+   "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
+   "media_count": 3,
+   "media": [
+    "매일경제",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-11 18:49",
+   "items": [
+    {
+     "source": "매일경제",
+     "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
+     "link": "https://www.mk.co.kr/news/politics/12205085",
+     "time": "2026-11-11 18:49"
+    },
+    {
+     "source": "한겨레",
+     "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286730.html",
+     "time": "2026-11-11 11:49"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "양극화 대응에 팔 걷는 정부…경제부총리가 태스크포스 팀장",
+     "link": "https://www.yna.co.kr/view/AKR20261110136900002",
+     "time": "2026-11-11 09:00"
+    }
+   ],
+   "id": "20261111-15"
   }
  ]
 }
