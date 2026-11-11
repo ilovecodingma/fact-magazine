@@ -1,0 +1,6 @@
+api/data/shop.db*
+web/node_modules/
+web/.next/
+web/out/
+.run.json
+__pycache__/

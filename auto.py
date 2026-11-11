@@ -61,6 +61,11 @@ def taste():
     if info and has_notes:
         R.append(step('알릴 글(블로그 글·알림 문구 세 길이)', ['promo.py']))
         R.append(step('알릴 그림(공유 카드·정사각 카드)', ['card.py', '--square']))
+        if not (os.environ.get('FFMPEG') or shutil.which('ffmpeg')):   # 이 PC 의 파이썬 꾸러미 안에 들어 있는 것도 찾아본다
+            try:
+                import imageio_ffmpeg; os.environ['FFMPEG'] = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:
+                pass
         if os.environ.get('FFMPEG') or shutil.which('ffmpeg'):
             R.append(step('알릴 영상(세로 짧은 영상)', ['shorts.py']))
         else:

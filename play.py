@@ -13,6 +13,7 @@ PLAT = os.path.join(HERE, '참고', '플랫폼.json')
 def _items():
     """간직하는 것: 내 설정·글·기능 자료와 틀 파일(*.py·server·kits) 전부. 그래서 무엇을 고쳐도 돌아온다."""
     out = ['site.local.json', 'site.json', '다듬기.json', 'notes', 'posts', 'kits', 'server']
+    out += ['shop/api/modules', 'shop/api/modules.json', 'shop/api/data/products.json', 'shop/web/app', 'shop/web/components', 'shop/web/lib', 'shop/web/site.json', 'shop/web/public']
     out += sorted(f for f in os.listdir(HERE) if f.endswith('.py'))
     return out
 
@@ -73,6 +74,8 @@ def undo_cmd(R, rest):
         print('간직해 둔 모습(고치기 직전마다 저절로 간직합니다):'); [print(f'  {x}. {m["t"]} — {m["what"]} 하기 전') for x, m in L] or print('  (없음)'); return 0
     if not L:
         print('되돌릴 것이 없습니다(아직 아무것도 바꾸지 않았습니다).'); return 0
+    if os.path.exists(PENDING):   # 하던 고침이 있었으면 접는다(되돌린 뒤의 바꿨다 가 엉뚱한 기준과 견주지 않게)
+        os.remove(PENDING)
     if rest and rest[0] == '처음':
         m = restore(L[0][0]); what = '처음 모습(맨 처음 무언가를 바꾸기 전)'
     else:
@@ -168,18 +171,21 @@ def changed_cmd(R, rest):
     if not os.path.exists(PENDING):
         print('먼저 python run.py 바꿔 "<독자가 한 말>" 로 시작하세요(고치기 전 모습을 간직합니다).'); return 1
     p = json.load(open(PENDING, encoding='utf-8'))
+    if not os.path.isdir(os.path.join(KEEP, str(p['n']))):
+        os.remove(PENDING); print('견줄 기준(고치기 전 모습)이 없습니다 — 그 사이에 되돌렸습니다. python run.py 바꿔 "<독자가 한 말>" 로 다시 시작하세요.'); return 1
     bad = _check()
     if bad:
         print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 고치기 전으로 돌아갑니다.'); return 1
     out, last, rc = R.rebuild_local()
     if rc != 0:
         print('✗ 확인에서 걸렸습니다(사이트 찍기). 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 돌아갑니다.'); return 1
-    os.remove(PENDING)
     want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 시킨 것이 화면에 나타났는가: 찍힌 사이트에서 이 글자들을 찾는다
     rest = [x for x in rest if x not in want]
     did = ' '.join(rest).strip() or p['what']
     seen = _seen(out, want); miss = [w for w in want if not seen[w]]
     files = _changed(p['n']); secs = time.time() - p['t0']
+    if not miss:
+        os.remove(PENDING)   # 안 보이는 것이 있으면 접지 않는다: 고쳐서 다시 바꿨다 를 부르면 같은 기준과 견준다
     _flow(p['what'], did, files, '구문 ✓ · 찍기 ✓' + (f' · 화면에 나타남 {len(want) - len(miss)}/{len(want)}' if want else ''), secs)
     if R.SHOTS and p.get('before') and os.path.exists(p['before']):
         import selftest as T
@@ -191,6 +197,8 @@ def changed_cmd(R, rest):
     else:
         print('– 시킨 것이 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
     print(f'✓ 스스로 확인: 틀 파일 구문 통과 · 사이트 찍기 통과({last})\n마음에 안 들면 python run.py 되돌리기 한 줄로 고치기 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
+    if miss:
+        print('아직 끝나지 않았습니다 — 고친 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
     R.prog_add('바꿈: ' + did); status_cmd(R); return 0
 
 
@@ -232,6 +240,7 @@ def status_cmd(R, rest=None):
 
 # ---------------------------------------------------------------- 본(유명 플랫폼을 본뜬 출발점) 띄우기
 MIRRORS = {
+    '가게': dict(name='종합 쇼핑몰', ref='쿠팡', shop=True),
     '글': dict(name='글 읽는 곳', ref='미디엄', polish={'1': 'B', '3': 'B', '4': 'C', '7': 'B', '8': 'B', '9': 'A', '10': 'A'}),
     '게시판': dict(name='링크와 추천 게시판', ref='해커 뉴스', kind='커뮤니티(링크+추천 게시판)'),
     '장터': dict(name='디지털 상품 장터', ref='검로드', kind='쇼핑몰(디지털 상품 장터)'),
@@ -244,9 +253,11 @@ def mirror_cmd(R, rest):
     if not rest or rest[0] not in MIRRORS:
         print('━━ 본 — 본뜬 출발점을 한 번에 띄웁니다 ━━')
         for k, m in MIRRORS.items():
-            print(f'  python run.py 본 {k:<4} {m["name"]} (본: {m["ref"]})' + ('' if 'polish' in m else ' — 받는 것이 있어 서버가 붙습니다'))
+            print(f'  python run.py 본 {k:<4} {m["name"]} (본: {m["ref"]})' + (' — 화면 Next.js + 백엔드 파이썬 + 앱, 결제 없음' if m.get('shop') else '' if 'polish' in m else ' — 받는 것이 있어 서버가 붙습니다'))
         return 0 if not rest else 1
     key = rest[0]; m = MIRRORS[key]; t0 = time.time(); snap(f'본 {key} 띄우기')
+    if m.get('shop'):
+        return R.sh(['shop.py', '켜기'] + [a for a in R.A[2:]]) or (R.prog_add('본 가게') or status_cmd(R))
     if 'polish' in m:
         L = R.local_load(); L['polish'] = dict(m['polish']); R.local_save(L)
         out, last, rc = R.rebuild_local()

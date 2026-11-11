@@ -1,0 +1,13 @@
+{
+ "on": [
+  "catalog",
+  "cart",
+  "orders",
+  "reviews",
+  "wish",
+  "rank",
+  "coupons",
+  "admin"
+ ],
+ "_설명": "여기 이름이 있으면 그 기능이 붙어 있고, 지우면 떨어진다(화면에서도 사라진다). 고치는 것은 python run.py 붙여 <이름> / 떼 <이름> 이 한다."
+}

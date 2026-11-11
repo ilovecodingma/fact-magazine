@@ -1,0 +1,29 @@
+{
+ "_설명": "보기 자료입니다. 가게를 띄워 보려고 넣어 둔 이름 없는 상품들이고, 독자가 「무엇을 파는 가게」인지 말하면 세션이 이 파일을 독자의 상품으로 바꿉니다(python run.py 가게 상품다시).",
+ "products": [
+  {"name": "도톰한 면 수건 5장", "cat": "생활", "price": 12900, "was": 16900, "emoji": "🧺", "color": "#e8f1ff", "badge": "내일 도착", "desc": "날마다 쓰는 기본 수건. 5장 묶음."},
+  {"name": "무향 세탁 세제 3L", "cat": "생활", "price": 9900, "was": 12900, "emoji": "🧴", "color": "#e8f1ff", "badge": "", "desc": "향이 없는 액체 세제."},
+  {"name": "접이식 빨래 건조대", "cat": "생활", "price": 24900, "was": 32000, "emoji": "🧷", "color": "#e8f1ff", "badge": "무료 배송", "desc": "접으면 벽에 세워 둘 수 있는 건조대."},
+  {"name": "스테인리스 텀블러 500ml", "cat": "생활", "price": 14900, "was": 19900, "emoji": "🥤", "color": "#e8f1ff", "badge": "내일 도착", "desc": "따뜻한 것도 찬 것도 오래 가는 텀블러."},
+  {"name": "코팅 프라이팬 28cm", "cat": "주방", "price": 21900, "was": 29900, "emoji": "🍳", "color": "#fff3e0", "badge": "내일 도착", "desc": "달걀이 눌어붙지 않는 코팅 팬."},
+  {"name": "유리 밀폐 용기 4개", "cat": "주방", "price": 15900, "was": 19900, "emoji": "🥡", "color": "#fff3e0", "badge": "", "desc": "그대로 데우는 유리 용기 묶음."},
+  {"name": "나무 도마 대형", "cat": "주방", "price": 17900, "was": 22000, "emoji": "🪵", "color": "#fff3e0", "badge": "", "desc": "칼자국이 덜 남는 통나무 도마."},
+  {"name": "전기 주전자 1.2L", "cat": "주방", "price": 19900, "was": 27900, "emoji": "🫖", "color": "#fff3e0", "badge": "무료 배송", "desc": "물이 끓으면 저절로 꺼지는 주전자."},
+  {"name": "구운 아몬드 1kg", "cat": "식품", "price": 13900, "was": 17900, "emoji": "🌰", "color": "#e9f7ec", "badge": "내일 도착", "desc": "소금 없이 구운 아몬드 한 봉지."},
+  {"name": "드립백 커피 30개", "cat": "식품", "price": 14900, "was": 18900, "emoji": "☕", "color": "#e9f7ec", "badge": "", "desc": "뜨거운 물만 부으면 되는 드립백."},
+  {"name": "현미 즉석밥 12개", "cat": "식품", "price": 11900, "was": 14900, "emoji": "🍚", "color": "#e9f7ec", "badge": "내일 도착", "desc": "데우기만 하면 되는 현미밥."},
+  {"name": "말린 과일 모음 500g", "cat": "식품", "price": 9900, "was": 12900, "emoji": "🍑", "color": "#e9f7ec", "badge": "", "desc": "망고·사과·파인애플을 말린 간식."},
+  {"name": "무선 충전 받침대", "cat": "디지털", "price": 16900, "was": 24900, "emoji": "🔌", "color": "#f1edff", "badge": "내일 도착", "desc": "올려 두면 충전되는 받침대."},
+  {"name": "블루투스 스피커", "cat": "디지털", "price": 29900, "was": 39900, "emoji": "🔊", "color": "#f1edff", "badge": "무료 배송", "desc": "손바닥만 한 스피커."},
+  {"name": "휴대폰 거치대", "cat": "디지털", "price": 7900, "was": 9900, "emoji": "📱", "color": "#f1edff", "badge": "", "desc": "책상 위 각도 조절 거치대."},
+  {"name": "충전 케이블 2m 2개", "cat": "디지털", "price": 8900, "was": 11900, "emoji": "🧵", "color": "#f1edff", "badge": "", "desc": "굵고 긴 충전 케이블 두 개 묶음."},
+  {"name": "줄 없는 공책 3권", "cat": "문구·취미", "price": 6900, "was": 8900, "emoji": "📓", "color": "#fff0f4", "badge": "", "desc": "활짝 펴지는 무지 공책."},
+  {"name": "수채 색연필 36색", "cat": "문구·취미", "price": 15900, "was": 21900, "emoji": "🖍️", "color": "#fff0f4", "badge": "내일 도착", "desc": "물을 묻히면 번지는 색연필."},
+  {"name": "직소 퍼즐 1000조각", "cat": "문구·취미", "price": 13900, "was": 17900, "emoji": "🧩", "color": "#fff0f4", "badge": "", "desc": "주말 하루를 쓰는 퍼즐."},
+  {"name": "가족 보드게임", "cat": "문구·취미", "price": 24900, "was": 31000, "emoji": "🎲", "color": "#fff0f4", "badge": "무료 배송", "desc": "둘에서 여섯이 30분."},
+  {"name": "강아지 닭가슴살 간식 300g", "cat": "반려동물", "price": 9900, "was": 12900, "emoji": "🦴", "color": "#eaf7f7", "badge": "내일 도착", "desc": "닭가슴살만 말린 간식."},
+  {"name": "고양이 낚싯대 장난감", "cat": "반려동물", "price": 5900, "was": 7900, "emoji": "🪶", "color": "#eaf7f7", "badge": "", "desc": "깃털이 달린 낚싯대."},
+  {"name": "반려동물 물그릇", "cat": "반려동물", "price": 11900, "was": 14900, "emoji": "🥣", "color": "#eaf7f7", "badge": "", "desc": "잘 넘어지지 않는 도자기 그릇."},
+  {"name": "산책용 가슴줄", "cat": "반려동물", "price": 16900, "was": 21900, "emoji": "🐕", "color": "#eaf7f7", "badge": "무료 배송", "desc": "당겨도 목이 졸리지 않는 가슴줄."}
+ ]
+}
