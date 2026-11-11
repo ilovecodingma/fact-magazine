@@ -19,3 +19,4 @@ site_local/
 진도.json
 site_demo_*/
 selftest_shots/
+demos/built.json
