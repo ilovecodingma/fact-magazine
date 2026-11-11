@@ -67,8 +67,8 @@
   "text": "",
   "name": "종이",
   "kind": "all",
-  "points": 96,
-  "hours": 20,
+  "points": 260,
+  "hours": 9,
   "comments": 0,
   "sample_comments": []
  },
@@ -79,8 +79,8 @@
   "text": "",
   "name": "모래",
   "kind": "all",
-  "points": 31,
-  "hours": 1,
+  "points": 24,
+  "hours": 0.4,
   "comments": 0,
   "sample_comments": []
  },
@@ -417,6 +417,18 @@
   "kind": "ask",
   "points": 51,
   "hours": 55.9,
+  "comments": 0,
+  "sample_comments": []
+ },
+ {
+  "id": "j1",
+  "title": "구인: 작은 게시판을 같이 돌볼 운영 도우미(예시)",
+  "url": "https://example.com/job",
+  "text": "",
+  "name": "운영자",
+  "kind": "job",
+  "points": 1,
+  "hours": 6,
   "comments": 0,
   "sample_comments": []
  }

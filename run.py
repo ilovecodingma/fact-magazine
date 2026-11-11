@@ -804,23 +804,26 @@ def quality_cmd():
 
 
 def compare_cmd(rest):
-    R = ref_load(); import selftest as T, base64
-    kind = ' '.join(rest) if rest else '정보 매거진'
-    hit = next((r for r in R if kind.replace(' ', '') in r['kind'].replace(' ', '')), None)
-    if not hit or not hit['sites']:
-        print('참고 사이트를 찾지 못했습니다'); return 1
-    br = T.find_browser(); os.makedirs(SHOTS or os.path.join(HERE, '비교'), exist_ok=True); d = SHOTS or os.path.join(HERE, '비교')
-    out = build_tmp(cur_polish()); mine = os.path.join(d, '비교_내화면.png'); ref = os.path.join(d, '비교_참고화면.png')
-    T.shoot_pages(out, [''], [mine], 1280, 860)
-    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1280,860', '--virtual-time-budget=8000', f'--screenshot={ref}', hit['sites'][0]['url']], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
-    import tempfile
-    html = '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#222;color:#fff;font:15px "Malgun Gothic",sans-serif}div{display:flex;gap:12px;padding:12px}figure{margin:0;flex:1}img{width:100%;display:block;border:2px solid #fff}figcaption{padding:6px 0;font-weight:700}</style><div>'
-    for cap, fp in (('참고 사이트: ' + hit['sites'][0]['url'], ref), ('우리 사이트(지금 모습)', mine)):
-        html += f'<figure><figcaption>{cap}</figcaption><img src="data:image/png;base64,{base64.b64encode(open(fp, "rb").read()).decode()}"></figure>' if os.path.exists(fp) else f'<figure><figcaption>{cap} (화면 없음)</figcaption></figure>'
-    html += '</div>'
-    hf = os.path.join(tempfile.mkdtemp(), 'c.html'); open(hf, 'w', encoding='utf-8').write(html); res = os.path.join(d, '비교_나란히.png')
-    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=2600,1000', f'--screenshot={res}', 'file:///' + hf.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
-    print('나란히 비교 그림:', res); return 0
+    """레퍼런스 사이트를 옆에 두고 본다: 본의 화면과 우리 화면을 같은 크기로 찍어 나란히 한 장(내 PC 에만 저장, 저장소에는 넣지 않는다 — 남의 사이트 화면이므로)."""
+    import refcmp as RC, selftest as T
+    name, R = RC.current(); url = (R.get('url') or '').split(' ')[0]
+    which = rest[0] if rest else '목록'
+    if R.get('board'):
+        ours = 'board/' if which != '글' else 'board/?id=s1'
+        ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
+    else:
+        ours = ''; ref = url
+        if which == '글':
+            nid_ = newest_note(os.path.join(HERE, 'site_local')) if os.path.isdir(os.path.join(HERE, 'site_local')) else None
+            ours = f'n/{nid_}/' if nid_ else ''; ref = A[A.index('--본') + 1] if '--본' in A else url
+    if not ref.startswith('http'):
+        print('레퍼런스 주소가 없습니다(python run.py 레퍼런스 값 url=https://…)'); return 1
+    br = T.find_browser(); d = SHOTS or os.path.join(HERE, '비교'); os.makedirs(d, exist_ok=True)
+    out, last, rc = rebuild_local(); mine = os.path.join(d, f'옆에두기_{which}_우리.png'); refp = os.path.join(d, f'옆에두기_{which}_본.png')
+    T.shoot_pages(out, [ours], [mine], 1280, 860)
+    subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1280,860', '--virtual-time-budget=8000', f'--screenshot={refp}', ref], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+    side_by_side(refp, mine, os.path.join(d, f'옆에두기_{which}_나란히.png'), f'본: {name} ({ref})', '우리(지금)')
+    print(f'본({name})과 우리 화면을 나란히 두었습니다 → {d}  (글 쪽은: python run.py 비교 글 --본 <본의 글 주소>)\n[독자와 볼 것] 어디가 같고 어디가 다른가 → 다른 곳을 본처럼 맞출지, 내 것답게 바꿀지는 독자가 고릅니다.\n※ 남의 사이트 화면이라 이 그림은 내 PC 에만 두고 저장소·책에 그대로 올리지 않습니다.'); return 0
 
 
 def think_cmd():

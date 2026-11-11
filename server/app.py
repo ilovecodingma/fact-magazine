@@ -293,14 +293,22 @@ class H(http.server.SimpleHTTPRequestHandler):
             except ValueError:
                 pg = 1
             L = [post_view(S, p) for p in S.find('posts', {'status': 'approved'}, 500)]
-            if kind in ('ask', 'show'):
+            if kind in ('ask', 'show', 'job'):
                 L = [p for p in L if p['kind'] == kind]
+            else:
+                L = [p for p in L if p['kind'] != 'job']   # 구인 글은 구인 목록에만
             if sort == 'new':
                 L.sort(key=lambda p: p['hours'])
+            elif sort == 'past':   # 지난 글: 하루가 지난 글을 점수순으로
+                L = sorted([p for p in L if p['hours'] >= 24], key=lambda p: -p['points'])
             else:   # 점수를 지난 시간의 거듭제곱으로 나눈다 — 시간이 지나면 저절로 내려간다
                 L.sort(key=lambda p: -(p['points'] / ((p['hours'] + 2) ** float(cfg.get('gravity', 1.8)))))
             n = int(cfg.get('per_page', 30))
             return self.send_json({'ok': True, 'posts': L[(pg - 1) * n: pg * n], 'more': len(L) > pg * n})
+        if path == '/api/board/comments':   # 새 댓글(모든 글의 최신 댓글)
+            titles = {p['_id']: p['title'] for p in S.find('posts', {'status': 'approved'}, 500)}
+            cs = [{'id': c['_id'], 'pid': c['pid'], 'title': titles.get(c['pid'], ''), 'name': c.get('name', '익명'), 'body': c['body'], 'hours': round(hours_since(c['_created']), 2)} for c in S.find('pcomments', {'status': 'approved'}, 60) if c['pid'] in titles]
+            return self.send_json({'ok': True, 'comments': cs[:30]})
         if path == '/api/board/item':
             pid = clean(q.get('id', [''])[0], 60); p = S.get('posts', pid)
             if not p or p.get('status') != 'approved':
@@ -412,7 +420,7 @@ class H(http.server.SimpleHTTPRequestHandler):
             cfg = board_cfg(); title = clean(b.get('title'), 120); url = clean(b.get('url'), 300); text = clean(b.get('text'), 2000); name = clean(b.get('name'), 30) or '익명'
             if len(title) < 4 or (url and not re.match(r'https?://[^\s]+$', url)) or (not url and len(text) < 5):
                 return self.send_json({'error': '제목(4자 이상)과, 링크 주소(https://…) 또는 5자 이상의 글이 필요합니다'}, 400)
-            kind = 'ask' if title.startswith('묻습니다') else ('show' if title.startswith('보여 줍니다') else 'all')
+            kind = 'job' if title.startswith('구인') else ('show' if title.startswith('보여 줍니다') else ('ask' if (title.startswith('묻습니다') or not url) else 'all'))   # 링크 없는 글은 묻는 글(본과 같음)
             st = 'approved' if cfg.get('moderation') == 'after' else 'pending'
             S.put('posts', newid(), {'title': title, 'url': url, 'text': text, 'name': name, 'kind': kind, 'points': 1, 'status': st, 'ip': iphash(ip)})
             return self.send_json({'ok': True, 'shown': st == 'approved', 'message': '글을 올렸습니다.' if st == 'approved' else '글을 받았습니다. 운영자가 승인하면 보입니다.'})
