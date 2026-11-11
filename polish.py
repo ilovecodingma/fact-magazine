@@ -14,7 +14,24 @@ def active(S):
     return {int(k): v for k, v in p.items() if str(k).isdigit() and v}
 
 
+CUSTOM = []   # 독자가 정한 분류: [{"name": "절약", "words": ["아끼", "할인"]}] (site.local.json 의 cats). 비면 노트의 첫 태그
+SOLO = set()   # 다듬기 10 을 통째로 얹지 않고 조각 하나만 켠 것: readtime · tags · save · listen (site.local.json 의 solo)
+
+
+def setup(S):
+    global CUSTOM, SOLO
+    CUSTOM = [c for c in (S.get('cats') or []) if c.get('name')]
+    SOLO = set(S.get('solo') or [])
+
+
 def cat_of(n):
+    if CUSTOM:   # 분류 이름이나 그 낱말이 태그에 있으면 먼저, 없으면 제목·물음·요약에서 찾는다
+        tags = ' '.join(n.get('tags') or []); body = ' '.join([n.get('title', ''), n.get('question', ''), n.get('summary', '')])
+        for where in (tags, body):
+            for c in CUSTOM:
+                if any(w and w in where for w in [c['name']] + list(c.get('words') or [])):
+                    return c['name']
+        return '기타'
     return (n.get('tags') or ['기타'])[0]
 
 
@@ -24,6 +41,8 @@ def set_cats(notes):
     for n in notes:
         cnt[cat_of(n)] = cnt.get(cat_of(n), 0) + 1
     CATS = [c for c, _ in sorted(cnt.items(), key=lambda x: (-x[1], x[0]))][:6]
+    if CUSTOM:   # 독자가 정한 차례 그대로(글이 한 건도 없는 분류는 탭에 내지 않는다)
+        CATS = [c['name'] for c in CUSTOM if cnt.get(c['name'])] + (['기타'] if cnt.get('기타') else [])
 
 
 # ---------------------------------------------------------------- 1 글자와 줄 간격
@@ -166,6 +185,7 @@ def css(act, base_css=''):
     if 8 in act: out.append(css8(act[8]))
     if 9 in act: out.append(css9(act[9]))
     if 10 in act: out.append(P10.css(act[10]))
+    elif SOLO: out.append(P10.css('A').replace('body.pl10', 'body.so10') + 'body.so10 .by .tg{margin-right:6px}body.so10 .ma{margin-top:14px}\n')
     out.append(ref_css(act))   # 「레퍼런스를 그대로」 고른 걸음의 값은 맨 뒤에 얹어 다른 층에 밀리지 않게
     return '\n'.join(out)
 
@@ -182,7 +202,7 @@ def head(act):
 
 
 def body_class(act):
-    return ('pl ' + ' '.join(f'pl{n}' for n in sorted(act))) if act else ''
+    return ((('pl ' + ' '.join(f'pl{n}' for n in sorted(act))) if act else '') + (' so10' if SOLO and 10 not in act else '')).strip()
 
 
 # ---------------------------------------------------------------- 3: 분야 탭 메뉴와 제호 오른쪽(검색·소식 받기)
@@ -400,13 +420,13 @@ def note_body(B, n, extra_html=''):
              '<button type="button" onclick="window.print()">인쇄</button>' + (f'<a href="{BASE}feed.xml">RSS</a>' if not (B.NOURL or B.DEMO) else '') + '</div>')
     return (f'<article class="art">{ex}{wide}<span class="lb">확인 노트 · {E(cat_of(n))}</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="vband {V[v]}"><b>{E(v)}</b><span>{E(VDESC.get(v, ""))}</span></div>'
-            + (P10.head_html(B, n, CATS) if 10 in B.POLISH else f'<div class="by"><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
+            + (P10.head_html(B, n, CATS) if 10 in B.POLISH else f'<div class="by">{P10.solo_head(B, n, CATS, SOLO)}<span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
             + (f'<div class="nbox"><span>핵심 숫자</span><b style="color:{COLR.get(v, "#111")}">{E(num)}</b><em>{E(n["question"])}</em></div>' if num else '')
             + f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실과 출처</h2><ul class="srcs">{facts}</ul>' if facts else '')
             + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
             + (f'<h2>아직 확인 안 된 것</h2><div class="unc"><ul>{li(n["unconfirmed"])}</ul></div>' if n.get('unconfirmed') else '')
-            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + extra_html + relh + (P10.actions_html(B, n, B.POLISH[10]) if 10 in B.POLISH else share) + '</article>')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + extra_html + relh + (P10.actions_html(B, n, B.POLISH[10]) if 10 in B.POLISH else share + P10.solo_actions(B, n, SOLO)) + '</article>')
 
 
 # ---------------------------------------------------------------- 8 푸터·믿을 근거 / 9 아래 고정 메뉴 (완성된 쪽 HTML 을 한 번 손본다)

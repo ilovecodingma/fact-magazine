@@ -131,6 +131,7 @@ import knobs as _kb
 import board as _bd
 import market as _mk
 CSS += _be.CSS + _kn.CSS + _bd.CSS + _mk.CSS + _kb.css(S)   # 손잡이(본문 폭·글자·줄 높이·목록 열)는 맨 뒤에 얹어 이긴다
+_pl.setup(S)   # 독자가 정한 분류(cats)·조각 하나만 켠 것(solo)
 POLISH = _pl.active(S)   # 다듬기 걸음 1~: 출발 모습(투박함)에 한 층씩 얹는다. 없으면 출발 모습 그대로
 CSS += _pl.css(POLISH, CSS)
 
@@ -582,12 +583,12 @@ def note_page(n):
     if POLISH.get(7):   # 다듬기 7: 글 쪽 재구성
         return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], _pl.note_body(sys.modules[__name__], n, _kp.related_html(sys.modules[__name__], '노트', n['id']) + _be.comments_html(sys.modules[__name__], n['id'])), noindex=bool(n.get('example')))
     body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "", "wide")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
-            f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
+            f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span>{_pl.P10.solo_head(sys.modules[__name__], n, _pl.CATS, _pl.SOLO)}<span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
             f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실</h2><ol class="fn">{facts}</ol>' if facts else '')
             + (f'<h2>매체마다 다르게 전한 점</h2><ul>{li(n["differs"])}</ul>' if n.get('differs') else '')
             + (f'<h2>아직 확인 안 된 것</h2><ul>{li(n["unconfirmed"])}</ul>' if n.get('unconfirmed') else '')
-            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + _kp.related_html(sys.modules[__name__], '노트', n['id']) + _be.comments_html(sys.modules[__name__], n['id']) + '</article>')
+            + (f'<h2>관련 기사</h2><ul class="rp">{reports}</ul>' if reports else '') + _kp.related_html(sys.modules[__name__], '노트', n['id']) + _be.comments_html(sys.modules[__name__], n['id']) + _pl.P10.solo_actions(sys.modules[__name__], n, _pl.SOLO) + '</article>')
     return page(f'n/{n["id"]}', f'{n["title"]} — {S["name"]}', n['summary'][:150], body, noindex=bool(n.get('example')))
 
 

@@ -23,6 +23,7 @@
       python run.py 생각 · 정리 "<독자의 말>" [--한줄 …] [--정함 a;b] [--미정 …] [--미룸 …]   독자의 생각을 정리해 생각.md 에 남기기
       python run.py 열기                      받자마자 내 PC 에서 열고 10분 한 바퀴(방문자의 길·운영자의 하루) · 변환 <종류> · 쉬는시간
       python run.py 나누기 [레퍼런스 [조각 번호] | 새로 "<사이트>"]   레퍼런스 사이트를 기능 조각으로 나눠 보기
+      python run.py 조각 [레퍼런스 번호 켜기|끄기]   나누기에서 본 조각 하나만 내 사이트에 켰다 끄기 · 분류 ["이름=낱말,낱말" …|기본]   독자가 말한 분류를 분류 탭으로 · 참고 미디엄   그 사이트가 무엇으로 버는지
       python run.py 손잡이 [이름 [값]]         플랫폼의 핵심 장치를 돌려 보기(본문폭·본문글자·줄높이·목록열·읽는시간·저장·듣기)
       python run.py 바꿔 "<무엇을 어떻게>" → (세션이 고침) → 바꿨다   걸음 없이 하는 작은 고침 · 되돌리기 [처음|목록|걸음 번호]   무엇을 바꿔도 한 줄로 돌아감
       python run.py 레퍼런스 [바꾸기 <이름> | 값 키=값 …]   레퍼런스(히트한 플랫폼, 지금은 미디엄)를 잰 값과 우리 사이트의 지금 값 차이표
@@ -416,6 +417,19 @@ def ref_cmd(rest):
     if not rest:
         print('참고 사이트가 있는 종류:'); [print(f'  - {r["kind"]} ({len(r["sites"])}곳)') for r in R]; print('\n사용: python run.py 참고 정보 매거진 [--shots 폴더]'); return 0
     w = ' '.join(rest).replace(' ', '')
+    pdir = os.path.join(HERE, '참고', '조각')
+    pk = next((f for f in sorted(os.listdir(pdir)) if f.endswith('.json') and w and w in f.replace(' ', '')), None) if os.path.isdir(pdir) else None
+    if pk:   # 조각 표가 있는 레퍼런스: 그 사이트가 무엇으로 버는지(확인된 것만)
+        d = json.load(open(os.path.join(pdir, pk), encoding='utf-8')); e = d.get('earns')
+        print(f'━━ 참고: {d["name"]} ━━\n{d.get("one_line", "")}')
+        if not e:
+            print('버는 길: 아직 확인해 적어 둔 것이 없습니다(조각 표의 「왜」 칸에 조각별로만 있습니다).' + (f'\n※ {d["biggest_diff"]}' if d.get('biggest_diff') else '')); return 0
+        print('\n[이렇게 번다 — 확인된 것]'); [print('  · ' + x) for x in e['confirmed']]
+        print(f'  (근거: {e["source"]})')
+        if e.get('unconfirmed'):
+            print('[확인하지 못한 것] ' + ' / '.join(e['unconfirmed']))
+        print(f'\n우리는: {e["ours"]}\n[물음] 내 사이트는 무엇으로 벌 수 있을까요 — 지금 정하지 않아도 됩니다(미뤄 두기: python run.py 고름 …).')
+        prog_add('참고 ' + d['name']); return 0
     hit = [r for r in R if w in r['kind'].replace(' ', '') or r['kind'].replace(' ', '') in w]
     if not hit:
         print('그 종류가 없습니다:', ', '.join(kinds)); return 1
@@ -1676,6 +1690,12 @@ def main():
         return wrap_up_cmd()
     if cmd in ('나누기', 'split'):
         import play; return play.split_cmd(sys.modules[__name__], rest)
+    if cmd in ('조각', 'piece'):
+        import play as PY
+        return PY.piece_cmd(sys.modules[__name__], POS[1:])
+    if cmd in ('분류', 'cats'):
+        import play as PY
+        return PY.cats_cmd(sys.modules[__name__], POS[1:])
     if cmd in ('손잡이', 'knob'):
         import play; return play.knob_cmd(sys.modules[__name__], rest)
     if cmd in ('바꿔', 'change'):

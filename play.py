@@ -164,6 +164,95 @@ def knob_cmd(R, rest):
     R.prog_add(f'손잡이 {nm}={val}'); return 0
 
 
+# ---------------------------------------------------------------- 조각 하나만 켜고 끄기 · 내 분류
+SOLO_NAMES = {'readtime': '읽는 시간', 'tags': '주제 태그', 'save': '저장', 'listen': '듣기'}
+
+
+def piece_cmd(R, rest):
+    """나누기에서 본 조각 하나만 내 사이트에 켰다 끈다(다듬기 10 을 통째로 얹지 않고)."""
+    files = _piece_files(); L = R.local_load(); solo = list(L.get('solo') or [])
+    if len(rest) < 2 or not rest[1].isdigit():
+        print('━━ 조각 — 하나만 켰다 꺼 보기 ━━\n지금 켜 둔 조각: ' + (' · '.join(SOLO_NAMES.get(s, s) for s in solo) or '(없음)'))
+        for k, fpath in files.items():
+            sw = [f'{x["n"]}. {x["name"]}' for x in json.load(open(fpath, encoding='utf-8'))['pieces'] if x.get('switch')]
+            if sw:
+                print(f'[{k}] 바로 켜고 끌 수 있는 조각: ' + ' · '.join(sw))
+        print('\n사용: python run.py 조각 미디엄 2 켜기 [--shots 폴더]  ·  조각 미디엄 2 끄기  ·  되돌리기: python run.py 되돌리기'); return 0
+    key = next((k for k in files if rest[0].replace(' ', '') in k.replace(' ', '')), None)
+    if not key:
+        print('조각 표가 있는 곳: ' + ' · '.join(files)); return 1
+    d = json.load(open(files[key], encoding='utf-8')); x = next((q for q in d['pieces'] if q['n'] == int(rest[1])), None)
+    if not x:
+        print('그 번호의 조각이 없습니다'); return 1
+    act = rest[2] if len(rest) > 2 else '켜기'
+    if not x.get('switch'):
+        print(f'{x["n"]}. {x["name"]} 은(는) 단추 하나로 켜고 끄는 조각이 아닙니다.\n우리 저장소: {x["ours"]} — {x["how"]}' + ('\n서버가 있어야 합니다(2장).' if x.get('server') else '')); return 0
+    if '10' in R.cur_polish():
+        print(f'다듬기 10 을 이미 얹어 이 조각이 켜져 있습니다. 끄고 켜는 것은 손잡이로: python run.py 손잡이   (읽는시간·저장·듣기)'); return 0
+    sw = x['switch']; on = act not in ('끄기', '끔', 'off')
+    if on == (sw in solo):
+        print(f'{x["name"]}: 이미 {"켜져" if on else "꺼져"} 있습니다.'); return 0
+    before = None
+    if R.SHOTS:
+        import selftest as T
+        os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'조각_{x["name"]}_전.png'); pre = R.build_tmp(R.cur_polish()); nid = R.newest_note(pre)
+        T.shoot_pages(pre, [f'n/{nid}/' if nid else ''], [before], 1280, 860)
+    snap(f'조각 {x["name"]} {"켜기" if on else "끄기"}')
+    solo = (solo + [sw]) if on else [s for s in solo if s != sw]
+    L['solo'] = solo; R.local_save(L); out, last, rc = R.rebuild_local()
+    if before:
+        import selftest as T
+        nid = R.newest_note(out); after = os.path.join(R.SHOTS, f'조각_{x["name"]}_후.png'); T.shoot_pages(out, [f'n/{nid}/' if nid else ''], [after], 1280, 860)
+        R.side_by_side(before, after, os.path.join(R.SHOTS, f'조각_{x["name"]}_전후.png'), '전', f'{x["name"]} {"켬" if on else "끔"}')
+    print(f'{"켰습니다" if on else "껐습니다"}: {d["name"]} 의 조각 {x["n"]}. {x["name"]}  (지금 켜 둔 조각: {" · ".join(SOLO_NAMES.get(s, s) for s in solo) or "없음"})')
+    print(f'어디에 보이나: 글 한 편을 열면 {"글 머리(날짜 앞)" if sw in ("readtime", "tags") else "글 맨 아래 단추 줄"}에 있습니다.\n[그 플랫폼이 이 조각을 둔 까닭] {x["why"]}')
+    print(f'[물음] 켜 두니 어떤가요 — 내 사이트에 둘까요, 뺄까요? 까닭도 한마디.\n{"끄려면 python run.py 조각 " + key + " " + str(x["n"]) + " 끄기" if on else "다시 켜려면 … 켜기"}  ·  되돌리기: python run.py 되돌리기\n\n여기서 멈추고 독자에게 묻습니다.')
+    R.prog_add(f'조각 {x["name"]} {"켬" if on else "끔"}'); return 0
+
+
+def cats_cmd(R, rest):
+    """독자가 말한 분류를 목록의 분류 탭으로. 분류마다 '이름=낱말,낱말' 로 그 분류에 들어갈 글을 가리는 낱말을 줄 수 있다."""
+    import glob, polish as PL
+    L = R.local_load(); cur = L.get('cats') or []
+    def count(C):
+        PL.CUSTOM = C; cnt = {}; N = 0
+        for f in glob.glob(os.path.join(R.HERE, 'notes', '*.json')):
+            try:
+                n = json.load(open(f, encoding='utf-8'))
+            except Exception:
+                continue
+            if isinstance(n, dict) and n.get('title'):
+                c = PL.cat_of(n); cnt[c] = cnt.get(c, 0) + 1; N += 1
+        return cnt, N
+    if not rest:
+        cnt, N = count(cur)
+        print('━━ 분류 — 목록 위 분류 탭을 내 말로 ━━\n지금: ' + (' · '.join(c['name'] + (f'({",".join(c["words"])})' if c.get('words') else '') for c in cur) if cur else '기본(글의 첫 태그 가운데 많은 것)'))
+        print('글이 들어간 수(notes/ 기준): ' + ' · '.join(f'{k} {v}건' for k, v in sorted(cnt.items(), key=lambda t: -t[1])))
+        print('\n사용: python run.py 분류 "절약=아끼,할인" "제도=지원금,신청" 투자   ·   원래대로: python run.py 분류 기본\n(= 뒤는 그 분류에 넣을 글을 가리는 낱말. 없으면 분류 이름이 태그·제목·요약에 있는 글이 들어갑니다. 어디에도 안 맞는 글은 「기타」)'); return 0
+    snap('분류 ' + ' '.join(rest))
+    if rest[0] == '기본':
+        L.pop('cats', None); C = []
+    else:
+        C = []
+        for a in rest[:6]:
+            nm, _, ws = a.partition('='); nm = nm.strip()
+            if nm:
+                C.append({'name': nm, 'words': [w.strip() for w in ws.replace('，', ',').split(',') if w.strip()]})
+        L['cats'] = C
+    R.local_save(L); cnt, N = count(C); R.rebuild_local()
+    print('분류를 바꿨습니다: ' + (' · '.join(c['name'] for c in C) if C else '기본으로 되돌림'))
+    print('글이 들어간 수(notes/ 기준): ' + ' · '.join(f'{k} {v}건' for k, v in sorted(cnt.items(), key=lambda t: -t[1])))
+    empty = [c['name'] for c in C if not cnt.get(c['name'])]
+    if empty:
+        print('글이 한 건도 없어 탭에 안 나오는 분류: ' + ' · '.join(empty) + '  → 그 분류에 넣을 낱말을 주거나(이름=낱말,낱말) 그 주제의 글을 먼저 씁니다.')
+    if C and cnt.get('기타', 0) > N / 2:
+        print(f'※ 글의 절반 넘게({cnt["기타"]}/{N}) 「기타」로 갔습니다. 분류 낱말을 더 주면 줄어듭니다.')
+    if '3' not in R.cur_polish():
+        print('※ 분류 탭 줄은 다듬기 3(메뉴를 분야 탭으로)을 얹어야 목록 위에 보입니다. 지금은 카드와 글 머리의 분류 이름만 바뀝니다.')
+    print('[물음] 이 분류로 처음 온 사람이 자기가 찾는 글을 바로 찾을까요? 빠진 분류가 있나요?\n되돌리려면 python run.py 되돌리기\n\n여기서 멈추고 독자에게 묻습니다.')
+    R.prog_add('분류 ' + ('·'.join(c['name'] for c in C) or '기본')); return 0
+
+
 # ---------------------------------------------------------------- 나누기: 레퍼런스를 조각으로
 def _piece_files():
     return {os.path.splitext(f)[0]: os.path.join(PIECES, f) for f in sorted(os.listdir(PIECES)) if f.endswith('.json')} if os.path.isdir(PIECES) else {}
@@ -193,10 +282,14 @@ def split_cmd(R, rest):
             if not p:
                 print('그 번호의 조각이 없습니다'); return 1
             print(f'━━ {d["name"]} 의 조각 {p["n"]}. {p["name"]} ━━\n무엇을 하는가: {p["does"]}\n방문자에게 생기는 일: {p["visitor"]}\n왜(다시 오게·버는 데): {p["why"]}\n우리 저장소: {p["ours"]} — {p["how"]}\n혼자 되는가: {p["solo"]}' + ('\n서버가 있어야 합니다(2장에서 다룹니다).' if p.get('server') else '\n서버 없이 됩니다(1장에서 켜 봅니다).'))
+            if p.get('switch'):
+                print(f'바로 켜 보기: python run.py 조각 {key} {p["n"]} 켜기 [--shots 폴더]   ·   끄기: … 끄기')
             print(f'\n[물음] 이 조각이 없으면 {d["name"]} 은(는) 어떻게 될까요?\n[독자가 해 볼 일] 위 명령으로 이 조각을 내 사이트에 켜 보고(전·후 화면), 다시 꺼 봅니다.\n\n여기서 멈추고 독자에게 묻습니다.'); return 0
         print(f'━━ 나누기 · {d["name"]} ━━\n{d["one_line"]}\n(근거: {d.get("source", "")})\n')
         for p in P:
-            print(f'  {p["n"]:>2}. {p["name"]:<14} [{p["ours"]}] {"· 서버 필요" if p.get("server") else ""} — {p["does"]}')
+            print(f'  {p["n"]:>2}. {p["name"]:<14} [{p["ours"]}] {"· 서버 필요" if p.get("server") else ""}{"· 바로 켜고 끔" if p.get("switch") else ""} — {p["does"]}')
+        if d.get('earns'):
+            print(f'\n버는 길(확인된 것만): python run.py 참고 {key}')
         if d.get('biggest_diff'):
             print(f'\n※ 본과 가장 크게 다른 것: {d["biggest_diff"]}')
         have = sum(1 for p in P if p['ours'].startswith('있음')); near = sum(1 for p in P if p['ours'].startswith('비슷')); none = len(P) - have - near

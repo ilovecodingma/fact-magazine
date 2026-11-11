@@ -26,6 +26,25 @@ def head_html(B, n, cats):
     return (f'<div class="mh"><span class="tg">{tags}</span><a class="au" href="{B.BASE}about/">{E(B.S["name"])}</a>{rt}<span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>')
 
 
+def solo_head(B, n, cats, solo):
+    """조각 하나만 켰을 때 글 머리에 끼우는 것(주제 태그·읽는 시간). 나머지 머리줄은 출발 모습 그대로."""
+    out = ''
+    if 'tags' in solo:
+        out += '<span class="tg">' + ''.join(f'<a href="{B.BASE}{("?cat=" + E(t)) if t in cats else ""}">{E(t)}</a>' for t in (n.get('tags') or [])[:4]) + '</span>'
+    if 'readtime' in solo:
+        out += f'<span class="rt">읽는 데 {minutes(n)}분</span>'
+    return out
+
+
+def solo_actions(B, n, solo):
+    """조각 하나만 켰을 때 글 아래에 끼우는 단추(저장·듣기)."""
+    sv = 'save' in solo; ls = 'listen' in solo
+    if not (sv or ls):
+        return ''
+    return (f'<div class="ma" data-id="{E(n["id"])}" data-title="{E(n["title"])}">' + ('<button type="button" data-act="save" aria-pressed="false">저장</button>' if sv else '') + ('<button type="button" data-act="listen" aria-pressed="false">듣기</button>' if ls else '')
+            + (f'<a href="{B.BASE}saved/">저장한 글 보기</a>' if sv else '') + '</div>' + JS)
+
+
 def actions_html(B, n, opt):
     if opt == 'B':   # 가볍게: 공유만
         return '<div class="ma"><button type="button" data-act="share">링크 복사</button><button type="button" onclick="window.print()">인쇄</button></div>' + JS
@@ -46,7 +65,9 @@ JS = ('<script>(function(){var box=document.querySelector(".ma");if(!box)return;
 
 def extra_pages(B):
     """저장한 글 쪽(/saved/): 이 기기의 브라우저에만 남는 목록."""
-    if 10 not in B.POLISH or B.POLISH[10] == 'B' or not B.part('info'):
+    import polish as _P
+    solo_save = 10 not in B.POLISH and 'save' in _P.SOLO
+    if not B.part('info') or not (solo_save or (10 in B.POLISH and B.POLISH[10] != 'B')):
         return []
     js = ('<script>(function(){var L=[];try{L=JSON.parse(localStorage.getItem("fm_saved")||"[]")}catch(e){}var o=document.getElementById("svl");function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c]})}'
           'o.innerHTML=L.length?L.map(function(x){return "<a href=\\""+esc(x.u)+"\\">"+esc(x.t)+" <small>"+esc(x.d||"")+"</small></a>"}).join(""):"<p>아직 저장한 글이 없습니다. 글 아래의 「저장」을 누르면 여기에 모입니다.</p>"})()</script>')
