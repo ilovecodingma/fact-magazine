@@ -31,8 +31,7 @@ def main():
                 parts[p] = True
         env = dict(os.environ, DEMO='1', OUT_DIR=out, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', SITE_NAME=d['name'], SITE_TAGLINE=d['tagline'], SITE_ABOUT=d['about'], HOME_TITLE=d['name'] + ' | 조립 예시',
                    HOME_DESC=d['tagline'], PARTS=json.dumps(parts, ensure_ascii=False), SITE_EXTRAS=json.dumps({'videos': B.EX.get('videos', [])} if d.get('video') else {}, ensure_ascii=False), TOPIC_KEYWORDS='')
-        if d.get('theme'):
-            env['SITE_THEME'] = d['theme']
+        env['SITE_THEME'] = d.get('theme', 'paper'); env['SITE_ACCENT'] = d.get('accent', '')
         if d.get('data_root'):
             env['DATA_ROOT'] = os.path.join(HERE, d['data_root'])
         if d.get('kits_dir'):
@@ -56,7 +55,7 @@ def main():
                 parts[p] = True
         env = dict(os.environ, DEMO='1', OUT_DIR=os.path.join(out_root, d['key']), SITE_BASE=f'{B.BASE}demo/{d["key"]}/', SITE_URL=(f'{B.URL}/demo/{d["key"]}' if not B.NOURL else ''),
                    SITE_NAME=d['name'], SITE_TAGLINE=d['tagline'], SITE_ABOUT=d['about'], HOME_TITLE=d['name'] + ' | 조립 예시', HOME_DESC=d['tagline'], PARTS=json.dumps(parts, ensure_ascii=False),
-                   SITE_EXTRAS=json.dumps({'videos': B.EX.get('videos', [])} if d.get('video') else {}, ensure_ascii=False), TOPIC_KEYWORDS='', GAMES_TITLE=d['name'] + ' 게임', GAMES_DESC=d['tagline'])
+                   SITE_EXTRAS=json.dumps({'videos': B.EX.get('videos', [])} if d.get('video') else {}, ensure_ascii=False), TOPIC_KEYWORDS='', GAMES_TITLE=d['name'] + ' 게임', GAMES_DESC=d['tagline'], SITE_THEME=d.get('theme', 'paper'), SITE_ACCENT=d.get('accent', ''))
         if d.get('data_root'):
             env['DATA_ROOT'] = os.path.join(HERE, d['data_root'])   # 이 데모의 글·소설·웹툰·전자책 원본 폴더
         if d.get('kits_dir'):

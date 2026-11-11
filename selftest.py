@@ -147,7 +147,9 @@ def build_site(kit, out):
     parts = {p: False for p in S['parts']}
     for p in st.get('parts', kit.get('parts', [])) + st.get('extra_parts', []):
         parts[p] = True
-    env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', SITE_EXTRAS='{}', PARTS=json.dumps(parts), OUT_DIR=out, TOPIC_KEYWORDS='')
+    LOOK = {'calc': ('한입 계산소', '숫자를 넣으면 바로 계산해 주는 작은 가게', 'shop'), 'glossary': ('한입 용어 사전', '어려운 말을 짧게 풀어 줍니다', 'doc'), 'quiz': ('한입 퀴즈 놀이터', '풀면서 배우는 작은 퀴즈', 'play'), 'search': ('한입 찾기', '사이트 안 글을 낱말로 찾습니다', 'card'), 'status': ('한입 상태판', '수집과 점검 결과를 한눈에', 'one')}
+    nm, tg, th = LOOK.get(kit['name'], ('한입 ' + kit.get('title', kit['name']), '키트 시험용 사이트', 'card'))
+    env = dict(os.environ, SITE_BASE='/', SITE_URL='https://프로젝트이름.localhost', SITE_EXTRAS='{}', PARTS=json.dumps(parts), OUT_DIR=out, TOPIC_KEYWORDS='', SITE_NAME=nm, SITE_TAGLINE=tg, SITE_THEME=th)
     r = subprocess.run([sys.executable, '-X', 'utf8', os.path.join(HERE, 'build.py')], cwd=HERE, env=env, capture_output=True, text=True, encoding='utf-8', errors='replace')
     return r.returncode == 0, r.stdout + r.stderr
 
@@ -160,7 +162,10 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
 def start_server(directory):
     port = free_port(8820)
     handler = lambda *a, **k: Quiet(*a, directory=directory, **k)
-    srv = socketserver.ThreadingTCPServer(('127.0.0.1', port), handler); srv.daemon_threads = True
+    class Srv(socketserver.ThreadingTCPServer):
+        def handle_error(self, *a):   # 브라우저가 연결을 먼저 끊는 정상 상황의 오류 출력은 숨긴다
+            pass
+    srv = Srv(('127.0.0.1', port), handler); srv.daemon_threads = True
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return srv, port
 

@@ -16,7 +16,7 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
+for _k, _env in (('base', 'SITE_BASE'), ('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC'), ('theme', 'SITE_THEME'), ('accent', 'SITE_ACCENT')):
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
@@ -102,6 +102,11 @@ nav.menu{position:relative}details.mn{position:relative}details.mn summary{list-
 .lead h2{font-size:27px}.cols{column-count:1;column-rule:0}.art h1{font-size:28px}nav.menu{gap:18px}.wrap{padding:0 16px}}"""
 
 
+import themes as _th
+THEME = S.get('theme') if S.get('theme') in _th.NAMES else 'paper'   # 겉모습 틀: paper·card·shop·doc·play·one (themes.py)
+ACCENT = S.get('accent') or _th.DEFAULT_ACCENT[THEME]
+CSS += _th.CSS
+
 WEEK = '월화수목금토일'
 
 
@@ -119,6 +124,7 @@ def page(path, title, desc, body, noindex=False):
     """HTML 쪽 하나를 docs/<path>/index.html 로 쓴다. 종합 일간지 첫 화면 같은 머리(제호·괘선·한 줄 메뉴)를 붙인다."""
     d = os.path.join(OUT, path)
     os.makedirs(d, exist_ok=True)
+    explicit_noindex = noindex
     noindex = noindex or DEMO
     canon = f'{URL}/{path}/' if path else f'{URL}/'
     _logo = f'<a class="logo" href="{BASE}">{E(S["name"])}</a>'
@@ -154,7 +160,7 @@ def page(path, title, desc, body, noindex=False):
         items.append(('링크', BASE + 'links/'))
     if part('search', False):
         items.append(('검색', BASE + 'search/'))
-    items += [('확인하는 방법', BASE + 'how/'), ('소개', BASE + 'about/'), ('문의', BASE + 'contact/')]
+    items += ([('확인하는 방법', BASE + 'how/')] if part('info') else []) + [('소개', BASE + 'about/'), ('문의', BASE + 'contact/')]   # 확인하는 방법은 뉴스를 다루는 사이트에만
     if part('demo', False):
         items.append(('조립 예시', BASE + 'demo/'))
     MAXN = 5
@@ -164,14 +170,14 @@ def page(path, title, desc, body, noindex=False):
         GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
-{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PREF_HEAD}</head><body>
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PREF_HEAD}</head><body class="th-{THEME}" style="--ac:{E(ACCENT)}">
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}</div></header>
 <div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}</main>
-<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
+<footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
-    if not noindex:
+    if not explicit_noindex:   # 조립 예시(DEMO)도 사이트 안 검색에는 들어간다(검색 엔진용 noindex 와 별개)
         SEARCH.append((f'{BASE}{path}/' if path else BASE, title, desc))
     return canon
 
@@ -650,9 +656,9 @@ def static_pages():
     contact = f'<h1>문의</h1><p>{E(S["contact"])}</p><p>정정을 요청할 때는 어느 노트의 어느 문장인지와 근거가 되는 공식 자료 주소를 함께 알려 주세요. 확인한 뒤 노트를 고치고 바뀐 내용을 노트에 적습니다.</p>'
     priv = ('<h1>개인정보 처리방침</h1><p>이 사이트는 회원가입·댓글·결제를 받지 않고 방문자의 개인정보를 직접 수집하지 않습니다. '
             '호스팅 서비스(GitHub Pages)가 접속 기록을 남길 수 있으며 이는 해당 서비스의 방침을 따릅니다.</p>')
-    for path, t, b in (('how', '확인하는 방법', how), ('about', '소개', about), ('contact', '문의', contact), ('privacy', '개인정보 처리방침', priv)):
+    for path, t, b in (*((('how', '확인하는 방법', how),) if part('info') else ()), ('about', '소개', about), ('contact', '문의', contact), ('privacy', '개인정보 처리방침', priv)):
         page(path, f'{t} — {S["name"]}', DESC.get(path, t), f'<div class="page">{b}</div>')
-    return ['how/', 'about/', 'contact/', 'privacy/']
+    return (['how/'] if part('info') else []) + ['about/', 'contact/', 'privacy/']
 
 
 def feed(notes):

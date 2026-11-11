@@ -11,7 +11,8 @@
       "status"
     ],
     "about": "이 사이트는 「조립 예시」입니다. 뉴스 묶기·확인 노트·잡지 호·검색·상태 쪽 키트만 켜서 만든 정보 매거진입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「정보 매거진」 조합(news·issue·search·status)으로 내 사이트를 만들어 줘. 이름은 「한입 매거진」."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「정보 매거진」 조합(news·issue·search·status)으로 내 사이트를 만들어 줘. 이름은 「한입 매거진」.",
+    "theme": "paper"
   },
   {
     "key": "games",
@@ -23,7 +24,9 @@
       "search"
     ],
     "about": "이 사이트는 「조립 예시」입니다. 게임 키트와 검색 키트만 켜서 만든 게임 모음입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「게임 모음」 조합(games·search)으로 내 사이트를 만들어 줘. 이름은 「한입 게임방」."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「게임 모음」 조합(games·search)으로 내 사이트를 만들어 줘. 이름은 「한입 게임방」.",
+    "theme": "play",
+    "accent": "#ff4f8b"
   },
   {
     "key": "serial",
@@ -38,7 +41,9 @@
       "search"
     ],
     "about": "이 사이트는 「조립 예시」입니다. 연재 소설·웹툰·글·전자책·검색 키트를 켜서 만든 연재 사이트입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「연재 사이트」 조합(novel·toon·posts·ebook·search)으로 내 사이트를 만들어 줘. 이름은 「한입 연재관」."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「연재 사이트」 조합(novel·toon·posts·ebook·search)으로 내 사이트를 만들어 줘. 이름은 「한입 연재관」.",
+    "theme": "card",
+    "accent": "#8e44ad"
   },
   {
     "key": "newsletter",
@@ -53,7 +58,8 @@
     ],
     "video": true,
     "about": "이 사이트는 「조립 예시」입니다. 뉴스·쇼츠·영상 모음·소식지 메일 키트를 켠 조합입니다(메일 키트는 화면이 없고 내 컴퓨터에서 소식지를 보냅니다).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「영상·소식지」 조합(news·shorts·video·mail)으로 내 사이트를 만들어 줘. 이름은 「한입 소식지」."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「영상·소식지」 조합(news·shorts·video·mail)으로 내 사이트를 만들어 줘. 이름은 「한입 소식지」.",
+    "theme": "paper"
   },
   {
     "key": "tools",
@@ -67,7 +73,9 @@
       "status"
     ],
     "about": "이 사이트는 「조립 예시」입니다. 계산기·용어 사전·검색·상태 쪽 키트만 켠 도구 모음입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「도구 모음」 조합(calc·glossary·search·status)으로 내 사이트를 만들어 줘. 이름은 「한입 도구함」."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 kits/mixes.json 의 「도구 모음」 조합(calc·glossary·search·status)으로 내 사이트를 만들어 줘. 이름은 「한입 도구함」.",
+    "theme": "doc",
+    "accent": "#2f6fed"
   },
   {
     "key": "town",
@@ -83,7 +91,9 @@
     ],
     "kits_dir": "demos/town/kits",
     "about": "가상의 동네 「가상동」을 소재로 한 예시 사이트입니다. 모든 숫자·날짜·장소는 예시이며 실제 동네와 관계없습니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 동네 정보 사이트를 만들어 줘. schedule·links·faq·notice·search 키트만 켜고, 각 키트의 자료 파일(kits/키트/data/)을 우리 동네 내용으로 바꿔 줘. 이름은 「동네 정보 한입」, 숫자·날짜는 예시라고 표시해 줘."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 동네 정보 사이트를 만들어 줘. schedule·links·faq·notice·search 키트만 켜고, 각 키트의 자료 파일(kits/키트/data/)을 우리 동네 내용으로 바꿔 줘. 이름은 「동네 정보 한입」, 숫자·날짜는 예시라고 표시해 줘.",
+    "theme": "card",
+    "accent": "#1c9a6c"
   },
   {
     "key": "shop",
@@ -99,7 +109,9 @@
     ],
     "kits_dir": "demos/shop/kits",
     "about": "가상의 빵집을 소재로 한 예시 사이트입니다. 시간·가격·날짜는 모두 예시입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 가게 안내 사이트를 만들어 줘. notice·schedule·faq·gallery·links 키트만 켜고 각 자료 파일(kits/키트/data/)을 내 가게 내용으로 바꿔 줘. 예시 표시는 지워 줘."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 가게 안내 사이트를 만들어 줘. notice·schedule·faq·gallery·links 키트만 켜고 각 자료 파일(kits/키트/data/)을 내 가게 내용으로 바꿔 줘. 예시 표시는 지워 줘.",
+    "theme": "shop",
+    "accent": "#b5532a"
   },
   {
     "key": "club",
@@ -115,7 +127,9 @@
     ],
     "kits_dir": "demos/club/kits",
     "about": "가상의 걷기 모임을 소재로 한 예시 사이트입니다. 날짜와 내용은 모두 예시입니다.",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 모임 사이트를 만들어 줘. schedule·wiki·gallery·notice·quiz 키트만 켜고 자료 파일을 우리 모임 내용으로 바꿔 줘."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 우리 모임 사이트를 만들어 줘. schedule·wiki·gallery·notice·quiz 키트만 켜고 자료 파일을 우리 모임 내용으로 바꿔 줘.",
+    "theme": "play",
+    "accent": "#18a999"
   },
   {
     "key": "study",
@@ -132,7 +146,9 @@
     "kits_dir": "demos/study/kits",
     "data_root": "demos/study",
     "about": "공부한 내용을 정리해 두는 예시 사이트입니다(가상의 내용).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 공부 노트 사이트를 만들어 줘. glossary·wiki·quiz·ebook·search 키트만 켜고 자료를 내 과목 내용으로 바꾸고, 글을 전자책 PDF 로 묶어 줘."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 공부 노트 사이트를 만들어 줘. glossary·wiki·quiz·ebook·search 키트만 켜고 자료를 내 과목 내용으로 바꾸고, 글을 전자책 PDF 로 묶어 줘.",
+    "theme": "doc",
+    "accent": "#d9480f"
   },
   {
     "key": "works",
@@ -148,6 +164,8 @@
     "kits_dir": "demos/works/kits",
     "data_root": "demos/works",
     "about": "내 작업을 모아 두는 예시 사이트입니다(가상의 내용).",
-    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 작업 모음 사이트를 만들어 줘. posts·gallery·timeline·links 키트만 켜고 자료를 내 작업 내용으로 바꿔 줘."
+    "input_line": "이 저장소의 CLAUDE.md 를 읽고 내 작업 모음 사이트를 만들어 줘. posts·gallery·timeline·links 키트만 켜고 자료를 내 작업 내용으로 바꿔 줘.",
+    "theme": "one",
+    "accent": "#7a5cff"
   }
 ]
