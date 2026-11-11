@@ -40,10 +40,10 @@ COLORS = ['#3178c6', '#3572A5', '#f1e05a', '#dea584', '#701516', '#e34c26', '#56
 JS = r"""(function(){var R=document.getElementById("trl");var C=window.__TR||{};var per=C.period||"daily",cat="",KEY={daily:"today",weekly:"week",monthly:"month"},WORD={daily:"오늘",weekly:"이번 주",monthly:"이번 달"},up=false,mine={};
 function api(u,o){return fetch(u,o).then(function(r){return r.json()})}function q(s,e){return (e||document).querySelector(s)}function qa(s,e){return [].slice.call((e||document).querySelectorAll(s))}
 function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,",")}
-function paint(){if(!R)return;var rows=qa(".tr-row[data-id]",R);rows.forEach(function(r){var d=r.dataset;r.__n=+d[KEY[per]]+(+(d["l"+KEY[per]]||0));r.hidden=!!cat&&d.cat!==cat;var t=q(".td",r);if(t)t.textContent="☆ "+WORD[per]+" 별 "+fmt(r.__n)+"개";var a=q(".tot",r);if(a)a.textContent="☆ "+fmt(+d.stars+(+(d.ltotal||0)))});
+function paint(){if(!R)return;var rows=qa(".tr-row[data-id]",R);rows.forEach(function(r){var d=r.dataset;r.__n=+d[KEY[per]]+(+(d["l"+KEY[per]]||0));r.hidden=(!!cat&&d.cat!==cat)||(d.src==="ref"&&r.__n===0);var t=q(".td",r);if(t)t.textContent="☆ "+WORD[per]+" 별 "+fmt(r.__n)+"개";var a=q(".tot",r);if(a)a.textContent="☆ "+fmt(+d.stars+(+(d.ltotal||0)))});
 rows.sort(function(a,b){return b.__n-a.__n}).forEach(function(r,i){R.appendChild(r);r.hidden=r.hidden||i>=1e9});var n=0;rows.forEach(function(r){if(!r.hidden){n++;if(n>(C.rows||25))r.hidden=true}});var e=q(".tr-empty",R);if(e)e.hidden=n>0;var m=q("#trm");if(m)R.appendChild(m);
 var h=q(".tr-hero p");if(h&&h.dataset.t)h.textContent=h.dataset.t.replace("{w}",WORD[per]);
-qa(".tr-dev[data-owner]").forEach(function(r){r.__n=+r.dataset[KEY[per]]});var D=q("#trd");if(D){qa(".tr-dev",D).sort(function(a,b){return b.__n-a.__n}).forEach(function(r,i){D.appendChild(r);q(".no",r).textContent=i+1})}}
+qa(".tr-dev[data-owner]").forEach(function(r){r.__n=+r.dataset[KEY[per]];r.hidden=r.__n===0});var D=q("#trd");if(D){qa(".tr-dev",D).sort(function(a,b){return b.__n-a.__n}).forEach(function(r,i){D.appendChild(r);q(".no",r).textContent=i+1})}}
 function star(b){var id=b.dataset.id,msg=q("#trm");if(!up){if(msg)msg.textContent="별은 서버가 켜져 있어야 쌓입니다(python run.py 서버). 지금은 예시 자료의 별 수로 화면만 보입니다.";return}
 api("/api/trend/star",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id})}).then(function(j){if(j.error){if(msg)msg.textContent=j.error;return}mine[id]=j.on;load()})}
 function apply(j){var S=j.stars||{};qa("[data-id]").forEach(function(r){var s=S[r.dataset.id]||{};r.dataset.ltotal=s.total||0;r.dataset.ltoday=s.today||0;r.dataset.lweek=s.week||0;r.dataset.lmonth=s.month||0});(j.mine||[]).forEach(function(i){mine[i]=true});
@@ -61,6 +61,9 @@ paint();api("/api/health").then(function(h){if(h&&h.ok){var a=q(".tr-top .adm");
 GUIDE = ('<h2>안내</h2><p>이곳은 요즘 사람들이 반긴 것을 날마다 순위로 보여 줍니다. 마음에 드는 항목에 별(☆)을 주면 그 항목이 올라갑니다.</p>'
          '<p><b>순위는 이렇게 정합니다.</b> 고른 기간(오늘·이번 주·이번 달) 동안 받은 별이 많은 차례입니다. 지금까지 받은 별이 아무리 많아도 그 기간에 받은 별이 적으면 내려갑니다. 그래서 날마다 얼굴이 바뀝니다.</p>'
          '<p><b>별은 한 사람이 한 항목에 한 번</b>입니다. 다시 누르면 거둡니다. 가입은 없습니다.</p><p><b>올리기.</b> 누구나 항목을 올릴 수 있고, 운영자가 확인한 뒤 순위에 들어갑니다. 광고·남의 것을 자기 것처럼 올린 것은 싣지 않습니다.</p>')
+
+
+SRC = '<p style="color:var(--mu);font-size:12px;margin:12px 0 0">보기로 넣어 둔 항목과 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달)에서 본 값입니다. 내 항목으로 바꾸려면 kits/trend/data/items.json 을 고칩니다.</p>'
 
 
 def load(B):
@@ -112,7 +115,7 @@ def box_head(B, P, on, with_cat=True):
 
 def row(B, p, key):
     makers = ''.join(_av(m) for m in (p.get('makers') or [])[:5])
-    return (f'<article class="tr-row" data-id="{E(p["id"])}" data-cat="{E(p.get("lang", ""))}" data-stars="{int(p.get("stars", 0))}" data-today="{int(p.get("today", 0))}" data-week="{int(p.get("week", 0))}" data-month="{int(p.get("month", 0))}">'
+    return (f'<article class="tr-row" data-src="ref" data-id="{E(p["id"])}" data-cat="{E(p.get("lang", ""))}" data-stars="{int(p.get("stars", 0))}" data-today="{int(p.get("today", 0))}" data-week="{int(p.get("week", 0))}" data-month="{int(p.get("month", 0))}">'
             f'<button type="button" class="tr-star" data-id="{E(p["id"])}" aria-pressed="false">☆ 별</button>'
             f'<h2><a href="{B.BASE}trend/{E(p["id"])}/">{E(p["owner"])} / <b>{E(p["name"])}</b></a></h2><p>{E(p.get("desc", ""))}</p>'
             f'<div class="tr-meta"><span class="lg"><i class="dot" style="background:{_color(p.get("lang", ""))}"></i>{E(p.get("lang", ""))}</span><span class="tot">☆ {int(p.get("stars", 0)):,}</span>'
@@ -122,7 +125,7 @@ def row(B, p, key):
 def list_body(B, full):
     P = load(B); c = config(B); key = dict((a, k) for a, _, k in PERIODS)[c['period']]
     rows = ''.join(row(B, p, key) for p in sorted(P, key=lambda p: -int(p.get(key, 0))))
-    inner = f'<div class="tr-box">{box_head(B, P, "items")}<div id="trl">{rows}<div class="tr-empty" hidden>이 분류에는 아직 뜨는 항목이 없습니다.</div><div class="tr-msg" id="trm" role="status"></div></div></div>'
+    inner = f'<div class="tr-box">{box_head(B, P, "items")}<div id="trl">{rows}<div class="tr-empty" hidden>이 분류에는 아직 뜨는 항목이 없습니다.</div><div class="tr-msg" id="trm" role="status"></div></div></div>' + SRC
     return wrap(B, 'trend', inner, full, ('지금 뜨는 것', '이곳 사람들이 {w} 가장 반긴 것을 봅니다.'))
 
 
@@ -140,7 +143,7 @@ def makers_body(B, full):
         b = m['best']
         rows += (f'<article class="tr-row tr-dev" data-owner="{E(o)}" data-today="{m["today"]}" data-week="{m["week"]}" data-month="{m["month"]}"><span class="no">{i}</span>{_av(o, "ph")}<h2><a href="{B.BASE}trend/{E(b["id"])}/">{E(o)}</a></h2>'
                  f'<div class="pr"><small>🔥 대표 항목</small><b><a href="{B.BASE}trend/{E(b["id"])}/">{E(b["name"])}</a></b><p>{E(b.get("desc", "")[:90])}</p></div></article>')
-    inner = f'<div class="tr-box">{box_head(B, P, "makers", False)}<div id="trd">{rows}</div></div>'
+    inner = f'<div class="tr-box">{box_head(B, P, "makers", False)}<div id="trd">{rows}</div></div>' + SRC
     return wrap(B, 'trend', inner, full, ('지금 뜨는 것', '{w} 뜨는 것을 만든 사람들입니다.'))
 
 

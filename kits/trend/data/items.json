@@ -1,294 +1,932 @@
 [
  {
-  "id": "budget-sheet",
-  "owner": "달빛문구",
-  "name": "월급 가계부 시트",
-  "desc": "월급날 10분이면 한 달 흐름이 보이는 가계부 시트(예시)",
-  "lang": "시트",
-  "stars": 2430,
-  "today": 284,
-  "week": 960,
-  "month": 1810,
+  "id": "meta-astryx",
+  "owner": "meta",
+  "name": "astryx",
+  "desc": "An open source design system that's fully customizable and agent ready",
+  "lang": "TypeScript",
+  "stars": 24297,
+  "today": 2842,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "달빛문구",
-   "은하"
+   "github-actions",
+   "cixzhang",
+   "rubyycheung",
+   "josephfarina",
+   "vjeux"
   ],
   "tags": [
-   "가계부",
-   "시트"
+   "TypeScript"
   ],
-  "url": "https://example.com/budget-sheet",
+  "url": "https://github.com/meta/astryx",
   "readme": [
-   "고정비·변동비·저축을 한 장에 적습니다.",
-   "달마다 복사해 씁니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "An open source design system that's fully customizable and agent ready",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "nap-timer",
-  "owner": "새벽공방",
-  "name": "낮잠 타이머",
-  "desc": "20분 뒤 살살 깨워 주는 한 화면 타이머(예시)",
-  "lang": "도구",
-  "stars": 6985,
-  "today": 96,
-  "week": 1310,
-  "month": 2140,
+  "id": "zhulinsen-daily_stock_analysis",
+  "owner": "ZhuLinsen",
+  "name": "daily_stock_analysis",
+  "desc": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+  "lang": "Python",
+  "stars": 69852,
+  "today": 960,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "새벽공방"
+   "ZhuLinsen",
+   "massif-01",
+   "freesme",
+   "Activer007",
+   "birdxs"
   ],
   "tags": [
-   "타이머",
-   "휴식"
+   "Python"
   ],
-  "url": "https://example.com/nap-timer",
+  "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
   "readme": [
-   "단추 하나로 시작합니다.",
-   "소리는 점점 커집니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "recipe-cards",
-  "owner": "주말부엌",
-  "name": "한 장 요리 카드",
-  "desc": "재료 다섯 가지로 끝나는 요리 카드 30장(예시)",
-  "lang": "모음",
+  "id": "googlechrome-modern-web-guidance-src",
+  "owner": "GoogleChrome",
+  "name": "modern-web-guidance-src",
+  "desc": "",
+  "lang": "TypeScript",
   "stars": 1475,
   "today": 133,
-  "week": 410,
-  "month": 1200,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "주말부엌",
-   "소금",
-   "후추"
+   "paulirish",
+   "rviscomi",
+   "micahjo7",
+   "github-actions",
+   "philipwalton"
   ],
   "tags": [
-   "요리",
-   "카드"
+   "TypeScript"
   ],
-  "url": "https://example.com/recipe-cards",
+  "url": "https://github.com/GoogleChrome/modern-web-guidance-src",
   "readme": [
-   "카드 한 장에 한 가지 요리입니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "modern-web-guidance-src",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "focus-noise",
-  "owner": "빗소리",
-  "name": "집중 소리 모음",
-  "desc": "비·카페·모닥불 소리를 섞어 듣는 쪽(예시)",
-  "lang": "도구",
+  "id": "shadcn-improve",
+  "owner": "shadcn",
+  "name": "improve",
+  "desc": "Use your most capable model to audit your codebase and write plans for cheaper models to execute.",
+  "lang": "기타",
   "stars": 10486,
   "today": 333,
-  "week": 1890,
-  "month": 5200,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "빗소리",
-   "바람"
+   "shadcn",
+   "claude",
+   "erikpr1994",
+   "beastawakens",
+   "morinim"
   ],
   "tags": [
-   "소리",
-   "집중"
+   "기타"
   ],
-  "url": "https://example.com/focus-noise",
+  "url": "https://github.com/shadcn/improve",
   "readme": [
-   "소리 세 가지를 섞습니다.",
-   "설치 없이 브라우저에서 됩니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Use your most capable model to audit your codebase and write plans for cheaper models to execute.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "word-daily",
-  "owner": "글자놀이",
-  "name": "하루 한 낱말",
-  "desc": "날마다 낱말 하나를 맞히는 작은 게임(예시)",
-  "lang": "게임",
-  "stars": 15612,
+  "id": "addyosmani-agent-skills",
+  "owner": "addyosmani",
+  "name": "agent-skills",
+  "desc": "Production-grade engineering skills for AI coding agents.",
+  "lang": "JavaScript",
+  "stars": 115611,
   "today": 788,
-  "week": 3020,
-  "month": 7400,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "글자놀이",
-   "자음",
-   "모음"
+   "addyosmani",
+   "nucliweb",
+   "claude",
+   "rudycelekli",
+   "ayobamiseun"
   ],
   "tags": [
-   "게임",
-   "낱말"
+   "JavaScript"
   ],
-  "url": "https://example.com/word-daily",
+  "url": "https://github.com/addyosmani/agent-skills",
   "readme": [
-   "하루에 한 판만 할 수 있습니다.",
-   "결과를 글자 없이 나눌 수 있습니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Production-grade engineering skills for AI coding agents.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "rent-calc",
-  "owner": "집구하기",
-  "name": "전월세 셈기",
-  "desc": "보증금과 월세를 바꿔 셈해 주는 계산기(예시)",
-  "lang": "도구",
-  "stars": 4632,
+  "id": "vercel-labs-agent-browser",
+  "owner": "vercel-labs",
+  "name": "agent-browser",
+  "desc": "Browser automation CLI for AI agents",
+  "lang": "Rust",
+  "stars": 49631,
   "today": 712,
-  "week": 1500,
-  "month": 2600,
+  "week": 3606,
+  "month": 0,
   "makers": [
-   "집구하기"
+   "ctate",
+   "Railly",
+   "github-actions",
+   "lahfir",
+   "claude"
   ],
   "tags": [
-   "계산기",
-   "집"
+   "Rust"
   ],
-  "url": "https://example.com/rent-calc",
+  "url": "https://github.com/vercel-labs/agent-browser",
   "readme": [
-   "전환율을 넣으면 바로 셈합니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Browser automation CLI for AI agents",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "plant-log",
-  "owner": "초록일기",
-  "name": "화분 물주기 기록",
-  "desc": "화분마다 물 준 날을 적어 두는 기록장(예시)",
-  "lang": "시트",
-  "stars": 1257,
+  "id": "we-promise-sure",
+  "owner": "we-promise",
+  "name": "sure",
+  "desc": "The personal finance app for everyone (by everyone)",
+  "lang": "Ruby",
+  "stars": 12574,
   "today": 1079,
-  "week": 1190,
-  "month": 1230,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "초록일기",
-   "잎새"
+   "jjmata",
+   "dependabot",
+   "claude",
+   "zachgoll",
+   "Shpigford"
   ],
   "tags": [
-   "식물",
-   "기록"
+   "Ruby"
   ],
-  "url": "https://example.com/plant-log",
+  "url": "https://github.com/we-promise/sure",
   "readme": [
-   "이번 주에 처음 나왔습니다.",
-   "화분마다 한 줄씩 적습니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "The personal finance app for everyone (by everyone)",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "trip-pack",
-  "owner": "가벼운짐",
-  "name": "여행 짐 점검표",
-  "desc": "날씨와 일수에 맞춘 짐 점검표(예시)",
-  "lang": "모음",
-  "stars": 7015,
+  "id": "homeassistant-ai-ha-mcp",
+  "owner": "homeassistant-ai",
+  "name": "ha-mcp",
+  "desc": "Configure and automate Home Assistant with Claude, ChatGPT, and other AI assistants.",
+  "lang": "Python",
+  "stars": 7014,
   "today": 640,
-  "week": 980,
-  "month": 1900,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "가벼운짐",
-   "배낭"
+   "github-actions",
+   "claude",
+   "kingpanther13",
+   "julienld",
+   "dependabot"
   ],
   "tags": [
-   "여행",
-   "점검표"
+   "Python"
   ],
-  "url": "https://example.com/trip-pack",
+  "url": "https://github.com/homeassistant-ai/ha-mcp",
   "readme": [
-   "일수와 계절을 고르면 목록이 바뀝니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Configure and automate Home Assistant with Claude, ChatGPT, and other AI assistants.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "font-pairs",
-  "owner": "글꼴가게",
-  "name": "한글 글꼴 짝",
-  "desc": "제목과 본문에 어울리는 글꼴 짝 40가지(예시)",
-  "lang": "모음",
+  "id": "openai-codex-security",
+  "owner": "openai",
+  "name": "codex-security",
+  "desc": "OpenAI's Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities. npm: https://www.npmjs.com/package/@openai/codex-security",
+  "lang": "TypeScript",
   "stars": 11444,
   "today": 20,
-  "week": 310,
-  "month": 2900,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "글꼴가게"
+   "mldangelo-oai",
+   "codex",
+   "dependabot",
+   "ianw-oai",
+   "kmbroai"
   ],
   "tags": [
-   "글꼴",
-   "디자인"
+   "TypeScript"
   ],
-  "url": "https://example.com/font-pairs",
+  "url": "https://github.com/openai/codex-security",
   "readme": [
-   "짝마다 보기 글이 있습니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "OpenAI's Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities. npm: https://www.npmjs.com/package/@openai/codex-security",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "study-streak",
-  "owner": "꾸준히",
-  "name": "공부 잇기 달력",
-  "desc": "하루 한 칸씩 채우는 공부 달력(예시)",
-  "lang": "도구",
-  "stars": 3310,
-  "today": 215,
-  "week": 1640,
-  "month": 2050,
+  "id": "thealgorithms-java",
+  "owner": "TheAlgorithms",
+  "name": "Java",
+  "desc": "All Algorithms implemented in Java",
+  "lang": "Java",
+  "stars": 66887,
+  "today": 39,
+  "week": 0,
+  "month": 0,
   "makers": [
-   "꾸준히",
-   "한걸음"
+   "alxkm",
+   "dependabot",
+   "vil02",
+   "Hardvan",
+   "yanglbme"
   ],
   "tags": [
-   "공부",
-   "달력"
+   "Java"
   ],
-  "url": "https://example.com/study-streak",
+  "url": "https://github.com/TheAlgorithms/Java",
   "readme": [
-   "칸을 누르면 색이 찹니다.",
-   "끊기지 않게 이어 가는 재미가 있습니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "All Algorithms implemented in Java",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "pixel-cat",
-  "owner": "도트집",
-  "name": "도트 고양이 키우기",
-  "desc": "점 찍어 그린 고양이를 돌보는 작은 게임(예시)",
-  "lang": "게임",
-  "stars": 894,
-  "today": 61,
-  "week": 720,
-  "month": 880,
+  "id": "nvidia-auto-ontology",
+  "owner": "NVIDIA",
+  "name": "auto-ontology",
+  "desc": "Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows.",
+  "lang": "Python",
+  "stars": 11699,
+  "today": 0,
+  "week": 9621,
+  "month": 0,
   "makers": [
-   "도트집"
+   "DinaLaptii",
+   "yuvalshkolar",
+   "liavnave",
+   "liofnv",
+   "tomer-levin-nv"
   ],
   "tags": [
-   "게임",
-   "도트"
+   "Python"
   ],
-  "url": "https://example.com/pixel-cat",
+  "url": "https://github.com/NVIDIA/auto-ontology",
   "readme": [
-   "먹이를 주고 쓰다듬습니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  },
  {
-  "id": "meeting-cut",
-  "owner": "칼퇴연구소",
-  "name": "회의 줄이기 안내",
-  "desc": "회의를 절반으로 줄이는 일곱 가지 물음(예시)",
-  "lang": "모음",
-  "stars": 2088,
-  "today": 45,
-  "week": 260,
-  "month": 1750,
+  "id": "anthropics-skills",
+  "owner": "anthropics",
+  "name": "skills",
+  "desc": "Public repository for Agent Skills",
+  "lang": "Python",
+  "stars": 192866,
+  "today": 0,
+  "week": 5014,
+  "month": 12271,
   "makers": [
-   "칼퇴연구소",
-   "정각"
+   "rlancemartin",
+   "klazuka",
+   "claude",
+   "cj-ant",
+   "ericharmeling"
   ],
   "tags": [
-   "일",
-   "안내"
+   "Python"
   ],
-  "url": "https://example.com/meeting-cut",
+  "url": "https://github.com/anthropics/skills",
   "readme": [
-   "회의 전에 스스로 묻는 일곱 가지입니다.",
-   "이 항목은 틀을 보여 주려고 지어낸 예시입니다."
+   "Public repository for Agent Skills",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "vercel-labs-agent-desktop",
+  "owner": "vercel-labs",
+  "name": "agent-desktop",
+  "desc": "Computer use CLI for AI agents",
+  "lang": "Rust",
+  "stars": 21825,
+  "today": 0,
+  "week": 9502,
+  "month": 0,
+  "makers": [
+   "lahfir",
+   "github-actions",
+   "detail-app",
+   "ctate",
+   "dependabot"
+  ],
+  "tags": [
+   "Rust"
+  ],
+  "url": "https://github.com/vercel-labs/agent-desktop",
+  "readme": [
+   "Computer use CLI for AI agents",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "milind-soni-openmausbot",
+  "owner": "milind-soni",
+  "name": "OpenMausBot",
+  "desc": "Open-source Grok Bot alternative with a virtual machine that bots can use",
+  "lang": "TypeScript",
+  "stars": 21058,
+  "today": 0,
+  "week": 8951,
+  "month": 0,
+  "makers": [
+   "milind-soni",
+   "claude",
+   "aivsomkar",
+   "AdityaUmale",
+   "robinsonnblack"
+  ],
+  "tags": [
+   "TypeScript"
+  ],
+  "url": "https://github.com/milind-soni/OpenMausBot",
+  "readme": [
+   "Open-source Grok Bot alternative with a virtual machine that bots can use",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "cloudflare-security-audit-skill",
+  "owner": "cloudflare",
+  "name": "security-audit-skill",
+  "desc": "A coding-agent skill for multi-phase security audits with independently verified, machine-readable findings",
+  "lang": "JavaScript",
+  "stars": 69931,
+  "today": 0,
+  "week": 10967,
+  "month": 41811,
+  "makers": [
+   "literally-dan",
+   "CooperSheroy",
+   "kennysarnoski-jarvis"
+  ],
+  "tags": [
+   "JavaScript"
+  ],
+  "url": "https://github.com/cloudflare/security-audit-skill",
+  "readme": [
+   "A coding-agent skill for multi-phase security audits with independently verified, machine-readable findings",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "mattpocock-skills",
+  "owner": "mattpocock",
+  "name": "skills",
+  "desc": "Skills for Real Engineers. Straight from my .agents directory.",
+  "lang": "Shell",
+  "stars": 321595,
+  "today": 0,
+  "week": 9872,
+  "month": 0,
+  "makers": [
+   "mattpocock",
+   "claude",
+   "github-actions",
+   "gabimoncha"
+  ],
+  "tags": [
+   "Shell"
+  ],
+  "url": "https://github.com/mattpocock/skills",
+  "readme": [
+   "Skills for Real Engineers. Straight from my .agents directory.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "d4vinci-scrapling",
+  "owner": "D4Vinci",
+  "name": "Scrapling",
+  "desc": "🕷️ The BEST Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
+  "lang": "Python",
+  "stars": 101480,
+  "today": 0,
+  "week": 7291,
+  "month": 0,
+  "makers": [
+   "D4Vinci",
+   "yetval",
+   "AbdullahY36",
+   "SulimanAbdulrazzaq",
+   "codex"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/D4Vinci/Scrapling",
+  "readme": [
+   "🕷️ The BEST Web Scraping framework that handles everything from a single request to a full-scale crawl! Don't be shy, join here: https://discord.gg/EMgGbDceNQ and follow here for daily tips and tricks: https://x.com/Scrapling_dev",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "zed-industries-zed",
+  "owner": "zed-industries",
+  "name": "zed",
+  "desc": "Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
+  "lang": "Rust",
+  "stars": 94715,
+  "today": 0,
+  "week": 2262,
+  "month": 0,
+  "makers": [
+   "as-cii",
+   "maxbrunsfeld",
+   "maxdeviant",
+   "nathansobo",
+   "ConradIrwin"
+  ],
+  "tags": [
+   "Rust"
+  ],
+  "url": "https://github.com/zed-industries/zed",
+  "readme": [
+   "Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "donchitos-claude-code-game-studios",
+  "owner": "Donchitos",
+  "name": "Claude-Code-Game-Studios",
+  "desc": "Turn Claude Code into a full game dev studio — 49 AI agents, 72 workflow skills, and a complete coordination system mirroring real studio hierarchy.",
+  "lang": "Shell",
+  "stars": 38317,
+  "today": 0,
+  "week": 3730,
+  "month": 0,
+  "makers": [
+   "Donchitos",
+   "claude"
+  ],
+  "tags": [
+   "Shell"
+  ],
+  "url": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+  "readme": [
+   "Turn Claude Code into a full game dev studio — 49 AI agents, 72 workflow skills, and a complete coordination system mirroring real studio hierarchy.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "google-skills",
+  "owner": "google",
+  "name": "skills",
+  "desc": "Agent Skills for Google products and technologies",
+  "lang": "Python",
+  "stars": 23876,
+  "today": 0,
+  "week": 2024,
+  "month": 0,
+  "makers": [
+   "cloud-ix-copybara",
+   "holtskinner",
+   "martinvarelaj",
+   "helloeve",
+   "wangauone"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/google/skills",
+  "readme": [
+   "Agent Skills for Google products and technologies",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "google-deepmind-mujoco",
+  "owner": "google-deepmind",
+  "name": "mujoco",
+  "desc": "Multi-Joint dynamics with Contact. A general purpose physics simulator.",
+  "lang": "C++",
+  "stars": 17588,
+  "today": 0,
+  "week": 1130,
+  "month": 0,
+  "makers": [
+   "yuvaltassa",
+   "quagla",
+   "haroonq",
+   "kbayes",
+   "saran-t"
+  ],
+  "tags": [
+   "C++"
+  ],
+  "url": "https://github.com/google-deepmind/mujoco",
+  "readme": [
+   "Multi-Joint dynamics with Contact. A general purpose physics simulator.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "herdrdev-herdr",
+  "owner": "herdrdev",
+  "name": "herdr",
+  "desc": "the runtime your coding agents live on",
+  "lang": "Rust",
+  "stars": 50173,
+  "today": 0,
+  "week": 2196,
+  "month": 0,
+  "makers": [
+   "ogulcancelik",
+   "JJLiebig",
+   "akbash-bot",
+   "kangal-bot",
+   "github-actions"
+  ],
+  "tags": [
+   "Rust"
+  ],
+  "url": "https://github.com/herdrdev/herdr",
+  "readme": [
+   "the runtime your coding agents live on",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "morluto-rea",
+  "owner": "morluto",
+  "name": "rea",
+  "desc": "Reverse engineer anything with agents, from app behavior down to native binaries.",
+  "lang": "TypeScript",
+  "stars": 451708,
+  "today": 0,
+  "week": 0,
+  "month": 389832,
+  "makers": [
+   "morluto",
+   "kaoru0822-kitauji",
+   "N0zoM1z0",
+   "claude",
+   "gensokyo-dev"
+  ],
+  "tags": [
+   "TypeScript"
+  ],
+  "url": "https://github.com/morluto/rea",
+  "readme": [
+   "Reverse engineer anything with agents, from app behavior down to native binaries.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "nutlope-hallmark",
+  "owner": "Nutlope",
+  "name": "hallmark",
+  "desc": "Anti-AI-slop design skill for Claude Code, Cursor, and Codex.",
+  "lang": "CSS",
+  "stars": 53109,
+  "today": 0,
+  "week": 0,
+  "month": 22624,
+  "makers": [
+   "Luffixos",
+   "Nutlope",
+   "rudycelekli",
+   "cursoragent",
+   "xunguangzlj-cloud"
+  ],
+  "tags": [
+   "CSS"
+  ],
+  "url": "https://github.com/Nutlope/hallmark",
+  "readme": [
+   "Anti-AI-slop design skill for Claude Code, Cursor, and Codex.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "thedotmack-claude-mem",
+  "owner": "thedotmack",
+  "name": "claude-mem",
+  "desc": "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More",
+  "lang": "TypeScript",
+  "stars": 116073,
+  "today": 0,
+  "week": 0,
+  "month": 17223,
+  "makers": [
+   "thedotmack",
+   "claude",
+   "rudycelekli",
+   "Afloat16",
+   "cursoragent"
+  ],
+  "tags": [
+   "TypeScript"
+  ],
+  "url": "https://github.com/thedotmack/claude-mem",
+  "readme": [
+   "Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "pingdotgg-t3code",
+  "owner": "pingdotgg",
+  "name": "t3code",
+  "desc": "",
+  "lang": "TypeScript",
+  "stars": 56490,
+  "today": 0,
+  "week": 0,
+  "month": 28609,
+  "makers": [
+   "juliusmarminge",
+   "claude",
+   "t3dotgg",
+   "maria-rcks",
+   "codex"
+  ],
+  "tags": [
+   "TypeScript"
+  ],
+  "url": "https://github.com/pingdotgg/t3code",
+  "readme": [
+   "t3code",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "heygen-com-hyperframes",
+  "owner": "heygen-com",
+  "name": "hyperframes",
+  "desc": "Write HTML. Render video. Built for agents.",
+  "lang": "TypeScript",
+  "stars": 82606,
+  "today": 0,
+  "week": 0,
+  "month": 22380,
+  "makers": [
+   "miguel-heygen",
+   "vanceingalls",
+   "claude",
+   "jrusso1020",
+   "ukimsanov"
+  ],
+  "tags": [
+   "TypeScript"
+  ],
+  "url": "https://github.com/heygen-com/hyperframes",
+  "readme": [
+   "Write HTML. Render video. Built for agents.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "pbakaus-impeccable",
+  "owner": "pbakaus",
+  "name": "impeccable",
+  "desc": "The design vocabulary for your coding agent. Steer with polish and bolder, review with critique and audit, catch AI slop before it ships.",
+  "lang": "Rust",
+  "stars": 108014,
+  "today": 0,
+  "week": 0,
+  "month": 28598,
+  "makers": [
+   "pbakaus",
+   "claude",
+   "github-actions",
+   "abdulwahabone",
+   "cursoragent"
+  ],
+  "tags": [
+   "Rust"
+  ],
+  "url": "https://github.com/pbakaus/impeccable",
+  "readme": [
+   "The design vocabulary for your coding agent. Steer with polish and bolder, review with critique and audit, catch AI slop before it ships.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "hkuds-deeptutor",
+  "owner": "HKUDS",
+  "name": "DeepTutor",
+  "desc": "DeepTutor: Lifelong Personalized Tutoring. https://deeptutor.info/.",
+  "lang": "Python",
+  "stars": 58208,
+  "today": 0,
+  "week": 0,
+  "month": 17107,
+  "makers": [
+   "pancacake",
+   "claude",
+   "Pinkllow",
+   "github-actions",
+   "evan188199-tech"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/HKUDS/DeepTutor",
+  "readme": [
+   "DeepTutor: Lifelong Personalized Tutoring. https://deeptutor.info/.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "debpalash-voicestudio",
+  "owner": "debpalash",
+  "name": "VoiceStudio",
+  "desc": "VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.",
+  "lang": "Python",
+  "stars": 107905,
+  "today": 0,
+  "week": 0,
+  "month": 50753,
+  "makers": [
+   "debpalash",
+   "claude",
+   "velixio",
+   "kevin9327",
+   "rudycelekli"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/debpalash/VoiceStudio",
+  "readme": [
+   "VoiceStudio is the open-source, fully-local ElevenLabs alternative — voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "anthropics-claude-plugins-official",
+  "owner": "anthropics",
+  "name": "claude-plugins-official",
+  "desc": "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
+  "lang": "Python",
+  "stars": 46857,
+  "today": 0,
+  "week": 0,
+  "month": 9346,
+  "makers": [
+   "github-actions",
+   "jordanecker-ant",
+   "mhegazy",
+   "bryan-anthropic",
+   "claude"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/anthropics/claude-plugins-official",
+  "readme": [
+   "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "sherlock-project-sherlock",
+  "owner": "sherlock-project",
+  "name": "sherlock",
+  "desc": "Hunt down social media accounts by username across social networks",
+  "lang": "Python",
+  "stars": 109812,
+  "today": 0,
+  "week": 0,
+  "month": 15143,
+  "makers": [
+   "sdushantha",
+   "hoadlck",
+   "ppfeister",
+   "TheYahya",
+   "Czechball"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/sherlock-project/sherlock",
+  "readme": [
+   "Hunt down social media accounts by username across social networks",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "leonxlnx-taste-skill",
+  "owner": "Leonxlnx",
+  "name": "taste-skill",
+  "desc": "Agent skills that give coding agents taste: art direction, reference images and a browser check instead of generic AI pages",
+  "lang": "JavaScript",
+  "stars": 113298,
+  "today": 0,
+  "week": 0,
+  "month": 19249,
+  "makers": [
+   "Leonxlnx",
+   "claude",
+   "cursoragent",
+   "HugoSpy",
+   "bougieL"
+  ],
+  "tags": [
+   "JavaScript"
+  ],
+  "url": "https://github.com/Leonxlnx/taste-skill",
+  "readme": [
+   "Agent skills that give coding agents taste: art direction, reference images and a browser check instead of generic AI pages",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "anthropics-knowledge-work-plugins",
+  "owner": "anthropics",
+  "name": "knowledge-work-plugins",
+  "desc": "Open source repository of plugins primarily intended for knowledge workers to use in Claude Cowork",
+  "lang": "Python",
+  "stars": 35427,
+  "today": 0,
+  "week": 0,
+  "month": 6844,
+  "makers": [
+   "github-actions",
+   "jordanecker-ant",
+   "bryan-anthropic",
+   "claude",
+   "mattpic-ant"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/anthropics/knowledge-work-plugins",
+  "readme": [
+   "Open source repository of plugins primarily intended for knowledge workers to use in Claude Cowork",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "agricidaniel-claude-seo",
+  "owner": "AgriciDaniel",
+  "name": "claude-seo",
+  "desc": "Universal SEO skill for Claude Code. 26 sub-skills + 19 sub-agents covering technical SEO, E-E-A-T, schema, GEO/AEO, agent readiness (Lighthouse Agentic Browsing, WebMCP, llms.txt), backlinks, local SEO, e-commerce, international SEO, Google APIs, and PDF/Excel reporting. 9 optional extensions for live SEO data.",
+  "lang": "Python",
+  "stars": 28066,
+  "today": 0,
+  "week": 0,
+  "month": 9322,
+  "makers": [
+   "AgriciDaniel",
+   "claude",
+   "rudycelekli",
+   "dependabot",
+   "Nordalux"
+  ],
+  "tags": [
+   "Python"
+  ],
+  "url": "https://github.com/AgriciDaniel/claude-seo",
+  "readme": [
+   "Universal SEO skill for Claude Code. 26 sub-skills + 19 sub-agents covering technical SEO, E-E-A-T, schema, GEO/AEO, agent readiness (Lighthouse Agentic Browsing, WebMCP, llms.txt), backlinks, local SEO, e-commerce, international SEO, Google APIs, and PDF/Excel reporting. 9 optional extensions for live SEO data.",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
+  ]
+ },
+ {
+  "id": "nationalsecurityagency-ghidra",
+  "owner": "NationalSecurityAgency",
+  "name": "ghidra",
+  "desc": "Ghidra is a software reverse engineering (SRE) framework",
+  "lang": "Java",
+  "stars": 99499,
+  "today": 0,
+  "week": 0,
+  "month": 17106,
+  "makers": [
+   "ryanmkurtz",
+   "ghidra1",
+   "dragonmacher",
+   "nsadeveloper789",
+   "caheckman"
+  ],
+  "tags": [
+   "Java"
+  ],
+  "url": "https://github.com/NationalSecurityAgency/ghidra",
+  "readme": [
+   "Ghidra is a software reverse engineering (SRE) framework",
+   "별 수와 기간별 별 수는 2026-11-11 에 github.com/trending(오늘·이번 주·이번 달 쪽)에서 본 값입니다. 그 뒤로는 바뀌었을 수 있습니다. 한 기간의 값이 0 이면 그 기간 쪽에는 올라 있지 않았다는 뜻입니다."
   ]
  }
 ]

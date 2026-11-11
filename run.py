@@ -404,6 +404,17 @@ def kind_find(word):
     return None
 
 
+def _ref_hint(kind):
+    """변환 상담에서 안내할 참고 명령: 본이 있는 틀은 조각 표로, 아니면 참고 사이트 종류가 있을 때만."""
+    for k, v in (('날마다 순위', '깃허브트렌딩'), ('커뮤니티', '해커뉴스'), ('쇼핑몰', '검로드'), ('한 장 링크', '링크트리')):
+        if kind.startswith(k):
+            return f'본을 조각으로 보기: python run.py 나누기 {v}'
+    w = kind.split()[0]
+    if any(w in r['kind'] for r in ref_load()):
+        return f'참고: python run.py 참고 {w}'
+    return '참고 사이트 목록: python run.py 참고'
+
+
 def ref_load():
     p = os.path.join(HERE, '참고', '서비스.json')
     return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else []
@@ -823,7 +834,7 @@ def compare_cmd(rest):
     name, R = RC.current(); url = (R.get('url') or '').split(' ')[0]
     which = rest[0] if rest else '목록'
     if R.get('trend'):
-        ours = 'trend/' if which != '글' else 'trend/word-daily/'; ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
+        ours = 'trend/' if which != '글' else 'trend/meta-astryx/'; ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
     elif R.get('board'):
         ours = 'board/' if which != '글' else 'board/?id=s1'
         ref = url if which != '글' else (A[A.index('--본') + 1] if '--본' in A else url)
@@ -1375,7 +1386,7 @@ def convert_cmd(rest):
     for p in E_['parts']:
         pr[p] = True
     kd = os.path.join(HERE, E_['kits_dir']) if E_['kits_dir'] else ''
-    print(f'━━ 변환 · {kind} ━━\n[상담: 먼저 물을 것] 지금 사이트를 「{kind}」로 바꾼다면 방문자는 누구이고, 무엇을 하러 오나요? 새 이름과 한 줄 소개는요? 돈은 어디서 나올 것 같나요? (참고: python run.py 참고 {kind.split()[0]})')
+    print(f'━━ 변환 · {kind} ━━\n[상담: 먼저 물을 것] 지금 사이트를 「{kind}」로 바꾼다면 방문자는 누구이고, 무엇을 하러 오나요? 새 이름과 한 줄 소개는요? 돈은 어디서 나올 것 같나요? ({_ref_hint(kind)})')
     keep = ', '.join(f'{k}{v}' for k, v in sorted(cur_polish().items(), key=lambda x: int(x[0]))) or '없음(출발 모습)'
     off = [p for p, v in base.items() if v and not pr.get(p)]; on = [p for p, v in pr.items() if v and not base.get(p)]
     print(f'[그대로인 것] 다듬기 층({keep}) — 글자·색·제호 모양, 겉모습 틀\n[바뀌는 것] 켜지는 기능: {", ".join(on) or "없음"} / 꺼지는 기능: {", ".join(off) or "없음"} / 첫 화면 구획·메뉴 이름·예시 내용' + (f' / 예시 이름 「{E_["name"]}」(받기 전 임시, 「예시 이름」 표시)' if E_['name'] else ''))

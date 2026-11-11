@@ -30,17 +30,17 @@
    {
     "say": "「오늘」 1등은 오늘 별을 가장 많이 받은 항목입니다",
     "eval": "document.querySelector('#trl .tr-row:not([hidden]) h2 b').textContent",
-    "equals": "화분 물주기 기록"
+    "equals": "astryx"
    },
    {
     "say": "기간을 「이번 달」로 바꾸면 1등이 바뀝니다",
     "eval": "(function(){var s=document.getElementById('trper');s.value='monthly';s.onchange();return document.querySelector('#trl .tr-row:not([hidden]) h2 b').textContent})()",
-    "equals": "하루 한 낱말"
+    "equals": "rea"
    },
    {
-    "say": "분류를 「게임」으로 고르면 게임만 남습니다",
-    "eval": "(function(){var s=document.getElementById('trcat');s.value='게임';s.onchange();return document.querySelectorAll('#trl .tr-row[data-id]:not([hidden])').length})()",
-    "equals": 2
+    "say": "분류를 「Rust」로 고르면 그 분류만 남습니다",
+    "eval": "(function(){var s=document.getElementById('trcat');s.value='Rust';s.onchange();return document.querySelectorAll('#trl .tr-row[data-id]:not([hidden])').length})()",
+    "equals": 1
    },
    {
     "say": "다시 열어 첫 항목에 별을 줍니다",
@@ -53,11 +53,11 @@
     }
    },
    {
-    "say": "그 항목의 「오늘 별」이 하나 늘었습니다(1,079 → 1,080)",
+    "say": "그 항목의 「오늘 별」이 하나 늘었습니다(2,842 → 2,843)",
     "wait": 0.6,
     "expect": {
      "sel": "#trl .tr-row .td",
-     "contains": "1,080"
+     "contains": "2,843"
     }
    },
    {
@@ -134,7 +134,7 @@
    },
    {
     "say": "항목 쪽이 열립니다(왼쪽 소개, 오른쪽 About)",
-    "goto": "trend/word-daily/",
+    "goto": "trend/meta-astryx/",
     "wait": 1.0,
     "expect": {
      "sel": ".tr-ab h3",

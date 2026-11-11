@@ -3,7 +3,7 @@
 기간(오늘·이번 주·이번 달) 동안 별을 많이 받은 차례로 항목을 보여 주는 틀입니다. 본(github.com/trending)의 목록·만든 사람 목록·저장소 쪽을 받아 보고 짜임을 옮겼습니다.
 
 - 화면: `/trend/`(항목) · `/trend/makers/`(만든 사람) · `/trend/<id>/`(항목 쪽) · `/trend/submit/`(올리기) · `/trend/guide/`(안내)
-- 자료: `kits/trend/data/items.json`(지어낸 예시 12건 — 내 항목으로 바꿉니다)
+- 자료: `kits/trend/data/items.json`(2026-11-11 에 github.com/trending 의 오늘·이번 주·이번 달 쪽에서 본 실제 저장소 36건과 그날의 별 수 — 내 항목으로 바꿉니다)
 - 서버: 별 주기(`/api/trend/star`)·올리기(`/api/trend/submit`)·운영자 승인. 꺼져 있으면 예시 자료의 별 수로 화면만.
 - 손잡이: 순위기간 · 순위줄수 · 순위바탕
 
