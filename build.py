@@ -196,12 +196,14 @@ def page(path, title, desc, body, noindex=False):
     GAMES_LINK = ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in shown)
     if rest:
         GAMES_LINK += '<details class="mn"><summary>더 보기</summary><div class="mnp">' + ''.join(f'<a href="{u}">{E(n)}</a>' for n, u in rest) + '</div></details>'
+    NAVBLOCK = _pl.nav_html(sys.modules[__name__], items, path) if (POLISH.get(3) and _pl.CATS and part('info')) else f'<div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>'
+    MASTR = _pl.mast_extra(sys.modules[__name__]) if POLISH.get(3) else ''
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
 {rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{_pl.head(POLISH)}{PREF_HEAD}</head><body class="th-{THEME} {_pl.body_class(POLISH)}" style="--ac:{E(ACCENT)}">
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
-{LOGO}</div></header>
-<div class="wrap"><nav class="menu">{GAMES_LINK}</nav></div>
+{LOGO}{MASTR}</div></header>
+{NAVBLOCK}
 <main class="wrap">{_kp.notice_banner(sys.modules[__name__]) if not path else ''}{body}{MON}</main>
 <footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a>{MON_LINK}{rss_link}{('<a href="' + BASE + 'ebook/">전자책</a>') if part('ebook', False) else ''}{('<a href="' + BASE + 'status/">상태</a>') if part('status', False) else ''}{('<a href="' + BASE + 'kits/">키트</a>') if part('kits', False) else ''}{''.join(f'<a href="{BASE}{u}">{n}</a>' for k, (n, u) in {**FOOT, **_kp.FOOT4}.items() if part(k, False))}{PREFS_UI}{'<p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p>' if part('info') else ''}</div></footer>{PWA_REG}</body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
@@ -570,7 +572,7 @@ def note_page(n):
     li = lambda xs: ''.join(f'<li>{E(x)}</li>' for x in xs)
     facts = ''.join(f'<li>{E(f["text"])}<span class="src">출처 · <a href="{E(f["url"])}" rel="noopener nofollow">{E(f["source"])}</a></span></li>' for f in n.get('facts', []))
     reports = ''.join(f'<li><a href="{E(r["url"])}" rel="noopener nofollow">{E(r["title"])}</a> · {E(r["source"])}</li>' for r in n.get('reports', []))
-    body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
+    body = (f'<article class="art">{ex}{_pl.img_tag(sys.modules[__name__], n, "pimg", "", "wide")}<span class="lb">확인 노트</span><h1>{E(n["title"])}</h1><p class="dek">{E(n["question"])}</p>'
             f'<div class="by"><span class="v {v}">{E(n["verdict"])}</span><span>{E(n["date"])}</span><span>확인 시각 {E(n["checked_at"])}</span></div>'
             f'<p class="sum">{E(n["summary"])}</p>'
             + (f'<h2>확인한 사실</h2><ol class="fn">{facts}</ol>' if facts else '')
@@ -791,6 +793,7 @@ def main():
     tp = os.path.join(HERE, 'data', 'topics.json')
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
     notes = load_notes(with_example) if part('info') else []   # info 부품이 꺼져 있으면 뉴스·노트는 만들지 않는다
+    _pl.set_cats(notes)   # 다듬기 3: 분야 탭
     if not part('info'):
         topics = []
     topics, notice = filter_topics(topics)

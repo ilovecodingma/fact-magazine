@@ -624,7 +624,7 @@ def grade_lines(res):
         m = res.get(key)
         if not m:
             continue
-        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'))
+        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'), min_imgs=(2 if key == 'mobile' else 4), cats_needed=(key != 'note'))
         row = []
         for k, nm, v, th, ok in gl:
             tot += 1; ok_n += 1 if ok else 0
@@ -656,6 +656,12 @@ def polish_cmd(rest):
             mark = ('적용 ' + cur[str(st['n'])]) if str(st['n']) in cur else ('준비됨' if st['status'] == 'ready' else '준비 중')
             print(f'  {st["n"]:>2}. {st["title"]}  [{mark}]')
         print('\n사용: python run.py 다듬기 1  (안 A·B 미리보기) → 독자가 고르면 python run.py 다듬기 1 --안 A --shots 폴더'); return 0
+    if rest[0] == '0':
+        nm = apply_name()
+        print('━━ 다듬기 0. 이름과 한 줄 소개 ━━\n독자에게 먼저 묻는다: 「사이트 이름을 무엇으로 할까요? 한 줄로 소개하면?」 → 생각.md 에 정리 → 「이렇게 이해했습니다: … 이대로 적용할까요?」 확인 뒤 python run.py 다듬기 0 --이름 "…" --소개 "…"')
+        if nm:
+            print(f'적용했습니다: 이름 「{nm[0]}」' + (f' — {nm[1]}' if nm[1] else '')); out, last, rcb = rebuild_local(); shots_for(out, '0_이름'); prog_add(f'다듬기 0 이름 {nm[0]}')
+        return 0
     if rest[0] in ('다음', 'next'):
         nxt = next((st for st in steps if st['status'] == 'ready' and str(st['n']) not in cur), None)
         if not nxt:
