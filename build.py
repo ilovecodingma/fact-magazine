@@ -15,12 +15,13 @@ S = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
 _local = os.path.join(HERE, 'site.local.json')   # 내 컴퓨터에서만 쓰는 값(저장소에 올리지 않음)이 있으면 덮어쓴다
 if os.path.exists(_local):
     S.update(json.load(open(_local, encoding='utf-8')))
-for _k, _env in (('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
+for _k, _env in (('games_title', 'GAMES_TITLE'), ('games_desc', 'GAMES_DESC'), ('about', 'SITE_ABOUT'), ('url', 'SITE_URL'), ('name', 'SITE_NAME'), ('tagline', 'SITE_TAGLINE'), ('contact', 'SITE_CONTACT'), ('home_title', 'HOME_TITLE'), ('home_desc', 'HOME_DESC')):
     if os.environ.get(_env):   # 자동 갱신(GitHub Actions)에서는 저장소 변수가 환경변수로 들어와 site.json 값을 덮어쓴다
         S[_k] = os.environ[_env]
 S['url'] = S['url'].rstrip('/')
 KEYWORDS = [k.strip() for k in (os.environ.get('TOPIC_KEYWORDS') or ','.join(S.get('topic_keywords', []))).split(',') if k.strip()]   # 주제 키워드(런북 6절)
 BASE, URL = S['base'], S['url']
+GAMES_SRC = os.path.join(HERE, 'games')   # 게임 원본 폴더(games/<이름>/meta.json + game.js). build.py 가 docs/games/ 로 복사한다 — docs/ 는 매번 지워지므로 원본은 여기에 둔다
 E = html.escape
 VERDICTS = {'확인됨': 'ok', '일부만 확인됨': 'part', '아직 확인 안 됨': 'no'}
 
@@ -60,6 +61,11 @@ ol.fn{margin:0;padding-left:26px}ol.fn li{margin:0 0 14px;font-size:17px;line-he
 .ex{display:inline-block;font:700 12px/1 var(--sans);background:#fff3cd;color:#664d03;padding:4px 8px;margin-bottom:10px}
 .page{max-width:680px;margin:0 auto;padding:30px 0}.page h1{font:800 32px/1.3 var(--serif);margin:0 0 16px}.page ul{padding-left:22px}.page li{margin:0 0 10px}
 footer{margin-top:40px;padding:16px 0 34px;border-top:3px double var(--ink);font:13px/1.7 var(--sans);color:var(--mu)}footer a{margin-right:14px;color:var(--ink)}
+.gm{max-width:520px;margin:0 auto;padding:26px 0 10px}.gm h1{font:800 32px/1.3 var(--serif);margin:6px 0 10px}.gm .dek{margin-bottom:14px}
+.gm canvas{display:block;width:100%;max-width:480px;height:auto;aspect-ratio:2/3;margin:0 auto;border:2px solid var(--ink);background:#f7f5ee;touch-action:none;user-select:none;-webkit-user-select:none}
+.gm .how{font:14.5px/1.7 var(--sans);color:#333;margin:18px 0 0;padding-left:20px}.gm .note{font:12.5px/1.6 var(--sans);color:var(--mu);margin:10px 0 0}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 28px;margin-top:10px}.gl a{display:block;padding:14px 0 16px;border-bottom:1px solid var(--hair)}.gl a:hover{text-decoration:none}
+.gl h3{font:800 22px/1.35 var(--serif);margin:6px 0 6px}.gl p{font:14px/1.65 var(--sans);color:#333;margin:0}
 @media(max-width:900px){.cols{column-count:2}.lead h2{font-size:32px}}
 @media(max-width:640px){.logo{font-size:34px}.front{grid-template-columns:1fr;padding-top:18px}.side{border-left:0;padding-left:0;border-top:1px solid var(--ink);padding-top:16px;margin-top:12px}
 .lead h2{font-size:27px}.cols{column-count:1;column-rule:0}.art h1{font-size:28px}nav.menu{gap:18px}.wrap{padding:0 16px}}"""
@@ -80,16 +86,49 @@ def page(path, title, desc, body, noindex=False):
     os.makedirs(d, exist_ok=True)
     canon = f'{URL}/{path}/' if path else f'{URL}/'
     robots = '<meta name="robots" content="noindex">' if noindex else ''
+    GAMES_LINK = f'<a href="{BASE}games/">게임</a>' if load_games() else ''
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}"><link rel="canonical" href="{canon}">{robots}
 <link rel="alternate" type="application/rss+xml" title="{E(S['name'])}" href="{BASE}feed.xml"><link rel="stylesheet" href="{BASE}style.css"></head><body>
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 <a class="logo" href="{BASE}">{E(S['name'])}</a></div></header>
-<div class="wrap"><nav class="menu"><a href="{BASE}">오늘</a><a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
+<div class="wrap"><nav class="menu"><a href="{BASE}">오늘</a>{GAMES_LINK}<a href="{BASE}how/">확인하는 방법</a><a href="{BASE}about/">소개</a><a href="{BASE}contact/">문의</a></nav></div>
 <main class="wrap">{body}</main>
 <footer><div class="wrap"><a href="{BASE}privacy/">개인정보 처리방침</a><a href="{BASE}feed.xml">RSS</a><p>기사 본문은 싣지 않고 제목·매체·시각·링크만 모아 보여 줍니다. 기사의 저작권은 각 매체에 있습니다.</p></div></footer></body></html>"""
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(doc)
     return canon
+
+
+def load_games():
+    """games/<이름>/meta.json 을 읽어 목록(order 순)으로. 게임 폴더가 없으면 빈 목록."""
+    out = []
+    for mp in sorted(glob.glob(os.path.join(GAMES_SRC, '*', 'meta.json'))):
+        m = json.load(open(mp, encoding='utf-8'))
+        m['slug'] = os.path.basename(os.path.dirname(mp))
+        out.append(m)
+    return sorted(out, key=lambda m: m.get('order', 99))
+
+
+def game_pages():
+    """게임 목록 쪽(/games/)과 게임마다 쪽(/games/<이름>/)을 만들고 원본 파일을 docs/games/<이름>/ 로 복사한다."""
+    games = load_games()
+    if not games:
+        return []
+    urls = []
+    items = ''.join(f'<a href="{BASE}games/{g["slug"]}/"><span class="lb">{E(g.get("kind", "게임"))}</span><h3>{E(g["title"])}</h3><p>{E(g.get("intro", g["desc"]))}</p></a>' for g in games)
+    body = f'<div class="page"><span class="lb">게임</span><h1>{E(S["name"])} 웹 게임</h1><p>{E(S.get("games_desc", "설치 없이 브라우저에서 바로 할 수 있는 작은 게임입니다."))}</p><div class="gl">{items}</div></div>'
+    urls.append(page('games', S.get('games_title') or f'{S["name"]} 웹 게임', S.get('games_desc', '브라우저에서 바로 하는 작은 게임 모음'), body))
+    for g in games:
+        how = ''.join(f'<li>{E(x)}</li>' for x in g.get('how', []))
+        b = (f'<div class="gm"><span class="lb">{E(g.get("kind", "게임"))}</span><h1>{E(g["title"])}</h1><p class="dek">{E(g.get("intro", g["desc"]))}</p>'
+             f'<canvas id="g" width="720" height="1080"></canvas><ol class="how">{how}</ol>'
+             f'<p class="note">최고 기록은 이 브라우저에만 저장됩니다. 서버로 보내지 않습니다. <a href="{BASE}games/">다른 게임 보기</a></p></div><script src="game.js?v={g.get("ver", 1)}"></script>')
+        urls.append(page(f'games/{g["slug"]}', f'{g["title"]} — {S["name"]}', g['desc'], b))
+        src = os.path.join(GAMES_SRC, g['slug'])
+        for f in os.listdir(src):
+            if f != 'meta.json':
+                shutil.copy(os.path.join(src, f), os.path.join(OUT, 'games', g['slug'], f))
+    return urls
 
 
 def load_notes(with_example):
@@ -183,7 +222,7 @@ def main():
     topics = json.load(open(tp, encoding='utf-8'))['topics'] if os.path.exists(tp) else []
     notes = load_notes(with_example)
     topics, notice = filter_topics(topics)
-    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes]
+    urls = [home(notes, topics, notice)] + [f'{URL}/{p}' for p in static_pages()] + [note_page(n) for n in notes] + game_pages()
     feed(notes)
     open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')

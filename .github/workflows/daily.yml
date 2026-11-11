@@ -20,6 +20,8 @@ jobs:
       SITE_ABOUT: ${{ vars.SITE_ABOUT }}
       TOPIC_KEYWORDS: ${{ vars.TOPIC_KEYWORDS }}
       MIN_SOURCES: ${{ vars.MIN_SOURCES }}
+      GAMES_TITLE: ${{ vars.GAMES_TITLE }}
+      GAMES_DESC: ${{ vars.GAMES_DESC }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
