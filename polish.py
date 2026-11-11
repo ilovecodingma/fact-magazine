@@ -22,7 +22,7 @@ def css1(opt, base_css):
     # 기본 CSS 에서 13px 보다 작은 글자를 찾아 13px 로 올리는 규칙을 만든다(메뉴·딱지·표시 글자가 너무 작지 않게)
     small = []
     for sel, body in re.findall(r'([^{}@]+)\{([^{}]*)\}', base_css):
-        m = re.search(r'font:[^;}]*?(\d+(?:\.\d+)?)px', body)
+        m = re.search(r'(?:font:[^;}]*?|font-size:)(\d+(?:\.\d+)?)px', body)
         if m and float(m.group(1)) < 13 and sel.strip() and not sel.strip().startswith(':root'):
             small.append(sel.strip())
     up = (',\n'.join(small) + '{font-size:13px}\n') if small else ''

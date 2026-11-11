@@ -335,7 +335,7 @@ def measure_site(directory, pages, width=1280, height=860, mobile=False):
 THRESH = {'empty': ('첫 화면 빈 영역 비율', 0.55, '<='), 'imgs': ('첫 화면 그림 수', 1, '>='), 'minFont': ('가장 작은 글자(px)', 13, '>='), 'minContrast': ('가장 낮은 대비', 4.5, '>='), 'overflow': ('가로 넘침(px)', 2, '<='), 'info': ('첫 화면 정보량(글 덩어리)', 14, '>=')}
 
 
-def grade(m, imgs_needed=True):
+def grade(m, imgs_needed=True, empty_needed=True):
     """측정값 m → [(키, 이름, 값, 기준, 통과)]"""
     out = []
     for k, (nm, th, op) in THRESH.items():
@@ -344,6 +344,8 @@ def grade(m, imgs_needed=True):
             continue
         if k == 'imgs' and not imgs_needed:
             continue
+        if k == 'empty' and not empty_needed:
+            continue   # 글 쪽은 본문 폭이 좁아 양옆이 비는 게 정상이라 빈 영역은 첫 화면만 잰다
         ok = (v <= th) if op == '<=' else (v >= th)
         out.append((k, nm, v, f'{op}{th}', ok))
     return out

@@ -624,7 +624,7 @@ def grade_lines(res):
         m = res.get(key)
         if not m:
             continue
-        gl = T.grade(m, imgs_needed=(key != 'note'))
+        gl = T.grade(m, imgs_needed=(key != 'note'), empty_needed=(key != 'note'))
         row = []
         for k, nm, v, th, ok in gl:
             tot += 1; ok_n += 1 if ok else 0
