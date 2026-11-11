@@ -1,9 +1,35 @@
 {
- "at": "2026-11-11 13:15",
+ "at": "2026-11-11 13:34",
  "items": [
   {
-   "keyword": "전고체 전지",
+   "keyword": "양산시",
+   "traffic": "500+",
+   "news": []
+  },
+  {
+   "keyword": "이선빈",
    "traffic": "100+",
+   "news": [
+    {
+     "title": "\"27㎝ 키 차이 설렌다\"…이광수♥이선빈, 9년 차 커플 데이트 포착 - 머니투데이",
+     "url": "https://www.mt.co.kr/entertainment/2026/11/11/2026111105361098673",
+     "source": "머니투데이"
+    },
+    {
+     "title": "9년 만난 이광수♥이선빈, 손 꼭 잡고 쇼핑 데이트",
+     "url": "https://www.newsis.com/view/NISX20261111_0003863078",
+     "source": "뉴시스"
+    },
+    {
+     "title": "데이트 또 포착..이광수♥이선빈, 9년 차 커플의 '부부 바이브' [핫피플]",
+     "url": "https://www.koreadaily.com/article/20261110082002723",
+     "source": "미주중앙일보"
+    }
+   ]
+  },
+  {
+   "keyword": "전고체 전지",
+   "traffic": "200+",
    "news": [
     {
      "title": "현대차그룹-삼성, ‘원팀’으로 미래 첨단 산업 선점 | 뉴스 | 현대자동차그룹",
@@ -11,35 +37,14 @@
      "source": "Hyundai Motor Group"
     },
     {
-     "title": "삼성·현대차, 배터리 공동 설계…전고체 생산 기술도 협력",
-     "url": "https://www.yonhapnewstv.co.kr/news/AKR20261111083251KRa",
-     "source": "연합뉴스TV"
+     "title": "‘삼성·현대차그룹 동맹’ 배터리 공급 넘어 설계까지 확장",
+     "url": "https://www.munhwa.com/article/11630522",
+     "source": "문화일보"
     },
     {
-     "title": "삼성·현대차, 배터리로 더 가까워질까…삼성SDI 공급 확대 주목",
-     "url": "https://stock.mk.co.kr/news/view/1194511",
-     "source": "매일경제 마켓"
-    }
-   ]
-  },
-  {
-   "keyword": "76ers vs celtics",
-   "traffic": "100+",
-   "news": [
-    {
-     "title": "76ers’ Joel Embiid starts 2nd half vs. Celtics after 1st half injury scare",
-     "url": "https://sports.yahoo.com/articles/76ers-joel-embiid-starts-2nd-032613932.html",
-     "source": "Yahoo Sports"
-    },
-    {
-     "title": "Jaylen Brown disappoints Tuesday vs. Boston",
-     "url": "https://www.nbcsports.com/fantasy/basketball/player-news/2026-11-10/jaylen-brown-disappoints-tuesday-vs-boston",
-     "source": "NBC Sports"
-    },
-    {
-     "title": "76ers news: Joel Embiid limps to the locker room at halftime vs. Celtics",
-     "url": "https://clutchpoints.com/nba/philadelphia-76ers/76ers-news-joel-embiid-exits-celtics-clash-tough-fall-before-halftime",
-     "source": "ClutchPoints"
+     "title": "삼성·현대가 보여준 피지컬AI 합종연횡 시대…기업 '코피티션' 본격화",
+     "url": "https://www.greened.kr/news/articleView.html?idxno=354286",
+     "source": "녹색경제신문"
     }
    ]
   },
@@ -69,19 +74,19 @@
    "traffic": "200+",
    "news": [
     {
-     "title": "깜짝 등장한 여성 손…김범, 열애 아니었다 “지인들과 여행”",
-     "url": "https://www.mk.co.kr/news/hot-issues/12205123",
-     "source": "매일경제"
+     "title": "김범, 해외서 의문의 여성과 포착…턱에 손대자 '깜짝'",
+     "url": "https://www.newsis.com/view/NISX20261110_0003862006",
+     "source": "뉴시스"
+    },
+    {
+     "title": "“여자 손이 쓱” 김범, 日여행 갔다가 깜짝 열애설..알고보니 지인 ‘해프닝’ [Oh!쎈 이슈]",
+     "url": "https://www.osen.co.kr/article/G1112908082",
+     "source": "OSEN"
     },
     {
      "title": "김범, 초밥 먹다가 볼 만지는 '의문의 여성' 손 포착...日데이트? 술렁",
      "url": "https://www.chosun.com/entertainments/enter_general/2026/11/10/GI2GKNRZG4ZDSNRRMJSWKNJTME/",
      "source": "조선일보"
-    },
-    {
-     "title": "[단독] 만약 여자친구였다면...김범 일본 영상 속 '의문의 여성 손' 정체 밝혀졌다",
-     "url": "https://www.gukjenews.com/news/articleView.html?idxno=3747787",
-     "source": "국제뉴스"
     }
    ]
   },
@@ -95,20 +100,20 @@
      "source": "제민일보"
     },
     {
-     "title": "이현중, NBA G리그 개막전 선발 출전해 3점·6리바운드",
-     "url": "https://www.yna.co.kr/view/AKR20261111048100007",
-     "source": "연합뉴스"
-    },
-    {
      "title": "‘NBA 도전’ 이현중, G리그 개막전 출격…3득점 6리바운드",
      "url": "https://news.kbs.co.kr/news/view.do?ncd=8709638",
      "source": "KBS 뉴스"
+    },
+    {
+     "title": "‘NBA 재도전 시작’ 이현중, G리그 복귀전 선발 출격…24분 뛰고 3점 6리바운드",
+     "url": "https://jumpball.co.kr/news/newsview.php?ncode=1065556563342870",
+     "source": "점프볼"
     }
    ]
   },
   {
    "keyword": "신동빈",
-   "traffic": "500+",
+   "traffic": "1000+",
    "news": [
     {
      "title": "부회장 4명 내보낸 신동빈 롯데 회장의 1년…실적반등에도 인사는 '난맥상'",
@@ -150,7 +155,7 @@
   },
   {
    "keyword": "미국 항공 우주국",
-   "traffic": "200+",
+   "traffic": "500+",
    "news": [
     {
      "title": "“달에서 일 할 사람 찾아요”…연봉 2억2000만원",
@@ -171,7 +176,7 @@
   },
   {
    "keyword": "가래떡",
-   "traffic": "200+",
+   "traffic": "500+",
    "news": [
     {
      "title": "[픽! 전주] 시청서 '가래떡데이, 우리 쌀 소비' 촉진 캠페인",
@@ -187,27 +192,6 @@
      "title": "[우리동네 경제학] 11월 11일 흙의 가치 되새기는 ‘농업인의 날’",
      "url": "https://www.joongboo.com/news/articleView.html?idxno=363742076",
      "source": "중부일보"
-    }
-   ]
-  },
-  {
-   "keyword": "분당 사고",
-   "traffic": "500+",
-   "news": [
-    {
-     "title": "[단독] 분당 연쇄추돌 사고 ‘브레이크 등’ 안 켜진 정황 포착…‘페달 오조작’ 가능성",
-     "url": "https://news.jtbc.co.kr/article/NB12327542",
-     "source": "JTBC"
-    },
-    {
-     "title": "[뉴스센터] 출근길 32중 시내버스 추돌사고…’브레이크 미작동?’",
-     "url": "https://www.yonhapnewstv.co.kr/news/MYH20261111125337n6C",
-     "source": "연합뉴스TV"
-    },
-    {
-     "title": "성남 분당서 버스가 차량 16대 연쇄 추돌‥최소 34명 부상",
-     "url": "https://imnews.imbc.com/news/2026/society/article/6864775_36918.html",
-     "source": "MBC 뉴스"
     }
    ]
   }

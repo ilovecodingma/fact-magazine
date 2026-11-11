@@ -35,8 +35,14 @@ def env_check():
     f = os.environ.get('FFMPEG') or shutil.which('ffmpeg')
     r['ffmpeg'] = (bool(f), 'ffmpeg 있음' if f else 'ffmpeg 없음', '쇼츠 영상에 필요합니다. 윈도우 `winget install Gyan.FFmpeg`, 맥 `brew install ffmpeg`, 리눅스 `sudo apt install ffmpeg`(이미 있으면 환경변수 FFMPEG 에 경로).')
     try:
-        urllib.request.urlopen(urllib.request.Request('https://example.com/', headers={'User-Agent': 'doctor'}), timeout=8)
-        net = True
+        net = False
+        for u in ('https://www.google.com/', 'https://example.com/', 'https://www.korea.kr/'):   # 하나라도 열리면 인터넷이 되는 것
+            try:
+                urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 (doctor)'}), timeout=8)
+                net = True
+                break
+            except Exception:
+                continue
     except Exception:
         net = False
     r['internet'] = (net, '인터넷 됨' if net else '인터넷 안 됨', '뉴스 수집·날씨·링크 점검에 필요합니다(없으면 그 키트는 건너뜀).')
@@ -78,13 +84,15 @@ def main():
         if not parts:
             if name.startswith(('keyword-', 'content-', 'promo-')):
                 res, why = '건너뜀', '내 컴퓨터에서 실행하는 도구(일부는 바깥 서비스에 요청) — 점검표에서는 실행하지 않음. README 의 「이렇게 입력하세요」로 직접 해 보세요.'
-            elif name == 'inbox':
-                res, why = '건너뜀', '메일 읽기(IMAP) 설정이 있어야 합니다(사람 몫, mail.local.json).'
             else:
                 res, why = '건너뜀', '켤 부품이 없는 도구'
+        elif name == 'inbox':
+            res, why = '건너뜀', '메일 읽기(IMAP) 설정이 있어야 합니다(사람 몫, mail.local.json). 화면이 없는 도구라 실행하지 않음.'
         else:
             # 2) 브라우저·ffmpeg 가 필요한 키트는 도구가 없으면 건너뜀
-            if name in ('issue', 'ebook', 'pdf', 'onepage', 'cards') and not env['browser'][0]:
+            if name == 'video':
+                res, why = '건너뜀', '내 유튜브 영상 주소(site.local.json 의 extras.videos)가 있어야 쪽이 생김 — 사람이 넣는 값'
+            elif name in ('issue', 'ebook', 'pdf', 'onepage', 'cards') and not env['browser'][0]:
                 res, why = '건너뜀', '브라우저(Edge·Chrome)가 없어 PDF·그림을 만들 수 없음 — ' + env['browser'][2]
             elif name == 'shorts' and not (env['browser'][0] and env['ffmpeg'][0]):
                 res, why = '건너뜀', '쇼츠는 브라우저와 ffmpeg 가 모두 필요함 — ' + (env['ffmpeg'][2] if not env['ffmpeg'][0] else env['browser'][2])

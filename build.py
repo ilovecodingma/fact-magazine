@@ -477,7 +477,7 @@ def kits_page():
     ks = [json.load(open(p, encoding='utf-8')) for p in sorted(glob.glob(os.path.join(KITS_DIR, '*', 'kit.json')))]
     if not ks:
         return []
-    li = ''.join(f'<div class="tp"><span class="lb">{E(k["name"])}</span><b>{E(k["title"])}</b><span class="ln">이렇게 입력하세요 → <code>{E(k["input_line"])}</code></span><span class="ln">나오는 것: {E(k["gives"])}</span><span class="ln">2분 안에 보는 결과: {E(k["see"])}</span></div>' for k in ks)
+    li = ''.join(f'<div class="tp"><span class="lb">{E(k["name"])}</span><b>{E(k["title"])}</b><span class="ln">이렇게 입력하세요 → <code>{E(k["input_line"])}</code></span><span class="ln">나오는 것: {E(k["gives"])}</span><span class="ln">2분 안에 보는 결과: {E(k["see"])}</span>' + ('<span class="ln"><b>꼭 알아야 할 것 3가지</b> · ' + ' · '.join(f'{i}) {E(m["알것"][:48])}' for i, m in enumerate([x for x in k.get('must_know', []) if x.get('근거') != '일반'][:3], 1)) + '</span>' if k.get('must_know') else '') + '</div>' for k in ks)
     return [page('kits', f'키트 — {S["name"]}', '5~10분에 하나씩 따라 해 보는 작은 하네스 모음', f'<div class="page"><span class="lb">키트</span><h1>키트</h1><p>하나만 켜 보고, 두세 개 해 본 뒤 섞어 봅니다. 아래 입력 문장을 Claude Code 에 그대로 붙여 넣으세요. 섞는 법: <code>python mix.py 키트1 키트2</code></p>{li}</div>')]
 
 
