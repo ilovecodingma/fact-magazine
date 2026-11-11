@@ -1,0 +1,70 @@
+{
+  "id": "2026-11-11-export",
+  "date": "2026-11-11",
+  "title": "11월 1~10일 수출 335억 달러, 작년보다 111.9% 늘었다",
+  "question": "11월 1~10일 수출은 얼마이고 작년보다 얼마나 늘었나?",
+  "verdict": "확인됨",
+  "summary": "관세청이 11일 낸 잠정치에 수출 335억 달러, 전년 같은 기간보다 111.9% 증가로 적혀 있다. 여러 매체 제목의 숫자와 같다. 조업일수 차이를 고려한 일평균 수출액 증가율 97.7%도 자료에 있다.",
+  "facts": [
+    {
+      "text": "11월 1~10일 수출은 335억 달러로 전년 같은 기간보다 111.9% 늘었다.",
+      "source": "관세청 「2026년 11월 1일 ~ 11월 10일 수출입 현황 [잠정치]」",
+      "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156788682"
+    },
+    {
+      "text": "같은 기간 수입은 247억 달러로 45.0% 늘었고, 무역수지는 88억 달러 흑자다.",
+      "source": "관세청 같은 자료",
+      "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156788682"
+    },
+    {
+      "text": "조업일수는 작년 7.0일, 올해 7.5일이며 일평균 수출액은 22.6억 달러에서 44.6억 달러로 97.7% 늘었다.",
+      "source": "관세청 같은 자료",
+      "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156788682"
+    },
+    {
+      "text": "반도체 수출은 166억 달러로 같은 기간 기준 역대 최대다.",
+      "source": "관세청 같은 자료",
+      "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156788682"
+    },
+    {
+      "text": "올해 누적 수출액은 9,637억 달러다.",
+      "source": "관세청 같은 자료",
+      "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156788682"
+    }
+  ],
+  "differs": [
+    "한 매체는 제목에 반도체 비중 49.7%를, 다른 매체는 반도체 수출이 4배가 됐다고 적었다. 두 숫자는 다른 매체 제목에는 없다."
+  ],
+  "unconfirmed": [
+    "반도체 비중 49.7%와 반도체 수출 증가 배수는 보도자료 요약문에 없다. 첨부 통계표를 열어 보지 못했다.",
+    "이 숫자는 열흘치 통관 기준 잠정치다. 월간 확정치는 다음 달 초에 나온다."
+  ],
+  "reports": [
+    {
+      "source": "한겨레",
+      "title": "11월 1∼10일 수출 335억달러…‘연간 수출 1조달러’ 초읽기",
+      "url": "https://www.hani.co.kr/arti/economy/economy_general/1286739.html"
+    },
+    {
+      "source": "동아일보",
+      "title": "1~10일 수출 역대 최대 335억달러 111.9%↑…반도체 비중 49.7%",
+      "url": "https://www.donga.com/news/Economy/article/all/20261111/135004118/1"
+    },
+    {
+      "source": "한국경제",
+      "title": "[속보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
+      "url": "https://www.hankyung.com/article/2026111191897"
+    },
+    {
+      "source": "연합뉴스",
+      "title": "[1보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
+      "url": "https://www.yna.co.kr/view/AKR20261111035600002"
+    }
+  ],
+  "checked_at": "2026-11-11 10:11",
+  "tags": [
+    "수출",
+    "무역",
+    "관세청"
+  ]
+}
