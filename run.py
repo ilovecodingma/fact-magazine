@@ -1339,6 +1339,10 @@ def convert_cmd(rest):
     if not need_choice('변환', '바꿈'):
         return 1
     t0 = time.time(); d = prog_load(); L = local_load()
+    before_png = None
+    if SHOTS:
+        import selftest as T0
+        os.makedirs(SHOTS, exist_ok=True); before_png = os.path.join(SHOTS, f'변환_{kind.replace(" ", "")}_전.png'); T0.shoot_pages(build_tmp(cur_polish()), [''], [before_png], 1280, 860)
     d['convert_prev'] = {'parts': base, 'kind': L.get('kind'), 'kits_dir': L.get('kits_dir'), 'labels': L.get('labels'), 'name': L.get('name'), 'tagline': L.get('tagline')}; json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     allp = list(base); set_parts(allp, False); set_parts(E_['parts'], True); L = local_load()
     L['kind'] = E_['kind'] or ''; L['kits_dir'] = E_['kits_dir']; L['labels'] = E_['labels']
@@ -1352,6 +1356,17 @@ def convert_cmd(rest):
         L.pop('kits_dir', None)
     local_save(L); out, last, rcb = rebuild_local()
     shots_for(out, '변환_' + kind.replace(' ', ''))
+    if SHOTS and before_png and os.path.exists(before_png):
+        import selftest as T1, base64, tempfile
+        after_png = os.path.join(SHOTS, f'변환_{kind.replace(" ", "")}_후.png'); T1.shoot_pages(out, [''], [after_png], 1280, 860)
+        br = T1.find_browser(); res = os.path.join(SHOTS, f'변환_{kind.replace(" ", "")}_전후.png')
+        if br and os.path.exists(after_png):
+            h_ = '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#222;color:#fff;font:16px "Malgun Gothic",sans-serif}div{display:flex;gap:12px;padding:12px}figure{margin:0;flex:1}img{width:100%;display:block;border:2px solid #fff}figcaption{padding:6px 0;font-weight:700}</style><div>'
+            for cap, fp in (('바꾸기 전(바탕)', before_png), (f'바꾼 뒤 — {kind}', after_png)):
+                h_ += f'<figure><figcaption>{cap}</figcaption><img src="data:image/png;base64,{base64.b64encode(open(fp, "rb").read()).decode()}"></figure>'
+            hf = os.path.join(tempfile.mkdtemp(), 'c.html'); open(hf, 'w', encoding='utf-8').write(h_ + '</div>')
+            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=2600,1000', f'--screenshot={res}', 'file:///' + hf.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+            print('  전·후 나란히:', res, flush=True)
     print(f'\n[방금 일어난 일] 「{kind}」로 바꿨습니다({last}) — 걸린 시간 {time.time() - t0:.0f}초. 되돌리려면 python run.py 변환 되돌리기')
     if not nm_:
         print(f'[알림] 이름은 예시 이름 「{L["name"]}」 그대로입니다. 독자에게 새 이름·소개를 받아 python run.py 변환 {kind} --적용 --이름 "…" --소개 "…" 로 다시 적용하거나 내서비스 칸에 정리하세요.')

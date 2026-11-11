@@ -203,7 +203,7 @@ def page(path, title, desc, body, noindex=False):
     MASTR = _pl.mast_extra(sys.modules[__name__]) if POLISH.get(3) else ''
     doc = f"""<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{canon_tag}{robots}
-{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{_pl.head(POLISH)}{PREF_HEAD}</head><body class="th-{THEME} {_pl.body_class(POLISH)}" style="--ac:{E(ACCENT)}">
+{rss_tag}<link rel="stylesheet" href="{BASE}style.css">{PWA_HEAD}{_pl.head(POLISH)}<script>if(/[?&]embed=1/.test(location.search))document.documentElement.className+=" embed"</script>{PREF_HEAD}</head><body class="th-{THEME} {_pl.body_class(POLISH)}" style="--ac:{E(ACCENT)}">
 <header class="mast"><div class="wrap"><div class="dateline">{today_ko()} · {E(S['tagline'])}</div>
 {LOGO}{MASTR}</div></header>
 {NAVBLOCK}
