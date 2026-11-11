@@ -18,6 +18,26 @@ except Exception:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ARGS = sys.argv[1:]
+SHOTS = os.path.abspath(ARGS[ARGS.index('--shots') + 1]) if '--shots' in ARGS and len(ARGS) > ARGS.index('--shots') + 1 else None   # 단계마다 그 시점의 화면을 이 폴더에 저장
+
+
+def take_shot(pg, prefix, i, line):
+    """--shots 폴더에 <앞이름>_<번호>_<단계 한 줄>.png 로 지금 화면을 저장한다(창이 없어도 됨)."""
+    if not SHOTS:
+        return
+    try:
+        os.makedirs(SHOTS, exist_ok=True)
+        safe = lambda t: re.sub(r'[\\/:*?"<>|\s]+', '_', t).strip('_')[:40]
+        r = pg.call('Page.captureScreenshot', format='png')
+        open(os.path.join(SHOTS, f'{safe(prefix)}_{i:02d}_{safe(line)}.png'), 'wb').write(base64.b64decode(r['data']))
+    except Exception as e:
+        print('  (화면 저장 실패:', repr(e)[:60], ')')
+
+
+def pos_args():
+    """보이는 창 모드에서 창 위치: 환경 변수 SELFTEST_POS=2000,100"""
+    v = os.environ.get('SELFTEST_POS', '').strip()
+    return [f'--window-position={v}'] if re.fullmatch(r'-?\d+,-?\d+', v) else []
 ALIAS = {'계산기': 'calc', '용어': 'glossary', '용어사전': 'glossary', '퀴즈': 'quiz', '검색': 'search', '상태': 'status', '게임': 'games', '일정': 'schedule', '질문': 'faq', '링크': 'links', '표비교': 'compare', '표 비교': 'compare',
          '사진첩': 'gallery', '가계부': 'ledger', '설문': 'survey', '디데이': 'dday', '타임라인': 'timeline', '위키': 'wiki', '전자책': 'ebook', '잡지': 'issue', '태그': 'tags', '보기설정': 'prefs', '앱': 'pwa'}
 
@@ -169,7 +189,7 @@ def run_kit(kit, headless, slow):
         print('  (화면이 없는 환경이거나 --headless 라서 창을 띄우지 않고 같은 단계를 돕니다)')
     dp = free_port(9400)
     prof = tempfile.mkdtemp(prefix='stprof_')
-    args = [br, f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--no-default-browser-check', '--window-size=1100,900', '--disable-gpu', 'about:blank']
+    args = [br, f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--no-default-browser-check', '--window-size=1100,900', '--disable-gpu'] + pos_args() + ['about:blank']
     if not vis:
         args.insert(1, '--headless=new')
     proc = subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -227,6 +247,7 @@ def run_kit(kit, headless, slow):
                 good = False; res = '오류: ' + repr(e)[:80]
             passed += 1 if good else 0
             print(f'  {"✓" if good else "✗"} {i}. {say[:60]}  → {res}')
+            take_shot(pg, name, i, say or res)
             time.sleep(slow * 0.4)
         try:
             shot = os.path.join(HERE, 'selftest_shots'); os.makedirs(shot, exist_ok=True)
@@ -255,7 +276,7 @@ def tour(directory, title, headless, slow):
     if not vis:
         print('  (창을 띄우지 않고 같은 단계를 돕니다)')
     dp = free_port(9400); prof = tempfile.mkdtemp(prefix='stprof_')
-    args = [br, f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--no-default-browser-check', '--window-size=1100,900', '--disable-gpu', 'about:blank']
+    args = [br, f'--remote-debugging-port={dp}', f'--user-data-dir={prof}', '--no-first-run', '--no-default-browser-check', '--window-size=1100,900', '--disable-gpu'] + pos_args() + ['about:blank']
     if not vis:
         args.insert(1, '--headless=new')
     proc = subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -283,6 +304,7 @@ def tour(directory, title, headless, slow):
             good = bool(h1.strip()) and '찾는 쪽이 없습니다' not in h1
             passed += 1 if good else 0
             print(f'  {"✓" if good else "✗"} {i}. 메뉴 「{label}」 → {re.sub(chr(10), " ", h1)[:50] or "(제목 없음)"}')
+            take_shot(pg, title, i, '메뉴_' + label)
         if vis:
             time.sleep(1.2)
     finally:
@@ -303,7 +325,7 @@ def main():
         return 0 if r[0] == r[1] else 1
     headless = '--headless' in ARGS
     slow = float(ARGS[ARGS.index('--slow') + 1]) if '--slow' in ARGS else 0.8
-    names = [a for i, a in enumerate(ARGS) if not a.startswith('--') and (i == 0 or ARGS[i - 1] != '--slow')]
+    names = [a for i, a in enumerate(ARGS) if not a.startswith('--') and (i == 0 or ARGS[i - 1] not in ('--slow', '--shots'))]
     if '--all' in ARGS:
         names = [json.load(open(p, encoding='utf-8'))['name'] for p in sorted(glob.glob(os.path.join(HERE, 'kits', '*', 'kit.json'))) if json.load(open(p, encoding='utf-8')).get('selftest')]
     if not names:

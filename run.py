@@ -11,7 +11,7 @@
       python run.py 올리기전                  구문 검사 + 장·키트·조립·사이클 명령을 한 번씩 실제로 돌려 보기(올리기 전 필수)
       python run.py 진도 [보기|기록 글]        어디까지 했는지
       python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
-옵션: --headless(창 없이) --slow 초(단계 간격)
+옵션: --headless(창 없이) --slow 초(단계 간격) --shots 폴더(단계마다 화면을 png 로 저장, 사이클은 단계 결과 쪽) · 보이는 창 위치는 환경변수 SELFTEST_POS=2000,100
 설명: 이 파일은 얇은 껍데기다 — 실제 일은 doctor.py·selftest.py·know.py·mix.py·demo.py·run_daily.py 가 한다. 올리기·메일 발송·로그인은 하지 않는다."""
 import glob, json, os, subprocess, sys, time
 try:
@@ -22,8 +22,9 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__))
 A = sys.argv[1:]
 PY = [sys.executable, '-X', 'utf8']
-FLAGS = [a for a in A if a in ('--headless',)] + (['--slow', A[A.index('--slow') + 1]] if '--slow' in A else [])
-POS = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] != '--slow')]
+FLAGS = [a for a in A if a in ('--headless',)] + (['--slow', A[A.index('--slow') + 1]] if '--slow' in A else []) + (['--shots', os.path.abspath(A[A.index('--shots') + 1])] if '--shots' in A and len(A) > A.index('--shots') + 1 else [])
+POS = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] not in ('--slow', '--shots'))]
+SHOTS = os.path.abspath(A[A.index('--shots') + 1]) if '--shots' in A and len(A) > A.index('--shots') + 1 else None
 PROG = os.path.join(HERE, '진도.json')
 
 
@@ -45,6 +46,46 @@ def kits():
     for p in sorted(glob.glob(os.path.join(HERE, 'kits', '*', 'kit.json'))):
         k = json.load(open(p, encoding='utf-8')); out[k['name']] = k
     return out
+
+
+def cycle_shot(i, title, script):
+    """사이클 단계가 끝난 뒤 그 결과 쪽을 headless 로 찍는다: 1 첫 화면(docs)·호·새 노트, 2 promo_out 첫 글, 3 카드, 4 상태 쪽."""
+    import selftest as T, tempfile, shutil
+    sys.path.insert(0, HERE)
+    targets = {1: ['index.html', 'issue/index.html', 'notes'], 2: [], 3: [], 4: ['status/index.html']}
+    docs = os.path.join(HERE, 'docs')
+    pages = []
+    if i == 1:
+        pages = [p for p in ('index.html', 'issue/index.html') if os.path.exists(os.path.join(docs, p))]
+        nd = os.path.join(docs, 'notes')
+        if os.path.isdir(nd):
+            pages += ['notes/' + n + '/index.html' for n in sorted(os.listdir(nd))[:1] if os.path.exists(os.path.join(nd, n, 'index.html'))]
+    elif i == 4:
+        pages = [p for p in ('status/index.html',) if os.path.exists(os.path.join(docs, p))]
+    files = []
+    if i == 2:
+        d = os.path.join(HERE, 'promo_out'); files = [os.path.join(d, f) for f in sorted(os.listdir(d))[:1]] if os.path.isdir(d) else []
+    if i == 3:
+        d = os.path.join(HERE, 'cards'); files = [os.path.join(d, f) for f in sorted(os.listdir(d)) if f.endswith('.png')][:2] if os.path.isdir(d) else []
+    br = T.find_browser()
+    if not br:
+        print('  (브라우저가 없어 화면 저장을 건너뜁니다)'); return
+    os.makedirs(SHOTS, exist_ok=True)
+    srv, port = T.start_server(docs)
+    try:
+        for n, p in enumerate(pages, 1):
+            out = os.path.join(SHOTS, f'사이클_{i}_{n}_{p.replace("/", "_").replace(".html", "")}.png')
+            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', f'http://127.0.0.1:{port}/{p}'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+            print('  화면 저장:', out, flush=True)
+        for n, f in enumerate(files, 1):
+            if f.endswith('.png'):
+                shutil.copy(f, os.path.join(SHOTS, f'사이클_{i}_{n}_{os.path.basename(f)}')); print('  그림 저장:', os.path.basename(f), flush=True)
+            else:
+                out = os.path.join(SHOTS, f'사이클_{i}_{n}_{os.path.basename(f)}.png')
+                subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1100,900', f'--screenshot={out}', 'file:///' + f.replace(chr(92), '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+                print('  화면 저장:', out, flush=True)
+    finally:
+        srv.shutdown()
 
 
 def find_demo(word):
@@ -142,6 +183,8 @@ def main():
             print(f'\n[{i}/{len(steps)}] {t} — {time.strftime("%H:%M:%S")}  (결과는 {where})', flush=True)
             sh(a)
             sys.stdout.flush()
+            if SHOTS:
+                cycle_shot(i, t, a[0])
         print('\n올릴 묶음(만들어져 있는 것, 아직 올리지 않았습니다):', flush=True)
         for d, what in (('promo_out', '알림 문구·블로그 글'), ('cards', '공유용 카드 그림'), ('shorts', '쇼츠 영상'), ('넘김', '역할끼리 넘긴 파일')):
             p = os.path.join(HERE, d)
