@@ -82,7 +82,7 @@ def main():
         if not ok and not (name == '올리기: 푸시' and 'nothing to commit' in tail):   # 바뀐 것이 없어 커밋이 안 되는 것은 실패가 아님
             ok_all = False
             print(f'✖ {name} 에서 멈춥니다.'); break
-    line = f'{start:%Y-%m-%d %H:%M} 하루 한 바퀴 {"성공" if ok_all else "중단"} — ' + ', '.join(f'{n}{"✓" if o else "✗"}' for n, o, _ in done)
+    line = f'{start:%Y-%m-%d %H:%M} 일일 배치 {"성공" if ok_all else "중단"} — ' + ', '.join(f'{n}{"✓" if o else "✗"}' for n, o, _ in done)
     open(os.path.join(LOGS, 'daily.md'), 'a', encoding='utf-8').write('- ' + line + '\n')
     print(line)
     sys.exit(0 if ok_all else 1)
