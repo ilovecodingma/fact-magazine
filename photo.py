@@ -17,6 +17,7 @@ UA = {'User-Agent': 'fact-magazine-harness/1.0 (tutorial boilerplate)'}
 A = sys.argv[1:]
 
 
+FAIL = [0]
 BAD = ('naked', 'nude', 'nudity', 'lingerie', 'bikini', 'underwear', 'corpse', 'blood')
 
 
@@ -28,19 +29,34 @@ def search(q, square):
             return json.load(open(cache, encoding='utf-8'))
         except Exception:
             pass
-    out = []
-    for src in ('stocksnap', 'rawpixel', ''):
-        u = 'https://api.openverse.org/v1/images/?' + urllib.parse.urlencode({'q': q, 'license': 'cc0,pdm', 'page_size': 12, 'aspect_ratio': 'square,wide' if square else 'wide', 'category': 'photograph', **({'source': src} if src else {})})
-        try:
-            d = json.loads(urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=25).read().decode('utf-8'))
-        except Exception:
-            d = {}
+    out = []; err = [0]
+
+    def ask(query, **extra):
+        u = 'https://api.openverse.org/v1/images/?' + urllib.parse.urlencode({'q': query, 'license': 'cc0,pdm', 'page_size': 20, **extra})
+        d = None
+        for _ in range(2):   # 찾는 곳이 가끔 응답하지 않는다(504): 한 번 더 해 본다
+            try:
+                d = json.loads(urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=12).read().decode('utf-8')); break
+            except Exception:
+                err[0] += 1; time.sleep(1.5)
+        if d is None:
+            return
         for r in d.get('results', []):
             if r.get('url') and not r.get('mature') and not any(b in (r.get('title') or '').lower() for b in BAD) and not r['url'].lower().endswith(('.png', '.svg', '.gif')) and r['url'] not in [x['url'] for x in out]:
                 out.append(dict(url=r['url'], title=r.get('title') or '', source=r.get('source'), license=r.get('license'), page=r.get('foreign_landing_url') or '', by=r.get('creator') or ''))
-        if len(out) >= 6:
+    # 좁게 찾고, 없으면 조건을 하나씩 푼다: 모양(네모·가로) → 사진 갈래 → 낱말을 줄여서(끝 낱말, 첫 낱말)
+    words = q.split()
+    tries = [(q, dict(aspect_ratio='square,wide' if square else 'wide', category='photograph')), (q, dict(category='photograph')), (q, {})]
+    if len(words) > 1:
+        tries += [(' '.join(words[:2]), {}), (words[-1], dict(category='photograph')), (words[0], dict(category='photograph'))]
+    for query, extra in tries:
+        ask(query, **extra)
+        if len(out) >= 4:
             break
-        time.sleep(1)
+        time.sleep(0.6)
+    order = {'stocksnap': 0, 'rawpixel': 1}
+    out.sort(key=lambda r: order.get(r['source'], 2))   # 사진 모음 사이트 것을 앞으로(같은 곳 안에서는 찾은 차례 그대로)
+    FAIL[0] = err[0]
     if out:
         json.dump(out, open(cache, 'w', encoding='utf-8'), ensure_ascii=False)
     return out
@@ -52,7 +68,11 @@ def main():
     q = A[0]; square = '--square' in A; pick = int(A[A.index('--pick') + 1]) if '--pick' in A else 1
     R = search(q, square)
     if not R:
-        print(f'「{q}」로 찾은 사진이 없습니다. 더 흔한 낱말로 바꿔 보세요(예: "tumbler" → "cup").'); return 1
+        gone = ''
+        if len(A) > 1 and not A[1].startswith('--') and os.path.exists(A[1]):
+            os.remove(A[1]); gone = ' 그 자리에 있던 예전 사진은 치웠습니다(다른 상품의 사진이 남아 있지 않게).'
+        why = '사진 찾는 곳이 지금 응답하지 않습니다(잠시 뒤 같은 명령을 다시 — 하루 200번, 1분에 20번까지 찾을 수 있습니다).' if FAIL[0] else f'「{q}」로 찾은 사진이 없습니다. 더 흔한 낱말 하나로 바꿔 보세요(예: "camping cookware pot" → "pot").'
+        print(why + gone); return 1
     if '--list' in A or len(A) < 2 or A[1].startswith('--'):
         for i, r in enumerate(R, 1):
             print(f'{i}. [{r["source"]} {r["license"]}] {r["title"][:50]}  {r["url"]}')
