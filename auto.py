@@ -100,7 +100,7 @@ def taste_shop(t0, only):
         pass
     print('  이 서비스: 가게 — 주문을 세고, 보낼 것을 뽑고, 백업하고, 상품 하나를 알릴 준비를 합니다', flush=True)
     R = [step('들어온 것 세기(주문·상품평·재고)', ['data.py', '현황']), step('주문을 표로(넘김/주문표.csv)', ['data.py', '주문표']), step('오늘 보낼 것(넘김/오늘_보낼것.md — 입금 확인된 주문만)', ['data.py', '발송목록']),
-         step('자료 백업', ['data.py', '백업']), step(f'상품 하나를 알릴 글·문구·카드(「{nm}」)', ['shop.py', '홍보', str(pid)]), step('가게 스스로 시험(방문자·운영자 노릇 20단계)', ['shop/smoke.py'])]
+         step('자료 백업', ['data.py', '백업']), step(f'상품 하나를 알릴 글·문구·카드(「{nm}」)', ['shop.py', '홍보', str(pid)]), step('가게 스스로 시험(방문자·운영자 노릇)', ['shop/smoke.py'])]
     if not only:
         return R
     total = time.time() - t0; wait = cnt.get('입금 대기', 0); paid = cnt.get('입금 확인', 0)

@@ -9,8 +9,8 @@ HERE = os.path.dirname(os.path.abspath(__file__)); PORT = 8799; B = f'http://127
 REAL = os.path.join(HERE, 'api', 'modules.json')
 
 
-def call(meth, path, body=None, admin=False):
-    h = {'Content-Type': 'application/json', 'X-Device': 'smoke-1'}
+def call(meth, path, body=None, admin=False, dev='smoke-1'):
+    h = {'Content-Type': 'application/json', 'X-Device': dev}
     if admin:
         h['X-Admin-Key'] = 'smoke-key'
     r = urllib.request.Request(B + path, data=json.dumps(body).encode() if body is not None else None, headers=h, method=meth)
@@ -57,12 +57,24 @@ def main():
         call('POST', '/api/view', {'id': ps[0]['id']}); t('본 횟수로 순위가 섭니다', call('GET', '/api/rank')['products'][0]['id'] == ps[0]['id'])
         o = call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소', 'coupon': '첫주문'}); t('무통장 입금으로 주문이 들어가고 쿠폰이 먹습니다', o.get('ok') and o.get('discount') == 3000 and 'bank' in o, f'주문 {o.get("id")}번 {o.get("total")}원')
         t('주문 뒤 장바구니가 비워집니다', call('GET', '/api/cart')['count'] == 0)
+        import threading as _th
+        _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=1 where id=?', (ps[3]['id'],)); _c.commit(); _c.close()
+        for _d in ('smoke-a', 'smoke-b'):
+            call('POST', '/api/cart', {'id': ps[3]['id'], 'qty': 1}, dev=_d)
+        _res = {}
+        def _order(_d):
+            _res[_d] = call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소'}, dev=_d)
+        _ts = [_th.Thread(target=_order, args=(_d,)) for _d in ('smoke-a', 'smoke-b')]
+        [x.start() for x in _ts]; [x.join() for x in _ts]
+        _ok = [d for d, r in _res.items() if r.get('ok')]; _no = [r for r in _res.values() if r.get('_code') == 400]
+        t('하나 남은 상품에 두 사람이 동시에 주문하면 한 사람만 받고, 재고는 0 이 됩니다', len(_ok) == 1 and len(_no) == 1 and call('GET', f'/api/products/{ps[3]["id"]}')['product'].get('soldout') is True, (_no[0].get('error', '') if _no else '')[:40])
+        _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=99 where id=?', (ps[3]['id'],)); _c.commit(); _c.close()
         t('운영자 비밀번호 없이는 주문 목록을 못 봅니다', call('GET', '/api/admin/orders').get('_code') == 403)
         call('POST', '/api/admin/bank', {'bank': '시험은행', 'account': '000-00-0000', 'holder': '시험'}, admin=True)
         t('운영자가 넣은 입금 계좌는 주문한 사람에게만 보이고, 비밀번호 없이는 바꿀 수 없습니다', call('GET', '/api/orders').get('bank', {}).get('account') == '000-00-0000' and call('GET', '/api/bank').get('_code') == 404 and call('POST', '/api/admin/bank', {'bank': 'x', 'account': 'y', 'holder': 'z'}).get('_code') == 403)
         t('이미 정해진 운영자 비밀번호는 다시 정할 수 없습니다', call('POST', '/api/admin/setup', {'key': 'another-key-123'}).get('_code') == 400)
-        a = call('GET', '/api/admin/orders', admin=True); t('운영자는 입금 대기 주문을 봅니다', a.get('waiting') == 1 and a['orders'][0]['status'] == '입금 대기')
-        a = call('PUT', f'/api/admin/orders/{o["id"]}', {'status': '입금 확인'}, admin=True); t('운영자가 입금을 확인합니다', a['orders'][0]['status'] == '입금 확인')
+        a = call('GET', '/api/admin/orders', admin=True); t('운영자는 입금 대기 주문을 봅니다', a.get('waiting') == 2 and all(x['status'] == '입금 대기' for x in a['orders']))
+        a = call('PUT', f'/api/admin/orders/{o["id"]}', {'status': '입금 확인'}, admin=True); t('운영자가 입금을 확인합니다', next(x for x in a['orders'] if x['id'] == o['id'])['status'] == '입금 확인')
         rid = call('GET', '/api/admin/reviews', admin=True)['reviews'][0]['id']; call('PUT', f'/api/admin/reviews/{rid}', {'reply': '고맙습니다'}, admin=True)
         t('운영자가 올린 답글이 상품평 아래에 보이고, 비밀번호 없이는 답글을 달 수 없습니다', call('GET', f'/api/products/{ps[0]["id"]}/reviews')['reviews'][0].get('reply') == '고맙습니다' and call('PUT', f'/api/admin/reviews/{rid}', {'reply': 'x'}).get('_code') == 403)
         d = json.loads(keep); d['on'] = [x for x in d['on'] if x != 'reviews']; open(CONF, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=1)); time.sleep(0.05)

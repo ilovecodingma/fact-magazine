@@ -33,6 +33,11 @@ def place(c, req):
         cp = c.execute('select * from coupons where code=?', (code,)).fetchone()
         if cp and total >= cp['min_total']:
             disc = min(total, cp['amount'] if cp['kind'] == '원' else total * cp['amount'] // 100)
+    for i in items:   # 재고를 줄인다 — 남아 있을 때만 줄어드는 한 줄이라, 동시에 온 주문 가운데 먼저 온 것만 받는다(늦은 쪽은 여기서 거절되고 아무것도 바뀌지 않는다)
+        if c.execute('update products set stock = stock - ? where id = ? and stock >= ?', (i['qty'], i['id'], i['qty'])).rowcount == 0:
+            left = (c.execute('select stock from products where id=?', (i['id'],)).fetchone() or [0])[0]
+            c.rollback()
+            raise ValueError(f'「{i["name"]}」은(는) 지금 {max(left, 0)}개 남았습니다 — 수량을 줄이거나 장바구니에서 빼고 다시 주문해 주세요')
     payer = (str(b.get('payer', '')).strip() or b['name'])[:40]
     cur = c.execute('insert into orders(device,name,phone,address,memo,items,total,discount,coupon) values(?,?,?,?,?,?,?,?,?)', (d, b['name'][:40], b['phone'][:30], b['address'][:200], ('입금자 ' + payer + ' · ' + str(b.get('memo', '')))[:200], json.dumps(items, ensure_ascii=False), total - disc, disc, code if disc else ''))
     c.execute('delete from cart where device=?', (d,))
