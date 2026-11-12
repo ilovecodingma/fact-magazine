@@ -1,5 +1,5 @@
 // 본을 받아 보는 도구: 로그인 없는 새 브라우저(Edge·Chrome, 창 없이)로 주소를 열어 화면을 위에서 아래까지 찍고, 화면 요소의 자리·크기·글자·색을 잰다.
-// 사용: node refshot.js <주소> <받을 폴더> <이름> [가로=1440] [세로=900] [mobile]
+// 사용: node refshot.js <주소> <받을 폴더> <이름> [가로=1440] [세로=900] [mobile] [--steps 차례.json]
 // 결과: <폴더>/<이름>_1.png … (한 화면씩) · <폴더>/<이름>.json (잰 값). 남의 사이트 화면은 저장소에 넣지 않는다(내 PC 임시 폴더에만).
 const { spawn } = require('child_process'); const fs = require('fs'); const path = require('path');
 const [url, outdir0, name] = process.argv.slice(2, 5); const outdir = outdir0 ? path.resolve(outdir0) : outdir0; /* 받을 폴더는 어떻게 적어도 절대 경로로 바꿔 쓴다(상대 경로면 브라우저가 연결되지 않는다) */ const vw = +(process.argv[5] || 1440), vh = +(process.argv[6] || 900), mobile = process.argv[7] === 'mobile';
@@ -38,6 +38,24 @@ const MEASURE = `(() => {
   if (process.argv.includes('nojs')) await send('Emulation.setScriptExecutionDisabled', { value: true });   // 받아 둔 원문(file://)을 그릴 때: 화면의 스크립트가 주소를 보고 딴 쪽으로 바꾸지 않게
   await send('Page.navigate', { url }); await sleep(6000);
   const ev = async (expression) => (await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result?.value;
+  // --steps <파일.json>: 칸에 넣고 → 누르고 → 찍는 차례. 입력이 있어야 나오는 화면(주문 완료·운영자 화면)을 찍을 때 쓴다.
+  // 차례 한 칸: {"shot":"이름"} {"fill":"고르는 말","value":"넣을 값"} {"click":"고르는 말"} {"clickText":"단추 글자"} {"wait":1000} {"goto":"주소"} {"scroll":600}
+  const si = process.argv.indexOf('--steps');
+  if (si > 0) {
+    const steps = JSON.parse(fs.readFileSync(process.argv[si + 1], 'utf8')); const made = [];
+    for (const st of steps) {
+      if (st.goto) { await send('Page.navigate', { url: st.goto }); await sleep(st.wait || 3500); }
+      else if (st.fill) { await ev(`(() => { const el = document.querySelector(${JSON.stringify(st.fill)}); if (!el) return false; const set = Object.getOwnPropertyDescriptor(el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, 'value').set; set.call(el, ${JSON.stringify(String(st.value))}); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(250); }
+      else if (st.click) { await ev(`(() => { const el = document.querySelector(${JSON.stringify(st.click)}); if (el) el.click(); return !!el; })()`); await sleep(st.wait || 1500); }
+      else if (st.clickText) { await ev(`(() => { const el = [...document.querySelectorAll('button, a')].find((e) => e.textContent.trim() === ${JSON.stringify(st.clickText)}); if (el) el.click(); return !!el; })()`); await sleep(st.wait || 1500); }
+      else if (st.scroll !== undefined) { await ev(`scrollTo(0, ${+st.scroll})`); await sleep(500); }
+      else if (st.shot) { const shot = await send('Page.captureScreenshot', { format: 'png' }); const f = path.join(outdir, `${name}_${st.shot}.png`); fs.writeFileSync(f, Buffer.from(shot.data, 'base64')); made.push(path.basename(f)); }
+      else if (st.wait) { await sleep(st.wait); }
+    }
+    console.log(JSON.stringify({ url, shots: made }));
+    ws.close(); p.kill(); setTimeout(() => { try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) {} process.exit(0); }, 800);
+    return;
+  }
   // 끝까지 한 번 내려갔다 올라와 늦게 뜨는 그림을 불러 둔다
   const docH0 = await ev('document.documentElement.scrollHeight'); for (let y = 0; y < Math.min(docH0, 20000); y += vh) { await ev(`scrollTo(0, ${y})`); await sleep(350); } await ev('scrollTo(0,0)'); await sleep(600);
   const data = JSON.parse(await ev(MEASURE)); fs.writeFileSync(path.join(outdir, name + '.json'), JSON.stringify(data));
