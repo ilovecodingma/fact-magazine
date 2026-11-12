@@ -45,6 +45,47 @@ def step(name, args):
     return dict(name=name, ok=rc == 0, secs=time.time() - t, tail=tail, err=err)
 
 
+def post_promo(S):
+    """글 사이트의 하루 일: 가장 새 글 한 편으로 블로그용 글·알림 문구 세 길이·정사각 카드 그림을 promo_out/post_<글 이름>/ 에 만든다. 올리지 않는다."""
+    import base64, re
+    sys.path.insert(0, HERE)
+    import medium as MD
+    P = MD.load_posts()
+    if not P:
+        return dict(name='알릴 글·그림(가장 새 글로)', ok=None, secs=0, tail='건너뜀: posts/ 에 글이 없습니다', err='')
+    t = time.time(); p = P[0]; name = S.get('name') or '내 사이트'
+    pg = os.path.join(HERE, '진도.json'); dep = (json.load(open(pg, encoding='utf-8')).get('deploy') or {}) if os.path.exists(pg) else {}
+    url = dep.get('url', '') + f'/p/{p["slug"]}/' if dep.get('url') and (not dep.get('temp') or dep.get('expires', 0) > time.time()) else ''
+    link = url or '(주소 — python run.py 올려 로 받은 주소가 들어갑니다)'
+    body = re.sub(r'<[^>]+>', '', p['html']); first = ' '.join(x.strip() for x in body.split('\n') if x.strip())[:400]
+    out = os.path.join(HERE, 'promo_out', 'post_' + p['slug']); os.makedirs(out, exist_ok=True)
+    open(os.path.join(out, '블로그글.md'), 'w', encoding='utf-8').write(f'# {p["title"]}\n\n{p["sub"]}\n\n{first}…\n\n---\n전문 보기: {link}\n— {name}\n')
+    cut = lambda s, n: s if len(s) <= n else s[:n - 1] + '…'
+    open(os.path.join(out, '알림_짧게.txt'), 'w', encoding='utf-8').write(cut(p['title'], 40) + '\n')
+    open(os.path.join(out, '알림_보통.txt'), 'w', encoding='utf-8').write(cut(f'{p["title"]} — {p["sub"]}', 80) + (f'\n{url}' if url else '') + '\n')
+    open(os.path.join(out, '알림_길게.txt'), 'w', encoding='utf-8').write(cut(f'{p["title"]}\n{p["sub"]} {first}', 140) + f'\n{link}\n')
+    img = os.path.join(HERE, 'posts', '_cover', p['slug'] + '.jpg')
+    src = ('data:image/jpeg;base64,' + base64.b64encode(open(img, 'rb').read()).decode()) if os.path.exists(img) else ''
+    ac = S.get('accent') or '#242424'
+    card = os.path.join(out, 'card.html')
+    open(card, 'w', encoding='utf-8').write('<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:1080px;height:1080px;font-family:"Pretendard","Malgun Gothic",sans-serif;background:' + html.escape(ac) + '}'
+        'img{position:absolute;inset:0;width:1080px;height:1080px;object-fit:cover}.b{position:absolute;left:0;right:0;bottom:0;padding:64px;color:#fff;background:linear-gradient(180deg,transparent,rgba(0,0,0,.8))}'
+        '.s{font-size:32px;opacity:.9}.n{font-size:68px;font-weight:800;line-height:1.25;letter-spacing:-2px;margin:12px 0 16px}.d{font-size:32px;opacity:.92;line-height:1.4}</style>'
+        + (f'<img src="{src}">' if src else '') + f'<div class="b"><div class="s">{html.escape(name)}</div><div class="n">{html.escape(p["title"])}</div><div class="d">{html.escape(p["sub"])}</div></div>')
+    png = os.path.join(out, '카드.png'); made = False
+    try:
+        import selftest as T
+        br = T.find_browser()
+        if br:
+            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1080,1080', f'--screenshot={png}', 'file:///' + card.replace(os.sep, '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+            made = os.path.exists(png)
+    except Exception:
+        pass
+    tail = f'promo_out/post_{p["slug"]}/ — 블로그글.md · 알림 문구 셋' + (' · 카드.png' if made else '')
+    print(f'  ✓ 알릴 글·그림(가장 새 글 「{p["title"]}」으로) — {time.time() - t:.0f}초  {tail}', flush=True)
+    return dict(name=f'알릴 글·그림(가장 새 글 「{p["title"]}」으로)', ok=True, secs=time.time() - t, tail=tail, err='')
+
+
 def taste():
     if '--뒤' in A and len(A) > A.index('--뒤') + 1:   # 조금 뒤에 저절로: 떨어진 프로세스로 넘기고 바로 돌아온다
         mins = float(A[A.index('--뒤') + 1]); os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True)
@@ -54,9 +95,10 @@ def taste():
         print(f'{mins:g}분 뒤에 저절로 시작합니다. 이 창을 닫거나 자리를 비워도 됩니다.\n끝나면 넘김/자리비운동안.md 한 장이 생깁니다(돌아와서 「자리 비운 동안 뭐 했어?」 한 줄이면 세션이 읽어 줍니다).'); return 0
     if '--기다림' in A:
         time.sleep(int(A[A.index('--기다림') + 1]))
-    t0 = time.time(); S = site(); P = S.get('parts', {}); info = bool(P.get('info'))
+    t0 = time.time(); S = site(); P = S.get('parts', {}); info = bool(P.get('info')); writing = S.get('frame') == 'medium'
     print('━━ 자동 — 사람 없이 끝까지 ━━', flush=True)
-    R = [step('모으기·묶기·대조·화면(하루 한 바퀴)', ['run_daily.py'])]
+    print('  이 사이트: ' + ('글 사이트 — 뉴스를 모으지 않고, 가장 새 글로 알릴 것을 만듭니다' if writing else '켜진 부품: ' + ', '.join(k for k, v in P.items() if v)), flush=True)
+    R = [step('모으기·묶기·대조·화면(하루 한 바퀴)' if info else '화면 다시 찍기(하루 한 바퀴 — 뉴스 모으기·대조는 꺼져 있어 건너뜀)', ['run_daily.py'])]
     has_notes = bool(glob.glob(os.path.join(HERE, 'notes', '2*.json')))
     if info and has_notes:
         R.append(step('알릴 글(블로그 글·알림 문구 세 길이)', ['promo.py']))
@@ -71,13 +113,15 @@ def taste():
         else:
             R.append(dict(name='알릴 영상(세로 짧은 영상)', ok=None, secs=0, tail='건너뜀: 이 PC 에 ffmpeg 이 없습니다(있으면 저절로 만들어집니다)', err=''))
             print('  – 알릴 영상 — 건너뜀: ffmpeg 없음', flush=True)
+    elif writing:
+        R.append(post_promo(S))
     else:
-        print('  – 알릴 글·그림·영상 — 건너뜀: 이 사이트에는 소식 노트가 없습니다(글 사이트·게시판·장터·순위는 화면과 운영자 일만 돕니다)', flush=True)
+        print('  – 알릴 글·그림·영상 — 건너뜀: 이 사이트에는 소식 노트도 글도 없습니다', flush=True)
     if any(P.get(k) for k in ('board', 'market', 'trend')):
         R.append(step('운영자의 하루 일(들어온 것 읽기)', ['ops.py']))
-    R.append(step('점검(깨진 주소·빈 쪽)', ['audit.py']))
-    made = [('새로 찍은 쪽', new_files('docs', t0, ['**/index.html'])), ('블로그 글', new_files('promo_out', t0, ['*/블로그글.md'])), ('알림 문구', new_files('promo_out', t0, ['*/알림_*.txt'])),
-            ('카드 그림', new_files('cards', t0, ['*.png'])), ('영상', new_files('shorts', t0, ['*.mp4']))]
+    R.append(step('점검(깨진 주소·빈 페이지)', ['audit.py']))
+    made = [('새로 찍은 페이지', new_files('docs', t0, ['**/index.html'])), ('블로그 글', new_files('promo_out', t0, ['*/블로그글.md'])), ('알림 문구', new_files('promo_out', t0, ['*/알림_*.txt'])),
+            ('카드 그림', new_files('cards', t0, ['*.png']) + new_files('promo_out', t0, ['*/카드.png'])), ('영상', new_files('shorts', t0, ['*.mp4']))]
     total = time.time() - t0
     L = [f'# 자리 비운 동안 — {time.strftime("%Y-%m-%d %H:%M")}', '', f'사람 입력 없이 {total:.0f}초 동안 돌았다. 올리기·로그인·메일 발송은 하지 않았다.', '', '## 사람 없이 된 것']
     for r in R:
@@ -86,9 +130,17 @@ def taste():
     for what, fs in made:
         if fs:
             L.append(f'- {what} {len(fs)}개 — 예: `{os.path.relpath(fs[-1], HERE).replace(os.sep, "/")}`')
-    L += ['', '## 여기서 사람이 로그인하면 이어지는 것', '- 블로그에 올리기: `promo_out/<글>/블로그글.md` 를 로그인된 블로그 글쓰기 화면에(브라우저 확장이 있으면 세션이 채워 넣고 「발행」 앞에서 멈춘다)',
-          '- 영상 올리기: `shorts/<글>.mp4` 와 제목·설명 `shorts/<글>.txt` 를 로그인된 영상 채널에', '- 카드 올리기: `cards/<글>_sq.png` 를 로그인된 사진 채널에', '- 사이트 다시 올리기: 「올려」 한마디(이미 한 번 올린 사이트라면 세션이 한다)',
-          '- 방송: `python run.py 자동 방송` 의 화면을 방송 프로그램으로 잡아 로그인된 방송 채널로 송출']
+    pp = next((r['tail'].split(' ')[0] for r in R if r['name'].startswith('알릴 글·그림(가장 새 글') and r['ok']), '')   # 글 사이트면 promo_out/post_<글>/
+    L += ['', '## 여기서 사람이 로그인하면 이어지는 것']
+    if writing and pp:
+        L += [f'- 블로그에 올리기: `{pp}블로그글.md` 를 로그인된 블로그 글쓰기 화면에(브라우저 확장이 있으면 세션이 채워 넣고 「발행」 앞에서 멈춘다)',
+              f'- SNS 에 올리기: 알림 문구(`{pp}알림_*.txt`)와 카드(`{pp}카드.png`)를 로그인된 채널에']
+    elif writing:
+        L += ['- 블로그·SNS 에 올리기: 알릴 글이 없어 이번에는 없음']
+    else:
+        L += ['- 블로그에 올리기: `promo_out/<노트>/블로그글.md` 를 로그인된 블로그 글쓰기 화면에(브라우저 확장이 있으면 세션이 채워 넣고 「발행」 앞에서 멈춘다)',
+              '- 영상 올리기: `shorts/<노트>.mp4` 와 제목·설명 `shorts/<노트>.txt` 를 로그인된 영상 채널에', '- 카드 올리기: `cards/<노트>_sq.png` 를 로그인된 사진 채널에']
+    L += ['- 사이트 다시 올리기: 「올려」 한마디(이미 한 번 올린 사이트라면 세션이 한다)', '- 방송: `python run.py 자동 방송` 의 화면을 방송 프로그램으로 잡아 로그인된 방송 채널로 송출']
     bad = [r for r in R if r['ok'] is False]
     L += ['', '## 걸린 것'] + ([f'- {r["name"]}: {r["err"] or r["tail"]}' for r in bad] or ['- 없음'])
     os.makedirs(os.path.dirname(REPORT), exist_ok=True); open(REPORT, 'w', encoding='utf-8').write('\n'.join(L) + '\n')
@@ -114,14 +166,14 @@ document.getElementById("tk").textContent=D.map(function(x){return "■ "+x.titl
 setInterval(function(){var d=new Date();document.getElementById("clk").textContent=d.toLocaleTimeString("ko-KR")},500);
 function show(){i=(i+1)%D.length;var x=D[i];m.innerHTML='<div class="fade"><div class="k">'+(i+1)+" / "+D.length+(x.kind?"  ·  "+x.kind:"")+'</div><h1 class="t"></h1><div class="s"></div></div>';
 m.querySelector(".t").textContent=x.title;m.querySelector(".s").textContent=x.text;var done=false,next=function(){if(done)return;done=true;setTimeout(show,2500)};
-try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(x.title+". "+x.text);u.lang="ko-KR";u.onend=next;u.onerror=next;speechSynthesis.speak(u)}catch(e){}
+try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(x.title+". "+x.text);u.lang="ko-KR";u.onend=next;speechSynthesis.speak(u)}catch(e){}
 setTimeout(next,Math.max(9000,(x.title.length+x.text.length)*230))}
 show();document.body.onclick=function(){show()};</script></html>'''
 
 
 def onair():
     S = site(); items = []
-    for f in sorted(glob.glob(os.path.join(HERE, 'notes', '2*.json')), reverse=True)[:12]:
+    for f in ([] if S.get('frame') == 'medium' else sorted(glob.glob(os.path.join(HERE, 'notes', '2*.json')), reverse=True)[:12]):   # 글 사이트는 자기 글만
         try:
             d = json.load(open(f, encoding='utf-8')); items.append(dict(title=d.get('title', ''), text=d.get('summary', ''), kind=d.get('verdict', '')))
         except Exception:

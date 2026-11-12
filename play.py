@@ -262,7 +262,10 @@ def mirror_cmd(R, rest):
     if m.get('shop'):
         return R.sh(['shop.py', '켜기'] + [a for a in R.A[2:]]) or (R.prog_add('본 가게') or status_cmd(R))
     if 'polish' in m:
-        L = R.local_load(); L['polish'] = dict(m['polish']); L['frame'] = m.get('frame', ''); R.local_save(L)
+        L = R.local_load(); L['polish'] = dict(m['polish']); L['frame'] = m.get('frame', '')
+        if m.get('frame') == 'medium':   # 글 사이트: 뉴스 모으기·확인 노트·잡지·게임·노트 영상은 끄고 글(posts/)만
+            L['parts'] = dict(L.get('parts') or {}, info=False, issue=False, games=False, shorts=False, posts=True)
+        R.local_save(L)
         out, last, rc = R.rebuild_local()
     else:
         R.record_choice('변환', '바꿈', f'본 {key} 로 시작')
