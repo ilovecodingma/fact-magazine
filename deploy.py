@@ -24,7 +24,8 @@ def _slug():
     return s or 'my-site'
 
 
-ROOT = os.path.join(HERE, 'dist_deploy'); DIST = os.path.join(ROOT, _slug()); PROG = os.path.join(HERE, '진도.json')
+import hashlib as _h, tempfile as _t
+ROOT = os.path.join(_t.gettempdir(), 'site_deploy_' + _h.md5(HERE.encode('utf-8')).hexdigest()[:8]); DIST = os.path.join(ROOT, _slug()); PROG = os.path.join(HERE, '진도.json')
 A = sys.argv[1:]
 
 
@@ -65,11 +66,17 @@ def main():
     if not shutil.which('node'):
         print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 가 점검하고 깝니다. 깐 뒤 다시 「올려」.'); return 1
     t0 = time.time()
-    shutil.rmtree(ROOT, ignore_errors=True); os.makedirs(ROOT, exist_ok=True)
+    keep = os.path.join(ROOT, '_vercel_' + _slug())   # 어느 프로젝트로 올렸는지 적힌 폴더(.vercel)는 남겨서 같은 주소로 다시 올라가게 한다
+    if os.path.isdir(os.path.join(DIST, '.vercel')):
+        shutil.rmtree(keep, ignore_errors=True); shutil.move(os.path.join(DIST, '.vercel'), keep)
+    shutil.rmtree(DIST, ignore_errors=True); os.makedirs(ROOT, exist_ok=True)
+    shutil.rmtree(os.path.join(HERE, 'dist_deploy'), ignore_errors=True)   # 예전 판이 저장소 안에 남긴 사본
     r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
     if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
         print('✗ 사이트를 찍지 못했습니다:', (r.stderr or r.stdout)[-300:]); return 1
     print('찍었습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
+    if os.path.isdir(keep):
+        shutil.rmtree(os.path.join(DIST, '.vercel'), ignore_errors=True); shutil.move(keep, os.path.join(DIST, '.vercel'))
     for root, _, fs in os.walk(DIST):   # 빈 파일이 하나라도 있으면 로그인 없는 올리기가 거절된다(크기 0) — 한 글자를 넣어 둔다
         for f in fs:
             fp = os.path.join(root, f)
