@@ -31,7 +31,9 @@
       python run.py 데이터 현황|백업|목록|복구 [파일] --예|주문표|발송목록   운영 자료를 한 장으로 보고, 통째로 백업·복구, 주문을 표로
       python run.py 메일 [--send] [--to 주소]   소식 메일 미리보기(기본) · 사람이 「보내」 한 뒤에만 --send
       python run.py 운영기록 받기|목록|찾기 <낱말>   저자 팀의 한 달 운영 기록(가린 판)을 받아 참고/운영기록/ 에 놓고 찾기 — 분석은 세션이(참고/운영기록_읽는법.md)
-      python run.py 토큰 [끄기]                학습 사이트(sungprofile.cloud/park/start/)에 넣을 토큰을 받는다 — 받아 두면 관문이 열릴 때 진도(단계 이름)만 알림. 선택
+      python run.py 사례 받기|찾기 <낱말>|묶음 [key]|막힘|보기 <id>   지금 상황과 비슷한 저자 팀의 실제 사례(55건) — 참고/이야기방_읽는법.md
+      python run.py 이야기방 [올리기 <글 파일> [--사례 id] [--예] | 답 <글 id> <글 파일> [--예]]   수업 사이트의 이야기방 읽기 · 독자가 「올려」 한 글만 올리기
+      python run.py 토큰 [끄기]                수업 사이트(sungprofile.cloud/park/) 이야기방에 글을 올릴 때 쓰는 열쇠(토큰)를 받는다. 받아 두기만 해서는 아무것도 보내지 않는다. 선택
       python run.py 올려 가게                  켜져 있는 가게(화면+백엔드)에 바깥 주소를 붙인다 — 로그인 없이, 이 PC 가 켜져 있는 동안 열림(닫기: 가게 공유 끄기)
       python run.py 올려 [상태]                지금 사이트를 찍어 남에게 보여 줄 주소를 받는다(Vercel — 로그인 없이도 60분짜리 임시 주소가 바로 나오고, 로그인돼 있으면 사라지지 않는 주소)
       python run.py 가게 품절 <번호|이름> [풀기] · 가게 홍보 <번호|이름>   품절이면 화면에 표시되고 담기지 않음 · 상품 하나로 홍보 글·문구·카드 그림(올리지 않음)
@@ -1748,6 +1750,10 @@ def main():
         if rc == 0 and cmd != '기능' and rest:
             prog_add(f'바꿈: 기능 {rest[0]} {"붙임" if cmd == "붙여" else "뗌"}')
         return rc
+    if cmd in ('사례', 'cases'):
+        return sh(['cases.py'] + A[1:])
+    if cmd in ('이야기방', 'talk'):
+        return sh(['cases.py', '--이야기방'] + A[1:])
     if cmd in ('운영기록', 'archive'):
         return sh(['archive.py'] + A[1:])
     if cmd in ('토큰', 'token'):

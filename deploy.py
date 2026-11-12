@@ -141,6 +141,10 @@ def main():
         c = re.search(r'https://vercel\.com/claim-deployment\?code=[0-9a-f-]+', out); claim = c.group(0) if c else ''
         e = re.search(r'"expiresAt":\s*(\d+)', out); exp = int(e.group(1)) / 1000 if e else time.time() + 3600
     if not url:
+        try:
+            import cases; cases.mark('deploy.fail')
+        except Exception:
+            pass
         print('✗ 주소를 받지 못했습니다. 나온 말의 끝:\n' + out.strip()[-500:]); return 1
     if logged and not known:   # 사라지지 않는 주소를 방금 처음 알았다: 주소 목록 파일을 만들어 한 번 더 올린다(다음부터는 한 번에)
         n = sitemap(url)

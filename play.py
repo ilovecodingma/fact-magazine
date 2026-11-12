@@ -89,6 +89,13 @@ def undo_cmd(R, rest):
 PENDING = os.path.join(KEEP, '_바꾸는중.json')
 
 
+def _mark(code):
+    try:
+        import cases; cases.mark(code)
+    except Exception:
+        pass
+
+
 def _shop_alive():
     import urllib.request
     try:
@@ -217,6 +224,7 @@ def changed_cmd(R, rest):
         print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 수정 전으로 돌아갑니다.'); return 1
     out, last, rc = R.rebuild_local()
     if rc != 0:
+        _mark('build.fail')
         print('✗ 확인에서 걸렸습니다(사이트 찍기). 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 돌아갑니다.'); return 1
     want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 시킨 것이 화면에 나타났는가: 찍힌 사이트에서 이 글자들을 찾는다
     rest = [x for x in rest if x not in want]
@@ -234,6 +242,8 @@ def changed_cmd(R, rest):
             R.side_by_side(p['before_shop'], after_shop, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'), '수정 전', '수정 뒤')
             print('  가게 화면 전·후: ' + os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'))
     miss = [w for w in want if not seen[w]]
+    if miss:
+        _mark('verify.miss')
     secs = time.time() - p['t0']
     if not miss:
         os.remove(PENDING)   # 안 보이는 것이 있으면 접지 않는다: 고쳐서 다시 바꿨다 를 부르면 같은 기준과 견준다
@@ -252,6 +262,8 @@ def changed_cmd(R, rest):
         import subprocess, sys as _sys
         r = subprocess.run([_sys.executable, '-X', 'utf8', os.path.join(HERE, 'shop', 'smoke.py')], capture_output=True, text=True, encoding='utf-8', errors='replace')
         tail = next((x.strip() for x in reversed((r.stdout or '').splitlines()) if '단계 가운데' in x), '시험을 돌리지 못했습니다')
+        if r.returncode != 0:
+            _mark('smoke.fail')
         print(('✓' if r.returncode == 0 else '✗') + ' 가게 자동 확인: ' + tail.lstrip('→ ') + ('' if r.returncode == 0 else ' — 걸린 단계: ' + '; '.join(x.strip() for x in (r.stdout or '').splitlines() if '✗' in x)[:200]))
     print((f'✓ 자동 확인: 템플릿 파일 구문 통과' if shop_only else f'✓ 자동 확인: 템플릿 파일 구문 통과 · 사이트 찍기 통과({last})') + '\n마음에 안 들면 python run.py 되돌리기 한 줄로 수정 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
     if miss:
