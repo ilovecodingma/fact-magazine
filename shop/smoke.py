@@ -43,7 +43,8 @@ def main():
         ps = call('GET', '/api/products')['products']; t('상품 목록이 나옵니다', len(ps) > 0, f'{len(ps)}개')
         t('분류로 거릅니다', all(x['cat'] == ps[0]['cat'] for x in call('GET', '/api/products?cat=' + urllib.request.quote(ps[0]['cat']))['products']))
         t('이름으로 찾습니다', len(call('GET', '/api/products?q=' + urllib.request.quote(ps[0]['name'][:3]))['products']) >= 1)
-        c = call('POST', '/api/cart', {'id': ps[0]['id'], 'qty': 2}); t('장바구니에 담깁니다', c.get('count') == 2, f'{c.get("total")}원')
+        q0 = min(99, max(2, -(-20000 // max(1, ps[0]['price']))))   # 쿠폰이 먹는 값(2만 원)을 넘게 담는다: 상품 값이 얼마든 같은 시험이 되게
+        c = call('POST', '/api/cart', {'id': ps[0]['id'], 'qty': q0}); t('장바구니에 담깁니다', c.get('count') == q0, f'{c.get("total")}원')
         call('POST', '/api/wish', {'id': ps[1]['id']}); t('찜이 됩니다', ps[1]['id'] in call('GET', '/api/wish')['ids'])
         r = call('POST', f'/api/products/{ps[0]["id"]}/reviews', {'stars': 4, 'body': '잘 받았습니다'}); t('상품평이 달립니다', len(r.get('reviews', [])) == 1)
         import sqlite3 as _sq
