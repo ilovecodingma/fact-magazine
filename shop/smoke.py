@@ -49,6 +49,10 @@ def main():
         r = call('POST', f'/api/products/{ps[0]["id"]}/reviews', {'stars': 4, 'body': '잘 받았습니다'}); t('상품평이 달립니다', len(r.get('reviews', [])) == 1)
         import sqlite3 as _sq
         _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=0 where id=?', (ps[2]['id'],)); _c.commit(); _c.close()
+        _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=99 where id=?', (ps[2]['id'],)); _c.commit(); _c.close(); call('POST', '/api/cart', {'id': ps[2]['id'], 'qty': 1})
+        _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=0 where id=?', (ps[2]['id'],)); _c.commit(); _c.close()
+        t('담아 둔 뒤에 품절된 상품이 있으면 주문이 거절됩니다', call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소'}).get('_code') == 400)
+        call('DELETE', f'/api/cart/{ps[2]["id"]}')
         t('품절된 상품은 「품절」로 나오고 장바구니에 담기지 않습니다', call('GET', f'/api/products/{ps[2]["id"]}')['product'].get('soldout') is True and call('POST', '/api/cart', {'id': ps[2]['id'], 'qty': 1}).get('_code') == 400)
         call('POST', '/api/view', {'id': ps[0]['id']}); t('본 횟수로 순위가 섭니다', call('GET', '/api/rank')['products'][0]['id'] == ps[0]['id'])
         o = call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소', 'coupon': '첫주문'}); t('무통장 입금으로 주문이 들어가고 쿠폰이 먹습니다', o.get('ok') and o.get('discount') == 3000 and 'bank' in o, f'주문 {o.get("id")}번 {o.get("total")}원')

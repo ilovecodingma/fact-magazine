@@ -196,7 +196,13 @@ def changed_cmd(R, rest):
         print(f'{"✓" if not miss else "✗"} 시킨 것이 화면에 나타났는가: {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
     else:
         print('– 시킨 것이 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
-    print(f'✓ 자동 확인: 템플릿 파일 구문 통과 · 사이트 찍기 통과({last})\n마음에 안 들면 python run.py 되돌리기 한 줄로 수정 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
+    shop_only = bool(files) and all(f.startswith('shop/') for f in files)
+    if any(f.startswith('shop/') for f in files):   # 가게를 고쳤으면 가게를 확인한다(임시 가게로 방문자·운영자 노릇)
+        import subprocess, sys as _sys
+        r = subprocess.run([_sys.executable, '-X', 'utf8', os.path.join(HERE, 'shop', 'smoke.py')], capture_output=True, text=True, encoding='utf-8', errors='replace')
+        tail = next((x.strip() for x in reversed((r.stdout or '').splitlines()) if '단계 가운데' in x), '시험을 돌리지 못했습니다')
+        print(('✓' if r.returncode == 0 else '✗') + ' 가게 자동 확인: ' + tail.lstrip('→ ') + ('' if r.returncode == 0 else ' — 걸린 단계: ' + '; '.join(x.strip() for x in (r.stdout or '').splitlines() if '✗' in x)[:200]))
+    print((f'✓ 자동 확인: 템플릿 파일 구문 통과' if shop_only else f'✓ 자동 확인: 템플릿 파일 구문 통과 · 사이트 찍기 통과({last})') + '\n마음에 안 들면 python run.py 되돌리기 한 줄로 수정 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
     if miss:
         print('아직 끝나지 않았습니다 — 수정 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
     R.prog_add('바꿈: ' + did); status_cmd(R); return 0

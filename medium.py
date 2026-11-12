@@ -217,6 +217,9 @@ def photo(p):
             b = r.read()
             if len(b) > 5000:
                 open(fp, 'wb').write(b)
+                log = os.path.join(COVERS, '_사진출처.json'); L = json.load(open(log, encoding='utf-8')) if os.path.exists(log) else {}
+                L[p['slug'] + '.jpg'] = dict(q='(낱말 없이 저절로 고른 사진)', title='', source='Lorem Picsum (picsum.photos) — Unsplash 의 무료 사진', license='Unsplash License', page=f'https://picsum.photos/seed/{seed}/1306/654', by='')
+                json.dump(L, open(log, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         except Exception:
             pass
     if not os.path.exists(fp):

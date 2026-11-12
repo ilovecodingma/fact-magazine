@@ -22,9 +22,12 @@ def place(c, req):
     for k, label in (('name', '받는 분을'), ('phone', '연락처를'), ('address', '주소를')):
         if not str(b.get(k, '')).strip():
             raise ValueError(label + ' 적어 주세요')
-    items = [dict(r) for r in c.execute('select p.id, p.name, p.price, k.qty from cart k join products p on p.id=k.pid where k.device=?', (d,))]
+    items = [dict(r) for r in c.execute('select p.id, p.name, p.price, k.qty, p.stock from cart k join products p on p.id=k.pid where k.device=?', (d,))]
     if not items:
         raise ValueError('장바구니가 비어 있습니다')
+    out = [i['name'] for i in items if (i.pop('stock') or 0) <= 0]
+    if out:
+        raise ValueError('품절된 상품이 담겨 있습니다: ' + ', '.join(out) + ' — 장바구니에서 빼고 다시 주문해 주세요')
     total = sum(i['price'] * i['qty'] for i in items); disc = 0; code = str(b.get('coupon', '')).strip()
     if code and c.execute("select name from sqlite_master where name='coupons'").fetchone():
         cp = c.execute('select * from coupons where code=?', (code,)).fetchone()
