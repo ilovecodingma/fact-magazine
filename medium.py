@@ -4,7 +4,7 @@
 옮기지 않은 것: 미디엄의 이름·글자 로고·그림·글. 글꼴 sohne 은 값을 치르는 글꼴이라 가까운 고딕으로, 본문 명조는 source-serif 계열로 맞췄다.
 글 파일 머리(선택, 제목 줄 바로 아래): 「부제: …」「그림: 주소 | 그림 설명」「태그: 가, 나」「날짜: 2026-11-12」「글쓴이: …」
 사용: python medium.py   (OUT_DIR 환경변수가 없으면 site_local/)"""
-import hashlib, html, json, os, re, sys, time
+import hashlib, html, json, os, re, shutil, sys, time, urllib.request
 try:
     sys.stdout.reconfigure(encoding='utf-8')
 except Exception:
@@ -26,7 +26,7 @@ def site():
 
 CSS = r"""/* 미디엄을 잰 값(2026-11-12). 괄호 안이 원본의 값 */
 :root{--ink:#242424;--mu:#6b6b6b;--hair:#f2f2f2;--bg:#fff;--fill:#f9f9f9;--ac:#1a8917;
- --sans:"Helvetica Neue","Pretendard","Apple SD Gothic Neo","Malgun Gothic",Helvetica,Arial,sans-serif;
+ --sans:"Pretendard","Helvetica Neue","Apple SD Gothic Neo","Malgun Gothic",Helvetica,Arial,sans-serif;
  --serif:"Source Serif 4","Source Serif Pro","Noto Serif KR","Nanum Myeongjo","Batang",Georgia,serif}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
@@ -184,7 +184,7 @@ def md(text):
 def load_posts():
     P = []; pdir = os.path.join(HERE, 'posts')
     for f in sorted(os.listdir(pdir)) if os.path.isdir(pdir) else []:
-        if not f.endswith('.md'):
+        if not f.endswith('.md') or f.startswith('_'):
             continue
         fp = os.path.join(pdir, f); L = open(fp, encoding='utf-8').read().splitlines()
         title = next((x[2:].strip() for x in L if x.startswith('# ')), f[:-3]); i = next((k for k, x in enumerate(L) if x.startswith('# ')), -1) + 1
@@ -203,7 +203,31 @@ def load_posts():
     return P
 
 
+COVERS = os.path.join(HERE, 'posts', '_cover')
+
+
+def photo(p):
+    """그림을 정하지 않은 글에 사진 한 장을 붙인다: 글마다 늘 같은 사진(이름으로 고름)을 한 번 받아 posts/_cover/ 에 두고, 찍을 때 사이트 안으로 복사한다.
+    사진은 Lorem Picsum(picsum.photos)이 내주는 Unsplash 의 무료 사진이다. 인터넷이 안 되면 색 띠로 남는다."""
+    fp = os.path.join(COVERS, p['slug'] + '.jpg')
+    if not os.path.exists(fp) and os.environ.get('NO_PHOTO') != '1':
+        try:
+            os.makedirs(COVERS, exist_ok=True); seed = hashlib.md5(p['slug'].encode()).hexdigest()[:10]
+            r = urllib.request.urlopen(urllib.request.Request(f'https://picsum.photos/seed/{seed}/1306/654', headers={'User-Agent': 'Mozilla/5.0'}), timeout=15)
+            b = r.read()
+            if len(b) > 5000:
+                open(fp, 'wb').write(b)
+        except Exception:
+            pass
+    if not os.path.exists(fp):
+        return ''
+    os.makedirs(os.path.join(OUT, 'cover'), exist_ok=True); shutil.copy2(fp, os.path.join(OUT, 'cover', p['slug'] + '.jpg'))
+    return BASE + 'cover/' + p['slug'] + '.jpg'
+
+
 def cover(p, cls='cover'):
+    if not p['img']:
+        p['img'] = photo(p)
     if p['img']:
         return f'<img class="{cls}" src="{E(p["img"])}" alt="" loading="lazy">'
     h = int(hashlib.md5(p['slug'].encode()).hexdigest()[:6], 16); a, b = h % 360, (h // 7) % 360
@@ -214,6 +238,7 @@ def shell(S, title, desc, body):
     name = S.get('name') or '내 사이트'; ac = S.get('accent')
     style = f'<style>:root{{--ac:{E(ac)}}}.pill,.who button{{background:{E(ac)};border-color:{E(ac)}}}.pub-logo,.by i,.who i{{background:{E(ac)}}}</style>' if ac else ''
     return (f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{E(title)}</title><meta name="description" content="{E(desc)}">'
+            f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">'
             f'<link rel="stylesheet" href="{BASE}m.css">{style}</head><body>'
             f'<header class="top"><a class="logo" href="{BASE}">{E(name)}</a><label class="find">{IC["find"]}<input placeholder="찾기" aria-label="찾기"></label><span class="sp"></span>'
             f'<a class="write" href="{BASE}">{IC["write"]}글쓰기</a><a class="pill" href="{BASE}">소식 받기</a><span class="me" aria-hidden="true"></span></header>'
@@ -250,6 +275,8 @@ def main():
         tags = f'<div class="tags">{"".join(f"<a>{E(t)}</a>" for t in p["tags"])}</div>' if p['tags'] else ''
         bar = (f'<div class="bar"><div class="l"><button aria-label="박수">{IC["clap"]}</button><button aria-label="응답">{IC["talk"]}</button></div>'
                f'<div class="r"><button aria-label="저장">{IC["save"]}</button><button aria-label="듣기">{IC["play"]}</button><button aria-label="공유">{IC["share"]}</button><button aria-label="더 보기">{IC["more"]}</button></div></div>')
+        if not p['img']:
+            p['img'] = photo(p)
         fig = f'<figure><img src="{E(p["img"])}" alt="">' + (f'<figcaption>{E(p["cap"])}</figcaption>' if p['cap'] else '') + '</figure>' if p['img'] else ''
         art = (f'<article class="post">{tags}<h1>{E(p["title"])}</h1>' + (f'<p class="sub">{E(p["sub"])}</p>' if p['has_sub'] else '')
                + f'<div class="by"><i>{E(by[:1])}</i><b style="font-weight:400">{E(by)}</b><button class="fo">따르기</button><span>읽는 데 {p["mins"]}분</span><span>·</span><span>{E(p["date"])}</span></div>{bar}<div class="body">{fig}{p["html"]}</div></article>')
