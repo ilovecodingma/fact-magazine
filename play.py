@@ -89,6 +89,42 @@ def undo_cmd(R, rest):
 PENDING = os.path.join(KEEP, '_바꾸는중.json')
 
 
+def _shop_alive():
+    import urllib.request
+    try:
+        urllib.request.urlopen('http://127.0.0.1:3000/', timeout=3); return True
+    except Exception:
+        return False
+
+
+def _shop_shot(dst=None):
+    """켜져 있는 가게 첫 화면을 창 없는 브라우저로 찍는다. 돌려주는 값 = 화면에 그려진 글자 + 상품 목록·가게 설정의 글자(찾기용)."""
+    import shutil, subprocess, tempfile, urllib.request
+    tmp = tempfile.mkdtemp(prefix='shopshot_'); text = ''
+    try:
+        subprocess.run(['node', os.path.join(HERE, 'refshot.js'), 'http://127.0.0.1:3000/', tmp, 's', '1280', '860'], cwd=HERE, capture_output=True, timeout=120, shell=(os.name == 'nt'))
+        jp = os.path.join(tmp, 's.json')
+        if os.path.exists(jp):
+            d = json.load(open(jp, encoding='utf-8')); text = (d.get('title') or '') + '\n' + '\n'.join(str(i.get('t') or '') for i in d.get('items', []))
+        first = os.path.join(tmp, 's_1.png')
+        if dst and os.path.exists(first):
+            os.makedirs(os.path.dirname(dst), exist_ok=True); shutil.copyfile(first, dst)
+    except Exception:
+        pass
+    for u in ('http://127.0.0.1:3000/api/products', 'http://127.0.0.1:3000/api/features'):
+        try:
+            text += '\n' + json.dumps(json.loads(urllib.request.urlopen(u, timeout=5).read().decode('utf-8')), ensure_ascii=False)
+        except Exception:
+            pass
+    for f in ('shop/web/site.json',):
+        try:
+            text += '\n' + open(os.path.join(HERE, f), encoding='utf-8').read()
+        except Exception:
+            pass
+    shutil.rmtree(tmp, ignore_errors=True)
+    return text
+
+
 def change_cmd(R, rest):
     what = ' '.join(rest).strip()
     if not what:
@@ -98,7 +134,10 @@ def change_cmd(R, rest):
     if R.SHOTS:
         import selftest as T
         os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'바꿔_{n}_전.png'); T.shoot_pages(R.build_tmp(R.cur_polish()), [''], [before], 1280, 860)
-    json.dump({'n': n, 'what': what, 'before': before, 't0': time.time()}, open(PENDING, 'w', encoding='utf-8'), ensure_ascii=False)
+    before_shop = None
+    if R.SHOTS and _shop_alive():
+        before_shop = os.path.join(R.SHOTS, f'바꿔_{n}_가게_전.png'); _shop_shot(before_shop)
+    json.dump({'n': n, 'what': what, 'before': before, 'before_shop': before_shop, 't0': time.time()}, open(PENDING, 'w', encoding='utf-8'), ensure_ascii=False)
     print(f'지금 상태를 백업했습니다({n}번) — 설정·글·자료·템플릿 파일 전부. 이제 「{what}」를 고칩니다.\n'
           '[어디든 고쳐도 됩니다] 이름·소개·색 → site.local.json / 글 → notes/·posts/ / 기능 자료 → kits/<기능>/data/ / 화면 템플릿·새 기능 → *.py·kits/·server/\n'
           '[수정 뒤] python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>" — 구문·찍기를 자동 확인하고, 깨졌으면 알려 줍니다(python run.py 되돌리기 한 줄로 돌아옴).'); return 0
@@ -182,8 +221,20 @@ def changed_cmd(R, rest):
     want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 시킨 것이 화면에 나타났는가: 찍힌 사이트에서 이 글자들을 찾는다
     rest = [x for x in rest if x not in want]
     did = ' '.join(rest).strip() or p['what']
-    seen = _seen(out, want); miss = [w for w in want if not seen[w]]
-    files = _changed(p['n']); secs = time.time() - p['t0']
+    seen = _seen(out, want); files = _changed(p['n'])
+    shop_touch = any(f.startswith('shop/') for f in files); shop_text = ''
+    if shop_touch and _shop_alive():   # 가게를 고쳤으면 켜져 있는 가게 화면에서도 찾는다(가게 화면은 정적 사이트에 들어 있지 않다)
+        time.sleep(2)   # 개발 서버가 변경을 다시 그릴 틈
+        after_shop = os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_후.png') if R.SHOTS else None
+        shop_text = _shop_shot(after_shop)
+        for w in want:
+            if not seen[w] and w in shop_text:
+                seen[w] = True
+        if after_shop and p.get('before_shop') and os.path.exists(p['before_shop']) and os.path.exists(after_shop):
+            R.side_by_side(p['before_shop'], after_shop, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'), '수정 전', '수정 뒤')
+            print('  가게 화면 전·후: ' + os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'))
+    miss = [w for w in want if not seen[w]]
+    secs = time.time() - p['t0']
     if not miss:
         os.remove(PENDING)   # 안 보이는 것이 있으면 접지 않는다: 고쳐서 다시 바꿨다 를 부르면 같은 기준과 견준다
     _flow(p['what'], did, files, '구문 ✓ · 찍기 ✓' + (f' · 화면에 나타남 {len(want) - len(miss)}/{len(want)}' if want else ''), secs)
