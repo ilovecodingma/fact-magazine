@@ -57,10 +57,14 @@ def attach(word, on):
     d = conf(); cur = d['on']
     if on:
         add = [x for x in NEED.get(k, []) if x not in cur] + ([k] if k not in cur else [])
+        back = [x for x in (d.get('_함께뗀') or {}).pop(k, []) if x not in cur and x not in add]   # 이 기능을 뗄 때 함께 떨어졌던 것은 함께 돌아온다
+        add += back
         d['on'] = cur + add; did = '붙였습니다: ' + ', '.join(NAMES.get(x, x) for x in add) if add else f'{NAMES.get(k, k)} 은(는) 이미 붙어 있습니다'
     else:
         gone = [k] + [x for x, ns in NEED.items() if k in ns and x in cur]
         gone = gone + [x for x, ns in NEED.items() if any(g in ns for g in gone) and x in cur and x not in gone]
+        if len([x for x in gone if x in cur]) > 1:
+            d.setdefault('_함께뗀', {})[k] = [x for x in gone[1:] if x in cur]
         d['on'] = [x for x in cur if x not in gone]; did = '뗐습니다: ' + ', '.join(NAMES.get(x, x) for x in gone if x in cur) + ' (남긴 자료는 지우지 않았습니다 — 다시 붙이면 돌아옵니다)'
     json.dump(d, open(CONF, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(did + ('\n켜져 있는 가게는 몇 초 안에 화면이 따라갑니다.' if alive('http://127.0.0.1:8787/api/features') else '')); return 0
