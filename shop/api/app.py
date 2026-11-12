@@ -11,7 +11,7 @@ sys.path.insert(0, HERE)
 CONF = os.path.join(HERE, 'modules.json')
 DB = os.environ.get('SHOP_DB') or os.path.join(HERE, 'data', 'shop.db')
 ADMIN_KEY = os.environ.get('SHOP_ADMIN_KEY', '')   # 시험용. 보통은 운영자가 운영자 화면에서 직접 정한 열쇠(아래 KEYFILE)를 쓴다
-KEYFILE = os.path.join(os.path.dirname(DB), 'admin.local.json')   # 열쇠 그대로가 아니라 지문(sha256)만 둔다. git 에 올라가지 않는다
+KEYFILE = os.path.join(os.path.dirname(DB), 'admin.local.json')   # 비밀번호 그대로가 아니라 지문(sha256)만 둔다. git 에 올라가지 않는다
 
 
 def key_hash(k):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""운영자: 들어온 주문 보기·상태 바꾸기, 상품 올리기·내리기. 환경변수 SHOP_ADMIN_KEY 로 정한 열쇠가 맞아야 한다."""
+"""운영자: 들어온 주문 보기·상태 바꾸기, 상품 올리기·내리기. 환경변수 SHOP_ADMIN_KEY 로 정한 비밀번호가 맞아야 한다."""
 import json
 
 
@@ -36,12 +36,12 @@ def del_product(c, req):
 
 
 def setup(c, req):
-    """운영자 열쇠를 처음 한 번 정한다. 이 PC 에서 연 화면에서만 되고(바깥 주소로는 안 됨), 이미 정해져 있으면 안 된다."""
+    """운영자 비밀번호를 처음 한 번 정한다. 이 PC 에서 연 화면에서만 되고(바깥 주소로는 안 됨), 이미 정해져 있으면 안 된다."""
     import app
     if app.has_key():
-        raise ValueError('운영자 열쇠가 이미 정해져 있습니다')
+        raise ValueError('운영자 비밀번호가 이미 정해져 있습니다')
     if req.get('outside'):
-        raise ValueError('운영자 열쇠는 가게를 켠 PC 에서만 정할 수 있습니다')
+        raise ValueError('운영자 비밀번호는 가게를 켠 PC 에서만 정할 수 있습니다')
     k = str(req['body'].get('key', ''))
     if len(k) < 8:
         raise ValueError('여덟 글자 이상으로 정해 주세요')

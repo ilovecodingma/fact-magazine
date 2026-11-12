@@ -65,7 +65,7 @@ def attach(word, on):
 def start():
     if not shutil.which('node'):
         print('✗ 이 PC 에 Node.js 가 없습니다. 화면(Next.js)을 켜려면 nodejs.org 에서 받아 깔아야 합니다(설치는 직접). 백엔드만은 python shop/api/app.py 로 켤 수 있습니다.'); return 1
-    key = os.environ.get('SHOP_ADMIN_KEY', '')   # 시험에서만 쓴다. 운영자 열쇠는 독자가 운영자 화면에서 직접 정한다(세션은 열쇠를 정하지도 받지도 않는다)
+    key = os.environ.get('SHOP_ADMIN_KEY', '')   # 시험에서만 쓴다. 운영자 비밀번호는 독자가 운영자 화면에서 직접 정한다(세션은 비밀번호를 정하지도 받지도 않는다)
     os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True); st = {}
     kw = dict(creationflags=0x00000008 | 0x00000200) if os.name == 'nt' else dict(start_new_session=True)
     if not alive('http://127.0.0.1:8787/api/features'):
@@ -87,7 +87,7 @@ def start():
     a, w = alive('http://127.0.0.1:8787/api/features'), alive('http://127.0.0.1:3000/')
     print(f'{"✓" if a else "✗"} 백엔드(파이썬) http://127.0.0.1:8787   {"✓" if w else "✗"} 화면(Next.js) http://127.0.0.1:3000   — {time.time() - t0:.0f}초')
     if a and w:
-        print('가게: http://127.0.0.1:3000/   운영자: http://127.0.0.1:3000/admin' + ('' if key else ' (운영자 열쇠는 이 주소를 열어 직접 정합니다 — 이 PC 에서만 정할 수 있습니다)') + '\n휴대폰에서는 같은 와이파이로 이 PC 의 주소를 열고 「홈 화면에 추가」 하면 앱으로 깔립니다(올린 뒤에는 그 주소에서).')
+        print('가게: http://127.0.0.1:3000/   운영자: http://127.0.0.1:3000/admin' + ('' if key else ' (운영자 비밀번호는 이 주소를 열어 직접 정합니다 — 이 PC 에서만 정할 수 있습니다)') + '\n휴대폰에서는 같은 와이파이로 이 PC 의 주소를 열고 「홈 화면에 추가」 하면 앱으로 깔립니다(올린 뒤에는 그 주소에서).')
         if '--headless' not in A and '--열지않음' not in A:
             try:
                 os.startfile('http://127.0.0.1:3000/') if os.name == 'nt' else None

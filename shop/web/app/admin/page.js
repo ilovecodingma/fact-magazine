@@ -12,7 +12,7 @@ export default function Admin() {
     if (key !== key2) return setMsg('두 칸이 서로 다릅니다');
     const j = await api('/api/admin/setup', { method: 'POST', body: { key } });
     if (!j.ok) return setMsg(j.error);
-    setHasKey(true); setKey2(''); setMsg('열쇠를 정했습니다. 그 열쇠로 들어가세요.');
+    setHasKey(true); setKey2(''); setMsg('비밀번호를 정했습니다. 그 비밀번호로 들어가세요.');
   };
   const [data, setData] = useState(null);
   const [msg, setMsg] = useState('');
@@ -40,8 +40,8 @@ export default function Admin() {
   };
   if (!data && hasKey === false) return (
     <form className="orderbox narrow" onSubmit={setup}>
-      <h2>운영자 열쇠 정하기</h2>
-      <input type="password" placeholder="운영자 열쇠(여덟 글자 이상)" value={key} onChange={(e) => setKey(e.target.value)} required minLength={8} autoComplete="new-password" />
+      <h2>운영자 비밀번호 정하기</h2>
+      <input type="password" placeholder="운영자 비밀번호(여덟 글자 이상)" value={key} onChange={(e) => setKey(e.target.value)} required minLength={8} autoComplete="new-password" />
       <input type="password" placeholder="한 번 더" value={key2} onChange={(e) => setKey2(e.target.value)} required autoComplete="new-password" />
       <button className="btn wide">정하기</button>
       <p className="msg" role="alert">{msg}</p>
@@ -50,7 +50,7 @@ export default function Admin() {
   if (!data) return (
     <form className="orderbox narrow" onSubmit={load}>
       <h2>운영자</h2>
-      <input type="password" placeholder="운영자 열쇠" value={key} onChange={(e) => setKey(e.target.value)} required />
+      <input type="password" placeholder="운영자 비밀번호" value={key} onChange={(e) => setKey(e.target.value)} required />
       <button className="btn wide">들어가기</button>
       <p className="msg" role="alert">{msg}</p>
     </form>
