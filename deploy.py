@@ -2,7 +2,7 @@
 """올려: 지금 사이트를 찍어 남에게 보여 줄 수 있는 주소를 받는다(Vercel). 파이썬 기본 기능 + Node.js(npx).
 python run.py 올려            로그인 없이도 된다 — 60분 동안 열리는 임시 주소가 바로 나온다. Vercel 에 로그인돼 있으면 사라지지 않는 주소로 올린다.
 python run.py 올려 상태       마지막으로 받은 주소와 남은 시간
-임시 주소를 간직하려면 출력의 「간직하는 주소」를 브라우저로 열어 가입·로그인한다(그것은 사람이 한다). 그 뒤부터는 같은 명령이 사라지지 않는 주소로 올린다.
+임시 주소를 계속 쓰려면 출력의 「계속 쓰는 주소」를 브라우저로 열어 가입·로그인한다(그것은 사람이 한다). 그 뒤부터는 같은 명령이 사라지지 않는 주소로 올린다.
 2장의 가게는 화면만 이 길로 올라간다(백엔드는 올리기.md)."""
 import json, os, re, shutil, subprocess, sys, time, urllib.request
 try:
@@ -41,7 +41,7 @@ def state():
     left = (d.get('expires', 0) - time.time()) / 60 if d.get('temp') else None
     print(f'주소: {d["url"]}' + (f'  (임시 — {"%.0f분 남음" % left if left > 0 else "사라졌습니다. 다시 올려 로 새 주소를 받습니다"})' if left is not None else '  (사라지지 않는 주소)'))
     if d.get('claim') and left and left > 0:
-        print('간직하는 주소(브라우저로 열어 가입·로그인): ' + d['claim'])
+        print('계속 쓰는 주소(브라우저로 열어 가입·로그인): ' + d['claim'])
     return 0
 
 
@@ -76,7 +76,7 @@ def main():
     print('│ ' + url)
     if not logged:
         print(f'│ 지금부터 {max(0, (exp - time.time()) / 60):.0f}분 동안 누구나 열 수 있습니다(휴대폰으로도).')
-        print('│ 사라지지 않게 간직하려면 아래 주소를 브라우저로 열어 가입·로그인하세요.')
+        print('│ 사라지지 않게 계속 쓰려면 아래 주소를 브라우저로 열어 가입·로그인하세요.')
         print('│ ' + claim)
     print('└' + '─' * 52)
     return 0 if ok else 1

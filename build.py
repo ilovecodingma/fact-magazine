@@ -835,7 +835,7 @@ def main():
     if S.get('frame') == 'medium':   # 1장의 틀: 첫 화면과 글 화면을 미디엄을 잰 값 그대로(medium.py)로 덮는다
         import medium as _md
         _md.OUT = OUT; _md.BASE = BASE; _md.main(); return
-    print(f'노트 {len(notes)}건, 주제 {len(topics)}건, 쪽 {len(urls)}개 -> docs/')
+    print(f'노트 {len(notes)}건, 주제 {len(topics)}건, 페이지 {len(urls)}개 -> docs/')
 
 
 if __name__ == '__main__':

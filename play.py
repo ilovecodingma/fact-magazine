@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""에이전트와 고쳐 가는 길: 본(본뜬 출발점 띄우기) · 바꿔/바꿨다(말 한 줄로 무엇이든 고치고 스스로 확인) · 간직과 되돌리기(마지막·처음) · 손잡이 · 나누기. run.py 가 부른다. 파이썬 기본 기능만 쓴다.
-고치기 전 모습은 .간직/<번호>/ 에 저절로 간직한다(설정·글·기능 자료·틀 파일 — git 에는 올라가지 않는다)."""
+"""에이전트와 고쳐 가는 길: 본(본뜬 출발점 띄우기) · 바꿔/바꿨다(말 한 줄로 무엇이든 고치고 자동 확인) · 백업과 되돌리기(마지막·처음) · 손잡이 · 나누기. run.py 가 부른다. 파이썬 기본 기능만 쓴다.
+수정 전 모습은 .간직/<번호>/ 에 저절로 백업한다(설정·글·기능 자료·템플릿 파일 — git 에는 올라가지 않는다)."""
 import json, os, shutil, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -9,9 +9,9 @@ PIECES = os.path.join(HERE, '참고', '조각')
 PLAT = os.path.join(HERE, '참고', '플랫폼.json')
 
 
-# ---------------------------------------------------------------- 간직·되돌리기
+# ---------------------------------------------------------------- 백업·되돌리기
 def _items():
-    """간직하는 것: 내 설정·글·기능 자료와 틀 파일(*.py·server·kits) 전부. 그래서 무엇을 고쳐도 돌아온다."""
+    """백업하는 것: 내 설정·글·기능 자료와 템플릿 파일(*.py·server·kits) 전부. 그래서 무엇을 고쳐도 돌아온다."""
     out = ['site.local.json', 'site.json', '다듬기.json', 'notes', 'posts', 'kits', 'server']
     out += ['shop/api/modules', 'shop/api/modules.json', 'shop/api/data/products.json', 'shop/web/app', 'shop/web/components', 'shop/web/lib', 'shop/web/site.json', 'shop/web/public']
     out += sorted(f for f in os.listdir(HERE) if f.endswith('.py'))
@@ -19,7 +19,7 @@ def _items():
 
 
 def snap(what):
-    """지금 모습을 간직한다. 돌려주는 값 = 번호."""
+    """지금 모습을 백업한다. 돌려주는 값 = 번호."""
     os.makedirs(KEEP, exist_ok=True)
     nums = sorted(int(x) for x in os.listdir(KEEP) if x.isdigit())
     n = (nums[-1] + 1) if nums else 0
@@ -68,10 +68,10 @@ def restore(n, drop_later=True):
 
 
 def undo_cmd(R, rest):
-    """되돌리기 (마지막) · 되돌리기 처음 · 되돌리기 목록. 숫자(다듬기 걸음)는 run.py 의 걸음 되돌리기가 맡는다."""
+    """되돌리기 (마지막) · 되돌리기 처음 · 되돌리기 목록. 숫자(다듬기 단계)는 run.py 의 단계 되돌리기가 맡는다."""
     L = snaps()
     if rest and rest[0] == '목록':
-        print('간직해 둔 모습(고치기 직전마다 저절로 간직합니다):'); [print(f'  {x}. {m["t"]} — {m["what"]} 하기 전') for x, m in L] or print('  (없음)'); return 0
+        print('백업해 둔 상태(고치기 직전마다 저절로 백업합니다):'); [print(f'  {x}. {m["t"]} — {m["what"]} 하기 전') for x, m in L] or print('  (없음)'); return 0
     if not L:
         print('되돌릴 것이 없습니다(아직 아무것도 바꾸지 않았습니다).'); return 0
     if os.path.exists(PENDING):   # 하던 고침이 있었으면 접는다(되돌린 뒤의 바꿨다 가 엉뚱한 기준과 견주지 않게)
@@ -85,27 +85,27 @@ def undo_cmd(R, rest):
     print(f'되돌렸습니다 → {what}. ({last})\n겁내지 않아도 됩니다: 무엇을 바꾸든 python run.py 되돌리기 한 줄로 돌아옵니다(처음 모습은 되돌리기 처음, 목록은 되돌리기 목록).'); R.prog_add('되돌리기: ' + what); return 0
 
 
-# ---------------------------------------------------------------- 바꿔 / 바꿨다 (걸음 없이 하는 작은 고침)
+# ---------------------------------------------------------------- 바꿔 / 바꿨다 (단계 없이 하는 작은 고침)
 PENDING = os.path.join(KEEP, '_바꾸는중.json')
 
 
 def change_cmd(R, rest):
     what = ' '.join(rest).strip()
     if not what:
-        print('사용: python run.py 바꿔 "<독자가 한 말 그대로>"   예: 바꿔 "글마다 댓글을 달 수 있게"\n고치기 전 모습을 간직한 뒤 세션이 고치고, python run.py 바꿨다 로 스스로 확인하고 전·후를 보입니다.'); return 1
+        print('사용: python run.py 바꿔 "<독자가 한 말 그대로>"   예: 바꿔 "글마다 댓글을 달 수 있게"\n수정 전 모습을 백업한 뒤 세션이 고치고, python run.py 바꿨다 로 자동 확인하고 전·후를 보입니다.'); return 1
     n = snap(what); os.makedirs(KEEP, exist_ok=True)
     before = None
     if R.SHOTS:
         import selftest as T
         os.makedirs(R.SHOTS, exist_ok=True); before = os.path.join(R.SHOTS, f'바꿔_{n}_전.png'); T.shoot_pages(R.build_tmp(R.cur_polish()), [''], [before], 1280, 860)
     json.dump({'n': n, 'what': what, 'before': before, 't0': time.time()}, open(PENDING, 'w', encoding='utf-8'), ensure_ascii=False)
-    print(f'지금 모습을 간직했습니다({n}번) — 설정·글·자료·틀 파일 전부. 이제 「{what}」를 고칩니다.\n'
-          '[어디든 고쳐도 됩니다] 이름·소개·색 → site.local.json / 글 → notes/·posts/ / 기능 자료 → kits/<기능>/data/ / 화면 틀·새 기능 → *.py·kits/·server/\n'
-          '[고친 뒤] python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>" — 구문·찍기를 스스로 확인하고, 깨졌으면 알려 줍니다(python run.py 되돌리기 한 줄로 돌아옴).'); return 0
+    print(f'지금 상태를 백업했습니다({n}번) — 설정·글·자료·템플릿 파일 전부. 이제 「{what}」를 고칩니다.\n'
+          '[어디든 고쳐도 됩니다] 이름·소개·색 → site.local.json / 글 → notes/·posts/ / 기능 자료 → kits/<기능>/data/ / 화면 템플릿·새 기능 → *.py·kits/·server/\n'
+          '[수정 뒤] python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>" — 구문·찍기를 자동 확인하고, 깨졌으면 알려 줍니다(python run.py 되돌리기 한 줄로 돌아옴).'); return 0
 
 
 def _check():
-    """고친 뒤 스스로 확인: 틀 파일 구문 → 사이트 찍기. 돌려주는 값 = 안 된 것 목록."""
+    """수정 뒤 자동 확인: 템플릿 파일 구문 → 사이트 찍기. 돌려주는 값 = 안 된 것 목록."""
     import ast
     bad = []
     for f in sorted(x for x in os.listdir(HERE) if x.endswith('.py')):
@@ -117,7 +117,7 @@ def _check():
 
 
 def _changed(n):
-    """간직해 둔 n번과 지금을 견줘 달라진 파일 이름들."""
+    """백업해 둔 n번과 지금을 견줘 달라진 파일 이름들."""
     import filecmp
     d = os.path.join(KEEP, str(n)); out = []
 
@@ -157,25 +157,25 @@ def _seen(out, want):
 
 
 def _flow(said, did, files, check, secs):
-    """흐름 한 줄을 기록/흐름.md 에 쌓는다: 들어온 말 → 한 일 → 고친 파일 → 스스로 확인 → 걸린 시간 → 되돌리는 한 줄."""
+    """흐름 한 줄을 기록/흐름.md 에 쌓는다: 들어온 말 → 한 일 → 수정한 파일 → 자동 확인 → 걸린 시간 → 되돌리는 한 줄."""
     fp = os.path.join(HERE, '기록', '흐름.md'); os.makedirs(os.path.dirname(fp), exist_ok=True)
     new = not os.path.exists(fp)
     with open(fp, 'a', encoding='utf-8') as f:
         if new:
-            f.write('# 흐름 — 말 한 줄이 들어와 무엇이 되었나\n\n| 때 | 들어온 말 | 한 일 | 고친 파일 | 스스로 확인 | 걸린 시간 | 되돌리기 |\n|---|---|---|---|---|---|---|\n')
+            f.write('# 흐름 — 말 한 줄이 들어와 무엇이 되었나\n\n| 때 | 들어온 말 | 한 일 | 수정한 파일 | 자동 확인 | 걸린 시간 | 되돌리기 |\n|---|---|---|---|---|---|---|\n')
         c = lambda x: str(x).replace('|', '/').replace('\n', ' ')
         f.write(f'| {time.strftime("%m-%d %H:%M")} | {c(said)} | {c(did)} | {c(", ".join(files) or "-")} | {check} | {secs:.0f}초 | python run.py 되돌리기 |\n')
 
 
 def changed_cmd(R, rest):
     if not os.path.exists(PENDING):
-        print('먼저 python run.py 바꿔 "<독자가 한 말>" 로 시작하세요(고치기 전 모습을 간직합니다).'); return 1
+        print('먼저 python run.py 바꿔 "<독자가 한 말>" 로 시작하세요(수정 전 모습을 백업합니다).'); return 1
     p = json.load(open(PENDING, encoding='utf-8'))
     if not os.path.isdir(os.path.join(KEEP, str(p['n']))):
-        os.remove(PENDING); print('견줄 기준(고치기 전 모습)이 없습니다 — 그 사이에 되돌렸습니다. python run.py 바꿔 "<독자가 한 말>" 로 다시 시작하세요.'); return 1
+        os.remove(PENDING); print('견줄 기준(수정 전 모습)이 없습니다 — 그 사이에 되돌렸습니다. python run.py 바꿔 "<독자가 한 말>" 로 다시 시작하세요.'); return 1
     bad = _check()
     if bad:
-        print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 고치기 전으로 돌아갑니다.'); return 1
+        print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 수정 전으로 돌아갑니다.'); return 1
     out, last, rc = R.rebuild_local()
     if rc != 0:
         print('✗ 확인에서 걸렸습니다(사이트 찍기). 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 돌아갑니다.'); return 1
@@ -190,21 +190,21 @@ def changed_cmd(R, rest):
     if R.SHOTS and p.get('before') and os.path.exists(p['before']):
         import selftest as T
         after = os.path.join(R.SHOTS, f'바꿔_{p["n"]}_후.png'); T.shoot_pages(out, [''], [after], 1280, 860)
-        R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '고치기 전', '고친 뒤')
-    print(f'✓ 고쳤습니다: {did}  ({secs:.0f}초)\n  고친 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
+        R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '수정 전', '수정 뒤')
+    print(f'✓ 수정했습니다: {did}  ({secs:.0f}초)\n  수정한 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
     if want:
         print(f'{"✓" if not miss else "✗"} 시킨 것이 화면에 나타났는가: {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
     else:
         print('– 시킨 것이 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
-    print(f'✓ 스스로 확인: 틀 파일 구문 통과 · 사이트 찍기 통과({last})\n마음에 안 들면 python run.py 되돌리기 한 줄로 고치기 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
+    print(f'✓ 자동 확인: 템플릿 파일 구문 통과 · 사이트 찍기 통과({last})\n마음에 안 들면 python run.py 되돌리기 한 줄로 수정 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
     if miss:
-        print('아직 끝나지 않았습니다 — 고친 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
+        print('아직 끝나지 않았습니다 — 수정 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
     R.prog_add('바꿈: ' + did); status_cmd(R); return 0
 
 
 # ---------------------------------------------------------------- 상태창 (잰 것만 적는다)
 def status_cmd(R, rest=None):
-    """게임의 상태창처럼: 네 고개(만들었다·올렸다·고쳐 봤다·운영팀)와 지금까지 잰 숫자, 다음에 열리는 것."""
+    """게임의 상태창처럼: 네 관문(만들었다·올렸다·고쳐 봤다·운영팀)와 지금까지 잰 숫자, 다음에 열리는 것."""
     done = [x['what'] for x in R.prog_load().get('done', [])]; L = R.local_load()
     mirrors = [w[2:].strip() for w in done if w.startswith('본 ')]
     changes = [w for w in done if w.startswith('바꿈: ')]; undos = [w for w in done if w.startswith('되돌리기')]
@@ -224,7 +224,7 @@ def status_cmd(R, rest=None):
     if os.name == 'nt' and any('예약' in a for a in autos):
         import subprocess
         sched = subprocess.run(['schtasks', '/Query', '/TN', 'MyServiceDaily'], capture_output=True).returncode == 0
-    q = [('만들었다', bool(mirrors), '본뜬 것: ' + (', '.join(dict.fromkeys(mirrors)) or '아직')),
+    q = [('만들었다', bool(mirrors), '원본: ' + (', '.join(dict.fromkeys(mirrors)) or '아직')),
          ('올렸다', live, '공개 주소: ' + (url if live else '아직')),
          ('고쳐 봤다', len(changes) >= 3, f'말 한 줄로 고친 것 {len(changes)}번 · 되돌린 것 {len(undos)}번 · 손댄 파일 {len(files)}개'),
          ('운영팀', any('맛보기' in a for a in autos), f'사람 없이 돈 것 {sum(1 for a in autos if "맛보기" in a)}번 · 방송 화면 {"켜 봄" if any("방송" in a for a in autos) else "아직"} · 날마다 예약 {"걸림" if sched else "아직"}')]
@@ -233,7 +233,7 @@ def status_cmd(R, rest=None):
     hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 줘」', '운영팀': '「3장을 진행해 보자」'}
     name = L.get('name') or '내 사이트'
     print('┌─ 상태창 ' + '─' * 44)
-    print(f'│ {name}   고개 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
+    print(f'│ {name}   관문 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
     for n, ok, d in q:
         print(f'│ {"■" if ok else "□"} {n:<6} {d}')
     print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 튜토리얼 끝. 이제부터는 차례가 없습니다'))
@@ -252,11 +252,11 @@ MIRRORS = {
 
 
 def mirror_cmd(R, rest):
-    """본 [글|게시판|장터|순위] — 독자가 고르는 걸음 없이, 본뜬 출발점을 한 번에 띄운다(튜토리얼의 첫 화면)."""
+    """본 [글|게시판|장터|순위] — 독자가 고르는 단계 없이, 본뜬 출발점을 한 번에 띄운다(튜토리얼의 첫 화면)."""
     if not rest or rest[0] not in MIRRORS:
         print('━━ 본 — 본뜬 출발점을 한 번에 띄웁니다 ━━')
         for k, m in MIRRORS.items():
-            print(f'  python run.py 본 {k:<4} {m["name"]} (본: {m["ref"]})' + (' — 화면 Next.js + 백엔드 파이썬 + 앱, 결제 없음' if m.get('shop') else '' if 'polish' in m else ' — 받는 것이 있어 서버가 붙습니다'))
+            print(f'  python run.py 본 {k:<4} {m["name"]} (원본: {m["ref"]})' + (' — 화면 Next.js + 백엔드 파이썬 + 앱, 결제 없음' if m.get('shop') else '' if 'polish' in m else ' — 받는 것이 있어 서버가 붙습니다'))
         return 0 if not rest else 1
     key = rest[0]; m = MIRRORS[key]; t0 = time.time(); snap(f'본 {key} 띄우기')
     if m.get('shop'):
@@ -272,7 +272,7 @@ def mirror_cmd(R, rest):
     if rc != 0:
         print('✗ 띄우지 못했습니다. python run.py 되돌리기 로 돌아갈 수 있습니다.'); return 1
     R.shots_for(out, '본_' + key)
-    print(f'\n✓ 「{m["name"]}」(본: {m["ref"]})을 띄웠습니다 — {time.time() - t0:.0f}초. {last}\n[다음] python serve.py --open --no-demo 로 열어 독자에게 보이고, 코스의 첫 과제(이름을 내 것으로)로 갑니다. 처음으로 돌아가려면 python run.py 되돌리기 처음')
+    print(f'\n✓ 「{m["name"]}」(원본: {m["ref"]})을 띄웠습니다 — {time.time() - t0:.0f}초. {last}\n[다음] python serve.py --open --no-demo 로 열어 독자에게 보이고, 코스의 첫 과제(이름을 내 것으로)로 갑니다. 처음으로 돌아가려면 python run.py 되돌리기 처음')
     R.prog_add('본 ' + key); status_cmd(R); return 0
 
 
@@ -424,7 +424,7 @@ def split_cmd(R, rest):
         print('━━ 나누기 — 레퍼런스 사이트를 기능 조각으로 ━━\n[조각 표가 있는 곳] ' + (' · '.join(files) or '(없음)'))
         if plats:
             print('[조사 자료만 있는 곳(우리 기능과의 짝은 아직 맞추지 않음)] ' + ' · '.join(f'{p["name"]}({p.get("group", "")})' for p in plats))
-        print('\n사용: python run.py 나누기 미디엄  ·  나누기 미디엄 7(조각 하나 자세히)  ·  나누기 새로 "<사이트 이름>"(독자가 좋아하는 사이트를 같은 틀로)'); return 0
+        print('\n사용: python run.py 나누기 미디엄  ·  나누기 미디엄 7(조각 하나 자세히)  ·  나누기 새로 "<사이트 이름>"(독자가 좋아하는 사이트를 같은 템플릿로)'); return 0
     if rest[0] == '새로':
         nm = ' '.join(rest[1:]).strip()
         if not nm:
@@ -432,7 +432,7 @@ def split_cmd(R, rest):
         os.makedirs(PIECES, exist_ok=True); fp = os.path.join(PIECES, nm + '.json')
         if not os.path.exists(fp):
             json.dump({'name': nm, 'one_line': '', 'source': '독자 세션이 그 사이트를 열어 보고 채움(화면은 저장하지 않음). 잰 날: ', 'pieces': [{'n': 1, 'name': '', 'does': '', 'visitor': '', 'why': '', 'ours': '있음|비슷함|없음', 'how': '', 'solo': '됨|혼자 어려움', 'server': False}]}, open(fp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-        print(f'조각 표 틀을 만들었습니다: 참고/조각/{nm}.json\n세션이 할 일: 그 사이트의 첫 화면과 항목 쪽을 열어 보고(화면은 저장하지 않음) 조각마다 「무엇을 하는가 / 방문자에게 무슨 일이 생기는가 / 왜 다시 오게 하는가·무엇으로 버는 데 쓰이는가 / 우리 저장소의 어느 기능인가(있음·비슷함·없음) / 혼자 되는가」를 채웁니다. 독자에게 먼저: 「그 사이트에서 가장 자주 누르는 것은 무엇인가요?」\n채운 뒤 python run.py 나누기 {nm}'); return 0
+        print(f'조각 표 템플릿을 만들었습니다: 참고/조각/{nm}.json\n세션이 할 일: 그 사이트의 첫 화면과 항목 쪽을 열어 보고(화면은 저장하지 않음) 조각마다 「무엇을 하는가 / 방문자에게 무슨 일이 생기는가 / 왜 다시 오게 하는가·무엇으로 버는 데 쓰이는가 / 우리 저장소의 어느 기능인가(있음·비슷함·없음) / 혼자 되는가」를 채웁니다. 독자에게 먼저: 「그 사이트에서 가장 자주 누르는 것은 무엇인가요?」\n채운 뒤 python run.py 나누기 {nm}'); return 0
     key = next((k for k in files if rest[0].replace(' ', '') in k.replace(' ', '')), None)
     if key:
         d = json.load(open(files[key], encoding='utf-8')); P = d['pieces']
@@ -450,7 +450,7 @@ def split_cmd(R, rest):
         if d.get('earns'):
             print(f'\n버는 길(확인된 것만): python run.py 참고 {key}')
         if d.get('biggest_diff'):
-            print(f'\n※ 본과 가장 크게 다른 것: {d["biggest_diff"]}')
+            print(f'\n※ 원본과 가장 크게 다른 것: {d["biggest_diff"]}')
         have = sum(1 for p in P if p['ours'].startswith('있음')); near = sum(1 for p in P if p['ours'].startswith('비슷')); none = len(P) - have - near
         print(f'\n조각 {len(P)}개: 우리 저장소에 있음 {have} · 비슷함 {near} · 없음 {none} / 서버 없이 되는 것 {sum(1 for p in P if not p.get("server"))}개')
         print(f'[독자에게 말할 것] 사이트 하나도 이렇게 조각으로 나눠 볼 수 있습니다. 조각을 하나씩 골라 자세히 보고(python run.py 나누기 {key} <번호>) 내 사이트에 켜 봅니다.\n[물음] 이 가운데 없으면 {d["name"]} 이(가) 아니게 되는 조각은 무엇일까요?\n\n여기서 멈추고 독자에게 묻습니다.')

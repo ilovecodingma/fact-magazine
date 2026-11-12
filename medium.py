@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""1장의 틀: 미디엄의 발행물 첫 화면과 글 화면을 잰 값 그대로 옮긴 글 사이트. posts/*.md → <OUT_DIR>/index.html, <OUT_DIR>/p/<이름>/index.html, <OUT_DIR>/m.css. 파이썬 기본 기능만 쓴다.
+"""1장의 템플릿: 미디엄의 발행물 첫 화면과 글 화면을 잰 값 그대로 옮긴 글 사이트. posts/*.md → <OUT_DIR>/index.html, <OUT_DIR>/p/<이름>/index.html, <OUT_DIR>/m.css. 파이썬 기본 기능만 쓴다.
 잰 날 2026-11-12, 잰 곳 medium.com/blog(목록)과 그 안의 글 한 편, 가로 1440(머리·발행물 머리·탭)과 1920(카드·글 화면). 숫자는 CSS 의 주석에 적었다.
 옮기지 않은 것: 미디엄의 이름·글자 로고·그림·글. 글꼴 sohne 은 값을 치르는 글꼴이라 가까운 고딕으로, 본문 명조는 source-serif 계열로 맞췄다.
-글 파일 머리(선택, 제목 줄 바로 아래): 「부제: …」「그림: 주소 | 그림 설명」「꼬리표: 가, 나」「날짜: 2026-11-12」「글쓴이: …」
+글 파일 머리(선택, 제목 줄 바로 아래): 「부제: …」「그림: 주소 | 그림 설명」「태그: 가, 나」「날짜: 2026-11-12」「글쓴이: …」
 사용: python medium.py   (OUT_DIR 환경변수가 없으면 site_local/)"""
 import hashlib, html, json, os, re, sys, time
 try:
@@ -24,7 +24,7 @@ def site():
     return S
 
 
-CSS = r"""/* 미디엄을 잰 값(2026-11-12). 괄호 안이 본의 값 */
+CSS = r"""/* 미디엄을 잰 값(2026-11-12). 괄호 안이 원본의 값 */
 :root{--ink:#242424;--mu:#6b6b6b;--hair:#f2f2f2;--bg:#fff;--fill:#f9f9f9;--ac:#1a8917;
  --sans:"Helvetica Neue","Pretendard","Apple SD Gothic Neo","Malgun Gothic",Helvetica,Arial,sans-serif;
  --serif:"Source Serif 4","Source Serif Pro","Noto Serif KR","Nanum Myeongjo","Batang",Georgia,serif}
@@ -64,7 +64,7 @@ svg{display:block}
 .card .cover{aspect-ratio:381/191}
 .card h2{margin:15px 0 0;font-size:20px;line-height:24px;font-weight:500}
 .card h3{margin:10px 0 0;font-size:16px;line-height:20px;font-weight:400;color:var(--ink)}
-/* 글 화면: 폭 680, 꼬리표 알약 높이 28 글자 16, 제목 42/52 700 자간 -0.462, 부제 22/28 #6b6b6b(제목 아래 9) */
+/* 글 화면: 폭 680, 태그 알약 높이 28 글자 16, 제목 42/52 700 자간 -0.462, 부제 22/28 #6b6b6b(제목 아래 9) */
 .post{max-width:728px;margin:0 auto;padding:32px 24px 0}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
 .tags a{height:28px;line-height:20px;font-size:14px;padding:4px 12px;border-radius:99px;background:var(--hair)}
@@ -80,7 +80,7 @@ svg{display:block}
 .bar button{display:flex;align-items:center;gap:4px;height:28px;color:var(--mu)}
 .bar button:hover,.bar button.on{color:var(--ink)}
 .bar .l{display:flex;gap:24px}.bar .r{display:flex;gap:24px;margin-left:auto}
-/* 본문: 명조 20/32 자간 -0.06, 문단 사이 약 34(본: 위 42.8 아래 -9.2), 그림 폭 680 위 56, 그림 설명 14/20 가운데 위 10, 소제목 24/30 600 */
+/* 본문: 명조 20/32 자간 -0.06, 문단 사이 약 34(원본: 위 42.8 아래 -9.2), 그림 폭 680 위 56, 그림 설명 14/20 가운데 위 10, 소제목 24/30 600 */
 .body{font-family:var(--serif);font-size:20px;line-height:32px;letter-spacing:-.06px;word-break:keep-all}
 .body p{margin:34px 0 0}
 .body h2{font-family:var(--sans);margin:52px 0 0;font-size:24px;line-height:30px;font-weight:600;letter-spacing:-.384px}
@@ -94,7 +94,7 @@ svg{display:block}
 .body figcaption{margin-top:10px;font:14px/20px var(--sans);color:var(--mu);text-align:center}
 .body table{font:16px/24px var(--sans);border-collapse:collapse;width:100%;margin-top:34px}.body td,.body th{border-bottom:1px solid var(--hair);padding:10px 8px;text-align:left;vertical-align:top}
 .body tr:first-child td{font-weight:600;border-bottom-color:var(--ink)}
-/* 글 끝: 꼬리표, 단추 띠, 글쓴이 상자(바탕 #f9f9f9, 얼굴 48, 이름 20/24 500, 따르기 단추 폭 240), 발행물 줄 */
+/* 글 끝: 태그, 단추 띠, 글쓴이 상자(바탕 #f9f9f9, 얼굴 48, 이름 20/24 500, 따르기 단추 폭 240), 발행물 줄 */
 .end{max-width:728px;margin:0 auto;padding:48px 24px 0}
 .end .bar{border:0;margin-top:24px;padding:0}
 .who{margin-top:24px;background:var(--fill);border-radius:4px;padding:32px 24px;text-align:center}
@@ -189,15 +189,15 @@ def load_posts():
         fp = os.path.join(pdir, f); L = open(fp, encoding='utf-8').read().splitlines()
         title = next((x[2:].strip() for x in L if x.startswith('# ')), f[:-3]); i = next((k for k, x in enumerate(L) if x.startswith('# ')), -1) + 1
         meta = {}
-        while i < len(L) and (not L[i].strip() or re.match(r'(부제|그림|꼬리표|날짜|글쓴이)\s*:', L[i])):
-            m = re.match(r'(부제|그림|꼬리표|날짜|글쓴이)\s*:\s*(.*)', L[i])
+        while i < len(L) and (not L[i].strip() or re.match(r'(부제|그림|태그|꼬리표|날짜|글쓴이)\s*:', L[i])):
+            m = re.match(r'(부제|그림|태그|꼬리표|날짜|글쓴이)\s*:\s*(.*)', L[i])
             if m:
                 meta[m.group(1)] = m.group(2).strip()
             i += 1
         body = '\n'.join(L[i:]); plain = re.sub(r'[#>*|\[\]()!-]', ' ', body); first = next((x.strip() for x in body.splitlines() if x.strip() and not x.startswith(('#', '|', '!', '>', '-'))), '')
         img, cap = (meta.get('그림', '').split('|') + [''])[:2] if meta.get('그림') else ('', '')
         P.append(dict(slug=f[:-3], title=title, sub=meta.get('부제') or (first[:110] + ('…' if len(first) > 110 else '')), has_sub=bool(meta.get('부제')), img=img.strip(), cap=cap.strip(),
-                      tags=[t.strip() for t in meta.get('꼬리표', '').split(',') if t.strip()], date=meta.get('날짜') or time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(fp))),
+                      tags=[t.strip() for t in (meta.get('태그') or meta.get('꼬리표') or '').split(',') if t.strip()], date=meta.get('날짜') or time.strftime('%Y-%m-%d', time.localtime(os.path.getmtime(fp))),
                       by=meta.get('글쓴이', ''), mins=max(1, round(len(re.sub(r'\s+', '', plain)) / 500)), html=md(body)))
     P.sort(key=lambda p: p['date'], reverse=True)
     return P
@@ -259,7 +259,7 @@ def main():
         more = f'<section class="more"><h2>{E(name)}의 다른 글</h2><div class="cards">{"".join(card(S, q) for q in rest)}</div></section>' if rest else ''
         write(os.path.join(OUT, 'p', p['slug'], 'index.html'), shell(S, f'{p["title"]} — {name}', p['sub'], art + end + more))
     write(os.path.join(OUT, 'm.css'), CSS)
-    print(f'글 {len(P)}편, 쪽 {len(P) + 1}개 -> {os.path.relpath(OUT, HERE)}/')
+    print(f'글 {len(P)}편, 페이지 {len(P) + 1}개 -> {os.path.relpath(OUT, HERE)}/')
     return 0
 
 

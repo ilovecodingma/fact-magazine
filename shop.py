@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""가게(2장): 종합 쇼핑몰을 본뜬 틀 — 화면은 Next.js(shop/web), 백엔드는 파이썬(shop/api, 기능 묶음을 붙였다 뗐다), 휴대폰에서는 앱으로 깔린다. 결제는 없다.
+"""가게(2장): 종합 쇼핑몰을 본뜬 템플릿 — 화면은 Next.js(shop/web), 백엔드는 파이썬(shop/api, 기능 묶음을 붙였다 뗐다), 휴대폰에서는 앱으로 깔린다. 결제는 없다.
 python run.py 가게 켜기 [--열쇠 <운영자 열쇠>]   백엔드(8787)와 화면(3000)을 내 PC 에서 켠다(처음에는 화면에 필요한 것을 받느라 1~2분)
 python run.py 가게 끄기 · 가게 상태 · 가게 시험        끄기 · 지금 켜져 있나·붙은 기능 · 백엔드 스스로 시험(15단계)
 python run.py 붙여 <기능> · 떼 <기능> · 기능             기능 묶음을 붙였다 뗀다(서버를 끄지 않아도 몇 초 안에 화면이 따라간다)
-python run.py 가게 상품다시                             shop/api/data/products.json 을 고친 뒤 상품을 다시 넣는다(주문·상품평은 남는다)"""
+python run.py 가게 상품다시                             shop/api/data/products.json 을 수정 뒤 상품을 다시 넣는다(주문·상품평은 남는다)"""
 import json, os, shutil, sqlite3, subprocess, sys, time, urllib.request
 try:
     sys.stdout.reconfigure(encoding='utf-8')
