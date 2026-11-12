@@ -286,7 +286,8 @@ def main():
         more = f'<section class="more"><h2>{E(name)}의 다른 글</h2><div class="cards">{"".join(card(S, q) for q in rest)}</div></section>' if rest else ''
         write(os.path.join(OUT, 'p', p['slug'], 'index.html'), shell(S, f'{p["title"]} — {name}', p['sub'], art + end + more))
     write(os.path.join(OUT, 'm.css'), CSS)
-    print(f'글 {len(P)}편, 페이지 {len(P) + 1}개 -> {os.path.relpath(OUT, HERE)}/')
+    allp = sum(1 for r, _, fs in os.walk(OUT) for f in fs if f == 'index.html')
+    print(f'글 {len(P)}편, 페이지 {allp}개(첫 화면 1 · 글 {len(P)} · 소개·문의 같은 고정 페이지 {allp - len(P) - 1}) -> {os.path.relpath(OUT, HERE)}/')
     return 0
 
 

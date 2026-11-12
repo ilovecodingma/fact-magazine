@@ -264,7 +264,7 @@ def mirror_cmd(R, rest):
     if 'polish' in m:
         L = R.local_load(); L['polish'] = dict(m['polish']); L['frame'] = m.get('frame', '')
         if m.get('frame') == 'medium':   # 글 사이트: 뉴스 모으기·확인 노트·잡지·게임·노트 영상은 끄고 글(posts/)만
-            L['parts'] = dict(L.get('parts') or {}, info=False, issue=False, games=False, shorts=False, posts=True)
+            L['parts'] = dict(L.get('parts') or {}, info=False, issue=False, games=False, shorts=False, posts=False)   # 글은 medium.py 가 /p/ 에 찍는다(예전 템플릿의 /post/ 는 겹치므로 끔)
         R.local_save(L)
         out, last, rc = R.rebuild_local()
     else:
