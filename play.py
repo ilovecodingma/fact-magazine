@@ -244,7 +244,13 @@ def status_cmd(R, rest=None):
     lv = sum(1 for _, ok, _ in q if ok)
     nxt = next((n for n, ok, _ in q if not ok), None)
     hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 줘」', '운영팀': '「3장을 진행해 보자」'}
-    name = L.get('name') or '내 사이트'
+    name = L.get('name') or ''
+    if not name and '가게' in mirrors:
+        try:
+            name = json.load(open(os.path.join(HERE, 'shop', 'web', 'site.json'), encoding='utf-8')).get('name') or ''
+        except Exception:
+            pass
+    name = name or '내 사이트'
     print('┌─ 상태창 ' + '─' * 44)
     print(f'│ {name}   관문 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
     for n, ok, d in q:

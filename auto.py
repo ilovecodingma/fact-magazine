@@ -86,6 +86,40 @@ def post_promo(S):
     return dict(name=f'알릴 글·그림(가장 새 글 「{p["title"]}」으로)', ok=True, secs=time.time() - t, tail=tail, err='')
 
 
+def taste_shop(t0, only):
+    """가게의 하루 일: 들어온 것 세기 → 주문표 → 오늘 보낼 것 → 백업 → 상품 하나 홍보물 → 가게 스스로 시험. 입금 확인·발송·채널에 올리기는 사람 몫으로 남긴다."""
+    import sqlite3
+    db = os.path.join(HERE, 'shop', 'api', 'data', 'shop.db'); pid = 1; nm = ''; cnt = {}
+    try:
+        c = sqlite3.connect(db)
+        r = c.execute('select id, name from products where stock > 0 order by (was - price) desc, id limit 1').fetchone()   # 할인 폭이 가장 큰 상품을 알린다
+        if r:
+            pid, nm = r
+        cnt = dict(c.execute('select status, count(*) from orders group by status').fetchall()); c.close()
+    except Exception:
+        pass
+    print('  이 서비스: 가게 — 주문을 세고, 보낼 것을 뽑고, 백업하고, 상품 하나를 알릴 준비를 합니다', flush=True)
+    R = [step('들어온 것 세기(주문·상품평·재고)', ['data.py', '현황']), step('주문을 표로(넘김/주문표.csv)', ['data.py', '주문표']), step('오늘 보낼 것(넘김/오늘_보낼것.md — 입금 확인된 주문만)', ['data.py', '발송목록']),
+         step('자료 백업', ['data.py', '백업']), step(f'상품 하나를 알릴 글·문구·카드(「{nm}」)', ['shop.py', '홍보', str(pid)]), step('가게 스스로 시험(방문자·운영자 노릇 20단계)', ['shop/smoke.py'])]
+    if not only:
+        return R
+    total = time.time() - t0; wait = cnt.get('입금 대기', 0); paid = cnt.get('입금 확인', 0)
+    L = [f'# 자리 비운 동안 — {time.strftime("%Y-%m-%d %H:%M")}', '', f'사람 입력 없이 {total:.0f}초 동안 가게의 하루 일을 돌았다. 입금 확인·발송·채널에 올리기·메일 발송은 하지 않았다.', '', '## 사람 없이 된 것']
+    for r in R:
+        L.append(f'- {"✓" if r["ok"] else ("–" if r["ok"] is None else "✗")} {r["name"]} ({r["secs"]:.0f}초) {r["tail"]}')
+    L += ['', '## 지금 가게', f'- 주문: 입금 대기 {wait}건 · 입금 확인(보낼 것) {paid}건 · 보냄 {cnt.get("보냄", 0)}건', '', '## 여기서 사람이 하는 것',
+          f'- 입금 확인: 통장에 돈이 들어왔는지 보고 운영자 화면(`http://127.0.0.1:3000/admin`)에서 「입금 확인」을 누른다 — 지금 {wait}건이 기다린다',
+          f'- 보내기: `넘김/오늘_보낼것.md` 대로 싸서 보내고 운영자 화면에서 「보냄」을 누른다 — 지금 {paid}건',
+          f'- 알리기: `promo_out/shop_{pid}/` 의 글·문구·카드를 로그인된 블로그·SNS 에 올린다(브라우저 확장이 있으면 세션이 채워 넣고 「발행」 앞에서 멈춘다)']
+    bad = [r for r in R if r['ok'] is False]
+    L += ['', '## 걸린 것'] + ([f'- {r["name"]}: {r["err"] or r["tail"]}' for r in bad] or ['- 없음'])
+    os.makedirs(os.path.dirname(REPORT), exist_ok=True); open(REPORT, 'w', encoding='utf-8').write('\n'.join(L) + '\n')
+    print(f'\n끝 — {total:.0f}초. 한 장으로 남겼습니다: 넘김/자리비운동안.md')
+    print(f'[사람 없이 된 것] 주문표 · 오늘 보낼 것 · 백업 · 「{nm}」 홍보물 · 가게 시험')
+    print(f'[여기서 사람이 하는 것] 입금 확인 {wait}건 · 보내기 {paid}건 · 홍보물을 채널에 올리기')
+    return 1 if bad else 0
+
+
 def taste():
     if '--뒤' in A and len(A) > A.index('--뒤') + 1:   # 조금 뒤에 저절로: 떨어진 프로세스로 넘기고 바로 돌아온다
         mins = float(A[A.index('--뒤') + 1]); os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True)
@@ -97,6 +131,10 @@ def taste():
         time.sleep(int(A[A.index('--기다림') + 1]))
     t0 = time.time(); S = site(); P = S.get('parts', {}); info = bool(P.get('info')); writing = S.get('frame') == 'medium'
     print('━━ 자동 — 사람 없이 끝까지 ━━', flush=True)
+    pg = os.path.join(HERE, '진도.json'); did = [x.get('what', '') for x in (json.load(open(pg, encoding='utf-8')).get('done', []) if os.path.exists(pg) else [])]
+    shop = '본 가게' in did and os.path.exists(os.path.join(HERE, 'shop', 'api', 'data', 'shop.db')); article = '본 글' in did or not shop
+    if not article:
+        return taste_shop(t0, only=True)
     print('  이 사이트: ' + ('글 사이트 — 뉴스를 모으지 않고, 가장 새 글로 알릴 것을 만듭니다' if writing else '켜진 부품: ' + ', '.join(k for k, v in P.items() if v)), flush=True)
     R = [step('모으기·묶기·대조·화면(하루 한 바퀴)' if info else '화면 다시 찍기(하루 한 바퀴 — 뉴스 모으기·대조는 꺼져 있어 건너뜀)', ['run_daily.py'])]
     has_notes = bool(glob.glob(os.path.join(HERE, 'notes', '2*.json')))
@@ -120,6 +158,8 @@ def taste():
     if any(P.get(k) for k in ('board', 'market', 'trend')):
         R.append(step('운영자의 하루 일(들어온 것 읽기)', ['ops.py']))
     R.append(step('점검(깨진 주소·빈 페이지)', ['audit.py']))
+    if shop:
+        R += taste_shop(t0, only=False)
     made = [('새로 찍은 페이지', new_files('docs', t0, ['**/index.html'])), ('블로그 글', new_files('promo_out', t0, ['*/블로그글.md'])), ('알림 문구', new_files('promo_out', t0, ['*/알림_*.txt'])),
             ('카드 그림', new_files('cards', t0, ['*.png']) + new_files('promo_out', t0, ['*/카드.png'])), ('영상', new_files('shorts', t0, ['*.mp4']))]
     total = time.time() - t0
