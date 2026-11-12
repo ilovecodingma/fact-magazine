@@ -23,8 +23,8 @@ export default function ProductCard({ p, rank }) {
   return (
     <Link href={'/p/' + p.id} className="card">
       {rank && <b className="rankno">{rank}</b>}
-      {p.badge && <span className="badge">{p.badge}</span>}
-      <Thumb p={p} />
+      {p.soldout ? <span className="badge sold">품절</span> : p.badge && <span className="badge">{p.badge}</span>}
+      <div className={p.soldout ? 'soldout' : ''}><Thumb p={p} /></div>
       <div className="card-b">
         <div className="nm">{p.name}</div>
         <div className="ds">{p.desc}</div>

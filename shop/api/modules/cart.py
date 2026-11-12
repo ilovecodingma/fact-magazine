@@ -20,8 +20,11 @@ def view(c, req):
 
 def add(c, req):
     d = need(req); pid = int(req['body'].get('id', 0)); qty = max(1, min(99, int(req['body'].get('qty', 1))))
-    if not c.execute('select 1 from products where id=?', (pid,)).fetchone():
+    r = c.execute('select stock from products where id=?', (pid,)).fetchone()
+    if not r:
         raise ValueError('없는 상품입니다')
+    if (r[0] or 0) <= 0:
+        raise ValueError('품절된 상품입니다')
     c.execute('insert into cart(device,pid,qty) values(?,?,?) on conflict(device,pid) do update set qty=min(99, qty+excluded.qty)', (d, pid, qty))
     return view(c, req)
 

@@ -55,6 +55,8 @@ main.wrap { padding-bottom: 96px; min-height: 60vh; }
 .price { font-weight: 800; letter-spacing: -.3px; }
 .pr s, .was s { color: #b5b5b5; font-size: 14px; }
 .badge { position: absolute; left: 10px; top: 10px; z-index: 1; background: var(--pri); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; }
+.badge.sold { background: #777; } .soldout { opacity: .45; } .soldbox { margin-top: 16px; padding: 18px; background: var(--fill); text-align: center; font-weight: 700; color: var(--mu); }
+.reply { margin: 10px 0 0; padding: 12px 14px; background: var(--fill); font-size: 14px; } .reply b { margin-right: 6px; }
 .stars { display: block; margin-top: 4px; color: var(--ink); font-size: 12px; } .stars i { color: #ddd; font-style: normal; } .stars small { color: var(--mu); }
 .rankno { position: absolute; left: 0; top: 0; z-index: 2; background: var(--red); color: #fff; width: 32px; height: 32px; display: grid; place-items: center; font-size: 15px; }
 .rankno + .badge { left: 42px; }

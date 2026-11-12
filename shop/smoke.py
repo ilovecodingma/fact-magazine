@@ -42,6 +42,9 @@ def main():
         c = call('POST', '/api/cart', {'id': ps[0]['id'], 'qty': 2}); t('장바구니에 담깁니다', c.get('count') == 2, f'{c.get("total")}원')
         call('POST', '/api/wish', {'id': ps[1]['id']}); t('찜이 됩니다', ps[1]['id'] in call('GET', '/api/wish')['ids'])
         r = call('POST', f'/api/products/{ps[0]["id"]}/reviews', {'stars': 4, 'body': '잘 받았습니다'}); t('상품평이 달립니다', len(r.get('reviews', [])) == 1)
+        import sqlite3 as _sq
+        _c = _sq.connect(env['SHOP_DB']); _c.execute('update products set stock=0 where id=?', (ps[2]['id'],)); _c.commit(); _c.close()
+        t('품절된 상품은 「품절」로 나오고 장바구니에 담기지 않습니다', call('GET', f'/api/products/{ps[2]["id"]}')['product'].get('soldout') is True and call('POST', '/api/cart', {'id': ps[2]['id'], 'qty': 1}).get('_code') == 400)
         call('POST', '/api/view', {'id': ps[0]['id']}); t('본 횟수로 순위가 섭니다', call('GET', '/api/rank')['products'][0]['id'] == ps[0]['id'])
         o = call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소', 'coupon': '첫주문'}); t('무통장 입금으로 주문이 들어가고 쿠폰이 먹습니다', o.get('ok') and o.get('discount') == 3000 and 'bank' in o, f'주문 {o.get("id")}번 {o.get("total")}원')
         t('주문 뒤 장바구니가 비워집니다', call('GET', '/api/cart')['count'] == 0)
@@ -51,6 +54,8 @@ def main():
         t('이미 정해진 운영자 비밀번호는 다시 정할 수 없습니다', call('POST', '/api/admin/setup', {'key': 'another-key-123'}).get('_code') == 400)
         a = call('GET', '/api/admin/orders', admin=True); t('운영자는 입금 대기 주문을 봅니다', a.get('waiting') == 1 and a['orders'][0]['status'] == '입금 대기')
         a = call('PUT', f'/api/admin/orders/{o["id"]}', {'status': '입금 확인'}, admin=True); t('운영자가 입금을 확인합니다', a['orders'][0]['status'] == '입금 확인')
+        rid = call('GET', '/api/admin/reviews', admin=True)['reviews'][0]['id']; call('PUT', f'/api/admin/reviews/{rid}', {'reply': '고맙습니다'}, admin=True)
+        t('운영자가 올린 답글이 상품평 아래에 보이고, 비밀번호 없이는 답글을 달 수 없습니다', call('GET', f'/api/products/{ps[0]["id"]}/reviews')['reviews'][0].get('reply') == '고맙습니다' and call('PUT', f'/api/admin/reviews/{rid}', {'reply': 'x'}).get('_code') == 403)
         d = json.loads(keep); d['on'] = [x for x in d['on'] if x != 'reviews']; open(CONF, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=1)); time.sleep(0.05)
         t('상품평을 떼면 서버를 끄지 않아도 그 주소가 사라집니다', call('GET', f'/api/products/{ps[0]["id"]}/reviews').get('_code') == 404 and 'reviews' not in call('GET', '/api/features')['on'])
         open(CONF, 'w', encoding='utf-8').write(keep); time.sleep(0.05)

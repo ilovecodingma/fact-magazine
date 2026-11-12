@@ -5,6 +5,7 @@ python run.py 데이터 백업            백업/<날짜_시각>.zip 한 파일�
 python run.py 데이터 목록            백업해 둔 파일들
 python run.py 데이터 복구 [파일] --예  그 백업(없으면 가장 최근)으로 되돌린다. 되돌리기 직전 상태도 먼저 백업해 둔다
 python run.py 데이터 주문표          가게 주문을 넘김/주문표.csv 로(엑셀로 열림) — 입금 대기·입금 확인·보냄
+python run.py 데이터 발송목록        입금이 확인된 주문만 골라 넘김/오늘_보낼것.md 로
 운영에서 이 일은 「데이터」 담당 세션(또는 서브에이전트)이 맡는다: 아침마다 현황 → 백업, 주문이 있으면 주문표."""
 import csv, json, os, sqlite3, sys, time, zipfile
 try:
@@ -106,6 +107,20 @@ def orders_csv():
     return 0
 
 
+def ship_list():
+    R = q("select id, name, address, phone, memo, items from orders where status='입금 확인' order by id", [])
+    if not R:
+        print('입금이 확인된 주문이 없습니다(운영자가 운영자 화면에서 「입금 확인」을 누른 주문만 여기에 나옵니다).'); return 0
+    out = os.path.join(HERE, '넘김', '오늘_보낼것.md'); os.makedirs(os.path.dirname(out), exist_ok=True)
+    L = [f'# 오늘 보낼 것 — {time.strftime("%Y-%m-%d %H:%M")} (입금 확인된 주문 {len(R)}건)', '']
+    for r in R:
+        items = ' / '.join(f'{i["name"]} {i["qty"]}개' for i in json.loads(r[5]))
+        L += [f'## 주문 {r[0]}번 — {r[1]}', f'- 보낼 것: {items}', f'- 주소: {r[2]}', f'- 연락처: {r[3]}'] + ([f'- 남긴 말: {r[4]}'] if r[4] else []) + ['']
+    open(out, 'w', encoding='utf-8').write('\n'.join(L))
+    print(f'오늘 보낼 것 {len(R)}건: 넘김/오늘_보낼것.md (보낸 뒤에는 운영자가 운영자 화면에서 「보냄」을 누릅니다. 연락처·주소가 들어 있으니 바깥에 올리지 않습니다)')
+    return 0
+
+
 def main():
     c = A[0] if A else '현황'
     if c == '현황':
@@ -118,6 +133,8 @@ def main():
         return restore()
     if c == '주문표':
         return orders_csv()
+    if c == '발송목록':
+        return ship_list()
     print(__doc__); return 1
 
 

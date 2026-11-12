@@ -10,7 +10,7 @@ def init(c):
     c.execute('create table if not exists products(id integer primary key, name text, cat text, price integer, was integer, emoji text, color text, desc text, badge text, stock integer default 99, created text default current_timestamp)')
     if c.execute('select count(*) from products').fetchone()[0] == 0 and os.path.exists(SEED):
         for p in json.load(open(SEED, encoding='utf-8'))['products']:
-            c.execute('insert into products(name,cat,price,was,emoji,color,desc,badge) values(?,?,?,?,?,?,?,?)', (p['name'], p['cat'], p['price'], p.get('was') or p['price'], p.get('emoji', '📦'), p.get('color', '#eef2ff'), p.get('desc', ''), p.get('badge', '')))
+            c.execute('insert into products(name,cat,price,was,emoji,color,desc,badge,stock) values(?,?,?,?,?,?,?,?,?)', (p['name'], p['cat'], p['price'], p.get('was') or p['price'], p.get('emoji', '📦'), p.get('color', '#eef2ff'), p.get('desc', ''), p.get('badge', ''), int(p.get('stock', 99))))
 
 
 def stats(c, ps):
@@ -18,6 +18,7 @@ def stats(c, ps):
     for p in ps:
         r = c.execute('select count(*), avg(stars) from reviews where pid=?', (p['id'],)).fetchone() if has else (0, None)
         p['reviews'] = r[0]; p['stars'] = round(r[1], 1) if r[1] else 0
+        p['soldout'] = (p.get('stock') or 0) <= 0
         p['off'] = round((p['was'] - p['price']) * 100 / p['was']) if p['was'] > p['price'] else 0
     return ps
 

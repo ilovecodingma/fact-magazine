@@ -23,6 +23,10 @@ export default function Admin() {
     const j = await api('/api/admin/bank', { method: 'POST', body: bank, admin: key });
     setMsg(j.ok ? '입금 계좌를 넣었습니다' : j.error); if (j.ok) { setBankSet(j.set); setBank({ bank: '', account: '', holder: '' }); }
   };
+  const [rvs, setRvs] = useState([]);
+  const [drafts, setDrafts] = useState({});
+  const loadRvs = (k) => api('/api/admin/reviews', { admin: k }).then((j) => setRvs(j.reviews || []));
+  const sendReply = async (id) => { const j = await api('/api/admin/reviews/' + id, { method: 'PUT', body: { reply: drafts[id] ?? '' }, admin: key }); if (j.reviews) { setRvs(j.reviews); setMsg('답글을 올렸습니다'); } };
   const [np, setNp] = useState({ name: '', cat: '', price: '', was: '', emoji: '📦', desc: '' });
   const load = async (e) => {
     e && e.preventDefault();
@@ -30,6 +34,7 @@ export default function Admin() {
     if (j.failed !== undefined) { setData(null); return setMsg(j.error); }
     setMsg(''); setData(j);
     api('/api/admin/bank', { admin: key }).then((b) => setBankSet(!!b.set));
+    loadRvs(key);
   };
   const setStatus = async (id, status) => setData(await api('/api/admin/orders/' + id, { method: 'PUT', body: { status }, admin: key }));
   const addProduct = async (e) => {
@@ -67,6 +72,19 @@ export default function Admin() {
               <p>{o.items.map((i) => `${i.name} ${i.qty}개`).join(' · ')}</p>
               <p><b>{won(o.total)}원</b> · {o.name} · {o.phone} · {o.address}{o.memo && ` · ${o.memo}`}</p>
               <div className="sorts">{['입금 대기', '입금 확인', '보냄', '취소'].map((s) => <button key={s} className={o.status === s ? 'on' : ''} onClick={() => setStatus(o.id, s)}>{s}</button>)}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className="sec">
+        <h2>상품평 <small>{rvs.length}개</small></h2>
+        {rvs.length === 0 && <p className="empty">아직 상품평이 없습니다.</p>}
+        <ul className="orders">
+          {rvs.map((r) => (
+            <li key={r.id}>
+              <div><b>{r.product}</b> <small>{'★'.repeat(r.stars)} · {r.name} · {r.created}</small></div>
+              <p>{r.body}</p>
+              <div className="rvform"><input className="grow" placeholder="답글" value={drafts[r.id] ?? r.reply ?? ''} onChange={(e) => setDrafts({ ...drafts, [r.id]: e.target.value })} maxLength={500} /><button className="btn" onClick={() => sendReply(r.id)}>올리기</button></div>
             </li>
           ))}
         </ul>

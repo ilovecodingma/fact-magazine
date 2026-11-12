@@ -54,7 +54,8 @@ export default function Product() {
             <dt>배송</dt><dd>{p.badge || '입금 확인 뒤 보내 드립니다'}</dd>
             <dt>결제</dt><dd>무통장 입금</dd>
           </dl>
-          {has('cart') && (
+          {p.soldout && <div className="soldbox">품절된 상품입니다</div>}
+          {has('cart') && !p.soldout && (
             <>
               <div className="qtyrow">
                 <span>수량</span>
@@ -101,7 +102,7 @@ export default function Product() {
           </form>
           {reviews.length === 0 && <p className="empty">첫 상품평을 남겨 주세요.</p>}
           <ul className="rvs">
-            {reviews.map((r) => <li key={r.id}><span className="stars" style={{ display: 'inline' }}>{'★'.repeat(r.stars)}</span> <b>{r.name}</b> <small>{r.created}</small><p>{r.body}</p></li>)}
+            {reviews.map((r) => <li key={r.id}><span className="stars" style={{ display: 'inline' }}>{'★'.repeat(r.stars)}</span> <b>{r.name}</b> <small>{r.created}</small><p>{r.body}</p>{r.reply && <p className="reply"><b>판매자</b> {r.reply}</p>}</li>)}
           </ul>
         </section>
       )}

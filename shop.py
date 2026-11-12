@@ -109,7 +109,7 @@ def stop():
     if os.path.exists(RUN):
         t = json.load(open(RUN, encoding='utf-8')).get('tunnel')
         if t:
-            kill(t)
+            kill(t); forget_url()
         os.remove(RUN)
     print('가게를 껐습니다(자료는 shop/api/data/shop.db 에 그대로 있습니다).'); return 0
 
@@ -150,6 +150,15 @@ def cloudflared():
         print('✗ 받지 못했습니다:', repr(e)[:120]); return None
 
 
+def forget_url():
+    """바깥 주소를 닫았으면 「올린 주소」 기록도 지운다(닫힌 주소가 상태창·홍보 글에 남지 않게)."""
+    pg = os.path.join(HERE, '진도.json')
+    if os.path.exists(pg):
+        d = json.load(open(pg, encoding='utf-8'))
+        if (d.get('deploy') or {}).get('live') == 'pc':
+            d.pop('deploy'); json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+
+
 def kill(pid):
     subprocess.run(['taskkill', '/F', '/PID', str(pid)], capture_output=True) if os.name == 'nt' else subprocess.run(['kill', str(pid)], capture_output=True)
 
@@ -160,7 +169,7 @@ def share():
     if len(A) > 1 and A[1] == '끄기':
         pid = run.pop('tunnel', None)
         if pid:
-            kill(pid); json.dump(run, open(RUN, 'w', encoding='utf-8'))
+            kill(pid); json.dump(run, open(RUN, 'w', encoding='utf-8')); forget_url()
         print('바깥 주소를 닫았습니다.' if pid else '열어 둔 바깥 주소가 없습니다.'); return 0
     if not (alive('http://127.0.0.1:8787/api/features') and alive('http://127.0.0.1:3000/')):
         print('가게가 꺼져 있어 먼저 켭니다…', flush=True)
@@ -210,6 +219,76 @@ def share():
     return 0 if ok else 1
 
 
+def find_product(word):
+    R = []
+    if os.path.exists(DB):
+        c = sqlite3.connect(DB); c.row_factory = sqlite3.Row
+        R = [dict(r) for r in c.execute('select * from products')]; c.close()
+    w = word.strip()
+    return next((p for p in R if str(p['id']) == w), None) or next((p for p in R if w and w in p['name']), None)
+
+
+def soldout():
+    """가게 품절 <번호|이름 일부> [풀기] — 품절이면 화면에 「품절」이 뜨고 담기지 않는다. products.json 에도 적어 상품다시 뒤에도 남는다."""
+    rest = [a for a in A[1:] if not a.startswith('--')]
+    if not rest:
+        print('사용: python run.py 가게 품절 <번호|이름 일부> [풀기]'); return 1
+    p = find_product(rest[0])
+    if not p:
+        print('그런 상품이 없습니다(가게를 한 번 켠 뒤에 됩니다). python run.py 가게 상태'); return 1
+    stock = 99 if len(rest) > 1 and rest[1] == '풀기' else 0
+    c = sqlite3.connect(DB); c.execute('update products set stock=? where id=?', (stock, p['id'])); c.commit(); c.close()
+    fp = os.path.join(API, 'data', 'products.json'); d = json.load(open(fp, encoding='utf-8'))
+    for x in d['products']:
+        if x['name'] == p['name']:
+            if stock:
+                x.pop('stock', None)
+            else:
+                x['stock'] = 0
+    json.dump(d, open(fp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'{p["id"]}번 「{p["name"]}」: ' + ('다시 팔기로 했습니다.' if stock else '품절로 바꿨습니다 — 화면에 「품절」이 뜨고 장바구니에 담기지 않습니다.') + (' 켜져 있는 가게는 새로 열면 반영됩니다.' if alive('http://127.0.0.1:8787/api/features') else ''))
+    return 0
+
+
+def promo():
+    """가게 홍보 <번호|이름 일부> — 상품 하나로 홍보 글·짧은 문구·정사각 카드 그림을 promo_out/shop_<번호>/ 에 만든다. 올리지는 않는다."""
+    import base64, html as H
+    rest = [a for a in A[1:] if not a.startswith('--')]
+    p = find_product(rest[0]) if rest else None
+    if not p:
+        print('사용: python run.py 가게 홍보 <번호|이름 일부>   (가게를 한 번 켠 뒤에 됩니다)'); return 1
+    S = json.load(open(os.path.join(WEB, 'site.json'), encoding='utf-8'))
+    pg = os.path.join(HERE, '진도.json'); dep = (json.load(open(pg, encoding='utf-8')).get('deploy') or {}) if os.path.exists(pg) else {}
+    run = json.load(open(RUN, encoding='utf-8')) if os.path.exists(RUN) else {}
+    url = (dep.get('url', '') + '/p/' + str(p['id'])) if dep.get('url') and dep.get('live') == 'pc' and run.get('tunnel') and alive(dep['url'] + '/api/features') else ''
+    off = round((p['was'] - p['price']) * 100 / p['was']) if p['was'] > p['price'] else 0
+    price = f'{p["price"]:,}원' + (f' ({off}% 할인, 원래 {p["was"]:,}원)' if off else '')
+    out = os.path.join(HERE, 'promo_out', f'shop_{p["id"]}'); os.makedirs(out, exist_ok=True)
+    where = url or '(가게 주소 — python run.py 올려 가게 로 받은 주소를 넣습니다)'
+    open(os.path.join(out, '홍보글.md'), 'w', encoding='utf-8').write(f'# {p["name"]}\n\n{p["desc"]}\n\n- 값: {price}\n- 파는 곳: {S["name"]} — {S.get("tagline", "")}\n- 결제: 무통장 입금\n\n보러 가기: {where}\n')
+    open(os.path.join(out, '문구_짧게.txt'), 'w', encoding='utf-8').write(f'{p["name"]} {p["price"]:,}원' + (f' ({off}%↓)' if off else '') + f' — {S["name"]}\n')
+    open(os.path.join(out, '문구_보통.txt'), 'w', encoding='utf-8').write(f'{p["name"]}. {p["desc"]} {price}. {S["name"]}에서 {where}\n')
+    img = os.path.join(WEB, 'public', 'p', f'{p["id"]}.jpg'); src = ('data:image/jpeg;base64,' + base64.b64encode(open(img, 'rb').read()).decode()) if os.path.exists(img) else ''
+    card = os.path.join(out, 'card.html')
+    open(card, 'w', encoding='utf-8').write(f'<!doctype html><meta charset="utf-8"><style>html,body{{margin:0;width:1080px;height:1080px;font-family:"Pretendard","Malgun Gothic",sans-serif;background:{H.escape(p["color"])}}}'
+        'img{position:absolute;inset:0;width:1080px;height:1080px;object-fit:cover}.b{position:absolute;left:0;right:0;bottom:0;padding:56px 64px;color:#fff;background:linear-gradient(180deg,transparent,rgba(0,0,0,.78))}'
+        '.s{font-size:34px;opacity:.9}.n{font-size:72px;font-weight:800;line-height:1.2;letter-spacing:-2px;margin:10px 0 18px}.p{font-size:56px;font-weight:800}.o{color:#ff6b57;margin-right:18px}</style>'
+        + (f'<img src="{src}">' if src else '') + f'<div class="b"><div class="s">{H.escape(S["name"])}</div><div class="n">{H.escape(p["name"])}</div><div class="p">' + (f'<span class="o">{off}%</span>' if off else '') + f'{p["price"]:,}원</div></div>')
+    png = os.path.join(out, '카드.png'); made = False
+    try:
+        sys.path.insert(0, HERE); import selftest as T
+        br = T.find_browser()
+        if br:
+            subprocess.run([br, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1080,1080', f'--screenshot={png}', 'file:///' + card.replace(os.sep, '/')], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=90)
+            made = os.path.exists(png)
+    except Exception:
+        pass
+    print(f'「{p["name"]}」 홍보 묶음을 만들었습니다(올리지 않았습니다): promo_out/shop_{p["id"]}/')
+    print('  홍보글.md · 문구_짧게.txt · 문구_보통.txt' + (' · 카드.png(1080×1080)' if made else ' · 카드 그림은 못 만들었습니다(브라우저 없음)'))
+    print('[사람이 승인하면 이어지는 것] 블로그·SNS 에 올리기 — 운영자가 로그인한 화면에서. 값과 주소가 가게와 같은지 한 번 더 봅니다.' + ('' if url else ' (가게 주소가 아직 없어 주소 자리는 비워 두었습니다)'))
+    return 0
+
+
 def reseed():
     if not os.path.exists(DB):
         print('아직 자료가 없습니다(가게를 한 번 켜면 생깁니다).'); return 0
@@ -239,6 +318,10 @@ def main():
         return reseed()
     if c == '공유':
         return share()
+    if c == '품절':
+        return soldout()
+    if c == '홍보':
+        return promo()
     print(__doc__); return 1
 
 
