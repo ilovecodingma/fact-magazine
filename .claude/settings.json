@@ -6,7 +6,18 @@
       "Bash(git push --force *)",
       "Bash(rm -rf *)",
       "Read(./shop/api/data/bank.local.json)",
-      "Read(./shop/api/data/admin.local.json)"
+      "Read(./shop/api/data/admin.local.json)",
+      "PowerShell(git push --force *)",
+      "PowerShell(Remove-Item * -Recurse *)",
+      "PowerShell(rm -r *)",
+      "PowerShell(Get-Content ./.env)",
+      "Bash(cat ./.env)",
+      "Bash(cat *mail.local.json)",
+      "PowerShell(Get-Content *mail.local.json)",
+      "Bash(cat *bank.local.json)",
+      "PowerShell(Get-Content *bank.local.json)",
+      "Bash(cat *admin.local.json)",
+      "PowerShell(Get-Content *admin.local.json)"
     ]
   }
 }
