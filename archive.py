@@ -14,6 +14,46 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, '참고', '운영기록')
 URL = os.environ.get('ARCHIVE_URL', 'https://sungprofile.cloud/park/archive/archive.zip')
 MAX = 60 * 1024 * 1024
+INDEX = os.environ.get('ARCHIVE_INDEX', 'https://sungprofile.cloud/park/archive/index.json')
+
+
+def _get(u, limit=5 * 1024 * 1024):
+    req = urllib.request.Request(u, headers={'User-Agent': 'fact-magazine-harness/1'})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read(limit)
+
+
+def _text(h):
+    """화면용 글(HTML)을 읽기 좋은 글로: 꾸밈과 스크립트를 걷고 줄만 남긴다."""
+    import html as _html
+    h = re.sub(r'(?is)<(script|style|head|nav|footer)\b.*?</\1>', '', h)
+    h = re.sub(r'(?i)<h([1-4])[^>]*>', lambda m: '\n\n' + '#' * (int(m.group(1)) + 1) + ' ', h)
+    h = re.sub(r'(?i)</(p|div|h[1-6]|tr|li|section|article|table|figure|blockquote)>|<br\s*/?>', '\n', h)
+    h = re.sub(r'(?i)<li[^>]*>', '- ', h); h = re.sub(r'(?i)</t[dh]>', ' | ', h)
+    t = _html.unescape(re.sub(r'<[^>]+>', '', h))
+    return re.sub(r'\n{3,}', '\n\n', '\n'.join(x.strip() for x in t.splitlines())).strip()
+
+
+def flows():
+    """책에서 뺀 「실제 흐름」 글들을 받아 흐름_<번호>.md 로 놓고, 제목 목록(흐름_목록.md)을 만든다. 못 받아도 원문 기록은 그대로 쓴다."""
+    try:
+        F = json.loads(_get(INDEX).decode('utf-8')).get('flows') or []
+    except Exception:
+        return 0
+    n = 0; idx = ['# 실제 흐름 — 제목으로 찾기', '', '상황별로 찾을 때는 이 제목이 가장 좋은 길잡이다. 파일은 같은 폴더의 흐름_<번호>.md', '']
+    for f in F[:80]:
+        fid = re.sub(r'[^A-Za-z0-9_-]', '', str(f.get('id') or '')); u = str(f.get('url') or '')
+        if not fid or not u.startswith('https://sungprofile.cloud/park/archive/'):
+            continue   # 보관소 밖 주소는 받지 않는다
+        try:
+            body = _text(_get(u).decode('utf-8', 'replace'))
+        except Exception:
+            continue
+        open(os.path.join(DIR, f'흐름_{fid}.md'), 'w', encoding='utf-8').write(f'# {f.get("title", "")}\n\n(출처: {u})\n\n{body}\n'); n += 1
+        idx.append(f'- 흐름_{fid}.md — {f.get("title", "")}')
+    if n:
+        open(os.path.join(DIR, '흐름_목록.md'), 'w', encoding='utf-8').write('\n'.join(idx) + '\n')
+    return n
 
 
 def files():
@@ -57,7 +97,8 @@ def fetch(A):
         open(os.path.join(DIR, base), 'wb').write(data); n += 1
     if not n:
         print('✗ 묶음 안에 글 파일(.md)이 없습니다.'); return 1
-    print(f'✓ 운영 기록을 받았습니다: 참고/운영기록/ 에 {n}개 파일, {size / 1024 / 1024:.1f}MB')
+    nf = flows() if not os.path.exists(src) else 0
+    print(f'✓ 운영 기록을 받았습니다: 참고/운영기록/ 에 {n}개 파일, {size / 1024 / 1024:.1f}MB' + (f' · 실제 흐름 {nf}편(흐름_목록.md 에 제목)' if nf else ''))
     print('  먼저 읽을 것: 참고/운영기록/읽어두기.md · 참고/운영기록/책_절별_원자료_찾기.md · 참고/운영기록_읽는법.md(세션이 지킬 것)')
     print('  이제 이렇게 말해 보세요 — 「10월 23일에 무슨 일이 있었는지 정리해 줘」 「예약이 멈췄던 날을 찾아 줘」 「사람이 가장 많이 한 말이 뭐야」')
     return 0
