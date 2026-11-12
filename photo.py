@@ -43,7 +43,7 @@ def search(q, square):
             return
         for r in d.get('results', []):
             if r.get('url') and not r.get('mature') and not any(b in (r.get('title') or '').lower() for b in BAD) and not r['url'].lower().endswith(('.png', '.svg', '.gif')) and r['url'] not in [x['url'] for x in out]:
-                out.append(dict(url=r['url'], title=r.get('title') or '', source=r.get('source'), license=r.get('license'), page=r.get('foreign_landing_url') or '', by=r.get('creator') or ''))
+                out.append(dict(url=r['url'], thumb=r.get('thumbnail') or '', title=r.get('title') or '', source=r.get('source'), license=r.get('license'), page=r.get('foreign_landing_url') or '', by=r.get('creator') or ''))
     # 좁게 찾고, 없으면 조건을 하나씩 푼다: 모양(네모·가로) → 사진 갈래 → 낱말을 줄여서(끝 낱말, 첫 낱말)
     words = q.split()
     tries = [(q, dict(aspect_ratio='square,wide' if square else 'wide', category='photograph')), (q, dict(category='photograph')), (q, {})]
@@ -84,6 +84,13 @@ def main():
         print('받지 못했습니다:', repr(e)[:120], '— --pick 으로 다른 후보를 받아 보세요.'); return 1
     if len(b) < 8000:
         print('받은 파일이 너무 작습니다. --pick 으로 다른 후보를 받아 보세요.'); return 1
+    if square and len(b) > 300 * 1024 and r.get('thumb'):   # 네모 칸(상품)에 쓰기에는 무겁다: 찾는 곳이 내주는 작은 판(가로 600쯤)으로 바꾼다
+        try:
+            s = urllib.request.urlopen(urllib.request.Request(r['thumb'], headers=UA), timeout=30).read()
+            if 8000 < len(s) < len(b) and s[:2] == b'\xff\xd8':
+                b = s
+        except Exception:
+            pass
     open(dst, 'wb').write(b)
     log = os.path.join(os.path.dirname(dst), '_사진출처.json'); L = json.load(open(log, encoding='utf-8')) if os.path.exists(log) else {}
     L[os.path.basename(dst)] = dict(q=q, title=r['title'], source=r['source'], license=r['license'], page=r['page'], by=r['by']); json.dump(L, open(log, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

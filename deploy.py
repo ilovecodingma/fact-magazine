@@ -39,6 +39,22 @@ def npx(args, cwd, timeout=300):
     return r.returncode, (r.stdout or '') + '\n' + (r.stderr or '')
 
 
+def sitemap(base):
+    """올릴 사본의 페이지 주소를 모아 sitemap.xml 을 쓰고 robots.txt 에 그 자리를 적는다(검색 사이트가 내 글을 찾아가는 목록). 임시 주소에는 만들지 않는다."""
+    urls = []
+    for root, ds, fs in os.walk(DIST):
+        ds[:] = [x for x in ds if not x.startswith('.')]
+        if 'index.html' in fs:
+            rel = os.path.relpath(root, DIST).replace(os.sep, '/')
+            urls.append(base.rstrip('/') + '/' + ('' if rel == '.' else rel + '/'))
+    urls.sort(key=lambda u: (u.count('/'), u))
+    if not urls:
+        return 0
+    open(os.path.join(DIST, 'sitemap.xml'), 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{u}</loc></url>' for u in urls) + '</urlset>')
+    open(os.path.join(DIST, 'robots.txt'), 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {base.rstrip("/")}/sitemap.xml\n')
+    return len(urls)
+
+
 def opens(url):
     for _ in range(6):
         try:
@@ -110,7 +126,14 @@ def main():
         print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 올릴 사본에서 영어 이름으로 바꿨습니다)', flush=True)
     rc, who = npx('whoami', DIST, 90); logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
     print('올리는 중…' + (' (Vercel 에 로그인돼 있어 사라지지 않는 주소로)' if logged else ' (로그인 없이 임시 주소로)'), flush=True)
+    prev = (prog().get('deploy') or {})
+    known = prev.get('url', '') if logged and not prev.get('temp') and prev.get('slug') == _slug() else ''
+    if known:
+        sitemap(known)
     rc, out = npx('deploy --prod --yes' if logged else 'deploy --temporary --yes', DIST)
+    if rc != 0 and 'vercel.app' not in out and 'tmp.now' not in out and os.path.isdir(os.path.join(DIST, '.vercel')):   # 예전에 이어 둔 프로젝트가 계정에서 지워졌다: 이은 기록을 버리고 새로 올린다
+        shutil.rmtree(os.path.join(DIST, '.vercel'), ignore_errors=True); known = ''
+        rc, out = npx('deploy --prod --yes' if logged else 'deploy --temporary --yes', DIST)
     if logged:
         m = re.findall(r'https://[a-z0-9.-]+\.vercel\.app', out); url = m[-1] if m else ''; claim = ''; exp = 0
     else:
@@ -119,8 +142,12 @@ def main():
         e = re.search(r'"expiresAt":\s*(\d+)', out); exp = int(e.group(1)) / 1000 if e else time.time() + 3600
     if not url:
         print('✗ 주소를 받지 못했습니다. 나온 말의 끝:\n' + out.strip()[-500:]); return 1
+    if logged and not known:   # 사라지지 않는 주소를 방금 처음 알았다: 주소 목록 파일을 만들어 한 번 더 올린다(다음부터는 한 번에)
+        n = sitemap(url)
+        if n:
+            npx('deploy --prod --yes', DIST)
     ok = opens(url + '/')
-    d = prog(); d['deploy'] = dict(url=url, temp=not logged, claim=claim, expires=exp, t=time.strftime('%Y-%m-%d %H:%M'))
+    d = prog(); d['deploy'] = dict(url=url, slug=_slug(), temp=not logged, claim=claim, expires=exp, t=time.strftime('%Y-%m-%d %H:%M'))
     d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': '올림: ' + url}); d['last'] = '올림: ' + url
     json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'\n{"✓" if ok else "✗"} 올렸습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
