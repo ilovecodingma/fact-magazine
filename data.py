@@ -48,7 +48,8 @@ def status():
             print(f'│ ▶ 사람이 볼 것: 입금 대기 {wait}건 — 입금을 확인하고 운영자 화면(/admin)에서 「입금 확인」으로')
     else:
         print('│ 가게: 아직 켠 적이 없습니다')
-    print('│ 올린 주소: ' + (dep.get('url', '') + (' (임시)' if dep.get('temp') else '') if dep else '아직'))
+    ds = prog.get('deploy_shop') or {}
+    print('│ 올린 주소: ' + (' · '.join(x for x in [(dep.get('url', '') + (' (글 사이트, 임시)' if dep.get('temp') else ' (글 사이트)')) if dep.get('url') else '', (ds['url'] + ' (가게, 이 PC 가 켜져 있는 동안)') if ds.get('url') else ''] if x) or '아직'))
     B = backups()
     print('│ 마지막 백업: ' + (B[-1] + f' · 모두 {len(B)}개' if B else '없음 — python run.py 데이터 백업'))
     print('└' + '─' * 52)

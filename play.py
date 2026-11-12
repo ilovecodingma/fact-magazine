@@ -217,8 +217,15 @@ def status_cmd(R, rest=None):
     autos = [w for w in done if w.startswith('자동 ')]
     url = str(L.get('url') or ''); live = url.startswith('http') and 'localhost' not in url and '프로젝트이름' not in url
     dep = R.prog_load().get('deploy') or {}
+    urls = [url] if live else []
     if dep.get('url') and (not dep.get('temp') or dep.get('expires', 0) > time.time()):
-        live = True; url = dep['url'] + (' (이 PC 가 켜져 있는 동안)' if dep.get('live') == 'pc' else f' (임시, {max(0, (dep["expires"] - time.time()) / 60):.0f}분 남음)' if dep.get('temp') else '')
+        urls.append(dep['url'] + (f' (글 사이트, 임시 {max(0, (dep["expires"] - time.time()) / 60):.0f}분 남음)' if dep.get('temp') else ' (글 사이트)'))
+    ds = R.prog_load().get('deploy_shop') or {}
+    if ds.get('url'):
+        urls.append(ds['url'] + ' (가게, 이 PC 가 켜져 있는 동안)')
+    ever = sum(1 for w in done if w.startswith('올림: '))   # 관문은 한 번 올려 봤으면 열린 것이다(임시 주소가 닫혀도 다시 닫히지 않는다)
+    live = bool(urls) or ever > 0
+    url = ' · '.join(urls) if urls else f'지금은 닫힘(올린 것 {ever}번) — 「올려 줘」 한 줄이면 새 주소'
     card = R.svc_load(); filled = sum(1 for c in R.SVC_CARDS if card.get(c)); files = set()
     fp = os.path.join(HERE, '기록', '흐름.md')
     if os.path.exists(fp):
@@ -244,6 +251,10 @@ def status_cmd(R, rest=None):
         print(f'│ {"■" if ok else "□"} {n:<6} {d}')
     print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 튜토리얼 끝. 이제부터는 차례가 없습니다'))
     print('└' + '─' * 52)
+    try:   # 학습 사이트 토큰을 받아 둔 독자만: 열린 관문을 알린다(없으면 아무것도 안 보낸다, 안 돼도 조용히 넘어간다)
+        import lms; lms.sync()
+    except Exception:
+        pass
     return 0
 
 

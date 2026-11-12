@@ -24,7 +24,8 @@ def prog():
 
 
 def npx(args, cwd, timeout=300):
-    r = subprocess.run('npx --yes vercel ' + args, cwd=cwd, shell=True, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout)
+    r = subprocess.run('npx --yes vercel ' + args + (' ' + os.environ['VERCEL_ARGS'] if os.environ.get('VERCEL_ARGS') else ''), cwd=cwd,   # VERCEL_ARGS: 시험할 때 덧붙이는 옵션
+ shell=True, stdin=subprocess.DEVNULL, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout)
     return r.returncode, (r.stdout or '') + '\n' + (r.stderr or '')
 
 
@@ -53,13 +54,44 @@ def main():
     if A and A[0] == '상태':
         return state()
     if not shutil.which('node'):
-        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 로 점검하고 깔 수 있습니다(독자에게 한 번 묻고). 깐 뒤 다시 「올려」.'); return 1
+        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 가 점검하고 깝니다. 깐 뒤 다시 「올려」.'); return 1
     t0 = time.time()
     shutil.rmtree(DIST, ignore_errors=True)
     r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
     if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
         print('✗ 사이트를 찍지 못했습니다:', (r.stderr or r.stdout)[-300:]); return 1
     print('찍었습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
+    for root, _, fs in os.walk(DIST):   # 빈 파일이 하나라도 있으면 로그인 없는 올리기가 거절된다(크기 0) — 한 글자를 넣어 둔다
+        for f in fs:
+            fp = os.path.join(root, f)
+            if os.path.getsize(fp) == 0:
+                open(fp, 'w').write(' ')
+    # 한글 같은 영어 밖 글자가 든 파일·폴더 이름은 로그인 없는 올리기가 거절한다 — 올릴 사본에서만 영어 이름으로 바꾸고 화면 안의 링크도 같이 고친다
+    import hashlib, urllib.parse
+    ren = {}
+    for root, ds, fs in os.walk(DIST, topdown=False):
+        for n in fs + ds:
+            if any(ord(ch) > 127 for ch in n):
+                stem, ext = os.path.splitext(n)
+                new = 'k' + hashlib.md5(n.encode('utf-8')).hexdigest()[:10] + (ext if all(ord(ch) < 128 for ch in ext) else '')
+                os.rename(os.path.join(root, n), os.path.join(root, new)); ren[n] = new
+    if ren:
+        keys = sorted(ren, key=len, reverse=True)
+        for root, _, fs in os.walk(DIST):
+            for f in fs:
+                if f.rsplit('.', 1)[-1].lower() in ('html', 'css', 'js', 'json', 'xml', 'txt', 'webmanifest', 'svg'):
+                    fp = os.path.join(root, f)
+                    try:
+                        t = open(fp, encoding='utf-8').read()
+                    except Exception:
+                        continue
+                    t2 = t
+                    for k in keys:
+                        for old in ('/' + k, '/' + urllib.parse.quote(k), '/' + urllib.parse.quote(k).lower()):
+                            t2 = t2.replace(old + '"', '/' + ren[k] + '"').replace(old + "'", '/' + ren[k] + "'").replace(old + '/', '/' + ren[k] + '/').replace(old + ')', '/' + ren[k] + ')').replace(old + '?', '/' + ren[k] + '?').replace(old + '#', '/' + ren[k] + '#').replace(old + ' ', '/' + ren[k] + ' ')
+                    if t2 != t:
+                        open(fp, 'w', encoding='utf-8', newline='').write(t2)
+        print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 올릴 사본에서 영어 이름으로 바꿨습니다)', flush=True)
     rc, who = npx('whoami', DIST, 90); logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
     print('올리는 중…' + (' (Vercel 에 로그인돼 있어 사라지지 않는 주소로)' if logged else ' (로그인 없이 임시 주소로)'), flush=True)
     rc, out = npx('deploy --prod --yes' if logged else 'deploy --temporary --yes', DIST)

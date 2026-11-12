@@ -263,9 +263,23 @@ def write(path, text):
 
 def main():
     S = site(); P = load_posts(); name = S.get('name') or '내 사이트'
-    cats = [c['name'] for c in (S.get('cats') or []) if isinstance(c, dict) and c.get('name')] or sorted({t for p in P for t in p['tags']})[:5]
-    tabs = '<a class="on" href="' + BASE + '">전체</a>' + ''.join(f'<a href="{BASE}">{E(c)}</a>' for c in cats)
-    head = (f'<section class="pub"><div class="in"><div class="pub-h"><div class="pub-logo">{E(name[:2])}</div><div><h1>{E(name)}</h1><p>{E(S.get("tagline", ""))} · 글 {len(P)}편</p></div></div><nav class="pub-tabs">{tabs}</nav></div></section>')
+    cnt = {}
+    for p in P:
+        for t in p['tags']:
+            cnt[t] = cnt.get(t, 0) + 1
+    cats = sorted(cnt, key=lambda t: (-cnt[t], t))[:6]   # 글이 많은 태그부터 여섯 개가 탭이 된다
+    turl = {c: f'{BASE}t/{i + 1}/' for i, c in enumerate(cats)}
+
+    def head_for(on=None):
+        tabs = f'<a class="{"" if on else "on"}" href="{BASE}">전체</a>' + ''.join(f'<a class="{"on" if c == on else ""}" href="{turl[c]}">{E(c)}</a>' for c in cats)
+        return (f'<section class="pub"><div class="in"><div class="pub-h"><div class="pub-logo">{E(name[:2])}</div><div><h1>{E(name)}</h1><p>{E(S.get("tagline", ""))} · 글 {len(P)}편</p></div></div><nav class="pub-tabs">{tabs}</nav></div></section>')
+    head = head_for()
+    for c in cats:
+        Q = [p for p in P if c in p['tags']]
+        h = Q[0]
+        hero_c = f'<a class="hero" href="{BASE}p/{E(h["slug"])}/">{cover(h)}<div><h2>{E(h["title"])}</h2><h3>{E(h["sub"])}</h3>{meta_line(S, h)}</div></a>'
+        lst_c = f'<div class="cards">{"".join(card(S, p) for p in Q[1:])}</div>' if len(Q) > 1 else '<div style="height:64px"></div>'
+        write(os.path.join(OUT, 't', str(cats.index(c) + 1), 'index.html'), shell(S, f'{c} — {name}', S.get('tagline', ''), head_for(c) + f'<main class="in">{hero_c}{lst_c}</main>'))
     if P:
         h = P[0]
         hero = f'<a class="hero" href="{BASE}p/{E(h["slug"])}/">{cover(h)}<div><h2>{E(h["title"])}</h2><h3>{E(h["sub"])}</h3>{meta_line(S, h)}</div></a>'
@@ -275,7 +289,7 @@ def main():
     write(os.path.join(OUT, 'index.html'), shell(S, S.get('home_title') or name, S.get('home_desc') or S.get('tagline', ''), head + f'<main class="in">{hero}{lst}</main>'))
     for p in P:
         by = p['by'] or name
-        tags = f'<div class="tags">{"".join(f"<a>{E(t)}</a>" for t in p["tags"])}</div>' if p['tags'] else ''
+        tags = '<div class="tags">' + ''.join((f'<a href="{turl[t]}">{E(t)}</a>' if t in turl else f'<a>{E(t)}</a>') for t in p['tags']) + '</div>' if p['tags'] else ''
         bar = (f'<div class="bar"><div class="l"><button aria-label="박수">{IC["clap"]}</button><button aria-label="응답">{IC["talk"]}</button></div>'
                f'<div class="r"><button aria-label="저장">{IC["save"]}</button><button aria-label="듣기">{IC["play"]}</button><button aria-label="공유">{IC["share"]}</button><button aria-label="더 보기">{IC["more"]}</button></div></div>')
         if not p['img']:
@@ -290,7 +304,7 @@ def main():
         write(os.path.join(OUT, 'p', p['slug'], 'index.html'), shell(S, f'{p["title"]} — {name}', p['sub'], art + end + more))
     write(os.path.join(OUT, 'm.css'), CSS)
     allp = sum(1 for r, _, fs in os.walk(OUT) for f in fs if f == 'index.html')
-    print(f'글 {len(P)}편, 페이지 {allp}개(첫 화면 1 · 글 {len(P)} · 소개·문의 같은 고정 페이지 {allp - len(P) - 1}) -> {os.path.relpath(OUT, HERE)}/')
+    print(f'글 {len(P)}편, 페이지 {allp}개(첫 화면 1 · 글 {len(P)} · 묶음 {len(cats)} · 소개·문의 같은 고정 페이지 {allp - len(P) - 1 - len(cats)}) -> {os.path.relpath(OUT, HERE)}/')
     return 0
 
 

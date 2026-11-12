@@ -159,8 +159,11 @@ def forget_url():
     pg = os.path.join(HERE, '진도.json')
     if os.path.exists(pg):
         d = json.load(open(pg, encoding='utf-8'))
-        if (d.get('deploy') or {}).get('live') == 'pc':
-            d.pop('deploy'); json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        if d.get('deploy_shop') or (d.get('deploy') or {}).get('live') == 'pc':
+            d.pop('deploy_shop', None)
+            if (d.get('deploy') or {}).get('live') == 'pc':
+                d.pop('deploy')
+            json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 
 def kill(pid):
@@ -210,7 +213,7 @@ def share():
         if ok:
             break
     pg = os.path.join(HERE, '진도.json'); d = json.load(open(pg, encoding='utf-8')) if os.path.exists(pg) else {'done': [], 'last': ''}
-    d['deploy'] = dict(url=url, temp=True, claim='', expires=time.time() + 86400 * 365, live='pc', t=time.strftime('%Y-%m-%d %H:%M'))
+    d['deploy_shop'] = dict(url=url, temp=True, claim='', expires=time.time() + 86400 * 365, live='pc', t=time.strftime('%Y-%m-%d %H:%M'))
     d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': '올림: ' + url}); d['last'] = '올림: ' + url
     json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'\n{"✓" if ok else "✗"} 가게에 바깥 주소를 붙였습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
@@ -262,7 +265,7 @@ def promo():
     if not p:
         print('사용: python run.py 가게 홍보 <번호|이름 일부>   (가게를 한 번 켠 뒤에 됩니다)'); return 1
     S = json.load(open(os.path.join(WEB, 'site.json'), encoding='utf-8'))
-    pg = os.path.join(HERE, '진도.json'); dep = (json.load(open(pg, encoding='utf-8')).get('deploy') or {}) if os.path.exists(pg) else {}
+    pg = os.path.join(HERE, '진도.json'); dep = (json.load(open(pg, encoding='utf-8')).get('deploy_shop') or {}) if os.path.exists(pg) else {}
     run = json.load(open(RUN, encoding='utf-8')) if os.path.exists(RUN) else {}
     url = (dep.get('url', '') + '/p/' + str(p['id'])) if dep.get('url') and dep.get('live') == 'pc' and run.get('tunnel') and alive(dep['url'] + '/api/features') else ''
     off = round((p['was'] - p['price']) * 100 / p['was']) if p['was'] > p['price'] else 0
