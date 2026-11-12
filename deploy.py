@@ -10,6 +10,10 @@ try:
 except Exception:
     pass
 
+if os.name == 'nt':   # 막 깐 Node.js·Git 이 아직 PATH 에 안 잡혔어도 쓰이게
+    for _d in (r'C:\Program Files\nodejs', r'C:\Program Files\Git\cmd'):
+        if os.path.isdir(_d) and _d.lower() not in os.environ.get('PATH', '').lower():
+            os.environ['PATH'] = _d + os.pathsep + os.environ.get('PATH', '')
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(HERE, 'dist_deploy'); PROG = os.path.join(HERE, '진도.json')
 A = sys.argv[1:]
@@ -49,7 +53,7 @@ def main():
     if A and A[0] == '상태':
         return state()
     if not shutil.which('node'):
-        print('✗ 이 PC 에 Node.js 가 없습니다. nodejs.org 에서 받아 깐 뒤 다시 「올려」 하면 됩니다(설치는 직접).'); return 1
+        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 로 점검하고 깔 수 있습니다(독자에게 한 번 묻고). 깐 뒤 다시 「올려」.'); return 1
     t0 = time.time()
     shutil.rmtree(DIST, ignore_errors=True)
     r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')

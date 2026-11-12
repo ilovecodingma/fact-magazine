@@ -10,6 +10,10 @@ try:
 except Exception:
     pass
 
+if os.name == 'nt':   # 막 깐 Node.js·Git 이 아직 PATH 에 안 잡혔어도 쓰이게
+    for _d in (r'C:\Program Files\nodejs', r'C:\Program Files\Git\cmd'):
+        if os.path.isdir(_d) and _d.lower() not in os.environ.get('PATH', '').lower():
+            os.environ['PATH'] = _d + os.pathsep + os.environ.get('PATH', '')
 HERE = os.path.dirname(os.path.abspath(__file__))
 SHOP = os.path.join(HERE, 'shop'); WEB = os.path.join(SHOP, 'web'); API = os.path.join(SHOP, 'api')
 CONF = os.path.join(API, 'modules.json'); RUN = os.path.join(SHOP, '.run.json'); DB = os.path.join(API, 'data', 'shop.db')
@@ -64,7 +68,7 @@ def attach(word, on):
 
 def start():
     if not shutil.which('node'):
-        print('✗ 이 PC 에 Node.js 가 없습니다. 화면(Next.js)을 켜려면 nodejs.org 에서 받아 깔아야 합니다(설치는 직접). 백엔드만은 python shop/api/app.py 로 켤 수 있습니다.'); return 1
+        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 로 점검하고 깔 수 있습니다(독자에게 한 번 묻고). 백엔드만은 python shop/api/app.py 로 켤 수 있습니다.'); return 1
     key = os.environ.get('SHOP_ADMIN_KEY', '')   # 시험에서만 쓴다. 운영자 비밀번호는 독자가 운영자 화면에서 직접 정한다(세션은 비밀번호를 정하지도 받지도 않는다)
     os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True); st = {}
     kw = dict(creationflags=0x00000008 | 0x00000200) if os.name == 'nt' else dict(start_new_session=True)
