@@ -10,6 +10,7 @@ fs.mkdirSync(outdir, { recursive: true });
 const prof = path.join(outdir, '_p_' + name + '_' + Date.now()); const port = 9300 + Math.floor(Math.random() * 600);
 const p = spawn(BR, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', '--remote-debugging-port=' + port, '--user-data-dir=' + prof, `--window-size=${vw},${vh}`, 'about:blank'], { stdio: 'ignore' });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const JPG = process.argv.includes('jpg'); const EXT = JPG ? 'jpg' : 'png'; const SHOTFMT = JPG ? { format: 'jpeg', quality: 86 } : { format: 'png' };   // 끝에 jpg 를 붙이면 jpg 로(책에 넣을 때 가볍게)
 
 // 화면에서 재는 것: 글자가 든 잎 요소와 그림·단추·칸의 자리(x,y,w,h)와 글자 크기·굵기·줄 높이·색·바탕·글꼴·둥글기.
 const MEASURE = `(() => {
@@ -47,9 +48,9 @@ const MEASURE = `(() => {
       if (st.goto) { await send('Page.navigate', { url: st.goto }); await sleep(st.wait || 3500); }
       else if (st.fill) { await ev(`(() => { const el = document.querySelector(${JSON.stringify(st.fill)}); if (!el) return false; const set = Object.getOwnPropertyDescriptor(el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype, 'value').set; set.call(el, ${JSON.stringify(String(st.value))}); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`); await sleep(250); }
       else if (st.click) { await ev(`(() => { const el = document.querySelector(${JSON.stringify(st.click)}); if (el) el.click(); return !!el; })()`); await sleep(st.wait || 1500); }
-      else if (st.clickText) { await ev(`(() => { const el = [...document.querySelectorAll('button, a')].find((e) => e.textContent.trim() === ${JSON.stringify(st.clickText)}); if (el) el.click(); return !!el; })()`); await sleep(st.wait || 1500); }
+      else if (st.clickText) { await ev(`(() => { const el = [...document.querySelectorAll('main button'), ...document.querySelectorAll('button'), ...document.querySelectorAll('main a'), ...document.querySelectorAll('a')].find((e) => e.textContent.trim() === ${JSON.stringify(st.clickText)}); if (el) el.click(); return !!el; })()`); await sleep(st.wait || 1500); }
       else if (st.scroll !== undefined) { await ev(`scrollTo(0, ${+st.scroll})`); await sleep(500); }
-      else if (st.shot) { const shot = await send('Page.captureScreenshot', { format: 'png' }); const f = path.join(outdir, `${name}_${st.shot}.png`); fs.writeFileSync(f, Buffer.from(shot.data, 'base64')); made.push(path.basename(f)); }
+      else if (st.shot) { const shot = await send('Page.captureScreenshot', SHOTFMT); const f = path.join(outdir, `${name}_${st.shot}.${EXT}`); fs.writeFileSync(f, Buffer.from(shot.data, 'base64')); made.push(path.basename(f)); }
       else if (st.wait) { await sleep(st.wait); }
     }
     console.log(JSON.stringify({ url, shots: made }));
@@ -60,7 +61,7 @@ const MEASURE = `(() => {
   const docH0 = await ev('document.documentElement.scrollHeight'); for (let y = 0; y < Math.min(docH0, 20000); y += vh) { await ev(`scrollTo(0, ${y})`); await sleep(350); } await ev('scrollTo(0,0)'); await sleep(600);
   const data = JSON.parse(await ev(MEASURE)); fs.writeFileSync(path.join(outdir, name + '.json'), JSON.stringify(data));
   const pages = Math.min(Math.ceil(data.docH / vh), 14);
-  for (let i = 0; i < pages; i++) { await ev(`scrollTo(0, ${i * vh})`); await sleep(500); const shot = await send('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(path.join(outdir, `${name}_${i + 1}.png`), Buffer.from(shot.data, 'base64')); }
+  for (let i = 0; i < pages; i++) { await ev(`scrollTo(0, ${i * vh})`); await sleep(500); const shot = await send('Page.captureScreenshot', SHOTFMT); fs.writeFileSync(path.join(outdir, `${name}_${i + 1}.${EXT}`), Buffer.from(shot.data, 'base64')); }
   console.log(JSON.stringify({ title: data.title, url: data.url, docH: data.docH, items: data.items.length, shots: pages }));
   ws.close(); p.kill(); setTimeout(() => { try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) {} process.exit(0); }, 800);
 })().catch((e) => { console.log('실패: ' + e.message); try { p.kill(); } catch (x) {} process.exit(1); });

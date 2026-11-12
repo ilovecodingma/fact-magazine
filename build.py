@@ -801,9 +801,11 @@ def feed(notes):
 
 def main():
     with_example = '--example' in sys.argv
-    if os.path.exists(OUT):
-        shutil.rmtree(OUT)
-    os.makedirs(OUT)
+    if os.path.exists(OUT):   # 폴더 자체는 두고 안의 것만 비운다(다른 프로그램이 이 폴더를 열어 두고 있어도 찍히게)
+        for _n in os.listdir(OUT):
+            _p = os.path.join(OUT, _n)
+            shutil.rmtree(_p, ignore_errors=True) if os.path.isdir(_p) else os.remove(_p)
+    os.makedirs(OUT, exist_ok=True)
     open(os.path.join(OUT, 'style.css'), 'w', encoding='utf-8').write(CSS)
     open(os.path.join(OUT, '.nojekyll'), 'w').write('')
     open(os.path.join(OUT, '.base'), 'w', encoding='utf-8').write(BASE)   # audit 가 설정과 다른 주소로 찍힌 docs 를 알아보게
