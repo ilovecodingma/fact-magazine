@@ -191,7 +191,7 @@ def changed_cmd(R, rest):
         import selftest as T
         after = os.path.join(R.SHOTS, f'바꿔_{p["n"]}_후.png'); T.shoot_pages(out, [''], [after], 1280, 860)
         R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '수정 전', '수정 뒤')
-    print(f'✓ 수정했습니다: {did}  ({secs:.0f}초)\n  수정한 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
+    print(f'✓ 수정했습니다: {did}  (바꿔 를 부른 뒤로 {secs:.0f}초)\n  수정한 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
     if want:
         print(f'{"✓" if not miss else "✗"} 시킨 것이 화면에 나타났는가: {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
     else:

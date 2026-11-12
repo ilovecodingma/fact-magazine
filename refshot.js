@@ -2,7 +2,7 @@
 // 사용: node refshot.js <주소> <받을 폴더> <이름> [가로=1440] [세로=900] [mobile]
 // 결과: <폴더>/<이름>_1.png … (한 화면씩) · <폴더>/<이름>.json (잰 값). 남의 사이트 화면은 저장소에 넣지 않는다(내 PC 임시 폴더에만).
 const { spawn } = require('child_process'); const fs = require('fs'); const path = require('path');
-const [url, outdir, name] = process.argv.slice(2, 5); const vw = +(process.argv[5] || 1440), vh = +(process.argv[6] || 900), mobile = process.argv[7] === 'mobile';
+const [url, outdir0, name] = process.argv.slice(2, 5); const outdir = outdir0 ? path.resolve(outdir0) : outdir0; /* 받을 폴더는 어떻게 적어도 절대 경로로 바꿔 쓴다(상대 경로면 브라우저가 연결되지 않는다) */ const vw = +(process.argv[5] || 1440), vh = +(process.argv[6] || 900), mobile = process.argv[7] === 'mobile';
 if (!url || !outdir || !name) { console.log('사용: node refshot.js <주소> <받을 폴더> <이름> [가로] [세로] [mobile]'); process.exit(1); }
 const CANDS = [process.env.BROWSER, 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Google/Chrome/Application/chrome.exe', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].filter(Boolean);
 const BR = CANDS.find((p) => fs.existsSync(p)); if (!BR) { console.log('브라우저(Edge·Chrome)를 찾지 못했습니다'); process.exit(1); }

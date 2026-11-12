@@ -7,7 +7,7 @@ python photo.py "towel" --list                                        후보만 
 찾는 곳: Openverse(api.openverse.org)에서 누구나 조건 없이 쓸 수 있게 풀린 사진(CC0·퍼블릭 도메인)만, 사진 모음 사이트(stocksnap·rawpixel) 것을 먼저.
 받은 사진은 그 자리에 파일로 박히므로 올린 뒤에도 바깥 사이트에 기대지 않는다. 어디서 받았는지는 같은 폴더의 _사진출처.json 에 남는다.
 받은 뒤에는 사진을 직접 열어 보고(세션이 눈으로) 안 어울리면 --pick 으로 다음 후보를 받는다. 남의 쇼핑몰·블로그의 사진은 가져오지 않는다."""
-import json, os, sys, time, urllib.parse, urllib.request
+import hashlib, json, os, sys, tempfile, time, urllib.parse, urllib.request
 try:
     sys.stdout.reconfigure(encoding='utf-8')
 except Exception:
@@ -17,7 +17,17 @@ UA = {'User-Agent': 'fact-magazine-harness/1.0 (tutorial boilerplate)'}
 A = sys.argv[1:]
 
 
+BAD = ('naked', 'nude', 'nudity', 'lingerie', 'bikini', 'underwear', 'corpse', 'blood')
+
+
 def search(q, square):
+    """후보를 찾는다. 같은 낱말은 30분 동안 같은 후보·같은 차례로 돌려준다(--list 로 본 번호와 --pick 번호가 어긋나지 않게)."""
+    cache = os.path.join(tempfile.gettempdir(), 'photo_' + hashlib.md5((q + str(square)).encode()).hexdigest()[:12] + '.json')
+    if os.path.exists(cache) and time.time() - os.path.getmtime(cache) < 1800:
+        try:
+            return json.load(open(cache, encoding='utf-8'))
+        except Exception:
+            pass
     out = []
     for src in ('stocksnap', 'rawpixel', ''):
         u = 'https://api.openverse.org/v1/images/?' + urllib.parse.urlencode({'q': q, 'license': 'cc0,pdm', 'page_size': 12, 'aspect_ratio': 'square,wide' if square else 'wide', 'category': 'photograph', **({'source': src} if src else {})})
@@ -26,16 +36,18 @@ def search(q, square):
         except Exception:
             d = {}
         for r in d.get('results', []):
-            if r.get('url') and not r['url'].lower().endswith(('.png', '.svg', '.gif')) and r['url'] not in [x['url'] for x in out]:
+            if r.get('url') and not r.get('mature') and not any(b in (r.get('title') or '').lower() for b in BAD) and not r['url'].lower().endswith(('.png', '.svg', '.gif')) and r['url'] not in [x['url'] for x in out]:
                 out.append(dict(url=r['url'], title=r.get('title') or '', source=r.get('source'), license=r.get('license'), page=r.get('foreign_landing_url') or '', by=r.get('creator') or ''))
         if len(out) >= 6:
             break
         time.sleep(1)
+    if out:
+        json.dump(out, open(cache, 'w', encoding='utf-8'), ensure_ascii=False)
     return out
 
 
 def main():
-    if not A or A[0].startswith('--'):
+    if not A or A[0].startswith('-'):
         print(__doc__); return 1
     q = A[0]; square = '--square' in A; pick = int(A[A.index('--pick') + 1]) if '--pick' in A else 1
     R = search(q, square)
