@@ -210,6 +210,9 @@ def status_cmd(R, rest=None):
     changes = [w for w in done if w.startswith('바꿈: ')]; undos = [w for w in done if w.startswith('되돌리기')]
     autos = [w for w in done if w.startswith('자동 ')]
     url = str(L.get('url') or ''); live = url.startswith('http') and 'localhost' not in url and '프로젝트이름' not in url
+    dep = R.prog_load().get('deploy') or {}
+    if dep.get('url') and (not dep.get('temp') or dep.get('expires', 0) > time.time()):
+        live = True; url = dep['url'] + (f' (임시, {max(0, (dep["expires"] - time.time()) / 60):.0f}분 남음)' if dep.get('temp') else '')
     card = R.svc_load(); filled = sum(1 for c in R.SVC_CARDS if card.get(c)); files = set()
     fp = os.path.join(HERE, '기록', '흐름.md')
     if os.path.exists(fp):
@@ -227,7 +230,7 @@ def status_cmd(R, rest=None):
          ('운영팀', any('맛보기' in a for a in autos), f'사람 없이 돈 것 {sum(1 for a in autos if "맛보기" in a)}번 · 방송 화면 {"켜 봄" if any("방송" in a for a in autos) else "아직"} · 날마다 예약 {"걸림" if sched else "아직"}')]
     lv = sum(1 for _, ok, _ in q if ok)
     nxt = next((n for n, ok, _ in q if not ok), None)
-    hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 보자」', '운영팀': '「3장을 진행해 보자」'}
+    hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 줘」', '운영팀': '「3장을 진행해 보자」'}
     name = L.get('name') or '내 사이트'
     print('┌─ 상태창 ' + '─' * 44)
     print(f'│ {name}   고개 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
