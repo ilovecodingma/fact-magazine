@@ -27,6 +27,8 @@
       python run.py 운영                      게시판·장터·순위 사이트에서 오늘 사람이 볼 것(승인 대기·주문 문의·별 요약, 읽기만) — 사이클 끝에도 나옴
       python run.py 손잡이 [이름 [값]]         플랫폼의 핵심 장치를 돌려 보기(본문폭·본문글자·줄높이·목록열·읽는시간·저장·듣기)
       python run.py 본 [글|게시판|장터|순위]    유명 플랫폼을 본뜬 출발점을 한 번에 띄우기(튜토리얼의 첫 화면)
+      python run.py 데이터 현황|백업|목록|복구 [파일] --예|주문표   운영 자료를 한 장으로 보고, 통째로 백업·복구, 주문을 표로
+      python run.py 메일 [--send] [--to 주소]   소식 메일 미리보기(기본) · 사람이 「보내」 한 뒤에만 --send
       python run.py 올려 [상태]                지금 사이트를 찍어 남에게 보여 줄 주소를 받는다(Vercel — 로그인 없이도 60분짜리 임시 주소가 바로 나오고, 로그인돼 있으면 사라지지 않는 주소)
       python run.py 가게 켜기|끄기|상태|시험|상품다시 · 붙여 <기능> · 떼 <기능> · 기능   종합 쇼핑몰을 본뜬 틀(화면 Next.js + 백엔드 파이썬 + 앱, 결제 없음): 켜고, 기능 묶음을 붙였다 뗀다
       python run.py 자동 맛보기 [--뒤 분] | 방송 | 예약 [시각|끄기|상태] [--예]   사람 없이 하루 한 바퀴와 알릴 글·그림·영상까지 → 넘김/자리비운동안.md · 방송 화면 · 날마다 저절로
@@ -1720,6 +1722,10 @@ def main():
         return PLY.cats_cmd(sys.modules[__name__], POS[1:])
     if cmd in ('손잡이', 'knob'):
         import play; return play.knob_cmd(sys.modules[__name__], rest)
+    if cmd in ('데이터', 'data'):
+        return sh(['data.py'] + A[1:])
+    if cmd in ('메일', 'mail'):
+        return sh(['mail.py'] + [x for x in A[1:] if x != '미리보기'])
     if cmd in ('올려', 'deploy'):
         rc = sh(['deploy.py'] + A[1:])
         if rc == 0 and not rest:
