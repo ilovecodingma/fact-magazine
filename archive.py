@@ -12,7 +12,7 @@ except Exception:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, '참고', '운영기록')
-URL = os.environ.get('ARCHIVE_URL', 'https://sungprofile.cloud/park/archive/ops.zip')
+URL = os.environ.get('ARCHIVE_URL', 'https://sungprofile.cloud/park/archive/archive.zip')
 MAX = 60 * 1024 * 1024
 
 
