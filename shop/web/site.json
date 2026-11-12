@@ -1,9 +1,17 @@
 {
-  "name": "내 가게",
-  "tagline": "필요한 것을 빠르게",
-  "color": "#346aff",
+  "name": "오늘의 찬장",
+  "tagline": "커피와 차, 그리고 곁들일 것",
+  "color": "#1f1f1f",
   "banner": {
-    "title": "오늘 담으면 내일 도착",
-    "sub": "자주 쓰는 것부터 모았습니다"
+    "title": "천천히 내려 마시는 아침",
+    "sub": "갓 볶은 원두와 곁들일 것들을 골랐습니다",
+    "button": "둘러보기"
+  },
+  "seller": {
+    "company": "",
+    "owner": "",
+    "bizno": "",
+    "address": "",
+    "contact": ""
   }
 }

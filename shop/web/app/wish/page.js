@@ -10,7 +10,7 @@ export default function Wish() {
     <section className="sec">
       <h2>찜한 상품</h2>
       {ps && ps.length === 0 && <p className="empty">상품의 ♡ 를 누르면 여기에 모입니다.</p>}
-      <div className="grid five">{(ps || []).map((p) => <ProductCard key={p.id} p={p} />)}</div>
+      <div className="grid">{(ps || []).map((p) => <ProductCard key={p.id} p={p} />)}</div>
     </section>
   );
 }

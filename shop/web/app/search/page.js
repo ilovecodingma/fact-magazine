@@ -28,7 +28,7 @@ function List() {
         </div>
       </div>
       {ps && ps.length === 0 && <p className="empty">찾는 상품이 없습니다.</p>}
-      <div className="grid five">{(ps || []).map((p) => <ProductCard key={p.id} p={p} />)}</div>
+      <div className="grid">{(ps || []).map((p) => <ProductCard key={p.id} p={p} />)}</div>
     </section>
   );
 }

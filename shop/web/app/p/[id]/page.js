@@ -43,23 +43,31 @@ export default function Product() {
         <div className="pd-info">
           <div className="crumb">{p.cat}</div>
           <h1>{p.name}</h1>
-          <Stars n={p.stars} count={p.reviews} />
-          <hr />
-          {p.off > 0 && <div className="was"><b>{p.off}%</b> <s>{won(p.was)}원</s></div>}
-          <div className="price big">{won(p.price)}<small>원</small></div>
-          {p.badge && <div className="badge">{p.badge}</div>}
           <p className="desc">{p.desc}</p>
+          <Stars n={p.stars} count={p.reviews} />
+          <div className="pr">
+            {p.off > 0 && <b className="off">{p.off}%</b>}
+            <span className="price">{won(p.price)}원</span>
+            {p.off > 0 && <s>{won(p.was)}원</s>}
+          </div>
+          <dl className="facts">
+            <dt>배송</dt><dd>{p.badge || '입금 확인 뒤 보내 드립니다'}</dd>
+            <dt>결제</dt><dd>무통장 입금</dd>
+          </dl>
           {has('cart') && (
             <>
-              <div className="qty">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} aria-label="하나 빼기">−</button>
-                <span>{qty}</span>
-                <button onClick={() => setQty(Math.min(99, qty + 1))} aria-label="하나 더">＋</button>
-                <b>{won(p.price * qty)}원</b>
+              <div className="qtyrow">
+                <span>수량</span>
+                <div className="qty">
+                  <button onClick={() => setQty(Math.max(1, qty - 1))} aria-label="하나 빼기">−</button>
+                  <span>{qty}</span>
+                  <button onClick={() => setQty(Math.min(99, qty + 1))} aria-label="하나 더">＋</button>
+                </div>
               </div>
+              <div className="sumrow"><span>합계</span><b>{won(p.price * qty)}원</b></div>
               <div className="buy">
                 {has('wish') && <button className={'wishbtn' + (wished ? ' on' : '')} onClick={wish} aria-label="찜">{wished ? '♥' : '♡'}</button>}
-                <button className="btn line" onClick={() => add(false)}>장바구니 담기</button>
+                <button className="btn line" onClick={() => add(false)}>장바구니</button>
                 {has('orders') && <button className="btn" onClick={() => add(true)}>바로 주문</button>}
               </div>
               <p className="msg" role="status">{msg}</p>
@@ -68,23 +76,43 @@ export default function Product() {
         </div>
       </section>
 
+      <nav className="tabs">
+        <a href="#detail">상세 정보</a>
+        {has('reviews') && <a href="#reviews">상품평 {reviews.length}</a>}
+        <a href="#guide">배송·교환</a>
+      </nav>
+
+      <section className="detail" id="detail">
+        <h3>{p.name}</h3>
+        <p>{p.desc}</p>
+        <img src={`/p/${p.id}.jpg`} alt={p.name} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+      </section>
+
       {has('reviews') && (
-        <section className="sec">
-          <h2>상품평 <small>{reviews.length}개</small></h2>
+        <section className="rvwrap" id="reviews">
+          <h2 style={{ fontSize: 22, letterSpacing: '-.6px' }}>상품평 {reviews.length}</h2>
           <form className="rvform" onSubmit={post}>
             <select value={form.stars} onChange={(e) => setForm({ ...form, stars: Number(e.target.value) })} aria-label="별점">
               {[5, 4, 3, 2, 1].map((n) => <option key={n} value={n}>{'★'.repeat(n)}</option>)}
             </select>
-            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="이름(비우면 구매자)" maxLength={20} />
+            <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="이름" maxLength={20} />
             <input className="grow" value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder="써 보니 어땠나요?" maxLength={500} required />
             <button className="btn">남기기</button>
           </form>
           {reviews.length === 0 && <p className="empty">첫 상품평을 남겨 주세요.</p>}
           <ul className="rvs">
-            {reviews.map((r) => <li key={r.id}><span className="stars">{'★'.repeat(r.stars)}</span> <b>{r.name}</b> <small>{r.created}</small><p>{r.body}</p></li>)}
+            {reviews.map((r) => <li key={r.id}><span className="stars" style={{ display: 'inline' }}>{'★'.repeat(r.stars)}</span> <b>{r.name}</b> <small>{r.created}</small><p>{r.body}</p></li>)}
           </ul>
         </section>
       )}
+
+      <section className="guide" id="guide">
+        <dl>
+          <dt>결제</dt><dd>무통장 입금으로 받습니다. 주문 뒤 안내되는 계좌로 입금해 주세요.</dd>
+          <dt>배송</dt><dd>입금이 확인되면 차례대로 보내 드립니다.</dd>
+          <dt>교환·반품</dt><dd>받으신 뒤 문제가 있으면 주문 내역의 연락처로 알려 주세요.</dd>
+        </dl>
+      </section>
     </>
   );
 }
