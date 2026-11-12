@@ -48,6 +48,7 @@ def main():
         t('운영자 열쇠 없이는 주문 목록을 못 봅니다', call('GET', '/api/admin/orders').get('_code') == 403)
         call('POST', '/api/admin/bank', {'bank': '시험은행', 'account': '000-00-0000', 'holder': '시험'}, admin=True)
         t('운영자가 넣은 입금 계좌는 주문한 사람에게만 보이고, 열쇠 없이는 바꿀 수 없습니다', call('GET', '/api/orders').get('bank', {}).get('account') == '000-00-0000' and call('GET', '/api/bank').get('_code') == 404 and call('POST', '/api/admin/bank', {'bank': 'x', 'account': 'y', 'holder': 'z'}).get('_code') == 403)
+        t('이미 정해진 운영자 열쇠는 다시 정할 수 없습니다', call('POST', '/api/admin/setup', {'key': 'another-key-123'}).get('_code') == 400)
         a = call('GET', '/api/admin/orders', admin=True); t('운영자는 입금 대기 주문을 봅니다', a.get('waiting') == 1 and a['orders'][0]['status'] == '입금 대기')
         a = call('PUT', f'/api/admin/orders/{o["id"]}', {'status': '입금 확인'}, admin=True); t('운영자가 입금을 확인합니다', a['orders'][0]['status'] == '입금 확인')
         d = json.loads(keep); d['on'] = [x for x in d['on'] if x != 'reviews']; open(CONF, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=1)); time.sleep(0.05)

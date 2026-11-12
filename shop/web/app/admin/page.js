@@ -1,9 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api, won } from '../../lib/shop';
 
 export default function Admin() {
   const [key, setKey] = useState('');
+  const [hasKey, setHasKey] = useState(null);
+  const [key2, setKey2] = useState('');
+  useEffect(() => { api('/api/features').then((f) => setHasKey(!!f.admin)); }, []);
+  const setup = async (e) => {
+    e.preventDefault();
+    if (key !== key2) return setMsg('두 칸이 서로 다릅니다');
+    const j = await api('/api/admin/setup', { method: 'POST', body: { key } });
+    if (!j.ok) return setMsg(j.error);
+    setHasKey(true); setKey2(''); setMsg('열쇠를 정했습니다. 그 열쇠로 들어가세요.');
+  };
   const [data, setData] = useState(null);
   const [msg, setMsg] = useState('');
   const [bank, setBank] = useState({ bank: '', account: '', holder: '' });
@@ -28,6 +38,15 @@ export default function Admin() {
     setMsg(j.ok ? `상품을 올렸습니다(${j.id}번)` : j.error);
     if (j.ok) setNp({ name: '', cat: '', price: '', was: '', emoji: '📦', desc: '' });
   };
+  if (!data && hasKey === false) return (
+    <form className="orderbox narrow" onSubmit={setup}>
+      <h2>운영자 열쇠 정하기</h2>
+      <input type="password" placeholder="운영자 열쇠(여덟 글자 이상)" value={key} onChange={(e) => setKey(e.target.value)} required minLength={8} autoComplete="new-password" />
+      <input type="password" placeholder="한 번 더" value={key2} onChange={(e) => setKey2(e.target.value)} required autoComplete="new-password" />
+      <button className="btn wide">정하기</button>
+      <p className="msg" role="alert">{msg}</p>
+    </form>
+  );
   if (!data) return (
     <form className="orderbox narrow" onSubmit={load}>
       <h2>운영자</h2>

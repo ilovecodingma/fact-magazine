@@ -35,6 +35,20 @@ def del_product(c, req):
     need(req); c.execute('delete from products where id=?', (req['args'][0],)); return {'ok': True}
 
 
+def setup(c, req):
+    """운영자 열쇠를 처음 한 번 정한다. 이 PC 에서 연 화면에서만 되고(바깥 주소로는 안 됨), 이미 정해져 있으면 안 된다."""
+    import app
+    if app.has_key():
+        raise ValueError('운영자 열쇠가 이미 정해져 있습니다')
+    if req.get('outside'):
+        raise ValueError('운영자 열쇠는 가게를 켠 PC 에서만 정할 수 있습니다')
+    k = str(req['body'].get('key', ''))
+    if len(k) < 8:
+        raise ValueError('여덟 글자 이상으로 정해 주세요')
+    json.dump({'hash': app.key_hash(k)}, open(app.KEYFILE, 'w', encoding='utf-8'))
+    return {'ok': True}
+
+
 def set_bank(c, req):
     need(req); b = req['body']
     import os
@@ -54,4 +68,4 @@ def has_bank(c, req):
         return {'set': False}
 
 
-ROUTES = [('POST', '/api/admin/bank', set_bank), ('GET', '/api/admin/bank', has_bank), ('GET', '/api/admin/orders', orders), ('PUT', r'/api/admin/orders/(\d+)', status), ('POST', '/api/admin/products', add_product), ('DELETE', r'/api/admin/products/(\d+)', del_product)]
+ROUTES = [('POST', '/api/admin/setup', setup), ('POST', '/api/admin/bank', set_bank), ('GET', '/api/admin/bank', has_bank), ('GET', '/api/admin/orders', orders), ('PUT', r'/api/admin/orders/(\d+)', status), ('POST', '/api/admin/products', add_product), ('DELETE', r'/api/admin/products/(\d+)', del_product)]
