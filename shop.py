@@ -290,12 +290,27 @@ def promo():
 
 
 def reseed():
+    """products.json 으로 상품을 다시 넣는다. 이름이 그대로인 상품의 상품평·찜·본 횟수는 새 번호로 따라가고, 없어진 상품의 것은 치운다(다른 상품에 붙지 않게). 주문은 그대로 남는다."""
     if not os.path.exists(DB):
         print('아직 자료가 없습니다(가게를 한 번 켜면 생깁니다).'); return 0
-    c = sqlite3.connect(DB); c.execute('delete from products'); c.commit(); c.close()
-    os.utime(CONF, None)   # 백엔드가 다음 요청에서 다시 읽으며 products.json 을 넣는다
-    n = len(json.load(open(os.path.join(API, 'data', 'products.json'), encoding='utf-8'))['products'])
-    print(f'상품을 다시 넣습니다: {n}개(주문·상품평은 그대로).'); return 0
+    P = json.load(open(os.path.join(API, 'data', 'products.json'), encoding='utf-8'))['products']
+    c = sqlite3.connect(DB)
+    old = {r[0]: r[1] for r in c.execute('select id, name from products')}
+    c.execute('delete from products')
+    for x in P:
+        c.execute('insert into products(name,cat,price,was,emoji,color,desc,badge,stock) values(?,?,?,?,?,?,?,?,?)', (x['name'], x['cat'], x['price'], x.get('was') or x['price'], x.get('emoji', '📦'), x.get('color', '#eef2ff'), x.get('desc', ''), x.get('badge', ''), int(x.get('stock', 99))))
+    new = {r[1]: r[0] for r in c.execute('select id, name from products')}
+    tables = [t for t in ('reviews', 'wish', 'views', 'cart') if c.execute("select name from sqlite_master where name=?", (t,)).fetchone()]
+    kept = gone = 0
+    for t in tables:
+        c.execute(f'update {t} set pid = -pid')   # 번호가 겹치지 않게 잠깐 옮겨 두고
+        for oid, name in old.items():
+            if name in new:
+                kept += c.execute(f'update or ignore {t} set pid=? where pid=?', (new[name], -oid)).rowcount
+        gone += c.execute(f'delete from {t} where pid < 0').rowcount
+    c.commit(); c.close()
+    print(f'상품을 다시 넣었습니다: {len(P)}개. 이름이 그대로인 상품의 상품평·찜은 따라갔고({kept}건), 없어진 상품의 것은 치웠습니다({gone}건). 주문은 그대로입니다.' + (' 켜져 있는 가게는 새로 열면 반영됩니다.' if alive('http://127.0.0.1:8787/api/features') else ''))
+    return 0
 
 
 def main():

@@ -6,7 +6,7 @@ try:
 except Exception:
     pass
 HERE = os.path.dirname(os.path.abspath(__file__)); PORT = 8799; B = f'http://127.0.0.1:{PORT}'
-CONF = os.path.join(HERE, 'api', 'modules.json')
+REAL = os.path.join(HERE, 'api', 'modules.json')
 
 
 def call(meth, path, body=None, admin=False):
@@ -21,8 +21,12 @@ def call(meth, path, body=None, admin=False):
 
 
 def main():
-    tmp = tempfile.mkdtemp(); keep = open(CONF, encoding='utf-8').read()
-    env = dict(os.environ, SHOP_DB=os.path.join(tmp, 't.db'), SHOP_ADMIN_KEY='smoke-key')
+    # 시험은 모든 기능을 붙인 임시 가게로 돈다: 내 가게의 설정(modules.json)과 자료를 건드리지 않는다
+    tmp = tempfile.mkdtemp(); CONF = os.path.join(tmp, 'modules.json')
+    ALL = ['catalog', 'cart', 'orders'] + sorted(f[:-3] for f in os.listdir(os.path.join(HERE, 'api', 'modules')) if f.endswith('.py') and f[:-3] not in ('__init__', 'catalog', 'cart', 'orders'))
+    keep = json.dumps({'on': ALL}, ensure_ascii=False); open(CONF, 'w', encoding='utf-8').write(keep)
+    off = [m for m in ALL if m not in json.load(open(REAL, encoding='utf-8'))['on']]
+    env = dict(os.environ, SHOP_DB=os.path.join(tmp, 't.db'), SHOP_ADMIN_KEY='smoke-key', SHOP_CONF=CONF)
     p = subprocess.Popen([sys.executable, '-X', 'utf8', os.path.join(HERE, 'api', 'app.py'), '--port', str(PORT)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     ok = 0; n = 0
 
@@ -62,7 +66,10 @@ def main():
         t('다시 붙이면 남긴 상품평이 그대로 돌아옵니다', len(call('GET', f'/api/products/{ps[0]["id"]}/reviews').get('reviews', [])) == 1)
     finally:
         open(CONF, 'w', encoding='utf-8').write(keep); p.terminate()
-    print(f'  → {n}단계 가운데 {ok}단계 통과'); return 0 if ok == n else 1
+    print(f'  → {n}단계 가운데 {ok}단계 통과')
+    if off:
+        print('  (시험은 모든 기능을 붙인 임시 가게로 돌렸습니다. 지금 내 가게에서 떼어 놓은 기능: ' + ', '.join(off) + ' — 내 가게의 설정과 자료는 건드리지 않았습니다)')
+    return 0 if ok == n else 1
 
 
 if __name__ == '__main__':
