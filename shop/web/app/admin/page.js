@@ -39,7 +39,7 @@ export default function Admin() {
               <div><b>주문 {o.id}번</b> <small>{o.created}</small> <span className={'st st-' + o.status.replace(' ', '')}>{o.status}</span></div>
               <p>{o.items.map((i) => `${i.name} ${i.qty}개`).join(' · ')}</p>
               <p><b>{won(o.total)}원</b> · {o.name} · {o.phone} · {o.address}{o.memo && ` · ${o.memo}`}</p>
-              <div className="sorts">{['접수', '입금 확인', '보냄', '취소'].map((s) => <button key={s} className={o.status === s ? 'on' : ''} onClick={() => setStatus(o.id, s)}>{s}</button>)}</div>
+              <div className="sorts">{['입금 대기', '입금 확인', '보냄', '취소'].map((s) => <button key={s} className={o.status === s ? 'on' : ''} onClick={() => setStatus(o.id, s)}>{s}</button>)}</div>
             </li>
           ))}
         </ul>

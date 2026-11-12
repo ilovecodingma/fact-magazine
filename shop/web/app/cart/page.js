@@ -9,7 +9,7 @@ export default function Cart() {
   const { has, refresh } = useShop();
   const router = useRouter();
   const [cart, setCart] = useState(null);
-  const [f, setF] = useState({ name: '', phone: '', address: '', memo: '', coupon: '' });
+  const [f, setF] = useState({ name: '', phone: '', address: '', payer: '', memo: '', coupon: '' });
   const [msg, setMsg] = useState('');
   const [done, setDone] = useState(null);
   const load = () => api('/api/cart').then((j) => setCart(j.items ? j : { items: [], total: 0, count: 0 }));
@@ -27,7 +27,10 @@ export default function Cart() {
       <div className="check">✓</div>
       <h1>주문이 접수되었습니다</h1>
       <p>주문 번호 {done.id}번 · {won(done.total)}원{done.discount > 0 && ` (쿠폰 ${won(done.discount)}원 할인)`}</p>
-      <p>판매자가 적어 주신 연락처로 안내드립니다.</p>
+      {done.bank && done.bank.account ? (
+        <div className="bankbox"><small>아래 계좌로 입금해 주세요</small><b>{done.bank.bank} {done.bank.account}</b><span>예금주 {done.bank.holder} · 입금자 {done.payer}</span></div>
+      ) : <p>판매자가 입금 계좌를 따로 안내드립니다.</p>}
+      <p>입금이 확인되면 보내 드립니다.</p>
       <div className="buy"><Link href="/orders" className="btn line">주문 내역</Link><Link href="/" className="btn">계속 둘러보기</Link></div>
     </section>
   );
@@ -58,10 +61,11 @@ export default function Cart() {
           <input placeholder="받는 분" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} required />
           <input placeholder="연락처" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} required inputMode="tel" />
           <input placeholder="주소" value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} required />
+          <input placeholder="입금자 이름(받는 분과 다를 때)" value={f.payer} onChange={(e) => setF({ ...f, payer: e.target.value })} />
           <input placeholder="남길 말(선택)" value={f.memo} onChange={(e) => setF({ ...f, memo: e.target.value })} />
           {has('coupons') && <input placeholder="쿠폰 코드(선택)" value={f.coupon} onChange={(e) => setF({ ...f, coupon: e.target.value })} />}
-          <div className="total"><span>상품 값</span><b>{won(cart.total)}원</b></div>
-          <button className="btn wide">주문하기</button>
+          <div className="total"><span>무통장 입금</span><b>{won(cart.total)}원</b></div>
+          <button className="btn wide">무통장 입금으로 주문하기</button>
           <p className="msg" role="alert">{msg}</p>
         </form>
       )}

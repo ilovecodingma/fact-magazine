@@ -13,13 +13,13 @@ def orders(c, req):
     out = [dict(r) for r in c.execute('select * from orders order by id desc limit 200')] if c.execute("select name from sqlite_master where name='orders'").fetchone() else []
     for o in out:
         o['items'] = json.loads(o['items'])
-    return {'orders': out, 'waiting': sum(1 for o in out if o['status'] == '접수')}
+    return {'orders': out, 'waiting': sum(1 for o in out if o['status'] in ('입금 대기', '접수'))}
 
 
 def status(c, req):
     need(req); s = str(req['body'].get('status', ''))
-    if s not in ('접수', '입금 확인', '보냄', '취소'):
-        raise ValueError('상태는 접수·입금 확인·보냄·취소 가운데 하나입니다')
+    if s not in ('입금 대기', '입금 확인', '보냄', '취소'):
+        raise ValueError('상태는 입금 대기·입금 확인·보냄·취소 가운데 하나입니다')
     c.execute('update orders set status=? where id=?', (s, req['args'][0])); return orders(c, req)
 
 

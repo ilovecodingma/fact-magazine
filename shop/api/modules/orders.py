@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
-"""주문. 결제는 없다 — 장바구니를 주문으로 「접수」하고, 그 뒤(입금 안내·보내기)는 운영자가 처리한다."""
-import json
+"""주문. 무통장 입금 방식 — 주문하면 「입금 대기」가 되고 입금할 계좌를 알려 준다. 운영자가 입금을 확인하면 「입금 확인」, 보내면 「보냄」.
+입금 계좌는 data/bank.json(은행·계좌·예금주). 카드 결제는 없다."""
+import json, os
+
+BANK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'bank.json')
+
+
+def bank():
+    try:
+        return json.load(open(BANK, encoding='utf-8'))
+    except Exception:
+        return {'bank': '', 'account': '', 'holder': ''}
 
 
 def init(c):
-    c.execute("create table if not exists orders(id integer primary key, device text, name text, phone text, address text, memo text, items text, total integer, discount integer default 0, coupon text, status text default '접수', created text default (datetime('now','localtime')))")
+    c.execute("create table if not exists orders(id integer primary key, device text, name text, phone text, address text, memo text, items text, total integer, discount integer default 0, coupon text, status text default '입금 대기', created text default (datetime('now','localtime')))")
 
 
 def place(c, req):
@@ -20,16 +30,21 @@ def place(c, req):
         cp = c.execute('select * from coupons where code=?', (code,)).fetchone()
         if cp and total >= cp['min_total']:
             disc = min(total, cp['amount'] if cp['kind'] == '원' else total * cp['amount'] // 100)
-    cur = c.execute('insert into orders(device,name,phone,address,memo,items,total,discount,coupon) values(?,?,?,?,?,?,?,?,?)', (d, b['name'][:40], b['phone'][:30], b['address'][:200], str(b.get('memo', ''))[:200], json.dumps(items, ensure_ascii=False), total - disc, disc, code if disc else ''))
+    payer = (str(b.get('payer', '')).strip() or b['name'])[:40]
+    cur = c.execute('insert into orders(device,name,phone,address,memo,items,total,discount,coupon) values(?,?,?,?,?,?,?,?,?)', (d, b['name'][:40], b['phone'][:30], b['address'][:200], ('입금자 ' + payer + ' · ' + str(b.get('memo', '')))[:200], json.dumps(items, ensure_ascii=False), total - disc, disc, code if disc else ''))
     c.execute('delete from cart where device=?', (d,))
-    return {'ok': True, 'id': cur.lastrowid, 'total': total - disc, 'discount': disc}
+    return {'ok': True, 'id': cur.lastrowid, 'total': total - disc, 'discount': disc, 'payer': payer, 'bank': bank()}
 
 
 def mine(c, req):
     out = [dict(r) for r in c.execute('select id, items, total, discount, status, created from orders where device=? order by id desc', (req['device'],))]
     for o in out:
         o['items'] = json.loads(o['items'])
-    return {'orders': out}
+    return {'orders': out, 'bank': bank()}
 
 
-ROUTES = [('POST', '/api/orders', place), ('GET', '/api/orders', mine)]
+def bank_info(c, req):
+    return {'bank': bank()}
+
+
+ROUTES = [('POST', '/api/orders', place), ('GET', '/api/orders', mine), ('GET', '/api/bank', bank_info)]

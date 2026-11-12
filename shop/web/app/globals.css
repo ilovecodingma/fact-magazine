@@ -92,6 +92,7 @@ main.wrap { padding-top: 16px; padding-bottom: 48px; min-height: 60vh; }
 .orderbox h2 { margin: 0 0 6px; font-size: 18px; }
 .total { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--hair); margin-top: 6px; } .total b { font-size: 22px; color: var(--red); }
 .done { background: #fff; border-radius: 14px; padding: 56px 20px; text-align: center; } .done .buy { max-width: 360px; margin: 24px auto 0; }
+.bankbox { display: grid; gap: 4px; max-width: 360px; margin: 16px auto; padding: 16px; border: 1px solid var(--hair); border-radius: 10px; } .bankbox small, .bankbox span { color: var(--mu); font-size: 13px; } .bankbox b { font-size: 18px; }
 .check { width: 64px; height: 64px; border-radius: 50%; background: var(--pri); color: #fff; font-size: 34px; display: grid; place-items: center; margin: 0 auto 12px; }
 .orders { list-style: none; margin: 0; padding: 0; } .orders li { border-top: 1px solid var(--hair); padding: 14px 0; } .orders p { margin: 4px 0; color: #333; } .orders small { color: var(--mu); }
 .st { font-size: 12px; font-weight: 700; border-radius: 4px; padding: 1px 6px; background: #eef2ff; color: var(--pri); } .st-보냄 { background: #e7f6ec; color: #18794e; } .st-취소 { background: #f3f4f6; color: var(--mu); }
