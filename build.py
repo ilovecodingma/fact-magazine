@@ -832,6 +832,9 @@ def main():
     open(os.path.join(OUT, 'robots.txt'), 'w').write('User-agent: *\nAllow: /\n' + ('' if NOURL else f'Sitemap: {URL}/sitemap.xml\n'))
     if NOURL:
         print('안내: site.json 의 url 이 기본값이라 canonical·RSS·사이트맵을 만들지 않았습니다. 공개 주소가 정해지면 url 을 넣고 다시 빌드하세요.')
+    if S.get('frame') == 'medium':   # 1장의 틀: 첫 화면과 글 화면을 미디엄을 잰 값 그대로(medium.py)로 덮는다
+        import medium as _md
+        _md.OUT = OUT; _md.BASE = BASE; _md.main(); return
     print(f'노트 {len(notes)}건, 주제 {len(topics)}건, 쪽 {len(urls)}개 -> docs/')
 
 

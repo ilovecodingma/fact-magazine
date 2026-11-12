@@ -241,7 +241,7 @@ def status_cmd(R, rest=None):
 # ---------------------------------------------------------------- 본(유명 플랫폼을 본뜬 출발점) 띄우기
 MIRRORS = {
     '가게': dict(name='종합 쇼핑몰', ref='쿠팡', shop=True),
-    '글': dict(name='글 읽는 곳', ref='미디엄', polish={'1': 'B', '3': 'B', '4': 'C', '7': 'B', '8': 'B', '9': 'A', '10': 'A'}),
+    '글': dict(name='글 읽는 곳', ref='미디엄', polish={}, frame='medium'),
     '게시판': dict(name='링크와 추천 게시판', ref='해커 뉴스', kind='커뮤니티(링크+추천 게시판)'),
     '장터': dict(name='디지털 상품 장터', ref='검로드', kind='쇼핑몰(디지털 상품 장터)'),
     '순위': dict(name='날마다 순위', ref='깃허브 트렌딩', kind='날마다 순위(트렌딩)'),
@@ -259,7 +259,7 @@ def mirror_cmd(R, rest):
     if m.get('shop'):
         return R.sh(['shop.py', '켜기'] + [a for a in R.A[2:]]) or (R.prog_add('본 가게') or status_cmd(R))
     if 'polish' in m:
-        L = R.local_load(); L['polish'] = dict(m['polish']); R.local_save(L)
+        L = R.local_load(); L['polish'] = dict(m['polish']); L['frame'] = m.get('frame', ''); R.local_save(L)
         out, last, rc = R.rebuild_local()
     else:
         R.record_choice('변환', '바꿈', f'본 {key} 로 시작')
