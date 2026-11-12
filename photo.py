@@ -4,6 +4,7 @@ python photo.py "camping tent" posts/_cover/first-night.jpg          글 사진(
 python photo.py "frying pan" shop/web/public/p/5.jpg --square        상품 사진(네모)
 python photo.py "towel" 어디/사진.jpg --pick 2                        두 번째 후보로(첫 사진이 안 어울릴 때)
 python photo.py "towel" --list                                        후보만 보기
+python photo.py --shrink 내사진.jpg shop/web/public/p/1.jpg [--width 800] [--square]   내가 가진 사진을 화면에 쓸 크기로 줄여 그 자리에 넣기(원본은 그대로 둔다)
 찾는 곳: Openverse(api.openverse.org)에서 누구나 조건 없이 쓸 수 있게 풀린 사진(CC0·퍼블릭 도메인)만, 사진 모음 사이트(stocksnap·rawpixel) 것을 먼저.
 받은 사진은 그 자리에 파일로 박히므로 올린 뒤에도 바깥 사이트에 기대지 않는다. 어디서 받았는지는 같은 폴더의 _사진출처.json 에 남는다.
 받은 뒤에는 사진을 직접 열어 보고(세션이 눈으로) 안 어울리면 --pick 으로 다음 후보를 받는다. 남의 쇼핑몰·블로그의 사진은 가져오지 않는다."""
@@ -62,7 +63,39 @@ def search(q, square):
     return out
 
 
+def shrink():
+    """내 사진을 줄여 넣는다. 창 없는 브라우저가 정한 폭으로 그린 화면을 jpg 로 찍는 방식이라, 휴대폰 사진의 눕혀진 방향도 브라우저가 바로 세운다."""
+    import shutil, subprocess
+    rest = [a for i, a in enumerate(A) if not a.startswith('--') and (i == 0 or A[i - 1] != '--width')]
+    if len(rest) < 2 or not os.path.exists(rest[0]):
+        print('사용: python photo.py --shrink <내 사진 파일> <넣을 자리.jpg> [--width 800] [--square]'); return 1
+    src, dst = os.path.abspath(rest[0]), os.path.abspath(rest[1]); W = int(A[A.index('--width') + 1]) if '--width' in A else (800 if '--square' in A else 1400)
+    here = os.path.dirname(os.path.abspath(__file__)); tmp = tempfile.mkdtemp(prefix='shrink_'); page = os.path.join(tmp, 'p.html')
+    css = f'width:{W}px;height:{W}px;object-fit:cover' if '--square' in A else f'width:{W}px;height:auto'
+    open(page, 'w', encoding='utf-8').write(f'<!doctype html><meta charset="utf-8"><style>html,body{{margin:0;background:#fff}}img{{display:block;{css}}}</style><img src="file:///{src.replace(os.sep, "/")}">')
+
+    def shot(h):
+        subprocess.run(['node', os.path.join(here, 'refshot.js'), 'file:///' + page.replace(os.sep, '/'), tmp, 's', str(W), str(h), 'jpg'], cwd=here, capture_output=True, timeout=120, shell=(os.name == 'nt'))
+        try:
+            return json.load(open(os.path.join(tmp, 's.json'), encoding='utf-8')).get('docH') or 0
+        except Exception:
+            return 0
+    H = W if '--square' in A else shot(200)   # 먼저 한 번 그려 세로 길이를 잰다
+    if not H or H > 6000:
+        shutil.rmtree(tmp, ignore_errors=True); print('줄이지 못했습니다(브라우저가 이 사진을 그리지 못했습니다). jpg·png 사진인지 확인해 주세요.'); return 1
+    shot(H); out = os.path.join(tmp, 's_1.jpg')
+    if not os.path.exists(out) or os.path.getsize(out) < 3000:
+        shutil.rmtree(tmp, ignore_errors=True); print('줄이지 못했습니다(찍은 그림이 없습니다).'); return 1
+    before = os.path.getsize(src); os.makedirs(os.path.dirname(dst), exist_ok=True); shutil.copyfile(out, dst); after = os.path.getsize(dst); shutil.rmtree(tmp, ignore_errors=True)
+    log = os.path.join(os.path.dirname(dst), '_사진출처.json'); L = json.load(open(log, encoding='utf-8')) if os.path.exists(log) else {}
+    L[os.path.basename(dst)] = dict(q='', title=os.path.basename(src), source='내가 넣은 사진', license='내 것', page='', by=''); json.dump(L, open(log, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'줄여 넣었습니다: {os.path.relpath(dst)}  ({before // 1024}KB → {after // 1024}KB, 가로 {W} 세로 {H}). 원본 {os.path.basename(src)} 은 그대로 두었습니다.')
+    return 0
+
+
 def main():
+    if A and A[0] == '--shrink':
+        A.pop(0); return shrink()
     if not A or A[0].startswith('-'):
         print(__doc__); return 1
     q = A[0]; square = '--square' in A; pick = int(A[A.index('--pick') + 1]) if '--pick' in A else 1
