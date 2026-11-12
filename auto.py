@@ -201,8 +201,13 @@ def schedule():
     if os.name != 'nt':
         print(f'이 PC 는 윈도우가 아닙니다. 예약은 crontab 에 한 줄로 겁니다(사람이): 0 7 * * * cd "{HERE}" && python3 auto.py 맛보기'); return 0
     if rest and rest[0] == '상태':
-        r = subprocess.run(['schtasks', '/Query', '/TN', TASK], capture_output=True, text=True, errors='replace')
-        print('예약이 걸려 있습니다:\n' + r.stdout.strip() if r.returncode == 0 else '걸린 예약이 없습니다.'); return 0
+        r = subprocess.run(['powershell', '-NoProfile', '-Command', f"$t=Get-ScheduledTask -TaskName {TASK} -ErrorAction SilentlyContinue; if($t){{$i=$t|Get-ScheduledTaskInfo; '{{0}}|{{1}}|{{2}}' -f $i.NextRunTime.ToString('yyyy-MM-dd HH:mm'),$(if($i.LastRunTime.Year -gt 2000){{$i.LastRunTime.ToString('yyyy-MM-dd HH:mm')}}else{{'-'}}),$i.LastTaskResult}}"], capture_output=True, text=True, errors='replace')
+        v = (r.stdout or '').strip().split('|')
+        if len(v) == 3:
+            print(f'예약이 걸려 있습니다: 다음에 도는 때 {v[0]} · 마지막으로 돈 때 {v[1]}' + ('' if v[1] == '-' else (' (잘 끝남)' if v[2] == '0' else f' (끝난 값 {v[2]} — 넘김/자리비운동안.md 를 봅니다)')))
+        else:
+            print('걸린 예약이 없습니다.')
+        return 0
     if rest and rest[0] == '끄기':
         cmd = ['schtasks', '/Delete', '/TN', TASK, '/F']
     else:
@@ -211,7 +216,12 @@ def schedule():
     if '--예' not in A:
         print('걸 명령(아직 걸지 않았습니다 — 독자가 「걸어 줘」 하면 --예 를 붙여 다시 부릅니다):\n  ' + subprocess.list2cmdline(cmd) + '\n이 PC 가 켜져 있는 날 그 시각에 저절로 돌고, 결과는 넘김/자리비운동안.md 에 남습니다. 끄기: python run.py 자동 예약 끄기 --예'); return 0
     r = subprocess.run(cmd, capture_output=True, text=True, errors='replace')
-    print(('✓ ' if r.returncode == 0 else '✗ ') + (r.stdout or r.stderr).strip()); return r.returncode
+    off = '/Delete' in cmd
+    if r.returncode == 0:
+        print('✓ 예약을 지웠습니다.' if off else f'✓ 예약을 걸었습니다: 날마다 {cmd[cmd.index("/ST") + 1]} 에 저절로 돕니다(이 PC 가 켜져 있을 때). 결과는 넘김/자리비운동안.md')
+    else:
+        print('✗ 예약을 ' + ('지우지' if off else '걸지') + ' 못했습니다(윈도우 작업 스케줄러가 거절했습니다).')
+    return r.returncode
 
 
 def main():
