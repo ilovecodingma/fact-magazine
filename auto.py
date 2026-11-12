@@ -38,7 +38,7 @@ def step(name, args):
     t = time.time()
     try:
         r = subprocess.run(PY + args, cwd=HERE, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=1800)
-        rc = r.returncode; tail = ((r.stdout or '').strip().splitlines() or [''])[-1][:160]; err = (r.stderr or '').strip()[-300:]
+        rc = r.returncode; tail = ([x for x in (r.stdout or '').strip().splitlines() if x.strip() and x.strip()[0] not in '┌└'] or [''])[-1].lstrip('│ ').strip()[:160]; err = (r.stderr or '').strip()[-300:]
     except Exception as e:
         rc, tail, err = 1, '', repr(e)[:200]
     print(f'  {"✓" if rc == 0 else "✗"} {name} — {time.time() - t:.0f}초  {tail}', flush=True)
@@ -100,11 +100,11 @@ def taste_shop(t0, only):
         pass
     print('  이 서비스: 가게 — 주문을 세고, 보낼 것을 뽑고, 백업하고, 상품 하나를 알릴 준비를 합니다', flush=True)
     R = [step('들어온 것 세기(주문·상품평·재고)', ['data.py', '현황']), step('주문을 표로(넘김/주문표.csv)', ['data.py', '주문표']), step('오늘 보낼 것(넘김/오늘_보낼것.md — 입금 확인된 주문만)', ['data.py', '발송목록']), step('새 주문을 나에게 메일로(켜 둔 경우만)', ['mail.py', '주문알림', '--auto']),
-         step('자료 백업', ['data.py', '백업']), step(f'상품 하나를 알릴 글·문구·카드(「{nm}」)', ['shop.py', '홍보', str(pid)]), step('가게 스스로 시험(방문자·운영자 노릇)', ['shop/smoke.py'])]
+         step('운영 자료 백업', ['data.py', '백업']), step(f'상품 하나를 알릴 글·문구·카드(「{nm}」)', ['shop.py', '홍보', str(pid)]), step('가게 스모크 테스트(손님·운영자의 요청을 차례로)', ['shop/smoke.py'])]
     if not only:
         return R
     total = time.time() - t0; wait = cnt.get('입금 대기', 0); paid = cnt.get('입금 확인', 0)
-    L = [f'# 자리 비운 동안 — {time.strftime("%Y-%m-%d %H:%M")}', '', f'사람 입력 없이 {total:.0f}초 동안 가게의 하루 일을 돌았다. 입금 확인·발송·채널에 올리기·메일 발송은 하지 않았다.', '', '## 사람 없이 된 것']
+    L = [f'# 자리 비운 동안 — {time.strftime("%Y-%m-%d %H:%M")}', '', f'사람 입력 없이 {total:.0f}초 동안 가게의 일일 배치가 돌았다. 입금 확인·발송·채널에 올리기·메일 발송은 하지 않았다.', '', '## 사람 없이 된 것']
     for r in R:
         L.append(f'- {"✓" if r["ok"] else ("–" if r["ok"] is None else "✗")} {r["name"]} ({r["secs"]:.0f}초) {r["tail"]}')
     L += ['', '## 지금 가게', f'- 주문: 입금 대기 {wait}건 · 입금 확인(보낼 것) {paid}건 · 보냄 {cnt.get("보냄", 0)}건', '', '## 여기서 사람이 하는 것',
@@ -115,7 +115,7 @@ def taste_shop(t0, only):
     L += ['', '## 걸린 것'] + ([f'- {r["name"]}: {r["err"] or r["tail"]}' for r in bad] or ['- 없음'])
     os.makedirs(os.path.dirname(REPORT), exist_ok=True); open(REPORT, 'w', encoding='utf-8').write('\n'.join(L) + '\n')
     print(f'\n끝 — {total:.0f}초. 한 장으로 남겼습니다: 넘김/자리비운동안.md')
-    print(f'[사람 없이 된 것] 주문표 · 오늘 보낼 것 · 백업 · 「{nm}」 홍보물 · 가게 시험')
+    print(f'[사람 없이 된 것] 주문표 · 오늘 보낼 것 · 백업 · 「{nm}」 홍보물 · 스모크 테스트')
     print(f'[여기서 사람이 하는 것] 입금 확인 {wait}건 · 보내기 {paid}건 · 홍보물을 채널에 올리기')
     return 1 if bad else 0
 
@@ -130,13 +130,13 @@ def taste():
     if '--기다림' in A:
         time.sleep(int(A[A.index('--기다림') + 1]))
     t0 = time.time(); S = site(); P = S.get('parts', {}); info = bool(P.get('info')); writing = S.get('frame') == 'medium'
-    print('━━ 자동 — 사람 없이 끝까지 ━━', flush=True)
+    print('━━ 일일 배치 — 사람 없이 끝까지 ━━', flush=True)
     pg = os.path.join(HERE, '진도.json'); did = [x.get('what', '') for x in (json.load(open(pg, encoding='utf-8')).get('done', []) if os.path.exists(pg) else [])]
     shop = '본 가게' in did and os.path.exists(os.path.join(HERE, 'shop', 'api', 'data', 'shop.db')); article = '본 글' in did or not shop
     if not article:
         return taste_shop(t0, only=True)
     print('  이 사이트: ' + ('글 사이트 — 뉴스를 모으지 않고, 가장 새 글로 알릴 것을 만듭니다' if writing else '켜진 부품: ' + ', '.join(k for k, v in P.items() if v)), flush=True)
-    R = [step('모으기·묶기·대조·화면(하루 한 바퀴)' if info else '화면 다시 찍기(하루 한 바퀴 — 뉴스 모으기·대조는 꺼져 있어 건너뜀)', ['run_daily.py'])]
+    R = [step('모으기·묶기·대조·빌드(일일 배치)' if info else '빌드(일일 배치 — 뉴스 모으기·대조는 꺼져 있어 건너뜀)', ['run_daily.py'])]
     has_notes = bool(glob.glob(os.path.join(HERE, 'notes', '2*.json')))
     if info and has_notes:
         R.append(step('알릴 글(블로그 글·알림 문구 세 길이)', ['promo.py']))
@@ -160,7 +160,7 @@ def taste():
     R.append(step('점검(깨진 주소·빈 페이지)', ['audit.py']))
     if shop:
         R += taste_shop(t0, only=False)
-    made = [('새로 찍은 페이지', new_files('docs', t0, ['**/index.html'])), ('블로그 글', new_files('promo_out', t0, ['*/블로그글.md'])), ('알림 문구', new_files('promo_out', t0, ['*/알림_*.txt'])),
+    made = [('새로 빌드한 페이지', new_files('docs', t0, ['**/index.html'])), ('블로그 글', new_files('promo_out', t0, ['*/블로그글.md'])), ('알림 문구', new_files('promo_out', t0, ['*/알림_*.txt'])),
             ('카드 그림', new_files('cards', t0, ['*.png']) + new_files('promo_out', t0, ['*/카드.png'])), ('영상', new_files('shorts', t0, ['*.mp4']))]
     total = time.time() - t0
     L = [f'# 자리 비운 동안 — {time.strftime("%Y-%m-%d %H:%M")}', '', f'사람 입력 없이 {total:.0f}초 동안 돌았다. 올리기·로그인·메일 발송은 하지 않았다.', '', '## 사람 없이 된 것']

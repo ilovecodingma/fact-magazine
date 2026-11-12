@@ -33,10 +33,22 @@ def prog():
     return json.load(open(PROG, encoding='utf-8')) if os.path.exists(PROG) else {'done': [], 'last': ''}
 
 
-def npx(args, cwd, timeout=300):
-    r = subprocess.run('npx --yes vercel ' + args + (' ' + os.environ['VERCEL_ARGS'] if os.environ.get('VERCEL_ARGS') else ''), cwd=cwd,   # VERCEL_ARGS: 시험할 때 덧붙이는 옵션
- shell=True, stdin=subprocess.DEVNULL, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout)
-    return r.returncode, (r.stdout or '') + '\n' + (r.stderr or '')
+def npx(args, cwd, timeout=150):
+    """Vercel 도구를 돌린다. 멈춰 서면(응답 없음) 기다리지 않고 끊어, 부른 쪽이 다시 시도하거나 실패를 말하게 한다."""
+    cmd = 'npx --yes vercel ' + args + (' ' + os.environ['VERCEL_ARGS'] if os.environ.get('VERCEL_ARGS') else '')   # VERCEL_ARGS: 시험할 때 덧붙이는 옵션
+    p = subprocess.Popen(cmd, cwd=cwd, shell=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace')
+    try:
+        out, _ = p.communicate(timeout=timeout); return p.returncode, out or ''
+    except subprocess.TimeoutExpired:
+        if os.name == 'nt':   # 자식 프로세스까지 함께 끈다
+            subprocess.run(['taskkill', '/PID', str(p.pid), '/T', '/F'], capture_output=True)
+        else:
+            p.kill()
+        try:
+            p.communicate(timeout=10)
+        except Exception:
+            pass
+        return 124, f'(응답이 없어 {timeout}초 뒤에 끊었습니다)'
 
 
 def sitemap(base):
@@ -70,7 +82,7 @@ def state():
     if not d:
         print('아직 올린 적이 없습니다. python run.py 올려'); return 0
     left = (d.get('expires', 0) - time.time()) / 60 if d.get('temp') else None
-    print(f'주소: {d["url"]}' + (f'  (임시 — {"%.0f분 남음" % left if left > 0 else "사라졌습니다. 다시 올려 로 새 주소를 받습니다"})' if left is not None else '  (사라지지 않는 주소)'))
+    print(f'주소: {d["url"]}' + (f'  (임시 — {"%.0f분 남음" % left if left > 0 else "사라졌습니다. 다시 올려 로 새 주소를 받습니다"})' if left is not None else '  (고정 주소)'))
     if d.get('claim') and left and left > 0:
         print('계속 쓰는 주소(브라우저로 열어 가입·로그인): ' + d['claim'])
     return 0
@@ -89,8 +101,8 @@ def main():
     shutil.rmtree(os.path.join(HERE, 'dist_deploy'), ignore_errors=True)   # 예전 판이 저장소 안에 남긴 사본
     r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
     if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
-        print('✗ 사이트를 찍지 못했습니다:', (r.stderr or r.stdout)[-300:]); return 1
-    print('찍었습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
+        print('✗ 빌드 실패:', (r.stderr or r.stdout)[-300:]); return 1
+    print('빌드했습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
     if os.path.isdir(keep):
         shutil.rmtree(os.path.join(DIST, '.vercel'), ignore_errors=True); shutil.move(keep, os.path.join(DIST, '.vercel'))
     for root, _, fs in os.walk(DIST):   # 빈 파일이 하나라도 있으면 로그인 없는 올리기가 거절된다(크기 0) — 한 글자를 넣어 둔다
@@ -123,9 +135,12 @@ def main():
                             t2 = t2.replace(old + '"', '/' + ren[k] + '"').replace(old + "'", '/' + ren[k] + "'").replace(old + '/', '/' + ren[k] + '/').replace(old + ')', '/' + ren[k] + ')').replace(old + '?', '/' + ren[k] + '?').replace(old + '#', '/' + ren[k] + '#').replace(old + ' ', '/' + ren[k] + ' ')
                     if t2 != t:
                         open(fp, 'w', encoding='utf-8', newline='').write(t2)
-        print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 올릴 사본에서 영어 이름으로 바꿨습니다)', flush=True)
+        print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 배포할 사본에서 영어 이름으로 바꿨습니다)', flush=True)
     rc, who = npx('whoami', DIST, 90); logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
-    print('올리는 중…' + (' (Vercel 에 로그인돼 있어 사라지지 않는 주소로)' if logged else ' (로그인 없이 임시 주소로)'), flush=True)
+    link = os.path.join(DIST, '.vercel'); mode = 'in' if logged else 'out'; mf = os.path.join(link, '_mode.txt')
+    if os.path.isdir(link) and (open(mf, encoding='utf-8').read().strip() if os.path.exists(mf) else '') != mode:
+        shutil.rmtree(link, ignore_errors=True)   # 로그인 상태가 바뀌었으면 예전에 이어 둔 기록은 쓸 수 없다(그대로 두면 배포가 멈춰 선다)
+    print('배포하는 중…' + (' (Vercel 에 로그인돼 있어 고정 주소로)' if logged else ' (로그인 없이 임시 배포로)'), flush=True)
     prev = (prog().get('deploy') or {})
     known = prev.get('url', '') if logged and not prev.get('temp') and prev.get('slug') == _slug() else ''
     if known:
@@ -145,21 +160,25 @@ def main():
             import cases; cases.mark('deploy.fail')
         except Exception:
             pass
-        print('✗ 주소를 받지 못했습니다. 나온 말의 끝:\n' + out.strip()[-500:]); return 1
+        print('✗ 배포 실패 — 주소를 받지 못했습니다. 나온 말의 끝:\n' + out.strip()[-500:]); return 1
     if logged and not known:   # 사라지지 않는 주소를 방금 처음 알았다: 주소 목록 파일을 만들어 한 번 더 올린다(다음부터는 한 번에)
         n = sitemap(url)
         if n:
             npx('deploy --prod --yes', DIST)
+    try:
+        os.makedirs(os.path.join(DIST, '.vercel'), exist_ok=True); open(os.path.join(DIST, '.vercel', '_mode.txt'), 'w', encoding='utf-8').write('in' if logged else 'out')
+    except Exception:
+        pass
     ok = opens(url + '/')
     d = prog(); d['deploy'] = dict(url=url, slug=_slug(), temp=not logged, claim=claim, expires=exp, t=time.strftime('%Y-%m-%d %H:%M'))
     d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': '올림: ' + url}); d['last'] = '올림: ' + url
     json.dump(d, open(PROG, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'\n{"✓" if ok else "✗"} 올렸습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
+    print(f'\n{"✓" if ok else "✗"} 배포했습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
     print('┌─ 남에게 보여 줄 주소 ' + '─' * 32)
     print('│ ' + url)
     if not logged:
-        print(f'│ 지금부터 {max(0, (exp - time.time()) / 60):.0f}분 동안 누구나 열 수 있습니다(휴대폰으로도).')
-        print('│ 사라지지 않게 계속 쓰려면 아래 주소를 브라우저로 열어 가입·로그인하세요.')
+        print(f'│ 임시 배포입니다 — 지금부터 {max(0, (exp - time.time()) / 60):.0f}분 동안 누구나 열 수 있습니다(휴대폰으로도).')
+        print('│ 고정 주소로 계속 쓰려면 아래 주소를 브라우저로 열어 가입·로그인하세요.')
         print('│ ' + claim)
     print('└' + '─' * 52)
     return 0 if ok else 1

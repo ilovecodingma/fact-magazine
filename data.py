@@ -69,7 +69,7 @@ def backup(tag=''):
                         full = os.path.join(root, f); z.write(full, os.path.relpath(full, HERE).replace(os.sep, '/')); n += 1
     for old in backups()[:-14]:
         os.remove(os.path.join(BK, old))
-    print(f'백업했습니다: 백업/{name}  (파일 {n}개, {os.path.getsize(fp) // 1024}KB) — 최근 14개만 남깁니다')
+    print(f'운영 자료를 백업했습니다: 백업/{name}  (파일 {n}개, {os.path.getsize(fp) // 1024}KB) — 최근 14개만 남깁니다')
     return fp
 
 

@@ -93,7 +93,7 @@ def start():
     while time.time() - t0 < 90 and not (alive('http://127.0.0.1:8787/api/features') and alive('http://127.0.0.1:3000/')):
         time.sleep(1)
     a, w = alive('http://127.0.0.1:8787/api/features'), alive('http://127.0.0.1:3000/')
-    print(f'{"✓" if a else "✗"} 백엔드(파이썬) http://127.0.0.1:8787   {"✓" if w else "✗"} 화면(Next.js) http://127.0.0.1:3000   — {time.time() - t0:.0f}초')
+    print(f'{"✓" if w else "✗"} 프런트엔드(Next.js) http://127.0.0.1:3000   {"✓" if a else "✗"} 백엔드(파이썬) http://127.0.0.1:8787   — {time.time() - t0:.0f}초')
     if a and w:
         print('가게: http://127.0.0.1:3000/   운영자: http://127.0.0.1:3000/admin' + ('' if key else ' (운영자 비밀번호는 이 주소를 열어 직접 정합니다 — 이 PC 에서만 정할 수 있습니다)') + '\n휴대폰에서는 같은 와이파이로 이 PC 의 주소를 열고 「홈 화면에 추가」 하면 앱으로 깔립니다(올린 뒤에는 그 주소에서).')
         if '--headless' not in A and '--열지않음' not in A:
@@ -148,7 +148,7 @@ def cloudflared():
     if not name:
         print('이 컴퓨터에는 cloudflared 를 직접 깔아야 합니다(맥: brew install cloudflared). 깐 뒤 다시 「올려」 하면 됩니다.'); return None
     dst = os.path.join(SHOP, '.bin', exe); os.makedirs(os.path.dirname(dst), exist_ok=True)
-    print('바깥 주소를 붙여 주는 프로그램(cloudflared)을 Cloudflare 의 공식 배포 주소에서 받습니다(처음 한 번, shop/.bin/ 에만 둡니다)…', flush=True)
+    print('터널 프로그램(cloudflared — 가게의 바깥 주소를 이 PC 로 잇는 프로그램)을 Cloudflare 의 공식 배포 주소에서 받습니다(처음 한 번, shop/.bin/ 에만 둡니다)…', flush=True)
     try:
         urllib.request.urlretrieve('https://github.com/cloudflare/cloudflared/releases/latest/download/' + name, dst)
         if os.name != 'nt':
@@ -181,7 +181,7 @@ def share():
         pid = run.pop('tunnel', None)
         if pid:
             kill(pid); json.dump(run, open(RUN, 'w', encoding='utf-8')); forget_url()
-        print('바깥 주소를 닫았습니다.' if pid else '열어 둔 바깥 주소가 없습니다.'); return 0
+        print('터널을 닫았습니다(바깥 주소가 닫혔습니다).' if pid else '열어 둔 바깥 주소가 없습니다.'); return 0
     if not (alive('http://127.0.0.1:8787/api/features') and alive('http://127.0.0.1:3000/')):
         print('가게가 꺼져 있어 먼저 켭니다…', flush=True)
         if start() != 0:
@@ -203,7 +203,7 @@ def share():
         except Exception:
             pass
     if not url:
-        kill(p.pid); print('✗ 바깥 주소를 받지 못했습니다(기록: logs/shop_tunnel.log).'); return 1
+        kill(p.pid); print('✗ 터널을 열지 못했습니다 — 바깥 주소를 받지 못했습니다(기록: logs/shop_tunnel.log).'); return 1
     if run.get('tunnel'):
         kill(run['tunnel'])
     run['tunnel'] = p.pid; json.dump(run, open(RUN, 'w', encoding='utf-8'))
@@ -220,12 +220,12 @@ def share():
     d['deploy_shop'] = dict(url=url, temp=True, claim='', expires=time.time() + 86400 * 365, live='pc', t=time.strftime('%Y-%m-%d %H:%M'))
     d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': '올림: ' + url}); d['last'] = '올림: ' + url
     json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'\n{"✓" if ok else "✗"} 가게에 바깥 주소를 붙였습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
+    print(f'\n{"✓" if ok else "✗"} 터널을 열었습니다(가게의 터널 주소) — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
     print('┌─ 남에게 보여 줄 주소 ' + '─' * 32)
     print('│ ' + url)
     print('│ 이 PC 와 가게가 켜져 있는 동안 누구나 열 수 있습니다(휴대폰으로 열어 「홈 화면에 추가」 하면 앱으로 깔립니다).')
     print('│ 담기·주문·상품평이 모두 됩니다. 운영자 화면은 ' + url + '/admin')
-    print('│ PC 나 가게를 끄면 닫히고, 다시 열면 주소가 새로 나옵니다. 닫기: python run.py 가게 공유 끄기')
+    print('│ 터널 주소는 PC 나 가게를 끄면 닫히고, 다시 열면 새 주소가 나옵니다. 닫기: python run.py 가게 공유 끄기')
     print('└' + '─' * 52)
     return 0 if ok else 1
 

@@ -82,7 +82,7 @@ def undo_cmd(R, rest):
         m = restore(L[-1][0]); what = f'「{m["what"]}」 하기 전 모습'
     out, last, rc = R.rebuild_local()
     R.shots_for(out, '되돌리기')
-    print(f'되돌렸습니다 → {what}. ({last})\n겁내지 않아도 됩니다: 무엇을 바꾸든 python run.py 되돌리기 한 줄로 돌아옵니다(처음 모습은 되돌리기 처음, 목록은 되돌리기 목록).'); R.prog_add('되돌리기: ' + what); return 0
+    print(f'롤백했습니다 → {what}. ({last})\n무엇을 구현하든 python run.py 되돌리기 한 줄로 롤백됩니다(처음 모습은 되돌리기 처음, 목록은 되돌리기 목록).'); R.prog_add('되돌리기: ' + what); return 0
 
 
 # ---------------------------------------------------------------- 바꿔 / 바꿨다 (단계 없이 하는 작은 고침)
@@ -135,7 +135,7 @@ def _shop_shot(dst=None):
 def change_cmd(R, rest):
     what = ' '.join(rest).strip()
     if not what:
-        print('사용: python run.py 바꿔 "<독자가 한 말 그대로>"   예: 바꿔 "글마다 댓글을 달 수 있게"\n수정 전 모습을 백업한 뒤 세션이 고치고, python run.py 바꿨다 로 자동 확인하고 전·후를 보입니다.'); return 1
+        print('사용: python run.py 바꿔 "<독자가 한 말 그대로>"   예: 바꿔 "글마다 댓글을 달 수 있게"\n구현 전 모습을 스냅샷으로 뜬 뒤 세션이 구현하고, python run.py 바꿨다 로 빌드·검증하고 전·후를 보입니다.'); return 1
     n = snap(what); os.makedirs(KEEP, exist_ok=True)
     before = None
     if R.SHOTS:
@@ -145,9 +145,9 @@ def change_cmd(R, rest):
     if R.SHOTS and _shop_alive():
         before_shop = os.path.join(R.SHOTS, f'바꿔_{n}_가게_전.png'); _shop_shot(before_shop)
     json.dump({'n': n, 'what': what, 'before': before, 'before_shop': before_shop, 't0': time.time()}, open(PENDING, 'w', encoding='utf-8'), ensure_ascii=False)
-    print(f'지금 상태를 백업했습니다({n}번) — 설정·글·자료·템플릿 파일 전부. 이제 「{what}」를 고칩니다.\n'
+    print(f'스냅샷 {n}번을 떴습니다 — 설정·글·자료·템플릿 파일 전부. 이제 「{what}」를 구현합니다.\n'
           '[어디든 고쳐도 됩니다] 이름·소개·색 → site.local.json / 글 → notes/·posts/ / 기능 자료 → kits/<기능>/data/ / 화면 템플릿·새 기능 → *.py·kits/·server/\n'
-          '[수정 뒤] python run.py 바꿨다 "<무엇을 고쳤는지 한 줄>" — 구문·찍기를 자동 확인하고, 깨졌으면 알려 줍니다(python run.py 되돌리기 한 줄로 돌아옴).'); return 0
+          '[구현 뒤] python run.py 바꿨다 "<무엇을 구현했는지 한 줄>" — 구문 검사·빌드·검증을 하고, 실패하면 알려 줍니다(python run.py 되돌리기 한 줄로 롤백).'); return 0
 
 
 def _check():
@@ -218,15 +218,15 @@ def changed_cmd(R, rest):
         print('먼저 python run.py 바꿔 "<독자가 한 말>" 로 시작하세요(수정 전 모습을 백업합니다).'); return 1
     p = json.load(open(PENDING, encoding='utf-8'))
     if not os.path.isdir(os.path.join(KEEP, str(p['n']))):
-        os.remove(PENDING); print('견줄 기준(수정 전 모습)이 없습니다 — 그 사이에 되돌렸습니다. python run.py 바꿔 "<독자가 한 말>" 로 다시 시작하세요.'); return 1
+        os.remove(PENDING); print('견줄 기준(구현 전 스냅샷)이 없습니다 — 그 사이에 롤백했습니다. python run.py 바꿔 "<독자가 한 말>" 로 다시 시작하세요.'); return 1
     bad = _check()
     if bad:
-        print('✗ 확인에서 걸렸습니다(구문):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 수정 전으로 돌아갑니다.'); return 1
+        print('✗ 검증 실패(구문 검사):\n  ' + '\n  '.join(bad) + '\n고쳐서 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 롤백합니다.'); return 1
     out, last, rc = R.rebuild_local()
     if rc != 0:
         _mark('build.fail')
-        print('✗ 확인에서 걸렸습니다(사이트 찍기). 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 돌아갑니다.'); return 1
-    want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 시킨 것이 화면에 나타났는가: 찍힌 사이트에서 이 글자들을 찾는다
+        print('✗ 빌드 실패. 위 오류를 고쳐 다시 python run.py 바꿨다 를 부르거나, python run.py 되돌리기 로 롤백합니다.'); return 1
+    want = [R.A[i + 1] for i, a in enumerate(R.A[:-1]) if a == '--보임']   # 검증 — 화면에 나타남: 찍힌 사이트에서 이 글자들을 찾는다
     rest = [x for x in rest if x not in want]
     did = ' '.join(rest).strip() or p['what']
     seen = _seen(out, want); files = _changed(p['n'])
@@ -239,7 +239,7 @@ def changed_cmd(R, rest):
             if not seen[w] and w in shop_text:
                 seen[w] = True
         if after_shop and p.get('before_shop') and os.path.exists(p['before_shop']) and os.path.exists(after_shop):
-            R.side_by_side(p['before_shop'], after_shop, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'), '수정 전', '수정 뒤')
+            R.side_by_side(p['before_shop'], after_shop, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'), '구현 전', '구현 뒤')
             print('  가게 화면 전·후: ' + os.path.join(R.SHOTS, f'바꿔_{p["n"]}_가게_전후.png'))
     miss = [w for w in want if not seen[w]]
     if miss:
@@ -247,16 +247,16 @@ def changed_cmd(R, rest):
     secs = time.time() - p['t0']
     if not miss:
         os.remove(PENDING)   # 안 보이는 것이 있으면 접지 않는다: 고쳐서 다시 바꿨다 를 부르면 같은 기준과 견준다
-    _flow(p['what'], did, files, '구문 ✓ · 찍기 ✓' + (f' · 화면에 나타남 {len(want) - len(miss)}/{len(want)}' if want else ''), secs)
+    _flow(p['what'], did, files, '구문 검사 ✓ · 빌드 ✓' + (f' · 화면에 나타남 {len(want) - len(miss)}/{len(want)}' if want else ''), secs)
     if R.SHOTS and p.get('before') and os.path.exists(p['before']):
         import selftest as T
         after = os.path.join(R.SHOTS, f'바꿔_{p["n"]}_후.png'); T.shoot_pages(out, [''], [after], 1280, 860)
-        R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '수정 전', '수정 뒤')
-    print(f'✓ 수정했습니다: {did}  (바꿔 를 부른 뒤로 {secs:.0f}초)\n  수정한 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
+        R.side_by_side(p['before'], after, os.path.join(R.SHOTS, f'바꿔_{p["n"]}_전후.png'), '구현 전', '구현 뒤')
+    print(f'✓ 구현 반영: {did}  (스냅샷을 뜬 뒤로 {secs:.0f}초)\n  변경한 파일: ' + (', '.join(files[:8]) or '(없음)') + (f' 외 {len(files) - 8}개' if len(files) > 8 else ''))
     if want:
-        print(f'{"✓" if not miss else "✗"} 시킨 것이 화면에 나타났는가: {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
+        print(f'{"✓" if not miss else "✗"} 검증 — 화면에 나타남 {len(want) - len(miss)}/{len(want)}' + (' — 안 보이는 것: ' + ', '.join(f'「{m}」' for m in miss) + ' → 고쳐서 다시 확인하거나 독자에게 그대로 말합니다' if miss else ''))
     else:
-        print('– 시킨 것이 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
+        print('– 검증 — 화면에 나타났는지는 아직 보지 않았습니다(--보임 "화면에 보여야 할 글자" 를 붙이면 찍힌 사이트에서 찾아 줍니다).')
     shop_only = bool(files) and all(f.startswith('shop/') for f in files)
     if any(f.startswith('shop/') for f in files):   # 가게를 고쳤으면 가게를 확인한다(임시 가게로 방문자·운영자 노릇)
         import subprocess, sys as _sys
@@ -264,10 +264,10 @@ def changed_cmd(R, rest):
         tail = next((x.strip() for x in reversed((r.stdout or '').splitlines()) if '단계 가운데' in x), '시험을 돌리지 못했습니다')
         if r.returncode != 0:
             _mark('smoke.fail')
-        print(('✓' if r.returncode == 0 else '✗') + ' 가게 자동 확인: ' + tail.lstrip('→ ') + ('' if r.returncode == 0 else ' — 걸린 단계: ' + '; '.join(x.strip() for x in (r.stdout or '').splitlines() if '✗' in x)[:200]))
-    print((f'✓ 자동 확인: 템플릿 파일 구문 통과' if shop_only else f'✓ 자동 확인: 템플릿 파일 구문 통과 · 사이트 찍기 통과({last})') + '\n마음에 안 들면 python run.py 되돌리기 한 줄로 수정 전으로 돌아갑니다.\n[다음] 고친 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
+        print(('✓' if r.returncode == 0 else '✗') + ' 가게 스모크 테스트: ' + tail.lstrip('→ ') + ('' if r.returncode == 0 else ' — 걸린 단계: ' + '; '.join(x.strip() for x in (r.stdout or '').splitlines() if '✗' in x)[:200]))
+    print((f'✓ 검증: 구문 검사 통과' if shop_only else f'✓ 검증: 구문 검사 통과 · 빌드 통과({last})') + '\n마음에 안 들면 python run.py 되돌리기 한 줄로 롤백합니다.\n[다음] 구현한 화면을 독자에게 열어 보이고, 다음에 바꾸고 싶은 것을 한 줄로 받습니다.')
     if miss:
-        print('아직 끝나지 않았습니다 — 수정 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
+        print('아직 끝나지 않았습니다(검증 미통과) — 고친 뒤 같은 줄로 python run.py 바꿨다 … --보임 … 을 다시 부르면 됩니다(다시 바꿔 를 부르지 않아도 됩니다).'); return 1
     R.prog_add('바꿈: ' + did); status_cmd(R); return 0
 
 
