@@ -2,7 +2,7 @@
 // 가게 화면이 함께 쓰는 것: 백엔드 부르기, 기기 표시, 붙어 있는 기능, 장바구니 수.
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-export const API = process.env.NEXT_PUBLIC_API || 'http://127.0.0.1:8787';
+export const API = process.env.NEXT_PUBLIC_API || '';   // 비어 있으면 같은 주소의 /api 로(화면이 백엔드로 넘겨 준다)
 
 function device() {
   if (typeof window === 'undefined') return '';

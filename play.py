@@ -212,7 +212,7 @@ def status_cmd(R, rest=None):
     url = str(L.get('url') or ''); live = url.startswith('http') and 'localhost' not in url and '프로젝트이름' not in url
     dep = R.prog_load().get('deploy') or {}
     if dep.get('url') and (not dep.get('temp') or dep.get('expires', 0) > time.time()):
-        live = True; url = dep['url'] + (f' (임시, {max(0, (dep["expires"] - time.time()) / 60):.0f}분 남음)' if dep.get('temp') else '')
+        live = True; url = dep['url'] + (' (이 PC 가 켜져 있는 동안)' if dep.get('live') == 'pc' else f' (임시, {max(0, (dep["expires"] - time.time()) / 60):.0f}분 남음)' if dep.get('temp') else '')
     card = R.svc_load(); filled = sum(1 for c in R.SVC_CARDS if card.get(c)); files = set()
     fp = os.path.join(HERE, '기록', '흐름.md')
     if os.path.exists(fp):

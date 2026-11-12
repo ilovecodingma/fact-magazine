@@ -4,3 +4,4 @@ web/.next/
 web/out/
 .run.json
 __pycache__/
+.bin/

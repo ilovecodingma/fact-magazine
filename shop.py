@@ -107,6 +107,9 @@ def stop():
         else:
             subprocess.run(f'lsof -ti tcp:{port} | xargs kill', shell=True, capture_output=True)
     if os.path.exists(RUN):
+        t = json.load(open(RUN, encoding='utf-8')).get('tunnel')
+        if t:
+            kill(t)
         os.remove(RUN)
     print('가게를 껐습니다(자료는 shop/api/data/shop.db 에 그대로 있습니다).'); return 0
 
@@ -123,6 +126,88 @@ def status():
                 return 0
         print(f'상품 {n("products")}개 · 주문 {n("orders")}건 · 상품평 {n("reviews")}개')
     return 0
+
+
+def cloudflared():
+    """바깥 주소를 붙여 주는 프로그램(cloudflared)을 찾는다. 없으면 Cloudflare 의 공식 배포 주소에서 shop/.bin/ 으로 받는다(윈도우·리눅스)."""
+    import platform, urllib.request
+    exe = 'cloudflared.exe' if os.name == 'nt' else 'cloudflared'
+    for c in (os.environ.get('CLOUDFLARED'), shutil.which('cloudflared'), os.path.join(SHOP, '.bin', exe)):
+        if c and os.path.exists(c):
+            return c
+    arch = 'arm64' if platform.machine().lower() in ('arm64', 'aarch64') else 'amd64'
+    name = None if sys.platform == 'darwin' else (f'cloudflared-windows-{arch}.exe' if os.name == 'nt' else f'cloudflared-linux-{arch}')
+    if not name:
+        print('이 컴퓨터에는 cloudflared 를 직접 깔아야 합니다(맥: brew install cloudflared). 깐 뒤 다시 「올려」 하면 됩니다.'); return None
+    dst = os.path.join(SHOP, '.bin', exe); os.makedirs(os.path.dirname(dst), exist_ok=True)
+    print('바깥 주소를 붙여 주는 프로그램(cloudflared)을 Cloudflare 의 공식 배포 주소에서 받습니다(처음 한 번, shop/.bin/ 에만 둡니다)…', flush=True)
+    try:
+        urllib.request.urlretrieve('https://github.com/cloudflare/cloudflared/releases/latest/download/' + name, dst)
+        if os.name != 'nt':
+            os.chmod(dst, 0o755)
+        return dst
+    except Exception as e:
+        print('✗ 받지 못했습니다:', repr(e)[:120]); return None
+
+
+def kill(pid):
+    subprocess.run(['taskkill', '/F', '/PID', str(pid)], capture_output=True) if os.name == 'nt' else subprocess.run(['kill', str(pid)], capture_output=True)
+
+
+def share():
+    import re
+    run = json.load(open(RUN, encoding='utf-8')) if os.path.exists(RUN) else {}
+    if len(A) > 1 and A[1] == '끄기':
+        pid = run.pop('tunnel', None)
+        if pid:
+            kill(pid); json.dump(run, open(RUN, 'w', encoding='utf-8'))
+        print('바깥 주소를 닫았습니다.' if pid else '열어 둔 바깥 주소가 없습니다.'); return 0
+    if not (alive('http://127.0.0.1:8787/api/features') and alive('http://127.0.0.1:3000/')):
+        print('가게가 꺼져 있어 먼저 켭니다…', flush=True)
+        if start() != 0:
+            return 1
+        run = json.load(open(RUN, encoding='utf-8')) if os.path.exists(RUN) else {}
+    cf = cloudflared()
+    if not cf:
+        return 1
+    os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True); log = os.path.join(HERE, 'logs', 'shop_tunnel.log')
+    if os.path.exists(log):
+        os.remove(log)
+    kw = dict(creationflags=0x00000008 | 0x00000200) if os.name == 'nt' else dict(start_new_session=True)
+    t0 = time.time(); p = subprocess.Popen([cf, 'tunnel', '--url', 'http://127.0.0.1:3000', '--no-autoupdate', '--logfile', log], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL, **kw)
+    url = ''
+    while time.time() - t0 < 60 and not url:
+        time.sleep(2)
+        try:
+            m = re.search(r'https://[a-z0-9-]+\.trycloudflare\.com', open(log, encoding='utf-8', errors='replace').read()); url = m.group(0) if m else ''
+        except Exception:
+            pass
+    if not url:
+        kill(p.pid); print('✗ 바깥 주소를 받지 못했습니다(기록: logs/shop_tunnel.log).'); return 1
+    if run.get('tunnel'):
+        kill(run['tunnel'])
+    run['tunnel'] = p.pid; json.dump(run, open(RUN, 'w', encoding='utf-8'))
+    ok = False
+    for _ in range(10):
+        time.sleep(3)
+        try:
+            ok = urllib.request.urlopen(urllib.request.Request(url + '/api/features', headers={'User-Agent': 'Mozilla/5.0'}), timeout=15).status == 200
+        except Exception:
+            ok = False
+        if ok:
+            break
+    pg = os.path.join(HERE, '진도.json'); d = json.load(open(pg, encoding='utf-8')) if os.path.exists(pg) else {'done': [], 'last': ''}
+    d['deploy'] = dict(url=url, temp=True, claim='', expires=time.time() + 86400 * 365, live='pc', t=time.strftime('%Y-%m-%d %H:%M'))
+    d['done'].append({'t': time.strftime('%Y-%m-%d %H:%M'), 'what': '올림: ' + url}); d['last'] = '올림: ' + url
+    json.dump(d, open(pg, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'\n{"✓" if ok else "✗"} 가게에 바깥 주소를 붙였습니다 — {time.time() - t0:.0f}초' + ('' if ok else ' (주소는 받았지만 아직 열리지 않습니다. 잠시 뒤 다시 열어 보세요)'))
+    print('┌─ 남에게 보여 줄 주소 ' + '─' * 32)
+    print('│ ' + url)
+    print('│ 이 PC 와 가게가 켜져 있는 동안 누구나 열 수 있습니다(휴대폰으로 열어 「홈 화면에 추가」 하면 앱으로 깔립니다).')
+    print('│ 담기·주문·상품평이 모두 됩니다. 운영자 화면은 ' + url + '/admin')
+    print('│ PC 나 가게를 끄면 닫히고, 다시 열면 주소가 새로 나옵니다. 닫기: python run.py 가게 공유 끄기')
+    print('└' + '─' * 52)
+    return 0 if ok else 1
 
 
 def reseed():
@@ -152,6 +237,8 @@ def main():
         return subprocess.run([sys.executable, '-X', 'utf8', os.path.join(SHOP, 'smoke.py')]).returncode
     if c == '상품다시':
         return reseed()
+    if c == '공유':
+        return share()
     print(__doc__); return 1
 
 
