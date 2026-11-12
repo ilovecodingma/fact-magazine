@@ -15,7 +15,16 @@ if os.name == 'nt':   # 막 깐 Node.js·Git 이 아직 PATH 에 안 잡혔어�
         if os.path.isdir(_d) and _d.lower() not in os.environ.get('PATH', '').lower():
             os.environ['PATH'] = _d + os.pathsep + os.environ.get('PATH', '')
 HERE = os.path.dirname(os.path.abspath(__file__))
-DIST = os.path.join(HERE, 'dist_deploy'); PROG = os.path.join(HERE, '진도.json')
+def _slug():
+    try:
+        s = str(json.load(open(os.path.join(HERE, 'site.local.json'), encoding='utf-8')).get('slug') or '')
+    except Exception:
+        s = ''
+    s = re.sub(r'[^a-z0-9-]+', '-', s.lower()).strip('-')[:40]
+    return s or 'my-site'
+
+
+ROOT = os.path.join(HERE, 'dist_deploy'); DIST = os.path.join(ROOT, _slug()); PROG = os.path.join(HERE, '진도.json')
 A = sys.argv[1:]
 
 
@@ -56,7 +65,7 @@ def main():
     if not shutil.which('node'):
         print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 가 점검하고 깝니다. 깐 뒤 다시 「올려」.'); return 1
     t0 = time.time()
-    shutil.rmtree(DIST, ignore_errors=True)
+    shutil.rmtree(ROOT, ignore_errors=True); os.makedirs(ROOT, exist_ok=True)
     r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
     if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
         print('✗ 사이트를 찍지 못했습니다:', (r.stderr or r.stdout)[-300:]); return 1

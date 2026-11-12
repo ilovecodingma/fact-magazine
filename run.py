@@ -30,6 +30,7 @@
       python run.py 준비 [--보기만]            필요한 프로그램(git·Node.js·브라우저·ffmpeg) 점검, 빠진 것은 묻지 않고 winget·brew·apt 로 바로 깖
       python run.py 데이터 현황|백업|목록|복구 [파일] --예|주문표|발송목록   운영 자료를 한 장으로 보고, 통째로 백업·복구, 주문을 표로
       python run.py 메일 [--send] [--to 주소]   소식 메일 미리보기(기본) · 사람이 「보내」 한 뒤에만 --send
+      python run.py 운영기록 받기|목록|찾기 <낱말>   저자 팀의 한 달 운영 기록(가린 판)을 받아 참고/운영기록/ 에 놓고 찾기 — 분석은 세션이(참고/운영기록_읽는법.md)
       python run.py 토큰 [끄기]                학습 사이트(sungprofile.cloud/park/start/)에 넣을 토큰을 받는다 — 받아 두면 관문이 열릴 때 진도(단계 이름)만 알림. 선택
       python run.py 올려 가게                  켜져 있는 가게(화면+백엔드)에 바깥 주소를 붙인다 — 로그인 없이, 이 PC 가 켜져 있는 동안 열림(닫기: 가게 공유 끄기)
       python run.py 올려 [상태]                지금 사이트를 찍어 남에게 보여 줄 주소를 받는다(Vercel — 로그인 없이도 60분짜리 임시 주소가 바로 나오고, 로그인돼 있으면 사라지지 않는 주소)
@@ -1747,6 +1748,8 @@ def main():
         if rc == 0 and cmd != '기능' and rest:
             prog_add(f'바꿈: 기능 {rest[0]} {"붙임" if cmd == "붙여" else "뗌"}')
         return rc
+    if cmd in ('운영기록', 'archive'):
+        return sh(['archive.py'] + A[1:])
     if cmd in ('토큰', 'token'):
         return sh(['lms.py'] + A[1:])
     if cmd in ('상태창', 'status'):
