@@ -4,7 +4,8 @@
       "Read(./.env)",
       "Read(./mail.local.json)",
       "Bash(git push --force *)",
-      "Bash(rm -rf *)"
+      "Bash(rm -rf *)",
+      "Read(./shop/api/data/bank.local.json)"
     ]
   }
 }

@@ -46,6 +46,8 @@ def main():
         o = call('POST', '/api/orders', {'name': '시험', 'phone': '000', 'address': '시험 주소', 'coupon': '첫주문'}); t('무통장 입금으로 주문이 들어가고 쿠폰이 먹습니다', o.get('ok') and o.get('discount') == 3000 and 'bank' in o, f'주문 {o.get("id")}번 {o.get("total")}원')
         t('주문 뒤 장바구니가 비워집니다', call('GET', '/api/cart')['count'] == 0)
         t('운영자 열쇠 없이는 주문 목록을 못 봅니다', call('GET', '/api/admin/orders').get('_code') == 403)
+        call('POST', '/api/admin/bank', {'bank': '시험은행', 'account': '000-00-0000', 'holder': '시험'}, admin=True)
+        t('운영자가 넣은 입금 계좌는 주문한 사람에게만 보이고, 열쇠 없이는 바꿀 수 없습니다', call('GET', '/api/orders').get('bank', {}).get('account') == '000-00-0000' and call('GET', '/api/bank').get('_code') == 404 and call('POST', '/api/admin/bank', {'bank': 'x', 'account': 'y', 'holder': 'z'}).get('_code') == 403)
         a = call('GET', '/api/admin/orders', admin=True); t('운영자는 입금 대기 주문을 봅니다', a.get('waiting') == 1 and a['orders'][0]['status'] == '입금 대기')
         a = call('PUT', f'/api/admin/orders/{o["id"]}', {'status': '입금 확인'}, admin=True); t('운영자가 입금을 확인합니다', a['orders'][0]['status'] == '입금 확인')
         d = json.loads(keep); d['on'] = [x for x in d['on'] if x != 'reviews']; open(CONF, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=1)); time.sleep(0.05)

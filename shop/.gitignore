@@ -1,4 +1,5 @@
 api/data/shop.db*
+api/data/bank.local.json
 web/node_modules/
 web/.next/
 web/out/

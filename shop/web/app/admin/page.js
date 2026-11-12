@@ -6,12 +6,20 @@ export default function Admin() {
   const [key, setKey] = useState('');
   const [data, setData] = useState(null);
   const [msg, setMsg] = useState('');
+  const [bank, setBank] = useState({ bank: '', account: '', holder: '' });
+  const [bankSet, setBankSet] = useState(null);
+  const saveBank = async (e) => {
+    e.preventDefault();
+    const j = await api('/api/admin/bank', { method: 'POST', body: bank, admin: key });
+    setMsg(j.ok ? '입금 계좌를 넣었습니다' : j.error); if (j.ok) { setBankSet(j.set); setBank({ bank: '', account: '', holder: '' }); }
+  };
   const [np, setNp] = useState({ name: '', cat: '', price: '', was: '', emoji: '📦', desc: '' });
   const load = async (e) => {
     e && e.preventDefault();
     const j = await api('/api/admin/orders', { admin: key });
     if (j.failed !== undefined) { setData(null); return setMsg(j.error); }
     setMsg(''); setData(j);
+    api('/api/admin/bank', { admin: key }).then((b) => setBankSet(!!b.set));
   };
   const setStatus = async (id, status) => setData(await api('/api/admin/orders/' + id, { method: 'PUT', body: { status }, admin: key }));
   const addProduct = async (e) => {
@@ -44,6 +52,13 @@ export default function Admin() {
           ))}
         </ul>
       </section>
+      <form className="orderbox" onSubmit={saveBank}>
+        <h2>입금 계좌 <small style={{ fontWeight: 400, fontSize: 13 }}>{bankSet ? '넣어 둠' : '아직 없음'}</small></h2>
+        <input placeholder="은행" value={bank.bank} onChange={(e) => setBank({ ...bank, bank: e.target.value })} required autoComplete="off" />
+        <input placeholder="계좌 번호" value={bank.account} onChange={(e) => setBank({ ...bank, account: e.target.value })} required autoComplete="off" />
+        <input placeholder="예금주" value={bank.holder} onChange={(e) => setBank({ ...bank, holder: e.target.value })} required autoComplete="off" />
+        <button className="btn wide">계좌 넣기</button>
+      </form>
       <form className="orderbox" onSubmit={addProduct}>
         <h2>상품 올리기</h2>
         <input placeholder="상품 이름" value={np.name} onChange={(e) => setNp({ ...np, name: e.target.value })} required />

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """주문. 무통장 입금 방식 — 주문하면 「입금 대기」가 되고 입금할 계좌를 알려 준다. 운영자가 입금을 확인하면 「입금 확인」, 보내면 「보냄」.
-입금 계좌는 data/bank.json(은행·계좌·예금주). 카드 결제는 없다."""
+입금 계좌는 운영자가 운영자 화면(/admin)에서 직접 넣는다 — data/bank.local.json 에만 남고(git 에 올라가지 않는다) 세션은 이 파일을 읽지 않는다. 카드 결제는 없다."""
 import json, os
 
-BANK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'bank.json')
+BANK = os.path.join(os.path.dirname(os.environ.get('SHOP_DB') or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'shop.db')), 'bank.local.json')
 
 
 def bank():
@@ -40,11 +40,7 @@ def mine(c, req):
     out = [dict(r) for r in c.execute('select id, items, total, discount, status, created from orders where device=? order by id desc', (req['device'],))]
     for o in out:
         o['items'] = json.loads(o['items'])
-    return {'orders': out, 'bank': bank()}
+    return {'orders': out, 'bank': bank() if out else {}}
 
 
-def bank_info(c, req):
-    return {'bank': bank()}
-
-
-ROUTES = [('POST', '/api/orders', place), ('GET', '/api/orders', mine), ('GET', '/api/bank', bank_info)]
+ROUTES = [('POST', '/api/orders', place), ('GET', '/api/orders', mine)]

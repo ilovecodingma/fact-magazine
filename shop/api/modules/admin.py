@@ -35,4 +35,23 @@ def del_product(c, req):
     need(req); c.execute('delete from products where id=?', (req['args'][0],)); return {'ok': True}
 
 
-ROUTES = [('GET', '/api/admin/orders', orders), ('PUT', r'/api/admin/orders/(\d+)', status), ('POST', '/api/admin/products', add_product), ('DELETE', r'/api/admin/products/(\d+)', del_product)]
+def set_bank(c, req):
+    need(req); b = req['body']
+    import os
+    from modules.orders import BANK as fp
+    d = {k: str(b.get(k, '')).strip()[:60] for k in ('bank', 'account', 'holder')}
+    json.dump(d, open(fp, 'w', encoding='utf-8'), ensure_ascii=False)
+    return {'ok': True, 'set': bool(d['account'])}
+
+
+def has_bank(c, req):
+    need(req)
+    import os
+    from modules.orders import BANK as fp
+    try:
+        return {'set': bool(json.load(open(fp, encoding='utf-8')).get('account'))}
+    except Exception:
+        return {'set': False}
+
+
+ROUTES = [('POST', '/api/admin/bank', set_bank), ('GET', '/api/admin/bank', has_bank), ('GET', '/api/admin/orders', orders), ('PUT', r'/api/admin/orders/(\d+)', status), ('POST', '/api/admin/products', add_product), ('DELETE', r'/api/admin/products/(\d+)', del_product)]
