@@ -43,7 +43,11 @@ def add_product(c, req):
 
 
 def del_product(c, req):
-    need(req); c.execute('delete from products where id=?', (req['args'][0],)); return {'ok': True}
+    need(req); pid = req['args'][0]; c.execute('delete from products where id=?', (pid,))
+    for t in ('reviews', 'wish', 'views', 'cart'):   # 이 상품에 붙은 상품평·찜·본 횟수·장바구니도 함께 치운다(번호가 다른 새 상품에 붙지 않게). 주문은 이름·값을 복사해 두었으므로 그대로 남는다
+        if c.execute("select name from sqlite_master where name=?", (t,)).fetchone():
+            c.execute(f'delete from {t} where pid=?', (pid,))
+    return {'ok': True}
 
 
 def setup(c, req):
