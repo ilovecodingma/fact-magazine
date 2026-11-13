@@ -324,8 +324,37 @@ def reseed():
     return 0
 
 
+def checkup():
+    """진짜 손님을 받기 전 점검(읽기만): 운영자 비밀번호·입금 계좌, 쌓인 주문, 상품의 값, 마지막 백업, 바깥 주소. 파일 안의 값은 읽지 않고 있는지만 본다."""
+    import glob, sqlite3
+    d = os.path.join(API, 'data'); ok = lambda f: os.path.exists(os.path.join(d, f))
+    print('━━ 가게 점검 — 진짜 손님을 받기 전에 ━━')
+    print(f'  {"✔" if ok("admin.local.json") else "✘"} 운영자 비밀번호 ' + ('정해 둠' if ok('admin.local.json') else '아직 — 가게를 켠 PC 에서 http://127.0.0.1:3000/admin 을 열어 직접 정합니다'))
+    print(f'  {"✔" if ok("bank.local.json") else "✘"} 입금 계좌 ' + ('넣어 둠' if ok('bank.local.json') else '아직 — 운영자 화면의 「입금 계좌」 칸에 직접 넣습니다(이 점검은 계좌를 읽지 않습니다)'))
+    if os.path.exists(DB):
+        c = sqlite3.connect(DB)
+        by = dict(c.execute('select status, count(*) from orders group by status').fetchall()); n = sum(by.values())
+        first = c.execute('select min(created) from orders').fetchone()[0]
+        print(f'  {"✔" if n == 0 else "!"} 쌓인 주문 {n}건' + (f'({", ".join(f"{k} {v}" for k, v in by.items())}, 가장 먼저 {first})' if n else '') + ('' if n == 0 else ' — 시험으로 넣은 주문이 섞여 있다면 정리해야 합니다(정리는 독자가 정한 뒤에 하고, 하기 전에 백업합니다)'))
+        ps = c.execute('select id, name, price, stock from products order by id').fetchall()
+        print(f'  ! 상품 {len(ps)}개 — 처음 채워진 이름·값·설명은 전부 보기 값입니다. 팔 것과 값은 주인이 정합니다:')
+        for i, nm, pr, st in ps:
+            print(f'      {i}번 {nm} · {pr:,}원 · 재고 {st}')
+        c.close()
+    else:
+        print('  – 가게 자료가 아직 없습니다(가게를 켠 적 없음)')
+    bk = sorted(glob.glob(os.path.join(HERE, '백업', '*.zip')))
+    print(f'  {"✔" if bk else "✘"} 마지막 백업 ' + (f'{os.path.basename(bk[-1])}(모두 {len(bk)}개)' if bk else '없음 — python run.py 데이터 백업'))
+    run = json.load(open(RUN, encoding='utf-8')) if os.path.exists(RUN) else {}
+    print('  – 바깥 주소(터널): ' + ('열려 있음(이 PC 와 가게가 켜져 있는 동안만, 다시 열면 새 주소)' if run.get('tunnel') else '닫혀 있음'))
+    print('  – 계속 열어 두려면: 이 PC 가 계속 켜져 있어야 하고 주소는 켤 때마다 바뀝니다. 고정 주소는 올리기.md 의 「주소를 계속, 내 이름으로 쓰려면」')
+    return 0
+
+
 def main():
     c = A[0] if A else ''
+    if c == '점검':
+        return checkup()
     if c == '붙여' and len(A) > 1:
         return attach(A[1], True)
     if c == '떼' and len(A) > 1:

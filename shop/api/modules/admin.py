@@ -20,6 +20,17 @@ def status(c, req):
     need(req); s = str(req['body'].get('status', ''))
     if s not in ('입금 대기', '입금 확인', '보냄', '취소'):
         raise ValueError('상태는 입금 대기·입금 확인·보냄·취소 가운데 하나입니다')
+    row = c.execute('select status, items from orders where id=?', (req['args'][0],)).fetchone()
+    if not row:
+        raise ValueError('없는 주문입니다')
+    old = row['status']; items = json.loads(row['items'])
+    if s == '취소' and old != '취소':   # 취소: 담겼던 수량이 재고로 돌아온다
+        for i in items:
+            c.execute('update products set stock = stock + ? where id = ?', (i['qty'], i['id']))
+    elif old == '취소' and s != '취소':   # 취소를 풀면 다시 팔린 것으로 센다(재고가 모자라면 풀리지 않고 아무것도 바뀌지 않는다)
+        for i in items:
+            if c.execute('update products set stock = stock - ? where id = ? and stock >= ?', (i['qty'], i['id'], i['qty'])).rowcount == 0:
+                c.rollback(); raise ValueError(f'「{i["name"]}」의 재고가 모자라 취소를 풀 수 없습니다')
     c.execute('update orders set status=? where id=?', (s, req['args'][0])); return orders(c, req)
 
 
