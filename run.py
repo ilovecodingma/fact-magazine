@@ -33,6 +33,7 @@
       python run.py 운영기록 받기|목록|찾기 <낱말>   저자 팀의 한 달 운영 기록(가린 판)을 받아 참고/운영기록/ 에 놓고 찾기 — 분석은 세션이(참고/운영기록_읽는법.md)
       python run.py 사례 받기|찾기 <낱말>|묶음 [key]|막힘|보기 <id>   지금 상황과 비슷한 저자 팀의 실제 사례(55건) — 참고/이야기방_읽는법.md
       python run.py 이야기방 [올리기 <글 파일> [--사례 id] [--예] | 답 <글 id> <글 파일> [--예]]   수업 사이트의 이야기방 읽기 · 독자가 「올려」 한 글만 올리기
+      python run.py 구조                       내 서비스의 구조를 이 폴더에서 읽은 값으로(원본·결과물·스냅샷·변경 이력·올라간 곳·돌고 있는 프로그램·가게·앱). 읽기만
       python run.py 용어 목록|<낱말>               책의 CS 용어 216개에서 뜻과 책의 절을 찾는다(세션이 독자의 폴더에서 실제로 확인한 값을 붙여 답한다)
       python run.py 앱 환경|만들기|상태           만든 글 사이트를 안드로이드 앱(APK)으로: 환경(JDK·SDK·Gradle) → 프로젝트 → 빌드 → 서명한 APK → 사이트의 /app/ 내려받기 화면
       python run.py 내기록                     설치·첫 결과물까지 걸린 시간, 막힌 곳의 종류, 한 일의 횟수를 한 장으로(넘김/내기록.md, 내 컴퓨터에만 둠 — 저절로 보내지 않음)
@@ -1753,6 +1754,8 @@ def main():
         if rc == 0 and cmd != '기능' and rest:
             prog_add(f'바꿈: 기능 {rest[0]} {"붙임" if cmd == "붙여" else "뗌"}')
         return rc
+    if cmd in ('구조', 'structure'):
+        return sh(['structure.py'] + A[1:])
     if cmd in ('용어', 'terms'):
         return sh(['terms.py'] + A[1:])
     if cmd in ('앱', 'app'):
