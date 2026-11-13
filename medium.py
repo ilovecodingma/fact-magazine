@@ -206,14 +206,17 @@ def load_posts():
 COVERS = os.path.join(HERE, 'posts', '_cover')
 
 
+_PIC_DOWN = [False]
+
+
 def photo(p):
     """그림을 정하지 않은 글에 사진 한 장을 붙인다: 글마다 늘 같은 사진(이름으로 고름)을 한 번 받아 posts/_cover/ 에 두고, 찍을 때 사이트 안으로 복사한다.
     사진은 Lorem Picsum(picsum.photos)이 내주는 Unsplash 의 무료 사진이다. 인터넷이 안 되면 색 띠로 남는다."""
     fp = os.path.join(COVERS, p['slug'] + '.jpg')
-    if not os.path.exists(fp) and os.environ.get('NO_PHOTO') != '1':
+    if not os.path.exists(fp) and os.environ.get('NO_PHOTO') != '1' and not _PIC_DOWN[0]:   # 사진 서비스가 한 번 응답하지 않으면 이번 빌드에서는 다시 묻지 않는다(글마다 15초씩 기다리면 몇 분이 간다)
         try:
             os.makedirs(COVERS, exist_ok=True); seed = hashlib.md5(p['slug'].encode()).hexdigest()[:10]
-            r = urllib.request.urlopen(urllib.request.Request(f'https://picsum.photos/seed/{seed}/1306/654', headers={'User-Agent': 'Mozilla/5.0'}), timeout=15)
+            r = urllib.request.urlopen(urllib.request.Request(f'https://picsum.photos/seed/{seed}/1306/654', headers={'User-Agent': 'Mozilla/5.0'}), timeout=8)
             b = r.read()
             if len(b) > 5000:
                 open(fp, 'wb').write(b)
@@ -221,7 +224,7 @@ def photo(p):
                 L[p['slug'] + '.jpg'] = dict(q='(낱말 없이 저절로 고른 사진)', title='', source='Lorem Picsum (picsum.photos) — Unsplash 의 무료 사진', license='Unsplash License', page=f'https://picsum.photos/seed/{seed}/1306/654', by='')
                 json.dump(L, open(log, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         except Exception:
-            pass
+            _PIC_DOWN[0] = True
     if not os.path.exists(fp):
         return ''
     os.makedirs(os.path.join(OUT, 'cover'), exist_ok=True); shutil.copy2(fp, os.path.join(OUT, 'cover', p['slug'] + '.jpg'))
