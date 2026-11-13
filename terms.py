@@ -55,7 +55,7 @@ def find(D, words):
     if not scored:
         print(f'「{" ".join(words)}」에 맞는 용어가 책의 용어 목록에 없습니다. 일반 지식으로 짧게 설명하고, 목록에 없다고 말합니다.'); return 1
     for s, d in scored[:5]:
-        print(f'■ {d["용어"]}\n  뜻: {d.get("뜻", "")}\n  책의 절: {d.get("처음 나오는 곳", "")}\n  더 물어볼 말: {d.get("물어볼 말", "")}\n')
+        print(f'■ {d["용어"]}\n  뜻: {d.get("뜻", "")}\n  관련 절: {d.get("처음 나오는 곳", "")}\n  더 물어볼 말: {d.get("물어볼 말", "")}\n')
     return 0
 
 
