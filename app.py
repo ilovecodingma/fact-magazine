@@ -5,7 +5,7 @@ python run.py 앱 환경 --받기 [--동의]   없는 것을 하네스 폴더(�
 python run.py 앱 만들기            사이트를 빌드해 앱 안에 넣고 → 프로젝트 → 빌드 → 서명한 APK → 내려받기 화면(android_app/out/)
 python run.py 앱 상태              만든 앱의 버전·크기와 서명 키 위치
 APK 는 「올려 줘」 때 사이트의 /app/ 아래에 같이 올라간다(내려받기 화면 + app.apk).
-서명 키(android_app/app.keystore, keystore.properties)는 이력에 올라가지 않고 세션이 읽지 못하게 막혀 있다. 키를 잃으면 같은 앱의 업데이트를 낼 수 없다."""
+서명 키(android_app/app.keystore, keystore.properties)는 이력에 올라가지 않고, 읽기 도구로는 열 수 없게 막아 두었으며 세션은 열지 않는다(명령으로 읽는 길은 모두 막을 수 없다). 키를 잃으면 같은 앱의 업데이트를 낼 수 없다."""
 import glob, hashlib, json, os, re, shutil, subprocess, sys, tempfile, time, urllib.request, zipfile
 try:
     sys.stdout.reconfigure(encoding='utf-8')
@@ -251,7 +251,7 @@ def cmd_make():
         shutil.rmtree(tmp, ignore_errors=True)
     open(os.path.join(APP, 'local.properties'), 'w', encoding='utf-8').write('sdk.dir=' + e['sdk'].replace('\\', '/') + '\n')
     made = ensure_key(e['jdk'])
-    print('서명 키: ' + ('새로 만들었습니다(android_app/app.keystore — 이력에 올라가지 않고 세션이 읽지 못합니다. 잃으면 업데이트를 낼 수 없으니 따로 보관하세요)' if made else '기존 키를 씁니다'), flush=True)
+    print('서명 키: ' + ('새로 만들었습니다(android_app/app.keystore — 이력에 올라가지 않고 세션은 열지 않습니다. 잃으면 업데이트를 낼 수 없으니 따로 보관하세요)' if made else '기존 키를 씁니다'), flush=True)
     envs = dict(os.environ, JAVA_HOME=e['jdk'], ANDROID_HOME=e['sdk'], ANDROID_SDK_ROOT=e['sdk'], GRADLE_USER_HOME=os.path.join(HA, 'gradle_home'))
     t1 = time.time(); print('빌드하는 중…(처음에는 빌드 도구를 내려받느라 몇 분 걸릴 수 있습니다)', flush=True)
     r = subprocess.run([e['gradle'], '--no-daemon', '--console=plain', '-p', APP, 'assembleRelease'], env=envs, capture_output=True, text=True, errors='replace', timeout=1500, shell=WIN)
