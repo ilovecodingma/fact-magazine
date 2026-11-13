@@ -90,7 +90,7 @@ def restore():
             if not dst.startswith(HERE + os.sep):
                 continue
             os.makedirs(os.path.dirname(dst), exist_ok=True); open(dst, 'wb').write(z.read(m))
-    print(f'복구했습니다: 백업/{name}. 복구 직전 상태도 백업/ 에 남겨 두었습니다. 올려 둔 사이트에 반영하려면 python run.py 올려.')
+    print(f'복구했습니다: 백업/{name}. 복구 직전 상태도 백업/ 에 남겨 두었습니다(그 백업 뒤에 들어온 주문은 복구 직전 백업에만 남습니다). 가게가 켜져 있었다면 `python run.py 가게 끄기` 뒤 다시 켜야 복구한 자료가 보입니다. 올려 둔 사이트에 반영하려면 python run.py 올려.')
     return 0
 
 

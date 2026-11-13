@@ -95,7 +95,7 @@ def order_notify():
     if auto and c.get('order_notify') is not True:
         print('건너뜀: 주문 알림 메일이 꺼져 있습니다(켜려면 mail.local.json 에 "order_notify": true 를 직접 적습니다).'); return 0
     last = json.load(open(st, encoding='utf-8')).get('last', 0) if os.path.exists(st) else 0
-    q = sqlite3.connect(db); rows = q.execute('select id, name, items, total, status, created from orders where id > ? order by id', (last,)).fetchall(); q.close()
+    q = sqlite3.connect(db); rows = q.execute("select id, name, items, total, status, created from orders where id > ? and status != '취소' order by id", (last,)).fetchall(); q.close()
     if not rows:
         print('새로 들어온 주문이 없습니다. 메일을 보내지 않았습니다.'); return 0
     try:

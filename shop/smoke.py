@@ -5,7 +5,14 @@ try:
     sys.stdout.reconfigure(encoding='utf-8')
 except Exception:
     pass
-HERE = os.path.dirname(os.path.abspath(__file__)); PORT = 8799; B = f'http://127.0.0.1:{PORT}'
+import socket
+
+
+def _free_port():
+    s = socket.socket(); s.bind(('127.0.0.1', 0)); p = s.getsockname()[1]; s.close(); return p   # 빈 포트를 골라 쓴다: 두 벌이 겹쳐 돌아도 서로 깨지 않게
+
+
+HERE = os.path.dirname(os.path.abspath(__file__)); PORT = _free_port(); B = f'http://127.0.0.1:{PORT}'
 REAL = os.path.join(HERE, 'api', 'modules.json')
 
 
