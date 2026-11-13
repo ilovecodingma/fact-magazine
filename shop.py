@@ -191,8 +191,13 @@ def share():
     if not cf:
         return 1
     os.makedirs(os.path.join(HERE, 'logs'), exist_ok=True); log = os.path.join(HERE, 'logs', 'shop_tunnel.log')
-    if os.path.exists(log):
-        os.remove(log)
+    if run.get('tunnel'):   # 이미 열어 둔 터널이 로그 파일을 잡고 있으므로 먼저 닫는다(새 주소가 나온다)
+        kill(run['tunnel']); run.pop('tunnel', None); time.sleep(1)
+    try:
+        if os.path.exists(log):
+            os.remove(log)
+    except OSError:
+        log = os.path.join(HERE, 'logs', f'shop_tunnel_{int(time.time())}.log')
     kw = dict(creationflags=0x00000008 | 0x00000200) if os.name == 'nt' else dict(start_new_session=True)
     t0 = time.time(); p = subprocess.Popen([cf, 'tunnel', '--url', 'http://127.0.0.1:3000', '--no-autoupdate', '--logfile', log], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL, **kw)
     url = ''
