@@ -1,0 +1,29 @@
+plugins { id 'com.android.application' }
+
+def kp = rootProject.file('keystore.properties')
+def props = new Properties()
+if (kp.exists()) { kp.withInputStream { props.load(it) } }
+
+android {
+    namespace '@@PACKAGE@@'
+    compileSdk 35
+    defaultConfig {
+        applicationId '@@PACKAGE@@'
+        minSdk 26
+        targetSdk 35
+        versionCode @@VERSIONCODE@@
+        versionName '@@VERSIONNAME@@'
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    signingConfigs {
+        release {
+            if (kp.exists()) {
+                storeFile rootProject.file(props['storeFile'])
+                storePassword props['storePassword']
+                keyAlias props['keyAlias']
+                keyPassword props['keyPassword']
+            }
+        }
+    }
+    buildTypes { release { minifyEnabled false; signingConfig signingConfigs.release } }
+}

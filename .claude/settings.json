@@ -17,7 +17,11 @@
       "Bash(cat *bank.local.json)",
       "PowerShell(Get-Content *bank.local.json)",
       "Bash(cat *admin.local.json)",
-      "PowerShell(Get-Content *admin.local.json)"
+      "PowerShell(Get-Content *admin.local.json)",
+      "Read(./android_app/app.keystore)",
+      "Read(./android_app/keystore.properties)",
+      "Bash(cat *keystore*)",
+      "PowerShell(Get-Content *keystore*)"
     ]
   }
 }

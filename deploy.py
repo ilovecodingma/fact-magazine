@@ -88,28 +88,8 @@ def state():
     return 0
 
 
-def main():
-    if A and A[0] == '상태':
-        return state()
-    if not shutil.which('node'):
-        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 가 점검하고 깝니다. 깐 뒤 다시 「올려」.'); return 1
-    t0 = time.time()
-    keep = os.path.join(ROOT, '_vercel_' + _slug())   # 어느 프로젝트로 올렸는지 적힌 폴더(.vercel)는 남겨서 같은 주소로 다시 올라가게 한다
-    if os.path.isdir(os.path.join(DIST, '.vercel')):
-        shutil.rmtree(keep, ignore_errors=True); shutil.move(os.path.join(DIST, '.vercel'), keep)
-    shutil.rmtree(DIST, ignore_errors=True); os.makedirs(ROOT, exist_ok=True)
-    shutil.rmtree(os.path.join(HERE, 'dist_deploy'), ignore_errors=True)   # 예전 판이 저장소 안에 남긴 사본
-    r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
-    if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
-        print('✗ 빌드 실패:', (r.stderr or r.stdout)[-300:]); return 1
-    print('빌드했습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
-    if os.path.isdir(keep):
-        shutil.rmtree(os.path.join(DIST, '.vercel'), ignore_errors=True); shutil.move(keep, os.path.join(DIST, '.vercel'))
-    for root, _, fs in os.walk(DIST):   # 빈 파일이 하나라도 있으면 로그인 없는 올리기가 거절된다(크기 0) — 한 글자를 넣어 둔다
-        for f in fs:
-            fp = os.path.join(root, f)
-            if os.path.getsize(fp) == 0:
-                open(fp, 'w').write(' ')
+def ascii_names(DIST, quiet=False):
+    """한글 같은 영어 밖 글자가 든 파일·폴더 이름을 영어 이름으로 바꾸고, 화면 안의 링크도 같이 고친다. 바꾼 개수를 돌려준다(배포·앱이 함께 쓴다)."""
     # 한글 같은 영어 밖 글자가 든 파일·폴더 이름은 로그인 없는 올리기가 거절한다 — 올릴 사본에서만 영어 이름으로 바꾸고 화면 안의 링크도 같이 고친다
     import hashlib, urllib.parse
     ren = {}
@@ -135,7 +115,41 @@ def main():
                             t2 = t2.replace(old + '"', '/' + ren[k] + '"').replace(old + "'", '/' + ren[k] + "'").replace(old + '/', '/' + ren[k] + '/').replace(old + ')', '/' + ren[k] + ')').replace(old + '?', '/' + ren[k] + '?').replace(old + '#', '/' + ren[k] + '#').replace(old + ' ', '/' + ren[k] + ' ')
                     if t2 != t:
                         open(fp, 'w', encoding='utf-8', newline='').write(t2)
-        print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 배포할 사본에서 영어 이름으로 바꿨습니다)', flush=True)
+        if not quiet:
+            print(f'(이름에 한글이 든 파일·폴더 {len(ren)}개는 배포할 사본에서 영어 이름으로 바꿨습니다)', flush=True)
+    return len(ren)
+
+
+def main():
+    if A and A[0] == '상태':
+        return state()
+    if not shutil.which('node'):
+        print('✗ 이 PC 에 Node.js 가 없습니다. python run.py 준비 가 점검하고 깝니다. 깐 뒤 다시 「올려」.'); return 1
+    t0 = time.time()
+    keep = os.path.join(ROOT, '_vercel_' + _slug())   # 어느 프로젝트로 올렸는지 적힌 폴더(.vercel)는 남겨서 같은 주소로 다시 올라가게 한다
+    if os.path.isdir(os.path.join(DIST, '.vercel')):
+        shutil.rmtree(keep, ignore_errors=True); shutil.move(os.path.join(DIST, '.vercel'), keep)
+    shutil.rmtree(DIST, ignore_errors=True); os.makedirs(ROOT, exist_ok=True)
+    shutil.rmtree(os.path.join(HERE, 'dist_deploy'), ignore_errors=True)   # 예전 판이 저장소 안에 남긴 사본
+    r = subprocess.run([sys.executable, '-X', 'utf8', 'build.py'], cwd=HERE, env=dict(os.environ, OUT_DIR=DIST, SITE_BASE='/'), capture_output=True, text=True, encoding='utf-8', errors='replace')
+    if r.returncode != 0 or not os.path.exists(os.path.join(DIST, 'index.html')):
+        print('✗ 빌드 실패:', (r.stderr or r.stdout)[-300:]); return 1
+    print('빌드했습니다: ' + (r.stdout.strip().splitlines() or [''])[-1].split('->')[0].strip(), flush=True)
+    if os.path.isdir(keep):
+        shutil.rmtree(os.path.join(DIST, '.vercel'), ignore_errors=True); shutil.move(keep, os.path.join(DIST, '.vercel'))
+    for root, _, fs in os.walk(DIST):   # 빈 파일이 하나라도 있으면 로그인 없는 올리기가 거절된다(크기 0) — 한 글자를 넣어 둔다
+        for f in fs:
+            fp = os.path.join(root, f)
+            if os.path.getsize(fp) == 0:
+                open(fp, 'w').write(' ')
+    ascii_names(DIST)
+    apk = os.path.join(HERE, 'android_app', 'out', 'app.apk')
+    if os.path.exists(apk):   # 앱을 만들어 두었으면 내려받기 화면과 APK 를 사이트의 /app/ 에 같이 올린다
+        os.makedirs(os.path.join(DIST, 'app'), exist_ok=True); shutil.copyfile(apk, os.path.join(DIST, 'app', 'app.apk'))
+        pg = os.path.join(HERE, 'android_app', 'out', 'app', 'index.html')
+        if os.path.exists(pg):
+            shutil.copyfile(pg, os.path.join(DIST, 'app', 'index.html'))
+        print('앱(APK)과 내려받기 화면을 /app/ 에 같이 올립니다', flush=True)
     rc, who = npx('whoami', DIST, 90); logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
     link = os.path.join(DIST, '.vercel'); mode = 'in' if logged else 'out'; mf = os.path.join(link, '_mode.txt')
     if os.path.isdir(link) and (open(mf, encoding='utf-8').read().strip() if os.path.exists(mf) else '') != mode:
