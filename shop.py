@@ -98,7 +98,7 @@ def start():
         print('가게: http://127.0.0.1:3000/   운영자: http://127.0.0.1:3000/admin' + ('' if key else ' (운영자 비밀번호는 이 주소를 열어 직접 정합니다 — 이 PC 에서만 정할 수 있습니다)') + '\n휴대폰에서는 같은 와이파이로 이 PC 의 주소를 열고 「홈 화면에 추가」 하면 앱으로 깔립니다(올린 뒤에는 그 주소에서).')
         if '--headless' not in A and '--열지않음' not in A:
             try:
-                os.startfile('http://127.0.0.1:3000/') if os.name == 'nt' else None
+                os.startfile('http://127.0.0.1:3000/') if os.name == 'nt' and os.environ.get('HARNESS_NO_OPEN') != '1' else None
             except Exception:
                 pass
     else:

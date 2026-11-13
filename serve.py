@@ -77,7 +77,7 @@ def main():
         sys.exit('쓸 수 있는 포트를 찾지 못했습니다(--port 로 다른 번호를 주세요).')
     url = f'http://127.0.0.1:{port}/'   # localhost 대신 127.0.0.1 — localhost 가 다른 프로그램(IPv6)으로 가는 일을 피한다
     print(f'\n내 PC 에서 열었습니다 → {url}\n(' + ('' if '--no-demo' in ARGS else f'조립 예시: {url}demo/ · ') + '멈추려면 Ctrl+C)')
-    if '--open' in ARGS:
+    if '--open' in ARGS and os.environ.get('HARNESS_NO_OPEN') != '1':   # HARNESS_NO_OPEN=1 이면 창을 띄우지 않는다(시험·자동 실행 때 사용자의 화면이 바뀌지 않게)
         threading.Timer(0.8, lambda: webbrowser.open(url)).start()
     try:
         srv.serve_forever()

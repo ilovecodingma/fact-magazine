@@ -229,7 +229,7 @@ def onair():
     print(f'방송 화면을 만들었습니다: logs/방송.html — 글 {len(items)}편을 차례로 띄우고 소리 내어 읽습니다(브라우저의 읽어 주기 기능, 끝나면 처음부터 다시).')
     if '--headless' not in A:
         try:
-            os.startfile(out) if os.name == 'nt' else subprocess.Popen(['open' if sys.platform == 'darwin' else 'xdg-open', out])
+            os.startfile(out) if os.name == 'nt' and os.environ.get('HARNESS_NO_OPEN') != '1' else subprocess.Popen(['open' if sys.platform == 'darwin' else 'xdg-open', out])
         except Exception:
             pass
     print('[사람 없이 된 것] 그날 글로 방송 화면이 저절로 돌아갑니다(화면을 한 번 눌러야 소리가 나는 브라우저가 있습니다).\n[여기서 사람이 로그인하면 이어지는 것] 이 창을 방송 프로그램(OBS 등)의 화면 잡기로 넣고 로그인된 방송 채널로 송출 — 송출은 사람이 시작합니다.')
