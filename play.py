@@ -318,7 +318,11 @@ def status_cmd(R, rest=None):
     print(f'│ {name}   관문 {lv}/4   내 서비스 한 장 {filled}/{len(R.SVC_CARDS)}칸')
     for n, ok, d in q:
         print(f'│ {"■" if ok else "□"} {n:<6} {d}')
-    print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 튜토리얼 끝. 이제부터는 차례가 없습니다'))
+    first = bool(q[0][1]) and bool(q[1][1])   # 만들었다·올렸다 = 첫 결과물
+    if first and nxt:
+        print('│ 이어서: 바꾸고 싶은 것을 한 줄로 말해 보세요(순서대로 따라가는 코스는 「1장을 진행해 보자」「2장을…」「3장을…」)')
+    else:
+        print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 이제부터는 차례가 없습니다'))
     print('└' + '─' * 52)
     try:   # 학습 사이트 토큰을 받아 둔 독자만: 열린 관문을 알린다(없으면 아무것도 안 보낸다, 안 돼도 조용히 넘어간다)
         import lms; lms.sync()
