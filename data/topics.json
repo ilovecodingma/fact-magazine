@@ -1,143 +1,7 @@
 {
- "made_at": "2026-11-14 01:08",
- "article_count": 2248,
+ "made_at": "2026-11-15 00:32",
+ "article_count": 1712,
  "topics": [
-  {
-   "title": "유류세 인하 내년 1월까지 2개월 연장…휘발유 15%·경유 25% 유지",
-   "media_count": 8,
-   "media": [
-    "SBS",
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "‘유류세 인하’ 내년 1월까지 연장키로",
-     "link": "https://www.khan.co.kr/article/202611112039035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "매일경제",
-     "title": "유류세 인하 내년 1월까지 두달 연장",
-     "link": "https://www.mk.co.kr/news/economy/12205611",
-     "time": "2026-11-12 02:36"
-    },
-    {
-     "source": "SBS",
-     "title": "유류세 인하 2개월 연장…내년 1월 말까지",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008841707&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 22:00"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] 유류세 인하 내년 1월까지 2개월 연장…“유류비 부담 경감”",
-     "link": "https://www.mk.co.kr/news/economy/12204996",
-     "time": "2026-11-11 18:04"
-    },
-    {
-     "source": "한겨레",
-     "title": "유류세 인하 내년 1월까지…중동전쟁 불확실성에 2개월 더 연장",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286731.html",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "경향신문",
-     "title": "유류세 인하 내년 1월까지 2개월 연장···휘발유 15%, 경유·부탄 25% 감경",
-     "link": "https://www.khan.co.kr/article/202611111014001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "SBS",
-     "title": "유류세 인하 내년 1월까지 연장…휘발유 15·경유 25%↓",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840440&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 10:25"
-    },
-    {
-     "source": "동아일보",
-     "title": "유류세 인하 내년 1월까지 2개월 연장…휘발유 15%·경유 25% 유지",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135003915/1",
-     "time": "2026-11-11 09:11"
-    },
-    {
-     "source": "한국경제",
-     "title": "유류세 인하 내년 1월까지 2개월 연장…중동 리스크 반영",
-     "link": "https://www.hankyung.com/article/2026111192087",
-     "time": "2026-11-11 09:11"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "유류세 인하 내년 1월까지 2개월 연장…\"유류비 부담 경감\"",
-     "link": "https://www.yna.co.kr/view/AKR20261110161900002",
-     "time": "2026-11-11 09:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "유류세 인하 내년 1월까지 2개월 연장…휘발유 15%·경유 25% 유지",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862668",
-     "time": "2026-11-11 09:00"
-    }
-   ],
-   "id": "20261114-01"
-  },
-  {
-   "title": "KDI “반도체 호황, 올해 소비 개선 영향 미미…고유가 충격이 더 커”",
-   "media_count": 6,
-   "media": [
-    "SBS",
-    "경향신문",
-    "동아일보",
-    "매일경제",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-13 10:34",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "“반도체 호황에 따른 소비 증가는 내년부터 본격화”",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286968.html",
-     "time": "2026-11-13 10:34"
-    },
-    {
-     "source": "경향신문",
-     "title": "올해 소비 ‘0%P’ 기여한 반도체 호황, 내년엔 0.6%P 끌어올린다",
-     "link": "https://www.khan.co.kr/article/202611121647001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-13 10:34"
-    },
-    {
-     "source": "동아일보",
-     "title": "KDI “반도체 호황, 민간소비 증가 효과 0.003%P 그쳐”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261112/135016603/2",
-     "time": "2026-11-13 00:30"
-    },
-    {
-     "source": "매일경제",
-     "title": "KDI “반도체 호황, 올해 소비 개선 영향 미미…고유가 충격이 더 커”",
-     "link": "https://www.mk.co.kr/news/economy/12206382",
-     "time": "2026-11-12 23:48"
-    },
-    {
-     "source": "한국경제",
-     "title": "반도체 초호황에도 살아나지 않는 소비",
-     "link": "https://www.hankyung.com/article/2026111236301",
-     "time": "2026-11-12 17:59"
-    },
-    {
-     "source": "SBS",
-     "title": "반도체 호황 누른 유가…KDI \"소비에 부정적 영향 먼저 반영\"",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008842929&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-12 13:25"
-    }
-   ],
-   "id": "20261114-02"
-  },
   {
    "title": "[속보] 중기부 “2차 ‘모두의 창업’ 참가자 지원 기업서 개인정보 유출”",
    "media_count": 6,
@@ -149,25 +13,25 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "중기부 ‘모두의 창업’ 또 개인정보 유출…한번 털리고 모집까지 미뤘는데",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1287278.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
      "title": "중기부 2차 ‘모두의 창업’ 참가자 818명 개인정보 유출",
      "link": "https://www.khan.co.kr/article/202611131802001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
      "title": "[속보] 중기부 “2차 ‘모두의 창업’ 참가자 지원 기업서 개인정보 유출”",
      "link": "https://www.khan.co.kr/article/202611131729001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "동아일보",
@@ -218,7 +82,7 @@
      "time": "2026-11-13 17:15"
     }
    ],
-   "id": "20261114-03"
+   "id": "20261115-01"
   },
   {
    "title": "정진완 우리은행장 연임 성공…경영성과 인정받아 임기 ‘1년 더’",
@@ -231,19 +95,19 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "정진완 우리은행장, 1년 더 연임한다",
      "link": "https://www.hani.co.kr/arti/economy/finance/1287213.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
      "title": "정진완 우리은행장 연임 확정…임기 1년 연장",
      "link": "https://www.khan.co.kr/article/202611131552001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "매일경제",
@@ -306,10 +170,10 @@
      "time": "2026-11-13 14:15"
     }
    ],
-   "id": "20261114-04"
+   "id": "20261115-02"
   },
   {
-   "title": "해킹 막아야 할 금융보안원이 속았다…금감원 사칭에 금융사 정보 무더기 유출",
+   "title": "KDI “반도체 호황, 올해 소비 개선 영향 미미…고유가 충격이 더 커”",
    "media_count": 5,
    "media": [
     "SBS",
@@ -318,46 +182,40 @@
     "매일경제",
     "한겨레"
    ],
-   "latest": "2026-11-12 16:20",
+   "latest": "2026-11-13 10:34",
    "items": [
     {
-     "source": "매일경제",
-     "title": "해킹 막아야 할 금융보안원이 속았다…금감원 사칭에 금융사 정보 무더기 유출",
-     "link": "https://www.mk.co.kr/news/economy/12205924",
-     "time": "2026-11-12 16:20"
-    },
-    {
      "source": "한겨레",
-     "title": "금융보안원마저 뚫렸다…해킹에 금융사 정보 유출",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1286705.html",
-     "time": "2026-11-11 13:26"
+     "title": "“반도체 호황에 따른 소비 증가는 내년부터 본격화”",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286968.html",
+     "time": "2026-11-13 10:34"
     },
     {
      "source": "경향신문",
-     "title": "금융보안원도 해킹에 뚫려…금융사 보안 정보 유출",
-     "link": "https://www.khan.co.kr/article/202611102155005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "경향신문",
-     "title": "금융보안 ‘문지기’ 금융보안원도 해킹으로 정보 유출",
-     "link": "https://www.khan.co.kr/article/202611102040001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
+     "title": "올해 소비 ‘0%P’ 기여한 반도체 호황, 내년엔 0.6%P 끌어올린다",
+     "link": "https://www.khan.co.kr/article/202611121647001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-13 10:34"
     },
     {
      "source": "동아일보",
-     "title": "해킹당한 금융보안원 850여 건 정보 유출…“금융사에 개별 안내”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004541/1",
-     "time": "2026-11-11 10:05"
+     "title": "KDI “반도체 호황, 민간소비 증가 효과 0.003%P 그쳐”",
+     "link": "https://www.donga.com/news/Economy/article/all/20261112/135016603/2",
+     "time": "2026-11-13 00:30"
+    },
+    {
+     "source": "매일경제",
+     "title": "KDI “반도체 호황, 올해 소비 개선 영향 미미…고유가 충격이 더 커”",
+     "link": "https://www.mk.co.kr/news/economy/12206382",
+     "time": "2026-11-12 23:48"
     },
     {
      "source": "SBS",
-     "title": "금융보안원도 뚫렸다…개인 정보 300여 건 유출",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840041&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 07:50"
+     "title": "반도체 호황 누른 유가…KDI \"소비에 부정적 영향 먼저 반영\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008842929&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-12 13:25"
     }
    ],
-   "id": "20261114-05"
+   "id": "20261115-03"
   },
   {
    "title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”…젠슨 황 사임에도 협력 계속",
@@ -369,19 +227,19 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”…젠슨 황 사임에도 협력 계속",
      "link": "https://www.hani.co.kr/arti/economy/it/1287276.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
      "title": "배경훈 “GPU 26만장 예정대로 공급”…젠슨 황 사임에 정부 긴급점검",
      "link": "https://www.khan.co.kr/article/202611131855001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "동아일보",
@@ -402,283 +260,7 @@
      "time": "2026-11-13 17:36"
     }
    ],
-   "id": "20261114-06"
-  },
-  {
-   "title": "11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
-   "media_count": 4,
-   "media": [
-    "동아일보",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "11월 1∼10일 수출 335억달러…‘연간 수출 1조달러’ 초읽기",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286739.html",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "동아일보",
-     "title": "1~10일 수출 역대 최대 335억달러 111.9%↑…반도체 비중 49.7%",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004118/1",
-     "time": "2026-11-11 09:23"
-    },
-    {
-     "source": "한국경제",
-     "title": "11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
-     "link": "https://www.hankyung.com/article/2026111191897",
-     "time": "2026-11-11 09:01"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[1보] 11월 1∼10일 수출 335억달러, 111.9% 증가…일평균 97.7%↑",
-     "link": "https://www.yna.co.kr/view/AKR20261111035600002",
-     "time": "2026-11-11 09:00"
-    }
-   ],
-   "id": "20261114-07"
-  },
-  {
-   "title": "국고채 담합 15개 금융사에 과징금 1.6조 ‘역대 최대’",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "매일경제",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "‘○○야, 70 쓸거야’…국고채 입찰담합 15개사 ‘역대 최대’ 과징금 1조6천억원",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286770.html",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "경향신문",
-     "title": "국고채 담합 15곳에 ‘역대 최대’ 과징금",
-     "link": "https://www.khan.co.kr/article/202611112033025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "매일경제",
-     "title": "국고채 담합 15개 금융사에 과징금 1.6조 ‘역대 최대’",
-     "link": "https://www.mk.co.kr/news/economy/12205252",
-     "time": "2026-11-11 22:10"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "국고채 입찰담합 15개 딜러사 과징금 역대 최대 1.6조…7곳 고발",
-     "link": "https://www.yna.co.kr/view/AKR20261111082500002",
-     "time": "2026-11-11 12:00"
-    }
-   ],
-   "id": "20261114-08"
-  },
-  {
-   "title": "10월 취업자 13만9000명 증가…청년 고용률은 30개월째 하락",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "한겨레"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "취업자 수 늘어도…청년 고용률 30개월째 추락",
-     "link": "https://www.khan.co.kr/article/202611112039025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "한겨레",
-     "title": "10월 취업자 13만9천명 증가…청년 고용률 30개월째 감소",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286725.html",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "경향신문",
-     "title": "10월 취업자 13만9000명 증가…청년 고용률은 30개월째 하락",
-     "link": "https://www.khan.co.kr/article/202611110800011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "동아일보",
-     "title": "취업자 넉달째 10만명대↑…청년 고용률은 30개월째↓ 6년래 최저",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135003641/1",
-     "time": "2026-11-11 08:38"
-    },
-    {
-     "source": "뉴시스",
-     "title": "10월 취업자 13만9000명↑…청년 고용률 30개월째 하락(2보)",
-     "link": "https://www.newsis.com/view/NISX20261111_0003863038",
-     "time": "2026-11-11 08:17"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보]20대 취업자 20만3000명 감소…청년 고용률 1.7%p 하락",
-     "link": "https://www.newsis.com/view/NISX20261111_0003863015",
-     "time": "2026-11-11 08:02"
-    }
-   ],
-   "id": "20261114-09"
-  },
-  {
-   "title": "하나금융 '사랑의 김장' 1만1111포기 나눔",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "매일경제",
-    "한국경제"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "하나금융 ‘모두하나데이’…김장김치 1만1111포기 나눔",
-     "link": "https://www.khan.co.kr/article/202611112017025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "경향신문",
-     "title": "하나금융, 1만1111포기 ‘사랑의 김장나눔’",
-     "link": "https://www.khan.co.kr/article/202611111520001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "매일경제",
-     "title": "[포토] 하나금융, 김장 1만1111포기로 나눔 실천",
-     "link": "https://www.mk.co.kr/news/economy/12205529",
-     "time": "2026-11-12 02:17"
-    },
-    {
-     "source": "동아일보",
-     "title": "하나금융 임직원, 김장 1만1111포기 복지시설 전달",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135009468/2",
-     "time": "2026-11-12 00:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "하나금융 '사랑의 김장' 1만1111포기 나눔",
-     "link": "https://www.hankyung.com/article/2026111109341",
-     "time": "2026-11-11 18:38"
-    }
-   ],
-   "id": "20261114-10"
-  },
-  {
-   "title": "롯데건설, 3분기 영업이익 349억원…누적은 2천억원 넘어(종합)",
-   "media_count": 4,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-13 16:50",
-   "items": [
-    {
-     "source": "연합뉴스",
-     "title": "롯데건설, 3분기 영업이익 349억원…누적은 2천억원 넘어(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261113046051003",
-     "time": "2026-11-13 16:50"
-    },
-    {
-     "source": "뉴시스",
-     "title": "롯데건설, 3분기 누적 영업익 2077억…전년比 126% 증가",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866656",
-     "time": "2026-11-13 09:55"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "롯데건설, 3분기 영업이익 349억원…누적은 2천억원 넘어",
-     "link": "https://www.yna.co.kr/view/AKR20261113046000003",
-     "time": "2026-11-13 09:40"
-    },
-    {
-     "source": "매일경제",
-     "title": "한국전력 3분기 영업이익 71% 급감",
-     "link": "https://www.mk.co.kr/news/economy/12206706",
-     "time": "2026-11-13 02:39"
-    },
-    {
-     "source": "동아일보",
-     "title": "크레버스, 3분기 영업이익 24억 원…누적 영업이익 61% 늘어",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004934/1",
-     "time": "2026-11-11 11:15"
-    }
-   ],
-   "id": "20261114-11"
-  },
-  {
-   "title": "HL만도, 동반성장지수 2년 연속 '최우수'",
-   "media_count": 4,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "한국경제"
-   ],
-   "latest": "2026-11-13 20:02",
-   "items": [
-    {
-     "source": "한국경제",
-     "title": "HL만도, 동반성장지수 2년 연속 '최우수'",
-     "link": "https://www.hankyung.com/article/202611135997i",
-     "time": "2026-11-13 20:02"
-    },
-    {
-     "source": "한국경제",
-     "title": "제일기획, 동반성장지수 7년 연속 '최우수'…ESG도 A등급",
-     "link": "https://www.hankyung.com/article/202611134402i",
-     "time": "2026-11-13 09:14"
-    },
-    {
-     "source": "경향신문",
-     "title": "네이버·농심 등 동반성장지수 ‘최우수’",
-     "link": "https://www.khan.co.kr/article/202611112033015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "뉴시스",
-     "title": "동양, ESG 통합등급 A 획득…2년 연속 등급 상승",
-     "link": "https://www.newsis.com/view/NISX20261112_0003865014",
-     "time": "2026-11-12 09:47"
-    },
-    {
-     "source": "뉴시스",
-     "title": "IPARK현대산업개발, 동반성장지수 2년 연속 '우수'",
-     "link": "https://www.newsis.com/view/NISX20261111_0003864396",
-     "time": "2026-11-11 17:45"
-    },
-    {
-     "source": "뉴시스",
-     "title": "SK에코플랜트, 동반성장지수 10년 연속 '최우수'",
-     "link": "https://www.newsis.com/view/NISX20261111_0003864136",
-     "time": "2026-11-11 15:58"
-    },
-    {
-     "source": "뉴시스",
-     "title": "GS건설, 동반성장지수 6년 연속 최우수 등급",
-     "link": "https://www.newsis.com/view/NISX20261111_0003863797",
-     "time": "2026-11-11 14:05"
-    },
-    {
-     "source": "동아일보",
-     "title": "LG유플러스, ‘2026 동반성장지수 평가’ 최우수 기업 선정…8년 연속 최고 등급",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004629/1",
-     "time": "2026-11-11 10:15"
-    }
-   ],
-   "id": "20261114-12"
+   "id": "20261115-04"
   },
   {
    "title": "‘젠슨 황 스캔들’ 여파에 국내 증시도 휘청…코스피 5342 하락 마감",
@@ -695,12 +277,6 @@
      "source": "한겨레",
      "title": "‘젠슨 황 스캔들’ 여파에 국내 증시도 휘청…코스피 5342 하락 마감",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1287027.html",
-     "time": "2026-11-14 10:08"
-    },
-    {
-     "source": "한겨레",
-     "title": "‘젠슨 황 퇴진’에도 3% 넘게 오르던 코스피, 외인 ‘팔자’에 하락 마감",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287255.html",
      "time": "2026-11-14 10:08"
     },
     {
@@ -722,7 +298,7 @@
      "time": "2026-11-12 16:42"
     }
    ],
-   "id": "20261114-13"
+   "id": "20261115-05"
   },
   {
    "title": "금융지주 회장 연임 문턱 높인다…3연임 땐 ‘주총 75% 찬성’",
@@ -733,13 +309,13 @@
     "매일경제",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "금융지주 회장 연임 문턱 높인다…3연임 땐 ‘주총 75% 찬성’",
      "link": "https://www.khan.co.kr/article/202611122136015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "매일경제",
@@ -772,7 +348,7 @@
      "time": "2026-11-12 08:30"
     }
    ],
-   "id": "20261114-14"
+   "id": "20261115-06"
   },
   {
    "title": "무보, 소부장 기업 공급망 안정 위해 코트라·우리은행과 맞손",
@@ -783,13 +359,13 @@
     "매일경제",
     "연합뉴스"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "우리은행, 소부장 기업 공급망 금융지원",
      "link": "https://www.khan.co.kr/article/202611122027025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "동아일보",
@@ -810,51 +386,51 @@
      "time": "2026-11-12 08:51"
     }
    ],
-   "id": "20261114-15"
+   "id": "20261115-07"
   },
   {
-   "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다",
+   "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
    "media_count": 4,
    "media": [
-    "경향신문",
     "동아일보",
-    "연합뉴스",
+    "매일경제",
+    "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
-     "source": "경향신문",
-     "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다",
-     "link": "https://www.khan.co.kr/article/202611122027015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "source": "한겨레",
+     "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287193.html",
+     "time": "2026-11-15 09:32"
     },
     {
-     "source": "한국경제",
-     "title": "롯데百, 15년 만에 브랜드 디자인 개편",
-     "link": "https://www.hankyung.com/article/2026111235801",
-     "time": "2026-11-12 18:11"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다…15일부터 순차 적용",
-     "link": "https://www.yna.co.kr/view/AKR20261111167300030",
-     "time": "2026-11-12 06:00"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "하이트진로, 4년 만에 희망퇴직 실시…15년 이상 근속자 대상",
-     "link": "https://www.yna.co.kr/view/AKR20261111082900030",
-     "time": "2026-11-11 11:15"
+     "source": "매일경제",
+     "title": "잠자는 카드포인트, 지역화폐로 쓴다",
+     "link": "https://www.mk.co.kr/news/economy/12208281",
+     "time": "2026-11-14 02:42"
     },
     {
      "source": "동아일보",
-     "title": "유니클로, 롯데백화점 강남점 15년 만에 새단장…면적 2배 키웠다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004803/1",
-     "time": "2026-11-11 10:30"
+     "title": "잠자는 카드 포인트, 내년 5월부터 지역화폐로 전환 가능",
+     "link": "https://www.donga.com/news/Society/article/all/20261113/135023116/2",
+     "time": "2026-11-14 01:40"
+    },
+    {
+     "source": "한국경제",
+     "title": "잠자는 카드포인트 2.1조, 지역화폐로 바꿔 쓴다",
+     "link": "https://www.hankyung.com/article/2026111357931",
+     "time": "2026-11-13 17:33"
+    },
+    {
+     "source": "동아일보",
+     "title": "미사용 카드포인트, 내년 5월부터 지역화폐로 쓸 수 있다",
+     "link": "https://www.donga.com/news/Economy/article/all/20261113/135020787/1",
+     "time": "2026-11-13 16:32"
     }
    ],
-   "id": "20261114-16"
+   "id": "20261115-08"
   },
   {
    "title": "KB캐피탈, 해킹으로 고객·임직원 1천800명 정보 유출",
@@ -865,13 +441,13 @@
     "연합뉴스",
     "한겨레"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "KB캐피탈 해킹…고객 20명·임직원 1800명 개인정보 유출",
      "link": "https://www.hani.co.kr/arti/economy/finance/1287173.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "SBS",
@@ -892,7 +468,7 @@
      "time": "2026-11-13 09:46"
     }
    ],
-   "id": "20261114-17"
+   "id": "20261115-09"
   },
   {
    "title": "무너진 젠슨 황, CEO 사임 전 “난 쓰레기 같은 인간…어떻게 돼도 상관없다”",
@@ -903,13 +479,13 @@
     "동아일보",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "무너진 젠슨 황, CEO 사임 전 “난 쓰레기 같은 인간…어떻게 돼도 상관없다”",
      "link": "https://www.khan.co.kr/article/202611131444001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "동아일보",
@@ -930,279 +506,7 @@
      "time": "2026-11-13 13:58"
     }
    ],
-   "id": "20261114-18"
-  },
-  {
-   "title": "'금융 문지기' 금융보안원, 금융감독원 사칭 공격에 뚫렸다",
-   "media_count": 3,
-   "media": [
-    "동아일보",
-    "매일경제",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 11:26",
-   "items": [
-    {
-     "source": "한국경제",
-     "title": "'금융 문지기' 금융보안원, 금융감독원 사칭 공격에 뚫렸다",
-     "link": "https://www.hankyung.com/article/202611119610i",
-     "time": "2026-11-11 11:26"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] ‘금융보안 문지기’ 금융보안원도 해킹으로 정보유출",
-     "link": "https://www.mk.co.kr/news/economy/12204282",
-     "time": "2026-11-11 04:47"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘디지털 보안 총괄’ 금융보안원도 뚫렸다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002955/2",
-     "time": "2026-11-11 04:30"
-    }
-   ],
-   "id": "20261114-19"
-  },
-  {
-   "title": "4~5%대 급등 코스닥, 이틀 연속 매수 사이드카 발동",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-11 12:08",
-   "items": [
-    {
-     "source": "SBS",
-     "title": "4~5%대 급등한 코스닥, 이틀 연속 매수 사이드카 발동",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008840836&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 12:08"
-    },
-    {
-     "source": "동아일보",
-     "title": "코스닥, 이틀 연속 매수 사이드카 발동",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135005480/1",
-     "time": "2026-11-11 11:45"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "4~5%대 급등 코스닥, 이틀 연속 매수 사이드카 발동",
-     "link": "https://www.yna.co.kr/view/AKR20261111088900008",
-     "time": "2026-11-11 11:37"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 4%대 급등 코스닥, 매수 사이드카 발동",
-     "link": "https://www.yna.co.kr/view/AKR20261111086500008",
-     "time": "2026-11-11 11:29"
-    }
-   ],
-   "id": "20261114-20"
-  },
-  {
-   "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 13:26",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "의사 부부 허위 퇴사·유공자 자격 매매…부정청약 354건 무더기 적발",
-     "link": "https://www.khan.co.kr/article/202611102109005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "경향신문",
-     "title": "병원 ‘위장 퇴사’로 신혼 특공 당첨된 의사 부부…부정청약 354건 적발",
-     "link": "https://www.khan.co.kr/article/202611101540001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "한겨레",
-     "title": "의사 부부가 ‘위장퇴사’로 저소득자 청약…부정청약 354건 적발",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286560.html",
-     "time": "2026-11-11 11:00"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘퇴사 뒤 재입사’ 꼼수… 의사부부 등 부정청약 354건 적발",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135002975/2",
-     "time": "2026-11-11 04:30"
-    }
-   ],
-   "id": "20261114-21"
-  },
-  {
-   "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-11 17:03",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "[속보] 10월 취업자 13만9000명 늘어…넉달째 10만명대",
-     "link": "https://www.mk.co.kr/news/economy/12204941",
-     "time": "2026-11-11 17:03"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "취업자 넉달째 10만명대 증가…숙박음식 5년8개월만에 최대폭↓(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261111021351002",
-     "time": "2026-11-11 08:43"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[1보] 10월 취업자 13만9천명 늘어…넉달째 10만명대",
-     "link": "https://www.yna.co.kr/view/AKR20261111019200002",
-     "time": "2026-11-11 08:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "10월 취업자 13만9000명↑…제조업 한 달 만에 감소 전환(1보)",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862995",
-     "time": "2026-11-11 08:00"
-    }
-   ],
-   "id": "20261114-22"
-  },
-  {
-   "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
-   "media_count": 3,
-   "media": [
-    "매일경제",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-11 18:49",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "‘K자형 양극화’ 대응 나선 정부…경제부총리 중심 범정부 TF 구성",
-     "link": "https://www.mk.co.kr/news/politics/12205085",
-     "time": "2026-11-11 18:49"
-    },
-    {
-     "source": "한겨레",
-     "title": "K자형 양극화 심화에…범정부 ‘양극화 대응 TF’ 출범",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286730.html",
-     "time": "2026-11-11 13:26"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "양극화 대응에 팔 걷는 정부…경제부총리가 태스크포스 팀장",
-     "link": "https://www.yna.co.kr/view/AKR20261110136900002",
-     "time": "2026-11-11 09:00"
-    }
-   ],
-   "id": "20261114-23"
-  },
-  {
-   "title": "\"불륜으로 끝날 줄 알았는데\"…젠슨 황 스캔들 '일파만파'",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "동아일보",
-    "한국경제"
-   ],
-   "latest": "2026-11-11 22:39",
-   "items": [
-    {
-     "source": "한국경제",
-     "title": "\"불륜으로 끝날 줄 알았는데\"…젠슨 황 스캔들 '일파만파'",
-     "link": "https://www.hankyung.com/article/202611111347i",
-     "time": "2026-11-11 22:39"
-    },
-    {
-     "source": "SBS",
-     "title": "[머니버스] 'AI 시즌오프' 불안감 진정될까? / 젠슨 황 스캔들 일파만파, 영향은? / 앤트로픽 상장 초읽기…성공할까?",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008841403&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 16:44"
-    },
-    {
-     "source": "동아일보",
-     "title": "일파만파 ‘젠슨 황 스캔들’, FBI 조사-주주 소송",
-     "link": "https://www.donga.com/news/Inter/article/all/20261111/135002979/2",
-     "time": "2026-11-11 04:30"
-    }
-   ],
-   "id": "20261114-24"
-  },
-  {
-   "title": "아세안+3에 자연재해 등 위기 때 쓰는 단기자금지원제도 도입",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-12 02:36",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "자연재해 땐 긴급자금…아세안+3 협정 발효",
-     "link": "https://www.mk.co.kr/news/economy/12205613",
-     "time": "2026-11-12 02:36"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "아세안+3에 자연재해 등 위기 때 쓰는 단기자금지원제도 도입",
-     "link": "https://www.yna.co.kr/view/AKR20261110177400002",
-     "time": "2026-11-11 10:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "팬데믹·자연재해 닥치면 달러 신속 지원…아세안+3 RFF 도입",
-     "link": "https://www.newsis.com/view/NISX20261111_0003862962",
-     "time": "2026-11-11 10:00"
-    }
-   ],
-   "id": "20261114-25"
-  },
-  {
-   "title": "이중근 부영 회장, ‘유엔참전용사 추모’ 국민대표로 헌화",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "한국경제"
-   ],
-   "latest": "2026-11-12 04:20",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "유엔참전용사 추모의날 맞아 이중근 회장 국민대표로 헌화",
-     "link": "https://www.mk.co.kr/news/economy/12205713",
-     "time": "2026-11-12 04:20"
-    },
-    {
-     "source": "매일경제",
-     "title": "이중근 부영 회장, ‘유엔참전용사 추모’ 국민대표로 헌화",
-     "link": "https://www.mk.co.kr/news/economy/12205696",
-     "time": "2026-11-12 03:26"
-    },
-    {
-     "source": "한국경제",
-     "title": "[포토] 유엔참전용사 앞에 묵념하는 이중근 회장",
-     "link": "https://www.hankyung.com/article/2026111109291",
-     "time": "2026-11-11 18:32"
-    },
-    {
-     "source": "뉴시스",
-     "title": "이중근 부영 회장, 유엔참전용사 추모…국경일 지정 촉구",
-     "link": "https://www.newsis.com/view/NISX20261111_0003864051",
-     "time": "2026-11-11 15:26"
-    }
-   ],
-   "id": "20261114-26"
+   "id": "20261115-10"
   },
   {
    "title": "국고채 담합 과징금에 일부 증권사 손실…\"실적 부담 확대\"",
@@ -1233,38 +537,7 @@
      "time": "2026-11-12 02:48"
     }
    ],
-   "id": "20261114-27"
-  },
-  {
-   "title": "반도체 호황에도 깊어진 양극화…범정부 TF로 격차 완화 나선다",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "한겨레"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "반도체 호황에도 깊어진 양극화…범정부 TF로 격차 완화 나선다",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1286850.html",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "경향신문",
-     "title": "‘양극화 대응’ 범정부 TF 가동",
-     "link": "https://www.khan.co.kr/article/202611112039005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "뉴시스",
-     "title": "수출 호황에도 커지는 소득·자산·세대 격차…정부, 양극화 대응 TF 띄운다",
-     "link": "https://www.newsis.com/view/NISX20261110_0003862618",
-     "time": "2026-11-11 09:00"
-    }
-   ],
-   "id": "20261114-28"
+   "id": "20261115-11"
   },
   {
    "title": "'반도체 힘' 전기·전자 5대 기업 수출 1년 새 3.3배로 증가",
@@ -1295,118 +568,7 @@
      "time": "2026-11-12 05:51"
     }
    ],
-   "id": "20261114-29"
-  },
-  {
-   "title": "\"국고채 입찰 금리 맞춰 쓰자\"…15개 PD사 과징금 역대 최대 1.6조",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "경향신문",
-    "동아일보"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "국고채 입찰 담합한 은행·증권사에 ‘역대 최대’ 과징금 1조6266억원 부과",
-     "link": "https://www.khan.co.kr/article/202611111655001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "동아일보",
-     "title": "국고채 입찰 3년반 짬짜미, 15곳에 1.6조 역대 최대 과징금",
-     "link": "https://www.donga.com/news/Economy/article/all/20261112/135010337/2",
-     "time": "2026-11-12 04:30"
-    },
-    {
-     "source": "SBS",
-     "title": "\"국고채 입찰 금리 맞춰 쓰자\"…15개 PD사 과징금 역대 최대 1.6조",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008841407&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-11 16:11"
-    },
-    {
-     "source": "동아일보",
-     "title": "국고채 입찰 3년 넘게 담합…15개 딜러사에 1.6조 ‘역대 최대’ 과징금",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135004614/1",
-     "time": "2026-11-11 12:24"
-    }
-   ],
-   "id": "20261114-30"
-  },
-  {
-   "title": "철도노조 \"12월 10일 오전 9시부터 무기한 총파업\"(종합)",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-12 11:04",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "철도노조 “12월10일 무기한 총파업…안전인력 부족·승진 불공정”",
-     "link": "https://www.khan.co.kr/article/202611111332001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-12 11:04"
-    },
-    {
-     "source": "동아일보",
-     "title": "철도노조 “내달 10일 오전 9시부터 무기한 총파업”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261111/135010293/2",
-     "time": "2026-11-12 04:30"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "철도노조 \"12월 10일 오전 9시부터 무기한 총파업\"(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261111080851004",
-     "time": "2026-11-11 11:34"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "철도노조 \"12월 10일 오전 9시부터 무기한 총파업\"",
-     "link": "https://www.yna.co.kr/view/AKR20261111080800004",
-     "time": "2026-11-11 11:11"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 철도노조 \"12월10일 오전 9시부터 무기한 총파업\"",
-     "link": "https://www.yna.co.kr/view/AKR20261111072200004",
-     "time": "2026-11-11 11:00"
-    }
-   ],
-   "id": "20261114-31"
-  },
-  {
-   "title": "SC제일은행, 한국ESG기준원 평가 8년째 A+…카뱅 3년 연속 A등급",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "연합뉴스",
-    "한국경제"
-   ],
-   "latest": "2026-11-12 17:13",
-   "items": [
-    {
-     "source": "연합뉴스",
-     "title": "SC제일은행, 한국ESG기준원 평가 8년째 A+…카뱅 3년 연속 A등급",
-     "link": "https://www.yna.co.kr/view/AKR20261112148500002",
-     "time": "2026-11-12 17:13"
-    },
-    {
-     "source": "한국경제",
-     "title": "모나리자, 한국ESG기준원 평가서 3년 연속 통합 A등급",
-     "link": "https://www.hankyung.com/article/202611121424i",
-     "time": "2026-11-12 04:41"
-    },
-    {
-     "source": "뉴시스",
-     "title": "IPARK현대산업개발, ESG 평가 3년 연속 통합 A등급",
-     "link": "https://www.newsis.com/view/NISX20261111_0003864122",
-     "time": "2026-11-11 15:57"
-    }
-   ],
-   "id": "20261114-32"
+   "id": "20261115-12"
   },
   {
    "title": "'깐부 동맹' 휘청…'삼전닉스' HBM 공급 차질없나",
@@ -1443,7 +605,7 @@
      "time": "2026-11-12 17:57"
     }
    ],
-   "id": "20261114-33"
+   "id": "20261115-13"
   },
   {
    "title": "‘불륜 불륜 불륜’ 젠슨 황 퇴진한 날 3번째 의혹…“또 다른 여직원과 부적절 관계”",
@@ -1474,7 +636,7 @@
      "time": "2026-11-13 05:08"
     }
    ],
-   "id": "20261114-34"
+   "id": "20261115-14"
   },
   {
    "title": "공공재개발 사업수수료 3%&#8594;1%로 한시 인하···“구역당 평균 130억 절감”",
@@ -1505,7 +667,7 @@
      "time": "2026-11-12 11:00"
     }
    ],
-   "id": "20261114-35"
+   "id": "20261115-15"
   },
   {
    "title": "올해 쌀 생산량 예상보다 1만t 감소…\"가뭄·고온 영향\"",
@@ -1536,7 +698,7 @@
      "time": "2026-11-13 12:00"
     }
    ],
-   "id": "20261114-36"
+   "id": "20261115-16"
   },
   {
    "title": "삼성메디슨, 홍천에 신공장 준공…\"2030년 생산능력 두 배로\"",
@@ -1567,38 +729,44 @@
      "time": "2026-11-13 17:00"
     }
    ],
-   "id": "20261114-37"
+   "id": "20261115-17"
   },
   {
-   "title": "농협, 화성 농가 22곳 주거환경 개선… 농촌 취약계층 지원 강화",
+   "title": "HL만도, 동반성장지수 2년 연속 '최우수'",
    "media_count": 3,
    "media": [
-    "동아일보",
-    "연합뉴스",
+    "경향신문",
+    "뉴시스",
     "한국경제"
    ],
-   "latest": "2026-11-13 18:30",
+   "latest": "2026-11-13 20:02",
    "items": [
     {
      "source": "한국경제",
-     "title": "KB손보, 60번째 아동 주거환경 개선",
-     "link": "https://www.hankyung.com/article/2026111358311",
-     "time": "2026-11-13 18:30"
+     "title": "HL만도, 동반성장지수 2년 연속 '최우수'",
+     "link": "https://www.hankyung.com/article/202611135997i",
+     "time": "2026-11-13 20:02"
     },
     {
-     "source": "동아일보",
-     "title": "농협, 화성 농가 22곳 주거환경 개선… 농촌 취약계층 지원 강화",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135021664/2",
-     "time": "2026-11-13 16:52"
+     "source": "한국경제",
+     "title": "제일기획, 동반성장지수 7년 연속 '최우수'…ESG도 A등급",
+     "link": "https://www.hankyung.com/article/202611134402i",
+     "time": "2026-11-13 09:14"
     },
     {
-     "source": "연합뉴스",
-     "title": "세이브더칠드런·우리은행, 조손가정 30가구 주거환경 개선 지원",
-     "link": "https://www.yna.co.kr/view/AKR20261111060300371",
-     "time": "2026-11-11 10:14"
+     "source": "경향신문",
+     "title": "네이버·농심 등 동반성장지수 ‘최우수’",
+     "link": "https://www.khan.co.kr/article/202611112033015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-12 11:04"
+    },
+    {
+     "source": "뉴시스",
+     "title": "동양, ESG 통합등급 A 획득…2년 연속 등급 상승",
+     "link": "https://www.newsis.com/view/NISX20261112_0003865014",
+     "time": "2026-11-12 09:47"
     }
    ],
-   "id": "20261114-38"
+   "id": "20261115-18"
   },
   {
    "title": "정부, 경기 판단 '회복 흐름'에서 '견조한 성장세'로 상향(종합)",
@@ -1635,7 +803,7 @@
      "time": "2026-11-13 10:00"
     }
    ],
-   "id": "20261114-39"
+   "id": "20261115-19"
   },
   {
    "title": "환율·유가 동반 하락에 10월 수입물가 1.8%↓",
@@ -1645,13 +813,13 @@
     "연합뉴스",
     "한겨레"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "환율·유가 하락에 10월 수입물가 내림세 전환",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1287146.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "매일경제",
@@ -1666,44 +834,7 @@
      "time": "2026-11-13 06:00"
     }
    ],
-   "id": "20261114-40"
-  },
-  {
-   "title": "젠슨 황 퇴진에 엔비디아 시총 한때 800조원 넘게 증발",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "한국경제"
-   ],
-   "latest": "2026-11-14 10:08",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "젠슨 황 퇴진에 엔비디아 시총 한때 800조원 넘게 증발",
-     "link": "https://www.khan.co.kr/article/202611131028001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
-    },
-    {
-     "source": "뉴시스",
-     "title": "젠슨 황 떠난 엔비디아, 장중 시총 801조원 날아갔다",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866401",
-     "time": "2026-11-13 07:58"
-    },
-    {
-     "source": "한국경제",
-     "title": "젠슨 황 中 스파이 연루 의혹…엔비디아, 4300억달러 증발",
-     "link": "https://www.hankyung.com/article/202611119920i",
-     "time": "2026-11-11 11:34"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 엔비디아 이틀간 9.6% 급락…시총 약 4300억달러 증발",
-     "link": "https://www.hankyung.com/article/2026111187687",
-     "time": "2026-11-11 06:07"
-    }
-   ],
-   "id": "20261114-41"
+   "id": "20261115-20"
   },
   {
    "title": "‘젠슨황 퇴임’에도 외국인 ‘사자’ 행렬에 코스피 2%대·코스닥 3%대 상승세",
@@ -1713,13 +844,13 @@
     "경향신문",
     "연합뉴스"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "‘젠슨황 퇴임’에도 외국인 ‘사자’ 행렬에 코스피 2%대·코스닥 3%대 상승세",
      "link": "https://www.khan.co.kr/article/202611131022001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "연합뉴스",
@@ -1752,7 +883,7 @@
      "time": "2026-11-13 09:04"
     }
    ],
-   "id": "20261114-42"
+   "id": "20261115-21"
   },
   {
    "title": "국토장관 “재초환, 집값 안정 효과와 재산권 침해 종합 검토해야”",
@@ -1762,13 +893,13 @@
     "뉴시스",
     "매일경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "국토장관 “재초환, 종합적 검토 필요”",
      "link": "https://www.khan.co.kr/article/202611122031015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "뉴시스",
@@ -1789,7 +920,7 @@
      "time": "2026-11-13 04:41"
     }
    ],
-   "id": "20261114-43"
+   "id": "20261115-22"
   },
   {
    "title": "[포토뉴스]이대 명예박사 된 ‘디올 CEO’…이부진·정의선·신동빈 총출동",
@@ -1799,13 +930,13 @@
     "동아일보",
     "한겨레"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "[포토뉴스]이대 명예박사 된 ‘디올 CEO’…이부진·정의선·신동빈 총출동",
      "link": "https://www.khan.co.kr/article/202611122027035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "한겨레",
@@ -1820,7 +951,38 @@
      "time": "2026-11-13 00:30"
     }
    ],
-   "id": "20261114-44"
+   "id": "20261115-23"
+  },
+  {
+   "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "연합뉴스",
+    "한국경제"
+   ],
+   "latest": "2026-11-15 09:32",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다",
+     "link": "https://www.khan.co.kr/article/202611122027015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-15 09:32"
+    },
+    {
+     "source": "한국경제",
+     "title": "롯데百, 15년 만에 브랜드 디자인 개편",
+     "link": "https://www.hankyung.com/article/2026111235801",
+     "time": "2026-11-12 18:11"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "롯데백화점 쇼핑백, 15년 만에 바뀐다…15일부터 순차 적용",
+     "link": "https://www.yna.co.kr/view/AKR20261111167300030",
+     "time": "2026-11-12 06:00"
+    }
+   ],
+   "id": "20261115-24"
   },
   {
    "title": "내년 전국 오피스텔 기준시가 4년째 하락…서울은 2%대 상승",
@@ -1830,13 +992,13 @@
     "경향신문",
     "뉴시스"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "서울 오피스텔만 오른다···전국 오피스텔 기준시가 4년 연속 하락",
      "link": "https://www.khan.co.kr/article/202611121705001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "뉴시스",
@@ -1851,7 +1013,7 @@
      "time": "2026-11-12 13:24"
     }
    ],
-   "id": "20261114-45"
+   "id": "20261115-25"
   },
   {
    "title": "‘석유 최고가격’ 4주간 동결…“중동 불안 여전, 물가 안정 고려”",
@@ -1861,19 +1023,19 @@
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "‘석유 최고가격’ 4주간 동결…“중동 불안 여전, 물가 안정 고려”",
      "link": "https://www.hani.co.kr/arti/economy/economy_general/1287274.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
      "title": "국제유가 내렸지만…정부, 석유 최고가격 또 동결",
      "link": "https://www.khan.co.kr/article/202611131801001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "한국경제",
@@ -1882,7 +1044,7 @@
      "time": "2026-11-13 18:00"
     }
    ],
-   "id": "20261114-46"
+   "id": "20261115-26"
   },
   {
    "title": "정부, 구글社 고정밀 지도 조건이행 확인…반출 허가 마침표(1보)",
@@ -1892,13 +1054,13 @@
     "뉴시스",
     "한겨레"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "한겨레",
      "title": "국내 ‘구글 지도’ 고정밀로 바뀐다…정부, 구글 보안이행 확인",
      "link": "https://www.hani.co.kr/arti/economy/it/1287253.html",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "SBS",
@@ -1925,38 +1087,7 @@
      "time": "2026-11-13 12:01"
     }
    ],
-   "id": "20261114-47"
-  },
-  {
-   "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
-   "media_count": 3,
-   "media": [
-    "동아일보",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-14 10:08",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287193.html",
-     "time": "2026-11-14 10:08"
-    },
-    {
-     "source": "동아일보",
-     "title": "잠자는 카드 포인트, 내년 5월부터 지역화폐로 전환 가능",
-     "link": "https://www.donga.com/news/Society/article/all/20261113/135023116/2",
-     "time": "2026-11-14 01:40"
-    },
-    {
-     "source": "한국경제",
-     "title": "잠자는 카드포인트 2.1조, 지역화폐로 바꿔 쓴다",
-     "link": "https://www.hankyung.com/article/2026111357931",
-     "time": "2026-11-13 17:33"
-    }
-   ],
-   "id": "20261114-48"
+   "id": "20261115-27"
   },
   {
    "title": "젠슨 황 엔비디아 CEO 사임…임시 CEO에 콜레트 크레스 CFO",
@@ -1966,13 +1097,13 @@
     "뉴시스",
     "한국경제"
    ],
-   "latest": "2026-11-14 10:08",
+   "latest": "2026-11-15 09:32",
    "items": [
     {
      "source": "경향신문",
      "title": "“엔비디아 임시 CEO, 젠슨 황으로부터 ‘겁먹은 사슴 같다’ 혹평 듣던 인물”",
      "link": "https://www.khan.co.kr/article/202611132143001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-14 10:08"
+     "time": "2026-11-15 09:32"
     },
     {
      "source": "한국경제",
@@ -1993,7 +1124,44 @@
      "time": "2026-11-12 22:53"
     }
    ],
-   "id": "20261114-49"
+   "id": "20261115-28"
+  },
+  {
+   "title": "중기중앙회 \"노란우산 정보 유출 가능성…주소·연락처 등 포함\"(종합)",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-15 09:32",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "중기중앙회 “노란우산 가입자 주소·연락처 유출 가능성”",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287336.html",
+     "time": "2026-11-15 09:32"
+    },
+    {
+     "source": "SBS",
+     "title": "중기중앙회 \"노란우산 개인정보 유출 가능성…주민번호 등 포함\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846028&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-14 18:40"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "중기중앙회 \"노란우산 정보 유출 가능성…주소·연락처 등 포함\"(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261114037551030",
+     "time": "2026-11-14 16:37"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "중기중앙회 \"노란우산 정보 유출 가능성…주소·연락처 등 포함\"",
+     "link": "https://www.yna.co.kr/view/AKR20261114037500030",
+     "time": "2026-11-14 15:57"
+    }
+   ],
+   "id": "20261115-29"
   }
  ]
 }
