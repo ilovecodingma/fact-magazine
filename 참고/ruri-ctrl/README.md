@@ -28,7 +28,9 @@ python x.py "{\"op\":\"tabs\"}"
 python x.py "{\"op\":\"open\",\"url\":\"https://example.com\"}"
 python x.py "{\"op\":\"shot\",\"tab\":123}"      # shot.png 로 저장
 ```
-명령: tabs, open, newtab, nav, activate, close, eval, click, type, key, scroll, shot, upload
+명령: tabs, open, newtab, nav, activate, close, eval, click, type, key, scroll, shot, upload, ping, front, cdp, chrome, frame_upload
+
+숨김·최소화 창에서도 동작합니다(`open` 의 `minimized` 옵션). 시험: `python test_hidden.py`
 
 ## 주의
 - 디버거로 탭을 완전히 제어하는 도구입니다. 토큰을 아는 쪽이 로그인된 탭을 마음대로 움직일 수 있으므로 토큰 파일을 지키세요.

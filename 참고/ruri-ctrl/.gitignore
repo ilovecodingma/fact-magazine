@@ -5,3 +5,7 @@ shot.png
 j*.js
 n1.js
 s1.png
+g*.png
+*.bak
+*.env
+cur*.txt
