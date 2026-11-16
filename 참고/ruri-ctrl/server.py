@@ -2,7 +2,7 @@
 import json,queue,threading,sys
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 TOK=open(__file__.replace('server.py','token.txt')).read().strip()
-Q=queue.Queue();R={};EV={};ID=[0];LOCK=threading.Lock()
+Q=queue.Queue();R={};EV={};ID=[0];LOCK=threading.Lock();GEN=[0]
 class H(BaseHTTPRequestHandler):
     def log_message(self,*a): pass
     def _j(self,o,code=200):
@@ -13,8 +13,15 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self._auth(): return
         if self.path.startswith('/poll'):
-            try: self._j(Q.get(timeout=20))
-            except queue.Empty: self._j({})
+            with LOCK: GEN[0]+=1; me=GEN[0]
+            import time
+            end=time.time()+20; c=None
+            while time.time()<end and GEN[0]==me:
+                try: c=Q.get(timeout=0.5); break
+                except queue.Empty: pass
+            try: self._j(c or {})
+            except Exception:
+                if c: Q.put(c)
         else: self._j({'ok':1})
     def do_POST(self):
         if not self._auth(): return

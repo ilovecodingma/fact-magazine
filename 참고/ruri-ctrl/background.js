@@ -8,9 +8,10 @@ async function attach(tab){ if(att.has(tab)) return; try{ await chrome.debugger.
 chrome.debugger.onDetach.addListener(s=>att.delete(s.tabId));
 const send=(tab,m,p)=>chrome.debugger.sendCommand({tabId:tab},m,p||{});
 async function waitLoad(tab){ for(let i=0;i<60;i++){ const t=await chrome.tabs.get(tab); if(t.status==='complete') return; await sleep(500);} }
-async function run(c){
+async function run0(c){
   const tab=c.tab;
   switch(c.op){
+    case 'ping': return {ok:1,t:Date.now()};
     case 'tabs': return {tabs:(await chrome.tabs.query({})).map(t=>({id:t.id,win:t.windowId,url:t.url,title:t.title}))};
     case 'open': { const w=await chrome.windows.create({url:c.url,left:c.left??1930,top:c.top??0,width:c.width??1900,height:c.height??1040,focused:true}); const id=w.tabs[0].id; await waitLoad(id); await sleep(1500); return {tab:id,win:w.id}; }
     case 'newtab': { const t=await chrome.tabs.create({url:c.url,windowId:c.win,active:false}); await waitLoad(t.id); await sleep(1500); return {tab:t.id}; }
@@ -29,10 +30,17 @@ async function run(c){
 }
 let running=false;
 async function loop(){ if(running) return; running=true;
-  for(;;){ try{ const r=await fetch(BASE+'/poll',{headers:{'X-Tok':TOK}}); const c=await r.json();
+  for(;;){ try{ const ac=new AbortController(); const to=setTimeout(()=>ac.abort(),30000); const r=await fetch(BASE+'/poll',{headers:{'X-Tok':TOK},signal:ac.signal}); clearTimeout(to); const c=await r.json();
       if(c.id){ let out; try{ out=await run(c);}catch(e){ out={error:String(e)}; } out.id=c.id;
         await fetch(BASE+'/result',{method:'POST',headers:{'X-Tok':TOK},body:JSON.stringify(out)}); } }
     catch(e){ await sleep(2000);} } }
 chrome.runtime.onStartup.addListener(loop); chrome.runtime.onInstalled.addListener(loop);
-chrome.alarms.create('k',{periodInMinutes:0.4}); chrome.alarms.onAlarm.addListener(()=>{ if(!running) loop(); });
+chrome.alarms.create('k',{periodInMinutes:0.5}); chrome.alarms.onAlarm.addListener(()=>{ if(!running) loop(); });
 loop();
+
+const withTimeout=(p,ms,tab)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('command timeout '+ms+'ms')),ms))]);
+async function run(c){
+  const t=c.tab;
+  try{ return await withTimeout(run0(c),30000,t); }
+  finally{ if(t && att.has(t) && c.op!=='close'){ try{ await chrome.debugger.detach({tabId:t}); }catch(e){} att.delete(t); } }
+}
