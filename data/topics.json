@@ -1,286 +1,7 @@
 {
- "made_at": "2026-11-16 00:32",
- "article_count": 1562,
+ "made_at": "2026-11-17 03:19",
+ "article_count": 1419,
  "topics": [
-  {
-   "title": "[속보] 중기부 “2차 ‘모두의 창업’ 참가자 지원 기업서 개인정보 유출”",
-   "media_count": 6,
-   "media": [
-    "SBS",
-    "경향신문",
-    "동아일보",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "중기부 ‘모두의 창업’ 또 개인정보 유출…한번 털리고 모집까지 미뤘는데",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287278.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "중기부 2차 ‘모두의 창업’ 참가자 818명 개인정보 유출",
-     "link": "https://www.khan.co.kr/article/202611131802001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "‘모두의 창업’ 또 개인정보 유출사고···중기부 “공급기업 선정 취소 등 추진”",
-     "link": "https://www.khan.co.kr/article/202611151706011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "[속보] 중기부 “2차 ‘모두의 창업’ 참가자 지원 기업서 개인정보 유출”",
-     "link": "https://www.khan.co.kr/article/202611131729001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "동아일보",
-     "title": "중기부 ‘모두의 창업’ 2기 사업도 개인정보 유출",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135023040/2",
-     "time": "2026-11-14 01:40"
-    },
-    {
-     "source": "한국경제",
-     "title": "중기부 '모두의 창업' 5개월 만에 또 털렸다",
-     "link": "https://www.hankyung.com/article/2026111359671",
-     "time": "2026-11-13 19:49"
-    },
-    {
-     "source": "동아일보",
-     "title": "중기부 ‘모두의 창업’ 5개월 만에 또 개인정보 유출",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135022303/1",
-     "time": "2026-11-13 18:07"
-    },
-    {
-     "source": "SBS",
-     "title": "중기부 2차 '모두의 창업'서 참가자 818명 개인정보 유출",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008845314&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 17:39"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "중기부 2차 '모두의 창업'서 참가자 818명 개인정보 유출",
-     "link": "https://www.yna.co.kr/view/AKR20261113154951030",
-     "time": "2026-11-13 17:26"
-    },
-    {
-     "source": "동아일보",
-     "title": "[속보]중기부 “2차 ‘모두의 창업’ 참가자 지원 기업서 개인정보 유출”",
-     "link": "https://www.donga.com/news/It/article/all/20261113/135022002/1",
-     "time": "2026-11-13 17:21"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 중기부 \"2차 '모두의 창업' 참가자 지원 기업서 개인정보 유출\"",
-     "link": "https://www.hankyung.com/article/2026111357437",
-     "time": "2026-11-13 17:17"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 중기부 \"2차 '모두의 창업' 참가자 지원 기업서 개인정보 유출\"",
-     "link": "https://www.yna.co.kr/view/AKR20261113154900030",
-     "time": "2026-11-13 17:15"
-    }
-   ],
-   "id": "20261116-01"
-  },
-  {
-   "title": "정진완 우리은행장 연임 성공…경영성과 인정받아 임기 ‘1년 더’",
-   "media_count": 6,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "매일경제",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "정진완 우리은행장, 1년 더 연임한다",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1287213.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "정진완 우리은행장 연임 확정…임기 1년 연장",
-     "link": "https://www.khan.co.kr/article/202611131552001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "매일경제",
-     "title": "정진완 우리은행장 연임 성공 '1년 더'",
-     "link": "https://www.mk.co.kr/news/economy/12208291",
-     "time": "2026-11-14 02:46"
-    },
-    {
-     "source": "동아일보",
-     "title": "정진완 우리은행장 1년 연임",
-     "link": "https://www.donga.com/news/People/article/all/20261113/135023078/2",
-     "time": "2026-11-14 01:40"
-    },
-    {
-     "source": "매일경제",
-     "title": "정진완 우리은행장 연임 성공…경영성과 인정받아 임기 ‘1년 더’",
-     "link": "https://www.mk.co.kr/news/economy/12208034",
-     "time": "2026-11-13 23:59"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] 정진완 우리은행장 연임 결정…임기 1년",
-     "link": "https://www.mk.co.kr/news/economy/12207980",
-     "time": "2026-11-13 23:17"
-    },
-    {
-     "source": "한국경제",
-     "title": "정진완 우리은행장 1년 연임",
-     "link": "https://www.hankyung.com/article/2026111358121",
-     "time": "2026-11-13 17:36"
-    },
-    {
-     "source": "동아일보",
-     "title": "정진완 우리은행장 연임 성공…“은행 성장 여력 확보”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135021477/1",
-     "time": "2026-11-13 16:23"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "정진완 우리은행장 1년 연임…5대 은행장 인선 신호탄(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261113105752002",
-     "time": "2026-11-13 14:43"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[2보] 우리은행장 후보에 정진완 행장…1년 연임",
-     "link": "https://www.yna.co.kr/view/AKR20261113105751002",
-     "time": "2026-11-13 14:21"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[1보] 정진완 우리은행장 연임 결정…임기 1년",
-     "link": "https://www.yna.co.kr/view/AKR20261113105700002",
-     "time": "2026-11-13 14:15"
-    },
-    {
-     "source": "한국경제",
-     "title": "정진완 우리은행장 연임 결정…임기 1년",
-     "link": "https://www.hankyung.com/article/2026111351797",
-     "time": "2026-11-13 14:15"
-    }
-   ],
-   "id": "20261116-02"
-  },
-  {
-   "title": "똑같은 ‘AI 커닝’ 회계사 시험은 1차 탈락…세무사 합격 효력정지 추진",
-   "media_count": 6,
-   "media": [
-    "SBS",
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "똑같은 ‘AI 커닝’ 회계사 시험은 1차 탈락…세무사 합격 효력정지 추진",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287392.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "재경부 “세무사시험 AI 부정행위자 합격 효력정지 논의”",
-     "link": "https://www.khan.co.kr/article/202611151201001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "동아일보",
-     "title": "세무사 시험도 ‘AI 커닝’, 공정성 무너져… 수능 사흘앞 비상",
-     "link": "https://www.donga.com/news/Society/article/all/20261116/135028858/2",
-     "time": "2026-11-16 04:30"
-    },
-    {
-     "source": "SBS",
-     "title": "재경부 \"세무사 수석 합격 효력정지 논의\"…\"회계사 1차 불합격\"",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846690&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-15 18:19"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "재경부 \"세무사 수석 합격 효력정지 논의\"…\"회계사 1차 불합격\"(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261115021952002",
-     "time": "2026-11-15 14:18"
-    },
-    {
-     "source": "뉴시스",
-     "title": "AI에 뚫린 세무사 시험…\"부정행위자 더 있을수도\" 대혼란",
-     "link": "https://www.newsis.com/view/NISX20261115_0003868502",
-     "time": "2026-11-15 12:56"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "세무사 수석합격자, AI 부정행위 시인…\"회계사 시험서도\"(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261115016251530",
-     "time": "2026-11-15 11:59"
-    }
-   ],
-   "id": "20261116-03"
-  },
-  {
-   "title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”…젠슨 황 사임에도 협력 계속",
-   "media_count": 5,
-   "media": [
-    "SBS",
-    "경향신문",
-    "동아일보",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "정부 “엔비디아 GPU 26만장 공급 차질 없어”…젠슨 황 사임에도 협력 계속",
-     "link": "https://www.hani.co.kr/arti/economy/it/1287276.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "배경훈 “GPU 26만장 예정대로 공급”…젠슨 황 사임에 정부 긴급점검",
-     "link": "https://www.khan.co.kr/article/202611131855001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "동아일보",
-     "title": "젠슨 황 사임에도 GPU 26만장 공급 예정대로…정부 “협력 차질 없다”",
-     "link": "https://www.donga.com/news/It/article/all/20261113/135022631/1",
-     "time": "2026-11-13 18:58"
-    },
-    {
-     "source": "SBS",
-     "title": "젠슨 황 없는 엔비디아…한국 GPU 26만 장 공급 약속 유지",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008845319&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 17:47"
-    },
-    {
-     "source": "한국경제",
-     "title": "젠슨 황 없는 엔비디아, 韓에 GPU 26만장 약속대로 공급",
-     "link": "https://www.hankyung.com/article/2026111357627",
-     "time": "2026-11-13 17:36"
-    }
-   ],
-   "id": "20261116-04"
-  },
   {
    "title": "중기중앙회 \"노란우산 정보 유출 가능성…주소·연락처 등 포함\"(종합)",
    "media_count": 5,
@@ -330,50 +51,13 @@
      "time": "2026-11-14 15:57"
     }
    ],
-   "id": "20261116-05"
+   "id": "20261117-01"
   },
   {
-   "title": "무너진 젠슨 황, CEO 사임 전 “난 쓰레기 같은 인간…어떻게 돼도 상관없다”",
-   "media_count": 4,
+   "title": "재경부 \"세무사 수석 합격 효력정지 논의\"…\"회계사 1차 불합격\"",
+   "media_count": 5,
    "media": [
-    "경향신문",
-    "뉴시스",
-    "동아일보",
-    "한국경제"
-   ],
-   "latest": "2026-11-15 09:32",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "무너진 젠슨 황, CEO 사임 전 “난 쓰레기 같은 인간…어떻게 돼도 상관없다”",
-     "link": "https://www.khan.co.kr/article/202611131444001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "동아일보",
-     "title": "“난 인간 쓰레기” 사임 직전 불륜 파문 자책한 젠슨 황",
-     "link": "https://www.donga.com/news/Inter/article/all/20261113/135023181/2",
-     "time": "2026-11-14 01:40"
-    },
-    {
-     "source": "뉴시스",
-     "title": "젠슨 황 \"나는 인간 쓰레기\"…CEO 사임 전 무너진 모습",
-     "link": "https://www.newsis.com/view/NISX20261113_0003867408",
-     "time": "2026-11-13 15:59"
-    },
-    {
-     "source": "한국경제",
-     "title": "젠슨 황 \"난 쓰레기 같은 인간\"…사임 직전 극심한 자책",
-     "link": "https://www.hankyung.com/article/2026111350777",
-     "time": "2026-11-13 13:58"
-    }
-   ],
-   "id": "20261116-06"
-  },
-  {
-   "title": "‘젠슨 황 퇴진’에도 3% 넘게 오르던 코스피, 외인 ‘팔자’에 하락 마감",
-   "media_count": 4,
-   "media": [
+    "SBS",
     "경향신문",
     "동아일보",
     "연합뉴스",
@@ -383,98 +67,93 @@
    "items": [
     {
      "source": "한겨레",
-     "title": "‘젠슨 황 퇴진’에도 3% 넘게 오르던 코스피, 외인 ‘팔자’에 하락 마감",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287255.html",
+     "title": "똑같은 ‘AI 커닝’ 회계사 시험은 1차 탈락…세무사 합격 효력정지 추진",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287392.html",
      "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "한겨레",
-     "title": "‘젠슨 황 퇴진’ 악재에도 ‘삼전닉스’ 강세",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287188.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "한겨레",
-     "title": "‘젠슨 황 퇴진’ 충격에도…코스피, 장 초반 2%대 상승",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287156.html",
-     "time": "2026-11-15 09:32"
     },
     {
      "source": "경향신문",
-     "title": "젠슨 황 리스크에 외인 ‘팔자’…코스피 5300선 아래로",
-     "link": "https://www.khan.co.kr/article/202611131654001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "한겨레",
-     "title": "‘젠슨 황 스캔들’ 여파에 국내 증시도 휘청…코스피 5342 하락 마감",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287027.html",
-     "time": "2026-11-14 10:08"
-    },
-    {
-     "source": "동아일보",
-     "title": "‘젠슨 황’ 불확실성에… 코스피 1% 하락 마감",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135023326/2",
-     "time": "2026-11-14 01:40"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'젠슨황 퇴임'에도 장중 3%까지 올랐던 코스피, 0.98% 하락 마감(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261113129251008",
-     "time": "2026-11-13 16:23"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'전강후약' 코스피, 0.98% 하락 마감…코스닥 0.4%↑",
-     "link": "https://www.yna.co.kr/view/AKR20261113129200008",
-     "time": "2026-11-13 15:38"
-    }
-   ],
-   "id": "20261116-07"
-  },
-  {
-   "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
-   "media_count": 4,
-   "media": [
-    "동아일보",
-    "매일경제",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "2조원대 카드 포인트 지역화폐로 바꿔 쓴다…내년 5월부터 시행",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287193.html",
+     "title": "재경부 “세무사시험 AI 부정행위자 합격 효력정지 논의”",
+     "link": "https://www.khan.co.kr/article/202611151201001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
      "time": "2026-11-16 09:32"
     },
     {
-     "source": "매일경제",
-     "title": "잠자는 카드포인트, 지역화폐로 쓴다",
-     "link": "https://www.mk.co.kr/news/economy/12208281",
-     "time": "2026-11-14 02:42"
-    },
-    {
      "source": "동아일보",
-     "title": "잠자는 카드 포인트, 내년 5월부터 지역화폐로 전환 가능",
-     "link": "https://www.donga.com/news/Society/article/all/20261113/135023116/2",
-     "time": "2026-11-14 01:40"
+     "title": "세무사 시험도 ‘AI 커닝’, 공정성 무너져… 수능 사흘앞 비상",
+     "link": "https://www.donga.com/news/Society/article/all/20261116/135028858/2",
+     "time": "2026-11-16 04:30"
     },
     {
-     "source": "한국경제",
-     "title": "잠자는 카드포인트 2.1조, 지역화폐로 바꿔 쓴다",
-     "link": "https://www.hankyung.com/article/2026111357931",
-     "time": "2026-11-13 17:33"
+     "source": "SBS",
+     "title": "재경부 \"세무사 수석 합격 효력정지 논의\"…\"회계사 1차 불합격\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846690&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-15 18:19"
     },
     {
-     "source": "동아일보",
-     "title": "미사용 카드포인트, 내년 5월부터 지역화폐로 쓸 수 있다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135020787/1",
-     "time": "2026-11-13 16:32"
+     "source": "연합뉴스",
+     "title": "재경부 \"세무사 수석 합격 효력정지 논의\"…\"회계사 1차 불합격\"(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261115021952002",
+     "time": "2026-11-15 14:18"
     }
    ],
-   "id": "20261116-08"
+   "id": "20261117-02"
+  },
+  {
+   "title": "공정위, 굽네치킨 창업주 자녀 회사 부당 지원 의혹 조사",
+   "media_count": 5,
+   "media": [
+    "SBS",
+    "경향신문",
+    "뉴시스",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "굽네치킨 창업주, 자녀 회사 부당지원 의혹…공정위, 조사 착수",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287526.html",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "공정위 ‘홍철호 일가 부당지원 의혹’ 캔다",
+     "link": "https://www.khan.co.kr/article/202611152202005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-16 09:32"
+    },
+    {
+     "source": "경향신문",
+     "title": "공정위, 굽네치킨 홍철호 일가 의혹 현장조사···자녀들 회사 부당 지원 혐의",
+     "link": "https://www.khan.co.kr/article/202611152127001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-16 09:32"
+    },
+    {
+     "source": "SBS",
+     "title": "[단독] 돈 벌 기회 공짜로 넘겼나…'굽네치킨' 납품사업 부당지원 조사",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846759&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-16 09:30"
+    },
+    {
+     "source": "뉴시스",
+     "title": "공정위, 굽네치킨 창업주 자녀 회사 부당 지원 의혹 조사",
+     "link": "https://www.newsis.com/view/NISX20261116_0003868945",
+     "time": "2026-11-16 08:28"
+    },
+    {
+     "source": "SBS",
+     "title": "[단독] '굽네치킨' 납품사업 공짜로 넘겼나…공정위 조사",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846953&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-16 06:25"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "굽네치킨 오너가 2세 회사, 부당 지원 의혹…공정위 현장 조사",
+     "link": "https://www.yna.co.kr/view/AKR20261115052700002",
+     "time": "2026-11-15 21:05"
+    }
+   ],
+   "id": "20261117-03"
   },
   {
    "title": "지난달 전월세 물가 1.4%↑…3년 10개월 만에 최대폭",
@@ -530,354 +209,45 @@
      "time": "2026-11-15 05:45"
     }
    ],
-   "id": "20261116-09"
+   "id": "20261117-04"
   },
   {
-   "title": "코인원, 외주업체 해킹 당해 고객 개인정보 유출",
+   "title": "‘롯데 3세’ 신유열, 입사 6년 만에 사장 승진…그룹 경영전략 총괄",
    "media_count": 4,
    "media": [
     "SBS",
     "경향신문",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "코인원, 외주업체 해킹 당해 고객 개인정보 유출",
-     "link": "https://www.khan.co.kr/article/202611151528011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "SBS",
-     "title": "코인원,  외주업체 해킹 당해 고객 개인정보 유출",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846463&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-15 11:19"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코인원,  외주업체 해킹으로 고객 정보 유출",
-     "link": "https://www.yna.co.kr/view/AKR20261115020900002",
-     "time": "2026-11-15 11:02"
-    },
-    {
-     "source": "한겨레",
-     "title": "KB캐피탈 해킹…고객 20명·임직원 1800명 개인정보 유출",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1287173.html",
-     "time": "2026-11-15 09:32"
-    }
-   ],
-   "id": "20261116-10"
-  },
-  {
-   "title": "‘불륜 불륜 불륜’ 젠슨 황 퇴진한 날 3번째 의혹…“또 다른 여직원과 부적절 관계”",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "동아일보",
+    "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-13 06:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "‘불륜 불륜 불륜’ 젠슨 황 퇴진한 날 3번째 의혹…“또 다른 여직원과 부적절 관계”",
-     "link": "https://www.donga.com/news/Inter/article/all/20261113/135018105/1",
-     "time": "2026-11-13 06:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "그야말로 '첩첩산중'…젠슨 황, 세 번째 '불륜 의혹' 터졌다",
-     "link": "https://www.hankyung.com/article/2026111340177",
-     "time": "2026-11-13 06:15"
-    },
-    {
-     "source": "뉴시스",
-     "title": "\"젠슨 황, 사내 또 다른 직원과도 불륜 관계\"…총 3번째 스캔들",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866363",
-     "time": "2026-11-13 05:08"
-    }
-   ],
-   "id": "20261116-11"
-  },
-  {
-   "title": "올해 쌀 생산량 예상보다 1만t 감소…\"가뭄·고온 영향\"",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-13 13:59",
-   "items": [
-    {
-     "source": "SBS",
-     "title": "올해 쌀 생산량 예상보다 1만 t 감소…\"가뭄·고온 영향\"",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008844804&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 13:59"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "올해 쌀 생산량 예상보다 1만t 감소…\"가뭄·고온 영향\"",
-     "link": "https://www.yna.co.kr/view/AKR20261113064700030",
-     "time": "2026-11-13 12:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "올해 쌀 생산, 예상보다 1만t 감소…\"가뭄·고온 등 영향\"",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866765",
-     "time": "2026-11-13 12:00"
-    }
-   ],
-   "id": "20261116-12"
-  },
-  {
-   "title": "KB캐피탈, 해킹으로 고객·임직원 1천800명 정보 유출",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-13 14:07",
-   "items": [
-    {
-     "source": "SBS",
-     "title": "KB캐피탈, 해킹으로 고객·임직원 1천800명 정보 유출",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008844826&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 14:07"
-    },
-    {
-     "source": "동아일보",
-     "title": "KB캐피탈, 해킹에 고객·임직원 1800명 정보 유출…“전액 보상”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135018941/1",
-     "time": "2026-11-13 10:21"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "KB캐피탈, 해킹으로 고객·임직원 1천800명 정보 유출",
-     "link": "https://www.yna.co.kr/view/AKR20261113050800002",
-     "time": "2026-11-13 09:46"
-    }
-   ],
-   "id": "20261116-13"
-  },
-  {
-   "title": "삼성메디슨, 홍천에 신공장 준공…\"2030년 생산능력 두 배로\"",
-   "media_count": 3,
-   "media": [
-    "동아일보",
-    "연합뉴스",
-    "한국경제"
-   ],
-   "latest": "2026-11-13 17:35",
-   "items": [
-    {
-     "source": "한국경제",
-     "title": "삼성메디슨, 홍천에 신공장 준공…\"2030년 생산능력 두 배로\"",
-     "link": "https://www.hankyung.com/article/2026111358091",
-     "time": "2026-11-13 17:35"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "삼성메디슨, 홍천 공장 증설…2030년 초음파기기 생산능력 2배로",
-     "link": "https://www.yna.co.kr/view/AKR20261113071200003",
-     "time": "2026-11-13 17:00"
-    },
-    {
-     "source": "동아일보",
-     "title": "삼성메디슨, 홍천에 신규 제조동 준공…“2030년까지 생산능력 2배 확대”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135020831/1",
-     "time": "2026-11-13 17:00"
-    }
-   ],
-   "id": "20261116-14"
-  },
-  {
-   "title": "정부, 경기 판단 '회복 흐름'에서 '견조한 성장세'로 상향(종합)",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-14 00:09",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "정부, 韓 경기 판단 이제 ‘회복’ 아닌 ‘성장’",
-     "link": "https://www.mk.co.kr/news/economy/12208048",
-     "time": "2026-11-14 00:09"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "정부, 경기 판단 '회복 흐름'에서 '견조한 성장세'로 상향(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261113040251002",
-     "time": "2026-11-13 11:04"
-    },
-    {
-     "source": "뉴시스",
-     "title": "'회복 흐름'→'견조한 성장세'…재경부, 경기 판단 상향조정(종합)",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866813",
-     "time": "2026-11-13 10:28"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "정부, 경기 판단 '회복 흐름'에서 '견조한 성장세'로 상향",
-     "link": "https://www.yna.co.kr/view/AKR20261113040200002",
-     "time": "2026-11-13 10:00"
-    }
-   ],
-   "id": "20261116-15"
-  },
-  {
-   "title": "환율·유가 동반 하락에 10월 수입물가 1.8%↓",
-   "media_count": 3,
-   "media": [
-    "매일경제",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-15 09:32",
+   "latest": "2026-11-17 12:19",
    "items": [
     {
      "source": "한겨레",
-     "title": "환율·유가 하락에 10월 수입물가 내림세 전환",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287146.html",
-     "time": "2026-11-15 09:32"
+     "title": "‘롯데 3세’ 신유열, 입사 6년 만에 사장 승진…그룹 경영전략 총괄",
+     "link": "https://www.hani.co.kr/arti/economy/marketing/1287567.html",
+     "time": "2026-11-17 12:19"
     },
-    {
-     "source": "매일경제",
-     "title": "유가 하락에 수입물가 1.8%↓…수출물량 증가율은 역대 최고",
-     "link": "https://www.mk.co.kr/news/economy/12207612",
-     "time": "2026-11-13 16:58"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "환율·유가 동반 하락에 10월 수입물가 1.8%↓",
-     "link": "https://www.yna.co.kr/view/AKR20261112167900002",
-     "time": "2026-11-13 06:00"
-    }
-   ],
-   "id": "20261116-16"
-  },
-  {
-   "title": "‘젠슨황 퇴임’에도 외국인 ‘사자’ 행렬에 코스피 2%대·코스닥 3%대 상승세",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "경향신문",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-15 09:32",
-   "items": [
     {
      "source": "경향신문",
-     "title": "‘젠슨황 퇴임’에도 외국인 ‘사자’ 행렬에 코스피 2%대·코스닥 3%대 상승세",
-     "link": "https://www.khan.co.kr/article/202611131022001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
+     "title": "“오너 3세 경영 본격화”…신동빈 롯데 장남 신유열, 사장 승진",
+     "link": "https://www.khan.co.kr/article/202611161440021/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
     },
     {
-     "source": "연합뉴스",
-     "title": "'젠슨 황 퇴임'에도 코스피, 장중 2%대 상승…외국인 '사자'",
-     "link": "https://www.yna.co.kr/view/AKR20261113071900008",
-     "time": "2026-11-13 10:57"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'젠슨황 퇴임'에도 증시 선방…코스피·코스닥, 2%대 상승세(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261113036451008",
-     "time": "2026-11-13 09:26"
+     "source": "한국경제",
+     "title": "롯데 신유열, 사장 승진…그룹 경영전략 총괄한다",
+     "link": "https://www.hankyung.com/article/2026111601581",
+     "time": "2026-11-16 18:24"
     },
     {
      "source": "SBS",
-     "title": "코스피, '젠슨황 퇴임'에도 장 초반 2%대 상승",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008844317&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 09:26"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, '젠슨황 퇴임' 속 장초반 2%대 상승…코스닥도 1%대↑",
-     "link": "https://www.yna.co.kr/view/AKR20261113036400008",
-     "time": "2026-11-13 09:04"
+     "title": "'롯데 3세' 신유열, 사장 승진…그룹 경영전략 총괄 담당",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008848112&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-16 15:28"
     }
    ],
-   "id": "20261116-17"
-  },
-  {
-   "title": "금융지주 회장 연임 문턱 높인다…3연임 땐 ‘주총 75% 찬성’",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "매일경제"
-   ],
-   "latest": "2026-11-15 09:32",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "금융지주 회장 연임 문턱 높인다…3연임 땐 ‘주총 75% 찬성’",
-     "link": "https://www.khan.co.kr/article/202611122136015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "매일경제",
-     "title": "금융지주 회장 연임 문턱 높여도…10명 중 8명은 가볍게 넘는다",
-     "link": "https://www.mk.co.kr/news/economy/12207590",
-     "time": "2026-11-13 16:29"
-    },
-    {
-     "source": "동아일보",
-     "title": "은행지주 회장 연임, 문턱 높여 제동건다",
-     "link": "https://www.donga.com/news/Economy/article/all/20261113/135017912/2",
-     "time": "2026-11-13 04:30"
-    },
-    {
-     "source": "매일경제",
-     "title": "주총 75% 찬성해야 금융지주회장 3연임",
-     "link": "https://www.mk.co.kr/news/economy/12206664",
-     "time": "2026-11-13 02:35"
-    }
-   ],
-   "id": "20261116-18"
-  },
-  {
-   "title": "국토장관 “재초환, 집값 안정 효과와 재산권 침해 종합 검토해야”",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "매일경제"
-   ],
-   "latest": "2026-11-15 09:32",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "국토장관 “재초환, 종합적 검토 필요”",
-     "link": "https://www.khan.co.kr/article/202611122031015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "뉴시스",
-     "title": "국토장관 \"5차 철도망, 주택공급·교통연계 중점…투자 확대 검토\"",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866934",
-     "time": "2026-11-13 11:17"
-    },
-    {
-     "source": "경향신문",
-     "title": "국토장관 “재초환, 집값 안정 효과와 재산권 침해 종합 검토해야”",
-     "link": "https://www.khan.co.kr/article/202611121634001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-13 10:34"
-    },
-    {
-     "source": "매일경제",
-     "title": "국토장관 \"재초환, 재산권 침해 여지\"",
-     "link": "https://www.mk.co.kr/news/economy/12206789",
-     "time": "2026-11-13 04:41"
-    }
-   ],
-   "id": "20261116-19"
+   "id": "20261117-05"
   },
   {
    "title": "LH, 건설업계와 공공주택 신속공급 간담회…\"민간 협조 필요\"",
@@ -908,7 +278,7 @@
      "time": "2026-11-15 10:02"
     }
    ],
-   "id": "20261116-20"
+   "id": "20261117-06"
   },
   {
    "title": "'피터팬의 좋은방 구하기' 개인정보 유출…\"일부 회원 특정정보\"",
@@ -939,7 +309,7 @@
      "time": "2026-11-15 12:37"
     }
    ],
-   "id": "20261116-21"
+   "id": "20261117-07"
   },
   {
    "title": "LH “도심복합사업 지연, 서울시 추가 절차 영향”",
@@ -970,7 +340,7 @@
      "time": "2026-11-15 11:40"
     }
    ],
-   "id": "20261116-22"
+   "id": "20261117-08"
   },
   {
    "title": "산업장관 \"석유 최고가격제 동결…이번에도 연장 불가피했다\"",
@@ -1001,7 +371,7 @@
      "time": "2026-11-15 16:59"
     }
    ],
-   "id": "20261116-23"
+   "id": "20261117-09"
   },
   {
    "title": "개미들 다시 ‘빚투’… 마통 4년 3개월만에 최다",
@@ -1038,7 +408,7 @@
      "time": "2026-11-15 05:49"
     }
    ],
-   "id": "20261116-24"
+   "id": "20261117-10"
   },
   {
    "title": "[포토] NH농협금융, 김장김치 나눔 봉사",
@@ -1069,7 +439,7 @@
      "time": "2026-11-14 16:54"
     }
    ],
-   "id": "20261116-25"
+   "id": "20261117-11"
   },
   {
    "title": "\"한국 IP 대역 유망\"…북한 라자루스, 국내 서버 30곳 노렸다",
@@ -1106,112 +476,7 @@
      "time": "2026-11-15 07:45"
     }
    ],
-   "id": "20261116-26"
-  },
-  {
-   "title": "배춧값 3분의 1 내렸다…4인 김장비 28만8500원, 2020년대 최저",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-16 08:37",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "배춧값 3분의 1 내렸다…4인 김장비 28만8500원, 2020년대 최저",
-     "link": "https://www.donga.com/news/Economy/article/all/20261116/135029558/1",
-     "time": "2026-11-16 08:37"
-    },
-    {
-     "source": "뉴시스",
-     "title": "배추값 3분의 1 내렸다…4인 김장비 28만8500원, 2020년대 최저",
-     "link": "https://www.newsis.com/view/NISX20261116_0003868954",
-     "time": "2026-11-16 08:30"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "올해 4인 가족 김장비용 28만8천원…2020년대 들어 '최저'",
-     "link": "https://www.yna.co.kr/view/AKR20261114032700030",
-     "time": "2026-11-16 07:00"
-    }
-   ],
-   "id": "20261116-27"
-  },
-  {
-   "title": "‘석유 최고가격’ 4주간 동결…“중동 불안 여전, 물가 안정 고려”",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "‘석유 최고가격’ 4주간 동결…“중동 불안 여전, 물가 안정 고려”",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287274.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "국제유가 내렸지만…정부, 석유 최고가격 또 동결",
-     "link": "https://www.khan.co.kr/article/202611131801001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-15 09:32"
-    },
-    {
-     "source": "한국경제",
-     "title": "정부, 석유 최고가격 이번에도 동결",
-     "link": "https://www.hankyung.com/article/2026111358851",
-     "time": "2026-11-13 18:00"
-    }
-   ],
-   "id": "20261116-28"
-  },
-  {
-   "title": "정부, 구글社 고정밀 지도 조건이행 확인…반출 허가 마침표(1보)",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "한겨레"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "국내 ‘구글 지도’ 고정밀로 바뀐다…정부, 구글 보안이행 확인",
-     "link": "https://www.hani.co.kr/arti/economy/it/1287253.html",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "SBS",
-     "title": "정부 \"구글, 고정밀 지도 좌표 제거·영상 보안 처리 이행\"",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008844798&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-13 13:58"
-    },
-    {
-     "source": "뉴시스",
-     "title": "정부, 구글 고정밀지도 반출 보안이행 확인…위반 시 허가 회수(종합)",
-     "link": "https://www.newsis.com/view/NISX20261113_0003867044",
-     "time": "2026-11-13 12:26"
-    },
-    {
-     "source": "뉴시스",
-     "title": "정부, 구글社 고정밀 지도 조건이행 확인…반출 허가 마침표(1보)",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866643",
-     "time": "2026-11-13 12:12"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보]정부, 구글社 고정밀 지도 반출 조건이행 확인",
-     "link": "https://www.newsis.com/view/NISX20261113_0003866707",
-     "time": "2026-11-13 12:01"
-    }
-   ],
-   "id": "20261116-29"
+   "id": "20261117-12"
   },
   {
    "title": "병사 도박·빚투 차단 나선 금감원…대부업 일반 신용대출 막는다",
@@ -1242,7 +507,7 @@
      "time": "2026-11-15 21:01"
     }
    ],
-   "id": "20261116-30"
+   "id": "20261117-13"
   },
   {
    "title": "청년 노동자 46%가 ‘비정규직’…통계 공표 이래 최고",
@@ -1273,7 +538,7 @@
      "time": "2026-11-15 10:20"
     }
    ],
-   "id": "20261116-31"
+   "id": "20261117-14"
   },
   {
    "title": "정부, 데이터센터 지방 분산 위해 수도권 건설 기준 강화",
@@ -1304,7 +569,7 @@
      "time": "2026-11-15 12:00"
     }
    ],
-   "id": "20261116-32"
+   "id": "20261117-15"
   },
   {
    "title": "LG전자, 테네시 공장 8년 만에 세탁가전 누적 생산 1000만대 돌파",
@@ -1341,7 +606,285 @@
      "time": "2026-11-15 17:24"
     }
    ],
-   "id": "20261116-33"
+   "id": "20261117-16"
+  },
+  {
+   "title": "‘젠슨 황 퇴진’에도 3% 넘게 오르던 코스피, 외인 ‘팔자’에 하락 마감",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "한겨레"
+   ],
+   "latest": "2026-11-16 11:02",
+   "items": [
+    {
+     "source": "SBS",
+     "title": "코스피, 젠슨 황 파장 속 보합권 등락…외국인 '팔자'",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008847443&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-16 11:02"
+    },
+    {
+     "source": "한겨레",
+     "title": "‘젠슨 황 퇴진’에도 3% 넘게 오르던 코스피, 외인 ‘팔자’에 하락 마감",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287255.html",
+     "time": "2026-11-16 09:32"
+    },
+    {
+     "source": "경향신문",
+     "title": "젠슨 황 리스크에 외인 ‘팔자’…코스피 5300선 아래로",
+     "link": "https://www.khan.co.kr/article/202611131654001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-15 09:32"
+    }
+   ],
+   "id": "20261117-17"
+  },
+  {
+   "title": "3분기 '239조' 영업이익 중 190조가 '삼전닉스'",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "동아일보",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-17 10:30",
+   "items": [
+    {
+     "source": "SBS",
+     "title": "3분기 '239조' 영업이익 중 190조가 '삼전닉스'",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008849232&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-17 10:30"
+    },
+    {
+     "source": "동아일보",
+     "title": "TYM, 올 3분기 질주… 영업이익 경쟁사 대동의 12배",
+     "link": "https://www.donga.com/news/list/article/all/20261117/135037292/2",
+     "time": "2026-11-17 09:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "동부건설, 3분기 누적 영업이익 428억원…작년 대비 147%↑",
+     "link": "https://www.yna.co.kr/view/AKR20261117045800003",
+     "time": "2026-11-17 09:47"
+    },
+    {
+     "source": "SBS",
+     "title": "500대 기업 3분기 영업익 236%↑…삼전닉스 빼면 불과 2%↑",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008849051&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-17 09:01"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "두산건설, 3분기 영업이익 271억원…전년 대비 40% 감소",
+     "link": "https://www.yna.co.kr/view/AKR20261114029100003",
+     "time": "2026-11-14 11:44"
+    }
+   ],
+   "id": "20261117-18"
+  },
+  {
+   "title": "코인원, 외주업체 해킹 당해 고객 개인정보 유출",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-17 12:11",
+   "items": [
+    {
+     "source": "연합뉴스",
+     "title": "시민단체, 금융권 해킹 개인정보 유출 규탄…\"보안체계 점검\"",
+     "link": "https://www.yna.co.kr/view/AKR20261117088100004",
+     "time": "2026-11-17 12:11"
+    },
+    {
+     "source": "경향신문",
+     "title": "코인원, 외주업체 해킹 당해 고객 개인정보 유출",
+     "link": "https://www.khan.co.kr/article/202611151528011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-16 09:32"
+    },
+    {
+     "source": "SBS",
+     "title": "코인원,  외주업체 해킹 당해 고객 개인정보 유출",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008846463&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-15 11:19"
+    }
+   ],
+   "id": "20261117-19"
+  },
+  {
+   "title": "BTS 공연 때와 같은 ‘바가지 숙박’ 근절…예약 일방 취소 시 2배 배상",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "한겨레"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "BTS 공연 때와 같은 ‘바가지 숙박’ 근절…예약 일방 취소 시 2배 배상",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287565.html",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "숙박업체, 일방 예약 취소 땐 ‘2배 배상’",
+     "link": "https://www.khan.co.kr/article/202611162038005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "BTS 공연 때처럼 숙박비 더 받으려 예약 취소?···일방 취소 시 요금 ‘두 배’ 배상",
+     "link": "https://www.khan.co.kr/article/202611161455001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "SBS",
+     "title": "BTS 공연 때처럼 숙박 예약 일방 취소 안된다…총요금 200% 배상",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008847471&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-16 10:36"
+    }
+   ],
+   "id": "20261117-20"
+  },
+  {
+   "title": "은행 예금경쟁 탓 코픽스 2년8개월 만에 최고…주담대 금리 최저 5% 육박",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "매일경제",
+    "한겨레"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "은행 예금경쟁 탓 코픽스 2년8개월 만에 최고…주담대 금리 최저 5% 육박",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1287557.html",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "주요 은행 주담대 변동금리 17일부터 최고 연 6.51%로",
+     "link": "https://www.khan.co.kr/article/202611162034015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "매일경제",
+     "title": "“주담대 금리 다시 들썩인다”…신규 코픽스 2년 8개월 만에 최고",
+     "link": "https://www.mk.co.kr/news/economy/12209978",
+     "time": "2026-11-17 00:49"
+    }
+   ],
+   "id": "20261117-21"
+  },
+  {
+   "title": "강남권 서리풀1지구 주택 79% 임대로",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "강남권 서리풀1지구 주택 79% 임대로",
+     "link": "https://www.hani.co.kr/arti/economy/property/1287554.html",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "서리풀1지구 주택 10채 중 8채 임대…주민 “내 집 마련 기회 줄어” 반발",
+     "link": "https://www.khan.co.kr/article/202611160822011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-16 09:32"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "서리풀1지구 주택 79% 임대로…미리내집에 장기공공임대 추가",
+     "link": "https://www.yna.co.kr/view/AKR20261115043700003",
+     "time": "2026-11-16 06:03"
+    }
+   ],
+   "id": "20261117-22"
+  },
+  {
+   "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 합격자 성적 재점검",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "뉴시스",
+    "한겨레"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "세무사 최종합격자 성적, 최근 3∼5년치 재점검한다",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287549.html",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "경향신문",
+     "title": "세무사 시험 AI 부정행위에 정부 “최근 3~5년 합격자 성적 재점검”",
+     "link": "https://www.khan.co.kr/article/202611161622001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "뉴시스",
+     "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 성적 재점검(종합)",
+     "link": "https://www.newsis.com/view/NISX20261116_0003870313",
+     "time": "2026-11-16 17:16"
+    },
+    {
+     "source": "뉴시스",
+     "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 합격자 성적 재점검",
+     "link": "https://www.newsis.com/view/NISX20261116_0003870111",
+     "time": "2026-11-16 15:54"
+    },
+    {
+     "source": "뉴시스",
+     "title": "[속보]정부, 최근 3~5년간 세무사 시험 합격자 성적 특이사항 재점검",
+     "link": "https://www.newsis.com/view/NISX20261116_0003870047",
+     "time": "2026-11-16 15:32"
+    }
+   ],
+   "id": "20261117-23"
+  },
+  {
+   "title": "한국 OLED, 출하량 기준 중국 제치고 1위 탈환",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-17 12:19",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "한국 OLED, 출하량 기준 중국 제치고 1위 탈환",
+     "link": "https://www.khan.co.kr/article/202611171112001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    },
+    {
+     "source": "SBS",
+     "title": "한국 OLED 점유율 68%…중국 제치고 2년 만에 출하량 1위도 탈환",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008849330&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-17 10:27"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "한국, 중국 수입시장 6개월째 1위…미국선 9→6위",
+     "link": "https://www.yna.co.kr/view/AKR20261113170500003",
+     "time": "2026-11-14 07:01"
+    }
+   ],
+   "id": "20261117-24"
   }
  ]
 }
