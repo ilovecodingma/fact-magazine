@@ -5,6 +5,7 @@
 필요한 것: ① 파이썬(기본 기능만) ② Edge·Chrome 중 하나 ③ ffmpeg (없으면 안내 문구가 나옵니다 — 런북 10절)
 사용: python shorts.py                 notes/ 의 모든 노트(예시 제외)로 만들기
       python shorts.py notes/2026-11-11-export.json   한 편만
+      python shorts.py posts/<글 이름>.md             사이트의 글 한 편으로(제목 → 글의 첫머리 → 소제목과 사이트 이름)
 결과: shorts/<노트 id>.mp4 + shorts/<노트 id>.txt (제목·설명 글)"""
 import glob, html, json, os, re, shutil, subprocess, sys, tempfile, wave
 try:
@@ -74,6 +75,27 @@ def scenes(note, name, url):
     return [s1, s2, s3]
 
 
+def post_scenes(path, name, url):
+    """사이트의 글(posts/*.md) → 장면 3개와 제목·설명 글. 글에 있는 문장만 쓴다(지어 넣지 않는다)."""
+    lines = open(path, encoding='utf-8').read().splitlines()
+    title = next((l[2:].strip() for l in lines if l.startswith('# ')), os.path.splitext(os.path.basename(path))[0])
+    meta = dict(m.groups() for m in (re.match(r'^(부제|태그|날짜):\s*(.+)$', l) for l in lines[:8]) if m)
+    heads = [l[3:].strip() for l in lines if l.startswith('## ')]
+    para = [re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', l).replace('*', '').replace('`', '').strip() for l in lines
+            if l.strip() and not re.match(r'^(#|\||>|!|-|\d+\.|부제:|태그:|날짜:)', l.strip())]
+    sents = [x.strip() for x in re.split(r'(?<=[.?!])\s+', ' '.join(para[:3])) if x.strip()]
+    facts = [x for x in sents if clip(x, 100)][:3]
+    s1 = (f'<div class="lb">{E(meta.get("태그", "새 글"))}</div><h1>{E(title)}</h1>' + (f'<p class="fact">{E(meta["부제"])}</p>' if meta.get('부제') else ''),
+          title + '. ' + meta.get('부제', ''))
+    s2 = ('<div class="lb">이런 이야기입니다</div>' + ''.join(f'<p class="fact">{E(x)}</p>' for x in facts), ' '.join(facts) or title)
+    hs = [h for h in heads if clip(h, 40)][:4]
+    foot = f'<div class="foot"><b>{E(name)}</b><br>{E(url) if url else "글 전체는 사이트에서"}</div>'
+    s3 = ('<div class="lb">글에서 다루는 것</div>' + (''.join(f'<p class="fact">· {E(h)}</p>' for h in hs) or f'<p class="fact">{E(title)}</p>') + f'</div>{foot}<div>',
+          ('글에서 다루는 것입니다. ' + ', '.join(hs) + '. ' if hs else '') + f'글 전체는 {name}에서 읽을 수 있습니다.')
+    desc = (meta['부제'] + '\n' if meta.get('부제') else '') + ' '.join(facts) + (f'\n\n글 전체: {url}/' if url else '\n\n(공개 주소가 정해지면 글 주소를 여기에 넣습니다)')
+    return {'id': os.path.splitext(os.path.basename(path))[0], 'date': meta.get('날짜', ''), 'title': title, 'desc': desc}, [s1, s2, s3]
+
+
 PAGE = """<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
 *{box-sizing:border-box}html,body{margin:0;width:1080px;height:1920px;background:#fff;color:#111;overflow:hidden}
 body{font-family:'Noto Serif KR','Nanum Myeongjo','Batang',serif;padding:120px 90px 420px;position:relative}
@@ -136,9 +158,13 @@ def gate(ff, out, voiced):
 
 
 def make(note_path, ff, br):
-    note = json.load(open(note_path, encoding='utf-8'))
     name, url = site()
-    sc = scenes(note, name, url)
+    post = note_path.lower().endswith('.md')
+    if post:
+        note, sc = post_scenes(note_path, name, url)
+    else:
+        note = json.load(open(note_path, encoding='utf-8'))
+        sc = scenes(note, name, url)
     os.makedirs(OUT, exist_ok=True)
     tmp = tempfile.mkdtemp(prefix='shorts_')
     parts = []
@@ -182,7 +208,7 @@ def make(note_path, ff, br):
     title = f'{note["title"]} | {name}'
     if len(title) > 95:
         title = f'{note["title"][:80]}… | {name}'
-    desc = f'{note["question"]}\n판정: {note["verdict"]}\n{note["summary"]}\n\n공식 자료로 한 번 더 확인합니다.' + (f'\n노트 전문: {url}/n/{note["id"]}/' if url else '\n(공개 주소가 정해지면 노트 주소를 여기에 넣습니다)')
+    desc = note['desc'] if post else f'{note["question"]}\n판정: {note["verdict"]}\n{note["summary"]}\n\n공식 자료로 한 번 더 확인합니다.' + (f'\n노트 전문: {url}/n/{note["id"]}/' if url else '\n(공개 주소가 정해지면 노트 주소를 여기에 넣습니다)')
     open(os.path.join(OUT, note['id'] + '.txt'), 'w', encoding='utf-8').write(f'제목\n{title}\n\n설명\n{desc}\n')
     return out
 
