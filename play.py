@@ -306,7 +306,7 @@ def status_cmd(R, rest=None):
          ('운영팀', any('맛보기' in a for a in autos), f'사람 없이 돈 것 {sum(1 for a in autos if "맛보기" in a)}번 · 방송 화면 {"켜 봄" if any("방송" in a for a in autos) else "아직"} · 날마다 예약 {"걸림" if sched else "아직"}')]
     lv = sum(1 for _, ok, _ in q if ok)
     nxt = next((n for n, ok, _ in q if not ok), None)
-    hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 줘」', '운영팀': '「3장을 진행해 보자」'}
+    hint = {'만들었다': '「시작하자」', '고쳐 봤다': '바꾸고 싶은 것을 한 줄로(세 번이면 열립니다)', '올렸다': '「올려 줘」', '운영팀': '「운영팀 코스를 해 보자」'}
     name = L.get('name') or ''
     if not name and '가게' in mirrors:
         try:
@@ -320,7 +320,7 @@ def status_cmd(R, rest=None):
         print(f'│ {"■" if ok else "□"} {n:<6} {d}')
     first = bool(q[0][1]) and bool(q[1][1])   # 만들었다·올렸다 = 첫 결과물
     if first and nxt:
-        print('│ 이어서: 바꾸고 싶은 것을 한 줄로 말해 보세요(순서대로 따라가는 코스는 「1장을 진행해 보자」「2장을…」「3장을…」)')
+        print('│ 이어서: 바꾸고 싶은 것을 한 줄로 말해 보세요(순서대로 따라가는 코스가 필요하면 「글 사이트 코스를 해 보자」·「가게 코스」·「운영팀 코스」)')
     else:
         print('│ 다음에 열리는 것: ' + (f'{nxt} — {hint[nxt]}' if nxt else '없음 — 이제부터는 차례가 없습니다'))
     print('└' + '─' * 52)

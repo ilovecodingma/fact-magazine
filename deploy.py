@@ -150,7 +150,10 @@ def main():
         if os.path.exists(pg):
             shutil.copyfile(pg, os.path.join(DIST, 'app', 'index.html'))
         print('앱(APK)과 내려받기 화면을 /app/ 에 같이 올립니다', flush=True)
-    rc, who = npx('whoami', DIST, 90); logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
+    rc, who = npx('whoami', DIST, 90)
+    if rc != 0 and 'Logged out' not in who and 'No existing credentials' not in who:   # 도구를 처음 내려받는 중이거나 응답이 늦어 판정이 안 된 것: 한 번 더 묻는다(로그인돼 있는데 임시 배포로 가서 실패하던 것)
+        time.sleep(2); rc, who = npx('whoami', DIST, 120)
+    logged = rc == 0 and 'Logged out' not in who and 'Error' not in who
     link = os.path.join(DIST, '.vercel'); mode = 'in' if logged else 'out'; mf = os.path.join(link, '_mode.txt')
     if os.path.isdir(link) and (open(mf, encoding='utf-8').read().strip() if os.path.exists(mf) else '') != mode:
         shutil.rmtree(link, ignore_errors=True)   # 로그인 상태가 바뀌었으면 예전에 이어 둔 기록은 쓸 수 없다(그대로 두면 배포가 멈춰 선다)

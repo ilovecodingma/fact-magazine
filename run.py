@@ -11,7 +11,7 @@
       python run.py 예제정리 [--yes]          주제를 바꿀 때 notes/ 의 예제 노트를 예제/ 로 옮김(독자에게 먼저 묻는다)
       python run.py 올리기전                  구문 검사 + 장·키트·조립·사이클 명령을 한 번씩 실제로 돌려 보기(올리기 전 필수)
       python run.py 진도 [보기|기록 글]        어디까지 했는지
-      python run.py 장 1                      장 진행 파일 경로(코스/1장.md)
+      python run.py 장 1                      코스 진행 파일 경로(1 글사이트 · 2 가게 · 3 운영팀 — 코스/글사이트.md)
       python run.py 묶음 [이름]               기능 지도의 여덟 묶음(이름 없으면 목록). 이름을 주면 그 묶음 키트를 켜서 붙이고 하나씩 시험
       python run.py 켜기 계산기 [용어 …]       키트를 켜고 다시 찍어 메뉴·쪽에 생겼는지 한 줄로 확인(끄기 도 같은 모양)
       python run.py 지금                      내 사이트에 지금 켜져 있는 것 목록과 메뉴
@@ -1838,7 +1838,7 @@ def main():
         return 0
     if cmd in ('장', 'chapter'):
         n = rest[0] if rest else '1'
-        p = os.path.join(HERE, '코스', f'{n}장.md'); print(p if os.path.exists(p) else f'코스/{n}장.md 가 없습니다'); return 0
+        nm = {'1': '글사이트', '2': '가게', '3': '운영팀'}.get(str(n), str(n)); p = os.path.join(HERE, '코스', nm + '.md'); print(p if os.path.exists(p) else f'코스/{nm}.md 가 없습니다'); return 0
     print(__doc__); return 1
 
 
