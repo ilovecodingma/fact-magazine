@@ -1,7 +1,203 @@
 {
- "made_at": "2026-11-19 02:08",
- "article_count": 1938,
+ "made_at": "2026-11-20 01:57",
+ "article_count": 2145,
  "topics": [
+  {
+   "title": "한국 수출 1조달러 돌파…독일·미국·중국 이어 세계 4번째",
+   "media_count": 8,
+   "media": [
+    "SBS",
+    "경향신문",
+    "뉴시스",
+    "동아일보",
+    "매일경제",
+    "연합뉴스",
+    "한겨레",
+    "한국경제"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "한국 수출 1조달러 돌파…독일·미국·중국 이어 세계 4번째",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288128.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "경향신문",
+     "title": "[속보]한국 연 수출 1조달러 달성…독·미·중 이어 세계 네번째",
+     "link": "https://www.khan.co.kr/article/202611191429001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "한국경제",
+     "title": "\"세계 4번째 대기록\"…수출 1조달러 돌파에 홈런볼 쏜다",
+     "link": "https://www.hankyung.com/article/202611208860g",
+     "time": "2026-11-20 07:55"
+    },
+    {
+     "source": "동아일보",
+     "title": "한국 수출 1조달러 돌파… 獨-美-中 이어 네번째",
+     "link": "https://www.donga.com/news/Economy/article/all/20261119/135056121/2",
+     "time": "2026-11-20 00:30"
+    },
+    {
+     "source": "매일경제",
+     "title": "[속보] 한국 수출 꿈의 ‘1조달러’ 달성…미·독·중 이어 4번째",
+     "link": "https://www.mk.co.kr/news/economy/12213566",
+     "time": "2026-11-19 23:35"
+    },
+    {
+     "source": "매일경제",
+     "title": "[속보] 한국 수출 ‘꿈의 1조달러’ 세계 4번째 달성…일본 제쳤다",
+     "link": "https://www.mk.co.kr/news/economy/12213558",
+     "time": "2026-11-19 23:30"
+    },
+    {
+     "source": "SBS",
+     "title": "한국 수출 1조 달러 돌파…일본 넘어 세계 4대 수출 강국",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008853893&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-19 14:43"
+    },
+    {
+     "source": "뉴시스",
+     "title": "[속보]한국, 관세장벽 뚫고 수출 1조弗 돌파…美·中·獨 이어 네 번째",
+     "link": "https://www.newsis.com/view/NISX20261119_0003875005",
+     "time": "2026-11-19 14:30"
+    },
+    {
+     "source": "매일경제",
+     "title": "일본도 못 넘은 ‘수출 1조 달러’ 초읽기…가발 팔던 한국, 세계 4번째 기록",
+     "link": "https://www.mk.co.kr/news/economy/12211993",
+     "time": "2026-11-18 17:42"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "세계 4번째 수출 1조달러 초읽기…돼지털 팔던 나라의 기적",
+     "link": "https://www.yna.co.kr/view/AKR20261117142400003",
+     "time": "2026-11-18 05:55"
+    },
+    {
+     "source": "동아일보",
+     "title": "韓, 세계 4번째 年수출 1조달러… 日도 못 세운 기록",
+     "link": "https://www.donga.com/news/Economy/article/all/20261118/135043029/2",
+     "time": "2026-11-18 04:30"
+    }
+   ],
+   "id": "20261120-01"
+  },
+  {
+   "title": "“세무사 수석은 우리 도움” 버젓이 마케팅…중어권 텔레그램서 ‘AI 커닝’ 장비 거래",
+   "media_count": 6,
+   "media": [
+    "SBS",
+    "경향신문",
+    "뉴시스",
+    "동아일보",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "AI 커닝에 시험공화국도 들켰다 [두런두런AI ㉚]",
+     "link": "https://www.hani.co.kr/arti/economy/it/1288193.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[소셜＋] AI 커닝 시대에 소환된 '막노동 서울대 수석' 장승수",
+     "link": "https://www.yna.co.kr/view/AKR20261119135500505",
+     "time": "2026-11-20 07:00"
+    },
+    {
+     "source": "뉴시스",
+     "title": "\"대치동 몸테크, 이제 끝나나\"…AI 커닝 사태가 흔든 '학군지 집값'의 미래",
+     "link": "https://www.newsis.com/view/NISX20261119_0003874947",
+     "time": "2026-11-20 06:36"
+    },
+    {
+     "source": "한겨레",
+     "title": "중국 텔레그램서 ‘AI 커닝 장비’ 거래 활개…구독자 2만 넘기도",
+     "link": "https://www.hani.co.kr/arti/economy/it/1287881.html",
+     "time": "2026-11-19 11:08"
+    },
+    {
+     "source": "동아일보",
+     "title": "AI 커닝에 뚫린 시험…해답은 소크라테스에 있다?[딥다이브]",
+     "link": "https://www.donga.com/news/Economy/article/all/20261118/135044607/1",
+     "time": "2026-11-19 10:00"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[수능] \"AI 커닝 대책 스트레스도 받지만 모든 것 쏟아부을 것\"(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261119029051064",
+     "time": "2026-11-19 09:07"
+    },
+    {
+     "source": "SBS",
+     "title": "\"AI 기록 요청, 60%만 응했다\"…커닝 확인 가능?",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008852524&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-18 23:47"
+    },
+    {
+     "source": "한겨레",
+     "title": "‘AI 커닝’ 막으려 시험지에 ‘AI 함정’ 심는다…역발상 연구 주목",
+     "link": "https://www.hani.co.kr/arti/economy/it/1287701.html",
+     "time": "2026-11-18 11:40"
+    },
+    {
+     "source": "경향신문",
+     "title": "“세무사 수석은 우리 도움” 버젓이 마케팅…중어권 텔레그램서 ‘AI 커닝’ 장비 거래",
+     "link": "https://www.khan.co.kr/article/202611180953001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-18 11:40"
+    },
+    {
+     "source": "경향신문",
+     "title": "‘AI 커닝’ 기술에 뒤처진 안전장치…“제조사 책임 기준 세워야”",
+     "link": "https://www.khan.co.kr/article/202611172025015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-18 11:40"
+    },
+    {
+     "source": "경향신문",
+     "title": "AI 커닝에 제조사 책임론 커질까…AI 안경 안전장치 강화해도 우회 수법 진화 ‘딜레마’",
+     "link": "https://www.khan.co.kr/article/202611171638001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-18 11:40"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "중국어권 텔레그램서 'AI 커닝' 장비 거래…금전 요구 논란까지(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261118036051017",
+     "time": "2026-11-18 11:23"
+    },
+    {
+     "source": "뉴시스",
+     "title": "'AI 커닝'에 놀란 정부…국가자격시험 대응 예산 182억 증액",
+     "link": "https://www.newsis.com/view/NISX20261117_0003871922",
+     "time": "2026-11-17 16:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "AI 커닝 장비 구매처까지 SNS 확산…정부, 유통 방지 나선다(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261116170051017",
+     "time": "2026-11-17 11:56"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[쇼츠] \"수험생께 죄송\"…'AI 커닝 자수' 세무사 수석 경찰 출석",
+     "link": "https://www.yna.co.kr/view/AKR20261117082400704",
+     "time": "2026-11-17 11:30"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "靑, 'AI 부정행위 대응 TF' 구성…'수능 커닝' 대처방안 논의",
+     "link": "https://www.yna.co.kr/view/AKR20261117079800001",
+     "time": "2026-11-17 11:21"
+    }
+   ],
+   "id": "20261120-02"
+  },
   {
    "title": "[단독] 공정위, 쿠팡·김범석 고발 의견…“총수 지정자료 허위 제출”",
    "media_count": 5,
@@ -45,7 +241,7 @@
      "time": "2026-11-17 19:07"
     }
    ],
-   "id": "20261119-01"
+   "id": "20261120-03"
   },
   {
    "title": "아파트 리모델링, 내년부터 동의율 75%→70%로 완화",
@@ -96,7 +292,7 @@
      "time": "2026-11-17 12:08"
     }
    ],
-   "id": "20261119-02"
+   "id": "20261120-04"
   },
   {
    "title": "공정위, 투썸플레이스 조사 착수…가맹점에 고가물품 강매 의혹",
@@ -147,7 +343,7 @@
      "time": "2026-11-17 12:19"
     }
    ],
-   "id": "20261119-03"
+   "id": "20261120-05"
   },
   {
    "title": "이혜훈 ‘40억 로또’ 반포 아파트 날아갈 판…국토부, 조합에 계약 취소 요청",
@@ -210,7 +406,7 @@
      "time": "2026-11-18 10:32"
     }
    ],
-   "id": "20261119-04"
+   "id": "20261120-06"
   },
   {
    "title": "[속보] IMF, 올해 한국 성장률 3.9% 전망…반도체 호조에 한달새 0.6%p↑",
@@ -267,45 +463,7 @@
      "time": "2026-11-17 14:19"
     }
    ],
-   "id": "20261119-05"
-  },
-  {
-   "title": "‘롯데 3세’ 신유열, 입사 6년 만에 사장 승진…그룹 경영전략 총괄",
-   "media_count": 4,
-   "media": [
-    "SBS",
-    "경향신문",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-17 12:19",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "‘롯데 3세’ 신유열, 입사 6년 만에 사장 승진…그룹 경영전략 총괄",
-     "link": "https://www.hani.co.kr/arti/economy/marketing/1287567.html",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "“오너 3세 경영 본격화”…신동빈 롯데 장남 신유열, 사장 승진",
-     "link": "https://www.khan.co.kr/article/202611161440021/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "한국경제",
-     "title": "롯데 신유열, 사장 승진…그룹 경영전략 총괄한다",
-     "link": "https://www.hankyung.com/article/2026111601581",
-     "time": "2026-11-16 18:24"
-    },
-    {
-     "source": "SBS",
-     "title": "'롯데 3세' 신유열, 사장 승진…그룹 경영전략 총괄 담당",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008848112&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-16 15:28"
-    }
-   ],
-   "id": "20261119-06"
+   "id": "20261120-07"
   },
   {
    "title": "카카오뱅크, 몽골 'M뱅크'에 전략적 투자…2대 주주로",
@@ -343,162 +501,145 @@
      "time": "2026-11-18 09:13"
     }
    ],
-   "id": "20261119-07"
+   "id": "20261120-08"
   },
   {
-   "title": "코스피, 2%대 상승 출발…장중 '5천피' 회복",
-   "media_count": 4,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-19 10:07",
-   "items": [
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 상승 출발 후 보합권에서 등락",
-     "link": "https://www.yna.co.kr/view/AKR20261119055000008",
-     "time": "2026-11-19 10:07"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "3%대 급반등하다 '뚝'…코스피, 보합권에서 등락",
-     "link": "https://www.yna.co.kr/view/AKR20261118087600008",
-     "time": "2026-11-18 11:28"
-    },
-    {
-     "source": "동아일보",
-     "title": "코스피, 엔비디아 호실적에 5100선 회복…장 초반 3% 상승",
-     "link": "https://www.donga.com/news/Economy/article/all/20261118/135044080/1",
-     "time": "2026-11-18 09:38"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 엔비디아 호실적에 2%대 상승…장중 '5천피' 탈환(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261118047900008",
-     "time": "2026-11-18 09:31"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 2%대 상승 출발…장중 '5천피' 회복",
-     "link": "https://www.yna.co.kr/view/AKR20261118040800008",
-     "time": "2026-11-18 09:06"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 코스피 2%대 상승 출발…장중 '5천피' 회복",
-     "link": "https://www.yna.co.kr/view/AKR20261118039500008",
-     "time": "2026-11-18 09:02"
-    },
-    {
-     "source": "뉴시스",
-     "title": "엔화, 美 AI 관련주 약세에 달러 매도로 1달러=159엔대 중반 상승 출발",
-     "link": "https://www.newsis.com/view/NISX20261117_0003871124",
-     "time": "2026-11-17 10:26"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피, 젠슨 황 파장 속 보합권 등락…외국인 '팔자'",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008847443&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-16 11:02"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 상승 출발 후 보합권에서 등락",
-     "link": "https://www.yna.co.kr/view/AKR20261116029600008",
-     "time": "2026-11-16 09:08"
-    }
-   ],
-   "id": "20261119-08"
-  },
-  {
-   "title": "코스피, 앤트로픽 상장 앞두고 1%대↓…상승출발후 하락전환(종합)",
+   "title": "이병철 삼성 창업회장 39주기, 용인 선영서 추도식",
    "media_count": 4,
    "media": [
     "경향신문",
-    "매일경제",
-    "연합뉴스",
+    "뉴시스",
+    "동아일보",
     "한국경제"
    ],
-   "latest": "2026-11-19 17:14",
+   "latest": "2026-11-20 04:30",
    "items": [
     {
-     "source": "매일경제",
-     "title": "앤트로픽 상장,  한국의 시험대 [김세형칼럼]",
-     "link": "https://www.mk.co.kr/news/columnists/12213223",
-     "time": "2026-11-19 17:14"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[특징주] 삼전·닉스, 앤트로픽 상장 앞두고 장 초반 1~2%대 하락",
-     "link": "https://www.yna.co.kr/view/AKR20261119060100008",
-     "time": "2026-11-19 10:39"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 앤트로픽 상장 앞두고 1%대↓…상승출발후 하락전환(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261119063200008",
-     "time": "2026-11-19 10:37"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[마켓뷰] '앤트로픽 상장' 기대감? 경계감?…코스피 향방은",
-     "link": "https://www.yna.co.kr/view/AKR20261119019300008",
-     "time": "2026-11-19 07:59"
-    },
-    {
-     "source": "경향신문",
-     "title": "엔비디아 실적·앤트로픽 상장…이번주 증시 향방 최대 가늠자",
-     "link": "https://www.khan.co.kr/article/202611152035005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "경향신문",
-     "title": "이번주 코스피 ‘젠슨황 쇼크’ 벗어날까···앤트로픽 상장까지 ‘AI 신뢰’ 시험대",
-     "link": "https://www.khan.co.kr/article/202611151527001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
+     "source": "동아일보",
+     "title": "이병철 삼성 창업회장 39주기, 용인 선영서 추도식",
+     "link": "https://www.donga.com/news/People/article/all/20261120/135057509/2",
+     "time": "2026-11-20 04:30"
     },
     {
      "source": "한국경제",
-     "title": "\"앤트로픽 상장, 장기 악재…대규모 IPO 후 증시 부진\"-유진",
-     "link": "https://www.hankyung.com/article/2026111680016",
-     "time": "2026-11-16 08:03"
-    }
-   ],
-   "id": "20261119-09"
-  },
-  {
-   "title": "똑같은 ‘AI 커닝’ 회계사 시험은 1차 탈락…세무사 합격 효력정지 추진",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "한겨레"
-   ],
-   "latest": "2026-11-16 09:32",
-   "items": [
+     "title": "삼성, 호암미술관서 이병철 창업회장 추도식",
+     "link": "https://www.hankyung.com/article/2026111982371",
+     "time": "2026-11-19 18:32"
+    },
     {
-     "source": "한겨레",
-     "title": "똑같은 ‘AI 커닝’ 회계사 시험은 1차 탈락…세무사 합격 효력정지 추진",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287392.html",
-     "time": "2026-11-16 09:32"
+     "source": "뉴시스",
+     "title": "호암 이병철 삼성 창업회장 39주기 추도식 [뉴시스Pic]",
+     "link": "https://www.newsis.com/view/NISX20261119_0003874973",
+     "time": "2026-11-19 15:08"
     },
     {
      "source": "경향신문",
-     "title": "재경부 “세무사시험 AI 부정행위자 합격 효력정지 논의”",
-     "link": "https://www.khan.co.kr/article/202611151201001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
+     "title": "이병철 삼성 창업회장 39주기···범삼성가 추도식",
+     "link": "https://www.khan.co.kr/article/202611190810001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-19 11:08"
+    }
+   ],
+   "id": "20261120-09"
+  },
+  {
+   "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
+   "media_count": 4,
+   "media": [
+    "동아일보",
+    "연합뉴스",
+    "한겨레",
+    "한국경제"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "삼성전자 전영현·노태문 투톱 유지…안정 속 세대교체 지속",
+     "link": "https://www.hani.co.kr/arti/economy/marketing/1288279.html",
+     "time": "2026-11-20 10:57"
     },
     {
      "source": "동아일보",
-     "title": "세무사 시험도 ‘AI 커닝’, 공정성 무너져… 수능 사흘앞 비상",
-     "link": "https://www.donga.com/news/Society/article/all/20261116/135028858/2",
-     "time": "2026-11-16 04:30"
+     "title": "삼성전자, 전영현·노태문 투톱 유지…메모리·모바일 수장엔 새 얼굴",
+     "link": "https://www.donga.com/news/Economy/article/all/20261120/135058747/2",
+     "time": "2026-11-20 09:53"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성전자, 반도체 전영현·갤럭시 노태문 '투톱' 유지",
+     "link": "https://www.yna.co.kr/view/AKR20261120040100003",
+     "time": "2026-11-20 09:21"
+    },
+    {
+     "source": "한국경제",
+     "title": "삼성전자, 전영현·노태문 '투톱 체제' 유지…반도체서 사장 3명 승진",
+     "link": "https://www.hankyung.com/article/202611209098i",
+     "time": "2026-11-20 09:18"
+    },
+    {
+     "source": "한국경제",
+     "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
+     "link": "https://www.hankyung.com/article/2026112091377",
+     "time": "2026-11-20 09:04"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
+     "link": "https://www.yna.co.kr/view/AKR20261120029900003",
+     "time": "2026-11-20 09:01"
+    },
+    {
+     "source": "한국경제",
+     "title": "삼성전자 '투톱' 유지…메모리 대거 승진 전망",
+     "link": "https://www.hankyung.com/article/2026111982761",
+     "time": "2026-11-19 18:07"
     }
    ],
-   "id": "20261119-10"
+   "id": "20261120-10"
+  },
+  {
+   "title": "반포현대 재초환 부담금 179억 ‘연내 부과’ 확정…“서초구와 동일 해석”",
+   "media_count": 4,
+   "media": [
+    "SBS",
+    "경향신문",
+    "뉴시스",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "반포현대 재초환 부담금 179억 ‘연내 부과’ 확정…“서초구와 동일 해석”",
+     "link": "https://www.hani.co.kr/arti/economy/property/1288129.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "경향신문",
+     "title": "반포현대 재초환 부담금 연내 부과 확정",
+     "link": "https://www.khan.co.kr/article/202611192049015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "경향신문",
+     "title": "반포현대 올해 말까지 재초환 부담금 내야 한다",
+     "link": "https://www.khan.co.kr/article/202611191629001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "SBS",
+     "title": "국토부 \"재초환 부과 기한 연장 안돼\"…반포현대 연내 부과 전망",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008854047&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-19 15:40"
+    },
+    {
+     "source": "뉴시스",
+     "title": "국토부 \"재초환 부과 시한 연장 불가\"…반포현대 179억 부담금 현실화",
+     "link": "https://www.newsis.com/view/NISX20261119_0003875165",
+     "time": "2026-11-19 14:41"
+    }
+   ],
+   "id": "20261120-11"
   },
   {
    "title": "3분기 '239조' 영업이익 중 190조가 '삼전닉스'",
@@ -535,149 +676,7 @@
      "time": "2026-11-17 09:01"
     }
    ],
-   "id": "20261119-11"
-  },
-  {
-   "title": "BTS 공연 때와 같은 ‘바가지 숙박’ 근절…예약 일방 취소 시 2배 배상",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "경향신문",
-    "한겨레"
-   ],
-   "latest": "2026-11-17 12:19",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "BTS 공연 때와 같은 ‘바가지 숙박’ 근절…예약 일방 취소 시 2배 배상",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287565.html",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "숙박업체, 일방 예약 취소 땐 ‘2배 배상’",
-     "link": "https://www.khan.co.kr/article/202611162038005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "BTS 공연 때처럼 숙박비 더 받으려 예약 취소?···일방 취소 시 요금 ‘두 배’ 배상",
-     "link": "https://www.khan.co.kr/article/202611161455001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "SBS",
-     "title": "BTS 공연 때처럼 숙박 예약 일방 취소 안된다…총요금 200% 배상",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008847471&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-16 10:36"
-    }
-   ],
-   "id": "20261119-12"
-  },
-  {
-   "title": "은행 예금경쟁 탓 코픽스 2년8개월 만에 최고…주담대 금리 최저 5% 육박",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-17 12:19",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "은행 예금경쟁 탓 코픽스 2년8개월 만에 최고…주담대 금리 최저 5% 육박",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1287557.html",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "주요 은행 주담대 변동금리 17일부터 최고 연 6.51%로",
-     "link": "https://www.khan.co.kr/article/202611162034015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "매일경제",
-     "title": "“주담대 금리 다시 들썩인다”…신규 코픽스 2년 8개월 만에 최고",
-     "link": "https://www.mk.co.kr/news/economy/12209978",
-     "time": "2026-11-17 00:49"
-    }
-   ],
-   "id": "20261119-13"
-  },
-  {
-   "title": "강남권 서리풀1지구 주택 79% 임대로",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-17 12:19",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "강남권 서리풀1지구 주택 79% 임대로",
-     "link": "https://www.hani.co.kr/arti/economy/property/1287554.html",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "서리풀1지구 주택 10채 중 8채 임대…주민 “내 집 마련 기회 줄어” 반발",
-     "link": "https://www.khan.co.kr/article/202611160822011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-16 09:32"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "서리풀1지구 주택 79% 임대로…미리내집에 장기공공임대 추가",
-     "link": "https://www.yna.co.kr/view/AKR20261115043700003",
-     "time": "2026-11-16 06:03"
-    }
-   ],
-   "id": "20261119-14"
-  },
-  {
-   "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 합격자 성적 재점검",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "한겨레"
-   ],
-   "latest": "2026-11-17 12:19",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "세무사 최종합격자 성적, 최근 3∼5년치 재점검한다",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1287549.html",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "경향신문",
-     "title": "세무사 시험 AI 부정행위에 정부 “최근 3~5년 합격자 성적 재점검”",
-     "link": "https://www.khan.co.kr/article/202611161622001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "뉴시스",
-     "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 성적 재점검(종합)",
-     "link": "https://www.newsis.com/view/NISX20261116_0003870313",
-     "time": "2026-11-16 17:16"
-    },
-    {
-     "source": "뉴시스",
-     "title": "정부, 세무사 수석 '시험 무효' 절차 착수…최근 3~5년치 합격자 성적 재점검",
-     "link": "https://www.newsis.com/view/NISX20261116_0003870111",
-     "time": "2026-11-16 15:54"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보]정부, 최근 3~5년간 세무사 시험 합격자 성적 특이사항 재점검",
-     "link": "https://www.newsis.com/view/NISX20261116_0003870047",
-     "time": "2026-11-16 15:32"
-    }
-   ],
-   "id": "20261119-15"
+   "id": "20261120-12"
   },
   {
    "title": "현대차-어촌어항공단, 지역 맞춤형 모빌리티 서비스 추진",
@@ -708,7 +707,7 @@
      "time": "2026-11-18 09:02"
     }
    ],
-   "id": "20261119-16"
+   "id": "20261120-13"
   },
   {
    "title": "KIEP, 내년 세계 성장률 3.2%로 상향···AI 투자 둔화·미중 갈등 변수",
@@ -745,7 +744,7 @@
      "time": "2026-11-17 15:00"
     }
    ],
-   "id": "20261119-17"
+   "id": "20261120-14"
   },
   {
    "title": "LG OLED TV, 유럽 7개국 소비자매체 평가 ‘1위’",
@@ -776,7 +775,7 @@
      "time": "2026-11-17 10:00"
     }
    ],
-   "id": "20261119-18"
+   "id": "20261120-15"
   },
   {
    "title": "수능 영어듣기 35분간 전국 ‘비행 금지’…비행기·헬리콥터·드론 모두 멈춘다",
@@ -807,160 +806,18 @@
      "time": "2026-11-17 11:00"
     }
    ],
-   "id": "20261119-19"
+   "id": "20261120-16"
   },
   {
-   "title": "일본도 못 넘은 ‘수출 1조 달러’ 초읽기…가발 팔던 한국, 세계 4번째 기록",
-   "media_count": 3,
-   "media": [
-    "동아일보",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-18 17:42",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "일본도 못 넘은 ‘수출 1조 달러’ 초읽기…가발 팔던 한국, 세계 4번째 기록",
-     "link": "https://www.mk.co.kr/news/economy/12211993",
-     "time": "2026-11-18 17:42"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "세계 4번째 수출 1조달러 초읽기…돼지털 팔던 나라의 기적",
-     "link": "https://www.yna.co.kr/view/AKR20261117142400003",
-     "time": "2026-11-18 05:55"
-    },
-    {
-     "source": "동아일보",
-     "title": "韓, 세계 4번째 年수출 1조달러… 日도 못 세운 기록",
-     "link": "https://www.donga.com/news/Economy/article/all/20261118/135043029/2",
-     "time": "2026-11-18 04:30"
-    }
-   ],
-   "id": "20261119-20"
-  },
-  {
-   "title": "\"반도체 호조 지속땐 내년 4%대 성장도 가능\"",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "매일경제"
-   ],
-   "latest": "2026-11-19 02:37",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "\"반도체 호조 지속땐 내년 4%대 성장도 가능\"",
-     "link": "https://www.mk.co.kr/news/economy/12212768",
-     "time": "2026-11-19 02:37"
-    },
-    {
-     "source": "뉴시스",
-     "title": "3.9%까지 뛴 내년 성장 전망…'반도체 쏠림' 취약성도 더 커진다",
-     "link": "https://www.newsis.com/view/NISX20261118_0003873173",
-     "time": "2026-11-18 17:59"
-    },
-    {
-     "source": "경향신문",
-     "title": "한국 반도체 지속 성장 ‘소부장 생태계’ 공간으로…SK하이닉스 용인 팹 가보니",
-     "link": "https://www.khan.co.kr/article/202611162032025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    }
-   ],
-   "id": "20261119-21"
-  },
-  {
-   "title": "삼성전자 평택사업장 등 대한민국 안전대상 수상",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-19 04:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "삼성전자 평택사업장 등 대한민국 안전대상 수상",
-     "link": "https://www.donga.com/news/People/article/all/20261119/135050662/2",
-     "time": "2026-11-19 04:30"
-    },
-    {
-     "source": "뉴시스",
-     "title": "한국부동산원, '대한민국 안전대상' 행안부장관상 수상",
-     "link": "https://www.newsis.com/view/NISX20261118_0003873333",
-     "time": "2026-11-18 14:45"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[게시판] DB하이텍, 대한민국 안전대상 행정안전부 장관상",
-     "link": "https://www.yna.co.kr/view/AKR20261118053900003",
-     "time": "2026-11-18 10:13"
-    },
-    {
-     "source": "뉴시스",
-     "title": "우미건설, '대한민국 조경대상' 산림청장상 수상",
-     "link": "https://www.newsis.com/view/NISX20261118_0003872646",
-     "time": "2026-11-18 10:13"
-    }
-   ],
-   "id": "20261119-22"
-  },
-  {
-   "title": "광주, 반도체 인재들 살 집 늘리기 속도",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "매일경제"
-   ],
-   "latest": "2026-11-19 04:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "광주, 반도체 인재들 살 집 늘리기 속도",
-     "link": "https://www.donga.com/news/Society/article/all/20261118/135049640/2",
-     "time": "2026-11-19 04:30"
-    },
-    {
-     "source": "경향신문",
-     "title": "“아이 초등학교 가니 절반은 주말부부”…‘일터 따로 삶터 따로’ 김천살이 10년이 광주 반도체에 묻는 것",
-     "link": "https://www.khan.co.kr/article/202611170600061/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-17 12:19"
-    },
-    {
-     "source": "매일경제",
-     "title": "반도체는 호남으로, 자율차는 광주로…30일부터 도시단위 실증시험",
-     "link": "https://www.mk.co.kr/news/economy/12209545",
-     "time": "2026-11-16 15:04"
-    }
-   ],
-   "id": "20261119-23"
-  },
-  {
-   "title": "앤트로픽, 공모가 83달러…역대 최대 IPO",
+   "title": "앤트로픽, 공모가 주당 83달러 확정…예상보다 약 10달러 높아",
    "media_count": 3,
    "media": [
     "SBS",
     "뉴시스",
     "한국경제"
    ],
-   "latest": "2026-11-19 10:28",
+   "latest": "2026-11-19 09:03",
    "items": [
-    {
-     "source": "SBS",
-     "title": "앤트로픽, 공모가 83달러…역대 최대 IPO",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008853248&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-19 10:28"
-    },
-    {
-     "source": "뉴시스",
-     "title": "日닛케이 0.15% 상승 출발…앤트로픽 IPO 기대 반영",
-     "link": "https://www.newsis.com/view/NISX20261119_0003874395",
-     "time": "2026-11-19 10:08"
-    },
     {
      "source": "SBS",
      "title": "앤트로픽, 공모가 83달러…스페이스X 제치고 역대 최대 IPO",
@@ -987,18 +844,6 @@
     },
     {
      "source": "뉴시스",
-     "title": "뉴욕증시, 앤트로픽 공모가 주시하며 혼조 마감…나스닥 0.42%↑",
-     "link": "https://www.newsis.com/view/NISX20261119_0003874124",
-     "time": "2026-11-19 06:31"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[속보] 뉴욕증시, 앤트로픽 공모가 앞두고 혼조 마감…나스닥 0.42%↑",
-     "link": "https://www.newsis.com/view/NISX20261119_0003874126",
-     "time": "2026-11-19 06:05"
-    },
-    {
-     "source": "뉴시스",
      "title": "앤트로픽 IPO 흥행할까…공모가 주당 80달러 상향 가능성",
      "link": "https://www.newsis.com/view/NISX20261118_0003872809",
      "time": "2026-11-18 11:31"
@@ -1010,7 +855,7 @@
      "time": "2026-11-18 10:17"
     }
    ],
-   "id": "20261119-24"
+   "id": "20261120-17"
   },
   {
    "title": "LH, 발주부터 계약·착공까지 기간 단축…긴급 입찰 등 활용",
@@ -1041,38 +886,7 @@
      "time": "2026-11-19 09:33"
     }
    ],
-   "id": "20261119-25"
-  },
-  {
-   "title": "중국 텔레그램서 ‘AI 커닝 장비’ 거래 활개…구독자 2만 넘기도",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-19 11:08",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "중국 텔레그램서 ‘AI 커닝 장비’ 거래 활개…구독자 2만 넘기도",
-     "link": "https://www.hani.co.kr/arti/economy/it/1287881.html",
-     "time": "2026-11-19 11:08"
-    },
-    {
-     "source": "경향신문",
-     "title": "“세무사 수석은 우리 도움” 버젓이 마케팅…중어권 텔레그램서 ‘AI 커닝’ 장비 거래",
-     "link": "https://www.khan.co.kr/article/202611180953001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-18 11:40"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "중국어권 텔레그램서 'AI 커닝' 장비 거래…금전 요구 논란까지(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261118036051017",
-     "time": "2026-11-18 11:23"
-    }
-   ],
-   "id": "20261119-26"
+   "id": "20261120-18"
   },
   {
    "title": "산은 \"한국금융지주와 KDB생명 매각 협상 종료\"…7번째 실패(종합)",
@@ -1115,38 +929,7 @@
      "time": "2026-11-18 09:04"
     }
    ],
-   "id": "20261119-27"
-  },
-  {
-   "title": "대형 금융사 보안 취약점 점검 연 2회로…IT자산 관리 의무화",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-19 11:08",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "대형 금융사 보안 취약점 점검 연 2회로…IT자산 관리 의무화",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1287860.html",
-     "time": "2026-11-19 11:08"
-    },
-    {
-     "source": "경향신문",
-     "title": "기반 프로그램 ‘자바’도 보안 취약점",
-     "link": "https://www.khan.co.kr/article/202611182039015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-19 11:08"
-    },
-    {
-     "source": "매일경제",
-     "title": "금융사 전 IT자산 식별·관리 의무화…금융당국 전자금융감독규정 개정",
-     "link": "https://www.mk.co.kr/news/economy/12212420",
-     "time": "2026-11-19 00:12"
-    }
-   ],
-   "id": "20261119-28"
+   "id": "20261120-19"
   },
   {
    "title": "은행 대출 연체율 0.59%…9월 기준 10년 만에 최고",
@@ -1177,38 +960,7 @@
      "time": "2026-11-18 06:00"
     }
    ],
-   "id": "20261119-29"
-  },
-  {
-   "title": "젠슨 황 없는 엔비디아 실적, 시장 전망 웃돌아…삼성·하닉 주가 반등",
-   "media_count": 3,
-   "media": [
-    "동아일보",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-19 11:08",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "젠슨 황 없는 엔비디아 실적, 시장 전망 웃돌아…삼성·하닉 주가 반등",
-     "link": "https://www.hani.co.kr/arti/economy/marketing/1287957.html",
-     "time": "2026-11-19 11:08"
-    },
-    {
-     "source": "한국경제",
-     "title": "'젠슨 황'없는 엔비디아 첫 실적…하루 448조원 움직일수도",
-     "link": "https://www.hankyung.com/article/202611173105i",
-     "time": "2026-11-17 23:25"
-    },
-    {
-     "source": "동아일보",
-     "title": "엔비디아 주가 폭락에 “젠슨 황 복귀” 14만명 청원도",
-     "link": "https://www.donga.com/news/Economy/article/all/20261116/135028774/2",
-     "time": "2026-11-16 04:30"
-    }
-   ],
-   "id": "20261119-30"
+   "id": "20261120-20"
   },
   {
    "title": "4대 은행 ‘기업 깡통대출’ 3.7조…9개월 새 44% 급증",
@@ -1245,7 +997,7 @@
      "time": "2026-11-17 22:26"
     }
    ],
-   "id": "20261119-31"
+   "id": "20261120-21"
   },
   {
    "title": "“반도체, 내년 더 좋아”…경제성장률 대폭 상향",
@@ -1282,7 +1034,7 @@
      "time": "2026-11-18 11:40"
     }
    ],
-   "id": "20261119-32"
+   "id": "20261120-22"
   },
   {
    "title": "한한령 해방 신호탄 되나···한국 영화·게임, 중국서 ‘최혜국 대우’ 받는다",
@@ -1313,29 +1065,29 @@
      "time": "2026-11-19 04:30"
     }
    ],
-   "id": "20261119-33"
+   "id": "20261120-23"
   },
   {
    "title": "엔비디아, 또 다시 호실적 기록…복귀 의사 밝힌 젠슨 황에는 “재선임 계획 없어”",
    "media_count": 3,
    "media": [
+    "SBS",
     "경향신문",
-    "뉴시스",
-    "동아일보"
+    "뉴시스"
    ],
-   "latest": "2026-11-19 11:08",
+   "latest": "2026-11-19 16:30",
    "items": [
+    {
+     "source": "SBS",
+     "title": "[머니버스] 난무하는 '음모론' 속 복귀 의사 밝힌 젠슨 황…엔비디아 이끌 차기 후보군은?",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008854122&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-19 16:30"
+    },
     {
      "source": "경향신문",
      "title": "엔비디아, 또 다시 호실적 기록…복귀 의사 밝힌 젠슨 황에는 “재선임 계획 없어”",
      "link": "https://www.khan.co.kr/article/202611181549001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
      "time": "2026-11-19 11:08"
-    },
-    {
-     "source": "동아일보",
-     "title": "젠슨 황 없는 엔비디아, 또 사상 최고 매출… 복귀 의사엔 “계획 없다” 일축",
-     "link": "https://www.donga.com/news/Economy/article/all/20261118/135044649/1",
-     "time": "2026-11-18 10:40"
     },
     {
      "source": "뉴시스",
@@ -1350,7 +1102,384 @@
      "time": "2026-11-18 07:25"
     }
    ],
-   "id": "20261119-34"
+   "id": "20261120-24"
+  },
+  {
+   "title": "‘실손’ 1, 2세대→5세대 갈아타면 3년간 보험료 반값",
+   "media_count": 3,
+   "media": [
+    "동아일보",
+    "매일경제",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 00:30",
+   "items": [
+    {
+     "source": "동아일보",
+     "title": "‘실손’ 1, 2세대→5세대 갈아타면 3년간 보험료 반값",
+     "link": "https://www.donga.com/news/Economy/article/all/20261119/135056189/2",
+     "time": "2026-11-20 00:30"
+    },
+    {
+     "source": "매일경제",
+     "title": "금융위, 구형 실손 5세대로 갈아타면 3년간 ‘반값 할인’ 해주기로",
+     "link": "https://www.mk.co.kr/news/economy/12213472",
+     "time": "2026-11-19 23:01"
+    },
+    {
+     "source": "한겨레",
+     "title": "실손 1·2세대, ‘5세대 갈아타기’ 10%대 그쳐…“기존 혜택 더 중요”",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1287524.html",
+     "time": "2026-11-17 12:19"
+    }
+   ],
+   "id": "20261120-25"
+  },
+  {
+   "title": "서울역~금천구청 등 9개 철도 지하화 사업 신규 추진",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "동아일보",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 04:30",
+   "items": [
+    {
+     "source": "동아일보",
+     "title": "경부선 서울역~금천구청역 등 9개 철도노선 지하화",
+     "link": "https://www.donga.com/news/Society/article/all/20261120/135057324/2",
+     "time": "2026-11-20 04:30"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "광주역-송정역 철도노선 2㎞구간 지하화 추진",
+     "link": "https://www.yna.co.kr/view/AKR20261119150300054",
+     "time": "2026-11-19 18:10"
+    },
+    {
+     "source": "SBS",
+     "title": "서울역~금천구청 등 9개 철도 지하화 사업 신규 추진",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008854421&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-19 17:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "서울역∼금천구청 등 9개 철도 지하화 사업 신규 추진(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261119141351003",
+     "time": "2026-11-19 17:37"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "서울역∼금천구청 등 9개 철도 지하화 사업 신규 추진",
+     "link": "https://www.yna.co.kr/view/AKR20261119141300003",
+     "time": "2026-11-19 16:40"
+    }
+   ],
+   "id": "20261120-26"
+  },
+  {
+   "title": "코스피, 美 AI주 부진에 장 초반 3%대 급락…‘오천피’ 다시 반납",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "동아일보",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 09:16",
+   "items": [
+    {
+     "source": "동아일보",
+     "title": "코스피, 美 AI주 부진에 장 초반 3%대 급락…‘오천피’ 다시 반납",
+     "link": "https://www.donga.com/news/Economy/article/all/20261120/135058522/1",
+     "time": "2026-11-20 09:16"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "3%대 급반등하다 '뚝'…코스피, 보합권에서 등락",
+     "link": "https://www.yna.co.kr/view/AKR20261118087600008",
+     "time": "2026-11-18 11:28"
+    },
+    {
+     "source": "경향신문",
+     "title": "[속보]코스피 1.8% 급락에 5000선 위태",
+     "link": "https://www.khan.co.kr/article/202611170914001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-17 12:19"
+    }
+   ],
+   "id": "20261120-27"
+  },
+  {
+   "title": "IEA “호르무즈, 최대 공급 충격”…韓 에너지 수입의존도 세계 최고",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "동아일보",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 10:09",
+   "items": [
+    {
+     "source": "동아일보",
+     "title": "IEA “호르무즈, 최대 공급 충격”…韓 에너지 수입의존도 세계 최고",
+     "link": "https://www.donga.com/news/Economy/article/all/20261120/135058852/1",
+     "time": "2026-11-20 10:09"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "IEA \"호르무즈 사태, 역대 최대 에너지 충격…'전기의 시대' 진입\"",
+     "link": "https://www.yna.co.kr/view/AKR20261120051200530",
+     "time": "2026-11-20 10:02"
+    },
+    {
+     "source": "뉴시스",
+     "title": "IEA \"韓, 에너지 수입의존도 높아…재생에너지 보급으로 해소\"",
+     "link": "https://www.newsis.com/view/NISX20261120_0003876225",
+     "time": "2026-11-20 09:28"
+    }
+   ],
+   "id": "20261120-28"
+  },
+  {
+   "title": "정부, 노동시장 양극화 해법 찾기 착수…산업구조까지 살핀다",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "뉴시스",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 10:46",
+   "items": [
+    {
+     "source": "SBS",
+     "title": "정부, 노동시장 양극화 해법 찾기 착수…산업구조까지 살핀다",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855421&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-20 10:46"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "정부, 노동시장 이중구조 개선 착수…산업구조까지 들여다본다",
+     "link": "https://www.yna.co.kr/view/AKR20261120054400530",
+     "time": "2026-11-20 10:07"
+    },
+    {
+     "source": "뉴시스",
+     "title": "정부, 노동시장 양극화 개선 착수…불공정 거래 관행 살핀다",
+     "link": "https://www.newsis.com/view/NISX20261120_0003876336",
+     "time": "2026-11-20 10:04"
+    }
+   ],
+   "id": "20261120-29"
+  },
+  {
+   "title": "외국인 10월 국내 주식 26조원 팔았다…2개월째 순매도",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "10월에도 ‘셀 코리아’…외국인, 국내 주식 26조 팔았다",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1288297.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "경향신문",
+     "title": "외국인 10월 국내 주식 26조원 순매도···두 달째 매도 우위",
+     "link": "https://www.khan.co.kr/article/202611200728001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "외국인 10월 국내 주식 26조원 팔았다…2개월째 순매도",
+     "link": "https://www.yna.co.kr/view/AKR20261119169500002",
+     "time": "2026-11-20 06:00"
+    }
+   ],
+   "id": "20261120-30"
+  },
+  {
+   "title": "롯데손보, 액면감액 무상감자 결정…신한 편입 전 재무구조 개선",
+   "media_count": 3,
+   "media": [
+    "매일경제",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "롯데손보, 액면감액 무상감자 결정…신한 편입 전 재무구조 개선",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1288203.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "매일경제",
+     "title": "롯데손보, 무상감자 추진… 기본자본 4600억원 개선",
+     "link": "https://www.mk.co.kr/news/economy/12213829",
+     "time": "2026-11-20 02:40"
+    },
+    {
+     "source": "매일경제",
+     "title": "롯데손보, 10대1 무상감자 결정…기본자본 4600억원 개선 추진",
+     "link": "https://www.mk.co.kr/news/economy/12213728",
+     "time": "2026-11-20 02:03"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "롯데손보 무상감자 의결…신한 편입 전 재무구조 개선 추진(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261119146451002",
+     "time": "2026-11-19 17:43"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "롯데손보 무상감자 의결…신한 편입 전 재무구조 개선 추진",
+     "link": "https://www.yna.co.kr/view/AKR20261119146400002",
+     "time": "2026-11-19 16:55"
+    }
+   ],
+   "id": "20261120-31"
+  },
+  {
+   "title": "미성년 자녀 둔 ‘워킹맘’ 66% 역대 최고",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "동아일보",
+    "한겨레"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "워킹맘 고용률 66% 역대 최고…경력보유여성도 첫 100만명 아래로",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288113.html",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "경향신문",
+     "title": "미성년 자녀 둔 엄마, 고용률 역대 최고",
+     "link": "https://www.khan.co.kr/article/202611192049025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "동아일보",
+     "title": "미성년 자녀 둔 ‘워킹맘’ 66% 역대 최고",
+     "link": "https://www.donga.com/news/Economy/article/all/20261119/135056116/2",
+     "time": "2026-11-20 00:30"
+    }
+   ],
+   "id": "20261120-32"
+  },
+  {
+   "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "코스피, -4% 출발…다시 ‘5000피’ 아래로",
+     "link": "https://www.khan.co.kr/article/202611200911001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "SBS",
+     "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855134&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-20 09:41"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
+     "link": "https://www.yna.co.kr/view/AKR20261120037000008",
+     "time": "2026-11-20 09:07"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[속보] 코스피, 3~4%대 급락 출발…다시 '5천피' 아래로",
+     "link": "https://www.yna.co.kr/view/AKR20261120035400008",
+     "time": "2026-11-20 09:02"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "코스피, 2%대 하락…다시 장중 '5천피' 아래로",
+     "link": "https://www.yna.co.kr/view/AKR20261117035700008",
+     "time": "2026-11-17 09:07"
+    }
+   ],
+   "id": "20261120-33"
+  },
+  {
+   "title": "“환율 10% 하락하면 가구당 연간 생활비 16만5000원 줄어들지만…”",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "동아일보"
+   ],
+   "latest": "2026-11-20 10:57",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "“환율 10% 하락하면 가구당 연간 생활비 16만5000원 줄어들지만…”",
+     "link": "https://www.khan.co.kr/article/202611191624001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-20 10:57"
+    },
+    {
+     "source": "SBS",
+     "title": "한은 \"환율 10% 하락 시 가구당 생활비 연 16만 5천 원 절감\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855257&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-20 10:30"
+    },
+    {
+     "source": "동아일보",
+     "title": "“원-달러 환율 10% 하락하면 가구 생활비 年 16만원 절감”",
+     "link": "https://www.donga.com/news/Economy/article/all/20261119/135056114/2",
+     "time": "2026-11-20 00:30"
+    }
+   ],
+   "id": "20261120-34"
+  },
+  {
+   "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "매일경제",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-20 16:06",
+   "items": [
+    {
+     "source": "매일경제",
+     "title": "사과 29%·돼지고기 13%↓…생산자물가 석 달 만에 하락",
+     "link": "https://www.mk.co.kr/news/economy/12214218",
+     "time": "2026-11-20 16:06"
+    },
+    {
+     "source": "SBS",
+     "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855082&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-20 08:45"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
+     "link": "https://www.yna.co.kr/view/AKR20261119157000002",
+     "time": "2026-11-20 06:00"
+    }
+   ],
+   "id": "20261120-35"
   }
  ]
 }
