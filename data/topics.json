@@ -1,171 +1,76 @@
 {
- "made_at": "2026-11-23 01:15",
- "article_count": 1630,
+ "made_at": "2026-11-24 05:04",
+ "article_count": 1499,
  "topics": [
   {
-   "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
-   "media_count": 5,
+   "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정(종합)",
+   "media_count": 6,
    "media": [
     "경향신문",
     "동아일보",
+    "매일경제",
     "연합뉴스",
     "한겨레",
     "한국경제"
    ],
-   "latest": "2026-11-22 09:47",
+   "latest": "2026-11-24 14:04",
    "items": [
-    {
-     "source": "한겨레",
-     "title": "삼성전자 전영현·노태문 투톱 유지…안정 속 세대교체 지속",
-     "link": "https://www.hani.co.kr/arti/economy/marketing/1288279.html",
-     "time": "2026-11-22 09:47"
-    },
     {
      "source": "경향신문",
-     "title": "삼성전자, 전영현·노태문 투톱 체제 유지…큰 변화 없이 계속 간다",
-     "link": "https://www.khan.co.kr/article/202611201058001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
+     "title": "차기 은행연합회 회장에 박종복 전 SC제일은행장 내정",
+     "link": "https://www.khan.co.kr/article/202611231947005/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
     },
     {
-     "source": "한국경제",
-     "title": "삼성전자, 전영현·노태문 체제 재신임",
-     "link": "https://www.hankyung.com/article/202611200561i",
-     "time": "2026-11-20 17:02"
+     "source": "매일경제",
+     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 단독 추천",
+     "link": "https://www.mk.co.kr/news/economy/12215808",
+     "time": "2026-11-23 17:45"
     },
     {
-     "source": "동아일보",
-     "title": "삼성전자, 전영현·노태문 투톱 유지…메모리·모바일 수장엔 새 얼굴",
-     "link": "https://www.donga.com/news/Economy/article/all/20261120/135058747/2",
-     "time": "2026-11-20 09:53"
+     "source": "매일경제",
+     "title": "[속보] 은행연합회장 후보에 박종복 전 SC제일은행장 단독 추천",
+     "link": "https://www.mk.co.kr/news/economy/12215798",
+     "time": "2026-11-23 17:27"
     },
-    {
-     "source": "연합뉴스",
-     "title": "삼성전자, 반도체 전영현·갤럭시 노태문 '투톱' 유지",
-     "link": "https://www.yna.co.kr/view/AKR20261120040100003",
-     "time": "2026-11-20 09:21"
-    },
-    {
-     "source": "한국경제",
-     "title": "삼성전자, 전영현·노태문 '투톱 체제' 유지…반도체서 사장 3명 승진",
-     "link": "https://www.hankyung.com/article/202611209098i",
-     "time": "2026-11-20 09:18"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
-     "link": "https://www.hankyung.com/article/2026112091377",
-     "time": "2026-11-20 09:04"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 삼성전자 사장단 인사…전영현·노태문 '투톱' 체제 유지",
-     "link": "https://www.yna.co.kr/view/AKR20261120029900003",
-     "time": "2026-11-20 09:01"
-    }
-   ],
-   "id": "20261123-01"
-  },
-  {
-   "title": "한전, 고객 등 개인정보 152만여 건 유출…주민·계좌번호 포함",
-   "media_count": 5,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "동아일보",
-    "연합뉴스",
-    "한국경제"
-   ],
-   "latest": "2026-11-23 04:30",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "한전, 직원 이어 고객 152만명 정보 유출",
-     "link": "https://www.donga.com/news/Society/article/all/20261123/135070417/2",
-     "time": "2026-11-23 04:30"
-    },
-    {
-     "source": "한국경제",
-     "title": "한전도 뚫렸다…152만명 개인정보 유출",
-     "link": "https://www.hankyung.com/article/2026112225971",
-     "time": "2026-11-22 20:23"
-    },
-    {
-     "source": "SBS",
-     "title": "한전, 고객 등 개인정보 152만여 건 유출…주민·계좌번호 포함",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008857929&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-22 19:50"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "한전, 고객 등 개인정보 152만여건 유출…주민·계좌번호 포함(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261122042851003",
-     "time": "2026-11-22 19:24"
-    },
-    {
-     "source": "뉴시스",
-     "title": "한전, 고객 등 152만명 개인정보 유출 확인…김동철 사장 \"깊이 사과\"",
-     "link": "https://www.newsis.com/view/NISX20261122_0003878304",
-     "time": "2026-11-22 18:42"
-    }
-   ],
-   "id": "20261123-02"
-  },
-  {
-   "title": "내년 공동주택 공시가격 현실화율 69% 유지…5년 연속 동결",
-   "media_count": 5,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "동아일보",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-23 10:15",
-   "items": [
     {
      "source": "한겨레",
-     "title": "내년 공시가격 현실화율 69% 유지…5년째 동결",
-     "link": "https://www.hani.co.kr/arti/economy/property/1288367.html",
+     "title": "차기 은행연합회장에 박종복 전 SC제일은행장",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1288581.html",
      "time": "2026-11-23 10:15"
     },
     {
-     "source": "동아일보",
-     "title": "내년 부동산 공시가 현실화율 69%로 동결",
-     "link": "https://www.donga.com/news/Economy/article/all/20261120/135063731/2",
-     "time": "2026-11-21 01:40"
+     "source": "연합뉴스",
+     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261123021851002",
+     "time": "2026-11-23 08:39"
     },
     {
      "source": "동아일보",
-     "title": "내년 공시가격 현실화율 동결… 아파트값 올라 세 부담은 늘듯",
-     "link": "https://www.donga.com/news/Economy/article/all/20261120/135061423/1",
-     "time": "2026-11-20 16:59"
+     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정",
+     "link": "https://www.donga.com/news/Economy/article/all/20261123/135071021/1",
+     "time": "2026-11-23 08:29"
     },
     {
-     "source": "SBS",
-     "title": "내년 공동주택 공시가격 현실화율 69% 유지…5년 연속 동결",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008856202&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 16:56"
+     "source": "한국경제",
+     "title": "[속보] 차기 은행연합회장에 박종복 전 SC제일은행장",
+     "link": "https://www.hankyung.com/article/2026112330127",
+     "time": "2026-11-23 08:23"
     },
     {
      "source": "연합뉴스",
-     "title": "내년 공동주택 공시가격 현실화율 69% 유지…5년째 동결",
-     "link": "https://www.yna.co.kr/view/AKR20261120143400003",
-     "time": "2026-11-20 16:38"
+     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정",
+     "link": "https://www.yna.co.kr/view/AKR20261123021800002",
+     "time": "2026-11-23 08:22"
     },
     {
-     "source": "뉴시스",
-     "title": "공시가격 현실화율 5년 연속 동결 69%…\"세제개편·국민 수용성 고려\"(종합)",
-     "link": "https://www.newsis.com/view/NISX20261120_0003877151",
-     "time": "2026-11-20 16:27"
-    },
-    {
-     "source": "뉴시스",
-     "title": "내년도 공시가격 현실화율 69%로…5년 연속 동결",
-     "link": "https://www.newsis.com/view/NISX20261120_0003877085",
-     "time": "2026-11-20 16:00"
+     "source": "연합뉴스",
+     "title": "[속보] 은행연합회장 후보에 박종복 전 SC제일은행장 단독 추천",
+     "link": "https://www.yna.co.kr/view/AKR20261123020800002",
+     "time": "2026-11-23 08:18"
     }
    ],
-   "id": "20261123-03"
+   "id": "20261124-01"
   },
   {
    "title": "‘AI 투매’ 검은 월요일 공포…정부, 증안펀드 가동 준비 착수",
@@ -222,7 +127,7 @@
      "time": "2026-11-22 18:19"
     }
    ],
-   "id": "20261123-04"
+   "id": "20261124-02"
   },
   {
    "title": "시련의 '빚투'…40대 마통 연체액 올해 들어 82% 증가",
@@ -273,114 +178,166 @@
      "time": "2026-11-22 05:47"
     }
    ],
-   "id": "20261123-05"
+   "id": "20261124-03"
   },
   {
-   "title": "차기 은행연합회장에 박종복 전 SC제일은행장 단독 추천",
+   "title": "코스피, 젠슨 황 복귀에 5~6% 급등…매수 사이드카",
    "media_count": 5,
-   "media": [
-    "동아일보",
-    "매일경제",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-23 18:34",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "박종복 차기 은행연합회장 “시대 전환점에서 은행의 새 역할 모색”",
-     "link": "https://www.mk.co.kr/news/economy/12215843",
-     "time": "2026-11-23 18:34"
-    },
-    {
-     "source": "매일경제",
-     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 단독 추천",
-     "link": "https://www.mk.co.kr/news/economy/12215808",
-     "time": "2026-11-23 17:45"
-    },
-    {
-     "source": "매일경제",
-     "title": "[속보] 은행연합회장 후보에 박종복 전 SC제일은행장 단독 추천",
-     "link": "https://www.mk.co.kr/news/economy/12215798",
-     "time": "2026-11-23 17:27"
-    },
-    {
-     "source": "한겨레",
-     "title": "차기 은행연합회장에 박종복 전 SC제일은행장",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1288581.html",
-     "time": "2026-11-23 10:15"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261123021851002",
-     "time": "2026-11-23 08:39"
-    },
-    {
-     "source": "동아일보",
-     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정",
-     "link": "https://www.donga.com/news/Economy/article/all/20261123/135071021/1",
-     "time": "2026-11-23 08:29"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 차기 은행연합회장에 박종복 전 SC제일은행장",
-     "link": "https://www.hankyung.com/article/2026112330127",
-     "time": "2026-11-23 08:23"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "차기 은행연합회장에 박종복 전 SC제일은행장 내정",
-     "link": "https://www.yna.co.kr/view/AKR20261123021800002",
-     "time": "2026-11-23 08:22"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 은행연합회장 후보에 박종복 전 SC제일은행장 단독 추천",
-     "link": "https://www.yna.co.kr/view/AKR20261123020800002",
-     "time": "2026-11-23 08:18"
-    }
-   ],
-   "id": "20261123-06"
-  },
-  {
-   "title": "국토부, 테슬라 자율주행 특례 신청 퇴짜…“서류 부실”",
-   "media_count": 4,
    "media": [
     "SBS",
     "경향신문",
-    "뉴시스",
-    "동아일보"
+    "동아일보",
+    "연합뉴스",
+    "한겨레"
    ],
-   "latest": "2026-11-22 09:47",
+   "latest": "2026-11-24 14:04",
    "items": [
     {
-     "source": "경향신문",
-     "title": "국토부, 테슬라 자율주행 특례 신청 퇴짜…“서류 부실”",
-     "link": "https://www.khan.co.kr/article/202611201552001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
+     "source": "한겨레",
+     "title": "코스피 장 초반 6% 급등…젠슨 황 복귀로 투심 살아나",
+     "link": "https://www.hani.co.kr/arti/economy/finance/1288773.html",
+     "time": "2026-11-24 14:04"
     },
     {
-     "source": "SBS",
-     "title": "\"서류 부실\" 국토부 FSD 퇴짜 놓자…테슬라, 자료 보완해 제출 방침",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008856270&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 17:25"
+     "source": "경향신문",
+     "title": "[속보]코스피 3.6% 급등 출발, 장중 5000선 도달…젠슨 황 복귀 효과",
+     "link": "https://www.khan.co.kr/article/202611240908001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
     },
     {
      "source": "동아일보",
-     "title": "테슬라, 국내서 자율주행 특례 못 받나…국토부 “서류 부실”",
-     "link": "https://www.donga.com/news/Economy/article/all/20261120/135061788/1",
-     "time": "2026-11-20 17:06"
+     "title": "코스피, 젠슨 황 복귀에 5~6% 급등…매수 사이드카",
+     "link": "https://www.donga.com/news/Economy/article/all/20261124/135078567/2",
+     "time": "2026-11-24 09:14"
     },
     {
-     "source": "뉴시스",
-     "title": "정부, 테슬라 FSD 특례 신청 반려…승인 장기화 전망",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876991",
-     "time": "2026-11-20 15:48"
+     "source": "SBS",
+     "title": "[속보] 코스피 장초반 5∼6% 급등…매수 사이드카 발동",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008860229&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-24 09:09"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "[속보] 코스피 장초반 5∼6% 급등…매수 사이드카 발동",
+     "link": "https://www.yna.co.kr/view/AKR20261124038100008",
+     "time": "2026-11-24 09:06"
     }
    ],
-   "id": "20261123-07"
+   "id": "20261124-04"
+  },
+  {
+   "title": "홈플러스, 26일부터 온라인 배송 중단…\"신선식품 납품 10% 미만\"",
+   "media_count": 5,
+   "media": [
+    "SBS",
+    "경향신문",
+    "동아일보",
+    "연합뉴스",
+    "한국경제"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "홈플러스, 26일부터 상품수급 차질로 ‘온라인 배송’ 중단",
+     "link": "https://www.khan.co.kr/article/202611240902001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "SBS",
+     "title": "홈플러스, 26일부터 온라인 배송 중단…\"신선식품 납품 10% 미만\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008860880&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-24 13:21"
+    },
+    {
+     "source": "동아일보",
+     "title": "홈플러스, 재개 3개월 만에 온라인 배송 중단…예약 주문 취소·환불",
+     "link": "https://www.donga.com/news/Economy/article/all/20261124/135079289/1",
+     "time": "2026-11-24 10:29"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "홈플러스, 26일부터 온라인배송 중단…\"신선식품 납품 10% 미만\"(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261124019651030",
+     "time": "2026-11-24 10:17"
+    },
+    {
+     "source": "한국경제",
+     "title": "\"한 건이라도 더 팔아야 할 판에\"…홈플러스 온라인 배송 중단, 왜?",
+     "link": "https://www.hankyung.com/article/202611245858g",
+     "time": "2026-11-24 09:06"
+    }
+   ],
+   "id": "20261124-05"
+  },
+  {
+   "title": "'1조 달러' 한국 수출, 이달 중순도 역대 최대…반도체 4배 급증(종합)",
+   "media_count": 5,
+   "media": [
+    "SBS",
+    "경향신문",
+    "매일경제",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "4배 뛴 반도체 수출…편중 심화",
+     "link": "https://www.khan.co.kr/article/202611232026015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "경향신문",
+     "title": "내년에도 수출 1조 달러 전망…반도체가 절반, 산업도 ‘K자 양극화’ 우려",
+     "link": "https://www.khan.co.kr/article/202611231703001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "매일경제",
+     "title": "반도체 수출이 경상흑자 키웠지만…대외연 “투자부진도 흑자 한몫”",
+     "link": "https://www.mk.co.kr/news/economy/12216252",
+     "time": "2026-11-24 01:18"
+    },
+    {
+     "source": "매일경제",
+     "title": "내년 수출 14% 늘어 1조3000억달러…반도체 빼면 1.5% 증가에 그쳐",
+     "link": "https://www.mk.co.kr/news/economy/12216162",
+     "time": "2026-11-24 00:27"
+    },
+    {
+     "source": "한겨레",
+     "title": "11월 1~20일 수출 774억달러 신기록…반도체가 절반 이상",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288577.html",
+     "time": "2026-11-23 10:15"
+    },
+    {
+     "source": "SBS",
+     "title": "'반도체 4배 급증' 힘입어 이달 중순도 역대 최대 수출",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008858382&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-23 09:36"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "'1조 달러' 한국 수출, 이달 중순도 역대 최대…반도체 4배 급증(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261123030651002",
+     "time": "2026-11-23 09:11"
+    },
+    {
+     "source": "매일경제",
+     "title": "韓만 반도체 대박인 줄 알았더니”…中도 수출 108% 폭증",
+     "link": "https://www.mk.co.kr/news/economy/12215487",
+     "time": "2026-11-22 23:28"
+    },
+    {
+     "source": "SBS",
+     "title": "'수출 1조 달러' 한국, 세계 4위 전망…반도체 빼면 세계 8위",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008857438&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-22 09:15"
+    }
+   ],
+   "id": "20261124-06"
   },
   {
    "title": "경부선 소정리역서 화물열차 탈선…일반열차 운행 중지",
@@ -478,51 +435,7 @@
      "time": "2026-11-21 07:01"
     }
    ],
-   "id": "20261123-08"
-  },
-  {
-   "title": "공정위, 태양광 패널 담합 의혹 조사…한화솔루션 등 현장조사",
-   "media_count": 4,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-23 10:15",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "공정위, ‘태양광 발전 패널 담합 의혹’ 한화솔루션 조사",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288383.html",
-     "time": "2026-11-23 10:15"
-    },
-    {
-     "source": "SBS",
-     "title": "공정위, 한화솔루션 등 태양광 패널 담합 의혹 현장 조사",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855985&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 15:36"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "공정위, 한화솔루션 등 현장조사…태양광 패널 담합 의혹(종합)",
-     "link": "https://www.yna.co.kr/view/AKR20261120086251002",
-     "time": "2026-11-20 14:50"
-    },
-    {
-     "source": "뉴시스",
-     "title": "공정위, 태양광 패널 담합 의혹 조사…한화솔루션 등 현장조사",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876697",
-     "time": "2026-11-20 13:26"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "공정위, 한화솔루션 등 현장조사…태양광 발전 패널 담합 의혹",
-     "link": "https://www.yna.co.kr/view/AKR20261120086200002",
-     "time": "2026-11-20 12:06"
-    }
-   ],
-   "id": "20261123-09"
+   "id": "20261124-07"
   },
   {
    "title": "하나금융, 취약계층 어르신에 ‘안전용품·보행보조기’ 지원",
@@ -566,283 +479,178 @@
      "time": "2026-11-22 08:30"
     }
    ],
-   "id": "20261123-10"
+   "id": "20261124-08"
   },
   {
-   "title": "KB금융 이재근 회장 “리딩뱅크 넘어 ‘리딩플랫폼’ 돼야”",
+   "title": "한전, 고객 등 개인정보 152만여 건 유출…주민·계좌번호 포함",
    "media_count": 4,
-   "media": [
-    "매일경제",
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-23 19:11",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "KB금융 이재근 회장 “리딩뱅크 넘어 ‘리딩플랫폼’ 돼야”",
-     "link": "https://www.mk.co.kr/news/economy/12215871",
-     "time": "2026-11-23 19:11"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "이재근 KB금융 회장 취임…\"리딩뱅크에서 리딩플랫폼으로 전환\"",
-     "link": "https://www.yna.co.kr/view/AKR20261123033000002",
-     "time": "2026-11-23 09:12"
-    },
-    {
-     "source": "한겨레",
-     "title": "KB금융 회장에 이재근…“은행장 시절 ‘리딩뱅크’ 탈환 견인”",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1288353.html",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "한국경제",
-     "title": "KB금융 신임 회장에 이재근, 자본시장 경쟁력 강화 나선다",
-     "link": "https://www.hankyung.com/article/2026112006641",
-     "time": "2026-11-20 17:32"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "이재근 KB금융 회장 선임안 주총 통과…다음 주 취임",
-     "link": "https://www.yna.co.kr/view/AKR20261120059200002",
-     "time": "2026-11-20 10:22"
-    }
-   ],
-   "id": "20261123-11"
-  },
-  {
-   "title": "정부, 노동시장 양극화 해법 찾기 착수…산업구조까지 살핀다",
-   "media_count": 3,
    "media": [
     "SBS",
     "뉴시스",
-    "연합뉴스"
+    "연합뉴스",
+    "한국경제"
    ],
-   "latest": "2026-11-20 10:46",
+   "latest": "2026-11-24 10:01",
    "items": [
     {
+     "source": "한국경제",
+     "title": "[단독] 하나저축은행, 주민번호 포함 고객 552명 개인정보 유출",
+     "link": "https://www.hankyung.com/article/202611246052i",
+     "time": "2026-11-24 10:01"
+    },
+    {
      "source": "SBS",
-     "title": "정부, 노동시장 양극화 해법 찾기 착수…산업구조까지 살핀다",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855421&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 10:46"
+     "title": "한전, 고객 등 개인정보 152만여 건 유출…주민·계좌번호 포함",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008857929&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-22 19:50"
     },
     {
      "source": "연합뉴스",
-     "title": "정부, 노동시장 이중구조 개선 착수…산업구조까지 들여다본다",
-     "link": "https://www.yna.co.kr/view/AKR20261120054400530",
-     "time": "2026-11-20 10:07"
+     "title": "한전, 고객 등 개인정보 152만여건 유출…주민·계좌번호 포함(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261122042851003",
+     "time": "2026-11-22 19:24"
     },
     {
      "source": "뉴시스",
-     "title": "정부, 노동시장 양극화 개선 착수…불공정 거래 관행 살핀다",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876336",
-     "time": "2026-11-20 10:04"
+     "title": "한전, 고객 등 152만명 개인정보 유출 확인…김동철 사장 \"깊이 사과\"",
+     "link": "https://www.newsis.com/view/NISX20261122_0003878304",
+     "time": "2026-11-22 18:42"
     }
    ],
-   "id": "20261123-12"
+   "id": "20261124-09"
   },
   {
-   "title": "한국 수출 1조달러 돌파…독일·미국·중국 이어 세계 4번째",
-   "media_count": 3,
+   "title": "삼성전자 임원 131명 승진 인사…HBM·로봇 인재 발탁",
+   "media_count": 4,
    "media": [
     "경향신문",
-    "한겨레",
+    "동아일보",
+    "연합뉴스",
     "한국경제"
    ],
-   "latest": "2026-11-20 10:57",
+   "latest": "2026-11-24 14:04",
    "items": [
     {
-     "source": "한겨레",
-     "title": "한국 수출 1조달러 돌파…독일·미국·중국 이어 세계 4번째",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288128.html",
-     "time": "2026-11-20 10:57"
+     "source": "경향신문",
+     "title": "삼성전자 임원 131명 승진 인사…HBM·로봇 인재 발탁",
+     "link": "https://www.khan.co.kr/article/202611241114001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성바이오, 임원 승진 인사…30대 여성 임원 발탁(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261124087551017",
+     "time": "2026-11-24 13:57"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성전자, 9년만에 최소 131명 승진…반도체서만 70명 발탁(종합2보)",
+     "link": "https://www.yna.co.kr/view/AKR20261124044652003",
+     "time": "2026-11-24 13:48"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성바이오, 임원 승진 인사…30대 여성 임원 탄생",
+     "link": "https://www.yna.co.kr/view/AKR20261124087500017",
+     "time": "2026-11-24 11:43"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성전자, 임원 승진 줄여도 반도체 챙겼다…70명 발탁(종합)",
+     "link": "https://www.yna.co.kr/view/AKR20261124044651003",
+     "time": "2026-11-24 10:39"
+    },
+    {
+     "source": "동아일보",
+     "title": "삼성전자, HBM4 주역 등 임원 131명 승진…분기 100조 영업익에도 30명 줄어",
+     "link": "https://www.donga.com/news/Economy/article/all/20261124/135078922/1",
+     "time": "2026-11-24 09:56"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "삼성전자, 임원 승진 19% 줄였지만 반도체선 70명 대거 발탁",
+     "link": "https://www.yna.co.kr/view/AKR20261124044600003",
+     "time": "2026-11-24 09:35"
+    },
+    {
+     "source": "한국경제",
+     "title": "삼성전자, 임원인사 단행…부사장 39명 등 131명 승진",
+     "link": "https://www.hankyung.com/article/202611245923g",
+     "time": "2026-11-24 09:16"
     },
     {
      "source": "경향신문",
-     "title": "[속보]한국 연 수출 1조달러 달성…독·미·중 이어 세계 네번째",
-     "link": "https://www.khan.co.kr/article/202611191429001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-20 10:57"
-    },
-    {
-     "source": "한국경제",
-     "title": "\"세계 4번째 대기록\"…수출 1조달러 돌파에 홈런볼 쏜다",
-     "link": "https://www.hankyung.com/article/202611208860g",
-     "time": "2026-11-20 07:55"
+     "title": "LG그룹, AI 인프라·R&amp;D 인재 임원 발탁",
+     "link": "https://www.khan.co.kr/article/202611192045025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-22 09:47"
     }
    ],
-   "id": "20261123-13"
+   "id": "20261124-10"
   },
   {
-   "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
-   "media_count": 3,
+   "title": "'수출 1조달러' 한국, 세계 4위 전망…반도체 빼면 세계 8위",
+   "media_count": 4,
    "media": [
-    "SBS",
+    "경향신문",
     "매일경제",
-    "연합뉴스"
+    "연합뉴스",
+    "한겨레"
    ],
-   "latest": "2026-11-20 16:06",
+   "latest": "2026-11-24 14:04",
    "items": [
+    {
+     "source": "경향신문",
+     "title": "“내년 수출도 ‘1조달러’ 넘는다”",
+     "link": "https://www.khan.co.kr/article/202611232026035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
     {
      "source": "매일경제",
-     "title": "사과 29%·돼지고기 13%↓…생산자물가 석 달 만에 하락",
-     "link": "https://www.mk.co.kr/news/economy/12214218",
-     "time": "2026-11-20 16:06"
+     "title": "수출 1조달러 위업 이뤄낸 한국…코스피 우(憂) 범하지 않으려면 [기자24시]",
+     "link": "https://www.mk.co.kr/news/economy/12216435",
+     "time": "2026-11-24 02:54"
     },
     {
-     "source": "SBS",
-     "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855082&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 08:45"
+     "source": "경향신문",
+     "title": "올해 수출 ‘1조달러’, 1달러 지폐로 이으면 지구 3897바퀴…1분에 42억원어치 수출",
+     "link": "https://www.khan.co.kr/article/202611220700001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-23 10:15"
     },
     {
-     "source": "연합뉴스",
-     "title": "10월 생산자물가 0.1% 하락…사과 29.2%·돼지고기 12.8%↓",
-     "link": "https://www.yna.co.kr/view/AKR20261119157000002",
-     "time": "2026-11-20 06:00"
-    }
-   ],
-   "id": "20261123-14"
-  },
-  {
-   "title": "[1보] 'SM 주가조작' 혐의 카카오 김범수 2심도 무죄",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "동아일보",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-21 01:40",
-   "items": [
-    {
-     "source": "동아일보",
-     "title": "김범수, ‘SM 시세조종’ 혐의 2심서도 무죄",
-     "link": "https://www.donga.com/news/Society/article/all/20261120/135063735/2",
-     "time": "2026-11-21 01:40"
+     "source": "경향신문",
+     "title": "해태제과, 산업부와 ‘수출 1조달러 달성 기념’ 홈런볼 한정판 출시",
+     "link": "https://www.khan.co.kr/article/202611201006011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-22 09:47"
     },
     {
-     "source": "SBS",
-     "title": "'SM엔터 주가조작' 혐의 카카오 김범수 2심도 무죄",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855396&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 11:12"
+     "source": "경향신문",
+     "title": "수출 증가분 4분의 3이 반도체…1조달러 ‘축포’는 이르다",
+     "link": "https://www.khan.co.kr/article/202611200600035/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-22 09:47"
     },
     {
-     "source": "연합뉴스",
-     "title": "[2보] 'SM엔터 주가조작' 혐의 카카오 김범수 2심도 무죄",
-     "link": "https://www.yna.co.kr/view/AKR20261120066000004",
-     "time": "2026-11-20 10:39"
+     "source": "한겨레",
+     "title": "‘수출 1조달러’ 다음 날 산업부 장관 “메가특구법 절박, 초조”",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288337.html",
+     "time": "2026-11-22 09:47"
     },
     {
-     "source": "연합뉴스",
-     "title": "[1보] 'SM 주가조작' 혐의 카카오 김범수 2심도 무죄",
-     "link": "https://www.yna.co.kr/view/AKR20261120064800004",
-     "time": "2026-11-20 10:33"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'SM 주가조작' 카카오 김범수 항소심 오늘 선고…1심은 무죄",
-     "link": "https://www.yna.co.kr/view/AKR20261119175700004",
-     "time": "2026-11-20 08:00"
-    }
-   ],
-   "id": "20261123-15"
-  },
-  {
-   "title": "[포토] 경제6단체 만난 산업장관 \"메가특구법 절실\"",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-21 02:29",
-   "items": [
-    {
-     "source": "매일경제",
-     "title": "[포토] 경제6단체 만난 산업장관 \"메가특구법 절실\"",
-     "link": "https://www.mk.co.kr/news/economy/12214806",
-     "time": "2026-11-21 02:29"
-    },
-    {
-     "source": "뉴시스",
-     "title": "산업장관 \"메가특구법 제정에 혼신의 힘…이제는 R&amp;D 전쟁\"(종합)",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876755",
-     "time": "2026-11-20 14:14"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "산업장관, 경제6단체와 간담회…수출 질적성장 위한 협력 강조",
-     "link": "https://www.yna.co.kr/view/AKR20261120077100003",
-     "time": "2026-11-20 12:00"
-    }
-   ],
-   "id": "20261123-16"
-  },
-  {
-   "title": "'수출 1조 달러' 한국, 세계 4위 전망…반도체 빼면 세계 8위",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "뉴시스",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-22 09:15",
-   "items": [
-    {
-     "source": "SBS",
-     "title": "'수출 1조 달러' 한국, 세계 4위 전망…반도체 빼면 세계 8위",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008857438&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-22 09:15"
+     "source": "한겨레",
+     "title": "하루 1억원씩 쓰면 4만년 걸려…사상 첫 ‘수출 1조달러’",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288333.html",
+     "time": "2026-11-22 09:47"
     },
     {
      "source": "연합뉴스",
      "title": "'수출 1조달러' 한국, 세계 4위 전망…반도체 빼면 세계 8위",
      "link": "https://www.yna.co.kr/view/AKR20261120179700003",
      "time": "2026-11-22 06:15"
-    },
-    {
-     "source": "뉴시스",
-     "title": "[그래픽 경제] 한국 수출 '세계 4번째' 1조 달러 돌파…일본보다 먼저",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876950",
-     "time": "2026-11-20 15:59"
     }
    ],
-   "id": "20261123-17"
+   "id": "20261124-11"
   },
   {
-   "title": "외국인 10월 국내 주식 26조원 팔았다…2개월째 순매도",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "10월에도 ‘셀 코리아’…외국인, 국내 주식 26조 팔았다",
-     "link": "https://www.hani.co.kr/arti/economy/finance/1288297.html",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "경향신문",
-     "title": "외국인 10월 국내 주식 26조원 순매도···두 달째 매도 우위",
-     "link": "https://www.khan.co.kr/article/202611200728001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "외국인 10월 국내 주식 26조원 팔았다…2개월째 순매도",
-     "link": "https://www.yna.co.kr/view/AKR20261119169500002",
-     "time": "2026-11-20 06:00"
-    }
-   ],
-   "id": "20261123-18"
-  },
-  {
-   "title": "노동장관, 'AI 커닝' 사태 속 첫 국가자격시험 현장 점검",
+   "title": "AI 커닝에 흔들린 국가자격시험…평가 방식도 바꿔야 하나",
    "media_count": 3,
    "media": [
     "뉴시스",
@@ -886,200 +694,9 @@
      "title": "노동장관, 'AI 커닝' 사태 속 첫 국가자격시험 현장 점검",
      "link": "https://www.yna.co.kr/view/AKR20261121023800530",
      "time": "2026-11-21 10:12"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "\"수능 공정성 믿어도 되나요\"…'AI 커닝'에 입시설명회도 '술렁'",
-     "link": "https://www.yna.co.kr/view/AKR20261120160600530",
-     "time": "2026-11-20 17:59"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "'AI 커닝' 비상, 경기도 중등 교사 임용시험에 전파탐지기 투입",
-     "link": "https://www.yna.co.kr/view/AKR20261120082400061",
-     "time": "2026-11-20 12:05"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[소셜＋] AI 커닝 시대에 소환된 '막노동 서울대 수석' 장승수",
-     "link": "https://www.yna.co.kr/view/AKR20261119135500505",
-     "time": "2026-11-20 07:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "\"대치동 몸테크, 이제 끝나나\"…AI 커닝 사태가 흔든 '학군지 집값'의 미래",
-     "link": "https://www.newsis.com/view/NISX20261119_0003874947",
-     "time": "2026-11-20 06:36"
     }
    ],
-   "id": "20261123-19"
-  },
-  {
-   "title": "해태제과, 산업부와 ‘수출 1조달러 달성 기념’ 홈런볼 한정판 출시",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "매일경제",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "해태제과, 산업부와 ‘수출 1조달러 달성 기념’ 홈런볼 한정판 출시",
-     "link": "https://www.khan.co.kr/article/202611201006011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "매일경제",
-     "title": "수출 1조달러 달성 후...산업장관 “메가특구법, 꼭 통과돼야”",
-     "link": "https://www.mk.co.kr/news/economy/12214650",
-     "time": "2026-11-21 00:35"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "해태제과, 산업부와 수출 1조달러 달성 응원 '홈런볼' 출시",
-     "link": "https://www.yna.co.kr/view/AKR20261120030000030",
-     "time": "2026-11-20 08:53"
-    }
-   ],
-   "id": "20261123-20"
-  },
-  {
-   "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
-   "media_count": 3,
-   "media": [
-    "SBS",
-    "경향신문",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "코스피, -4% 출발…다시 ‘5000피’ 아래로",
-     "link": "https://www.khan.co.kr/article/202611200911001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "SBS",
-     "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
-     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008855134&plink=RSSLINK&cooper=RSSREADER",
-     "time": "2026-11-20 09:41"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "코스피, 4% 안팎 급락 출발…다시 '5천피' 아래로",
-     "link": "https://www.yna.co.kr/view/AKR20261120037000008",
-     "time": "2026-11-20 09:07"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[속보] 코스피, 3~4%대 급락 출발…다시 '5천피' 아래로",
-     "link": "https://www.yna.co.kr/view/AKR20261120035400008",
-     "time": "2026-11-20 09:02"
-    }
-   ],
-   "id": "20261123-21"
-  },
-  {
-   "title": "미성년 자녀 둔 엄마, 고용률 역대 최고",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "한겨레"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "미성년 자녀 둔 엄마, 고용률 역대 최고",
-     "link": "https://www.khan.co.kr/article/202611192049025/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "한겨레",
-     "title": "워킹맘 고용률 66% 역대 최고…경력보유여성도 첫 100만명 아래로",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288113.html",
-     "time": "2026-11-20 10:57"
-    },
-    {
-     "source": "경향신문",
-     "title": "미성년 자녀있는 기혼 여성 고용률 역대 최고···영유아 자녀 둔 여성 3명 중 1명 꼴로 그만둬",
-     "link": "https://www.khan.co.kr/article/202611191602011/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-20 10:57"
-    },
-    {
-     "source": "뉴시스",
-     "title": "어린 자녀 둔 엄마 고용률 60% 넘었지만…취업시간은 줄었다",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876411",
-     "time": "2026-11-20 10:57"
-    }
-   ],
-   "id": "20261123-22"
-  },
-  {
-   "title": "국회예산정책처 “소방 인건비 부족분, 국비로 메우면 연 3~7조 필요”",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "매일경제",
-    "한겨레"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "국회예산정책처 “소방 인건비 부족분, 국비로 메우면 연 3~7조 필요”",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288339.html",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "경향신문",
-     "title": "‘소방 재정 빨대’ 논란 후 국회 “인건비 국가가 다 대면 연 7조 필요, 분담률 법으로 정해야”",
-     "link": "https://www.khan.co.kr/article/202611201326001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "매일경제",
-     "title": "예산정책처 “소방 인건비 부족분 국비로 메우면 연 최대 7조 더 들어”",
-     "link": "https://www.mk.co.kr/news/economy/12213716",
-     "time": "2026-11-20 01:51"
-    }
-   ],
-   "id": "20261123-23"
-  },
-  {
-   "title": "주병기 “플랫폼사업자 시장력, 흉기 될 수도···기업 대변한 선동 난무”",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "뉴시스",
-    "연합뉴스"
-   ],
-   "latest": "2026-11-22 09:47",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "주병기 “플랫폼사업자 시장력, 흉기 될 수도···기업 대변한 선동 난무”",
-     "link": "https://www.khan.co.kr/article/202611201444001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "뉴시스",
-     "title": "주병기 \"플랫폼이 소상공인에 부당하게 행사하는 시장력은 흉기\"",
-     "link": "https://www.newsis.com/view/NISX20261120_0003876708",
-     "time": "2026-11-20 13:38"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "주병기 \"플랫폼사업자 시장력, 흉기될수도…후진적 법 개정해야\"",
-     "link": "https://www.yna.co.kr/view/AKR20261120045600002",
-     "time": "2026-11-20 13:20"
-    }
-   ],
-   "id": "20261123-24"
+   "id": "20261124-12"
   },
   {
    "title": "노동장관 \"정년연장, 27일 여당 특위 합의 안 되면 정부 나설 것\"",
@@ -1122,38 +739,7 @@
      "time": "2026-11-22 11:05"
     }
    ],
-   "id": "20261123-25"
-  },
-  {
-   "title": "정부, '양극화 대응 TF' 후속 회의…산업·기업 격차 완화 추진",
-   "media_count": 3,
-   "media": [
-    "뉴시스",
-    "연합뉴스",
-    "한겨레"
-   ],
-   "latest": "2026-11-23 09:00",
-   "items": [
-    {
-     "source": "연합뉴스",
-     "title": "정부, '양극화 대응 TF' 후속 회의…산업·기업 격차 완화 추진",
-     "link": "https://www.yna.co.kr/view/AKR20261122015500030",
-     "time": "2026-11-23 09:00"
-    },
-    {
-     "source": "뉴시스",
-     "title": "정부, 산업·기업 'K자 양극화' 완화 과제 발굴…中企 지원 강화",
-     "link": "https://www.newsis.com/view/NISX20261122_0003878174",
-     "time": "2026-11-23 09:00"
-    },
-    {
-     "source": "한겨레",
-     "title": "한은 “원화 절상, 수출·내수 기업 격차와 소득 양극화 완화에 기여할 것”",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288104.html",
-     "time": "2026-11-20 10:57"
-    }
-   ],
-   "id": "20261123-26"
+   "id": "20261124-13"
   },
   {
    "title": "韓증시 '최후 방파제' 증안펀드 준비…18년 만에 재가동되나[간추린 주말 뉴스]",
@@ -1184,69 +770,7 @@
      "time": "2026-11-22 19:40"
     }
    ],
-   "id": "20261123-27"
-  },
-  {
-   "title": "SK하이닉스, 키오시아 지분 14.1% 확보…전환사채 주식 전환",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-23 10:15",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "SK하이닉스, 키오시아 지분 14.1% 확보…전환사채 주식 전환",
-     "link": "https://www.hani.co.kr/arti/economy/marketing/1288382.html",
-     "time": "2026-11-23 10:15"
-    },
-    {
-     "source": "경향신문",
-     "title": "SK하이닉스, 일본 키옥시아 지분 14.1% 확보…“경영 참여 확대는 아냐”",
-     "link": "https://www.khan.co.kr/article/202611201813001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-22 09:47"
-    },
-    {
-     "source": "한국경제",
-     "title": "SK하이닉스, 日키옥시아 전환사채 주식으로 전환",
-     "link": "https://www.hankyung.com/article/2026112006711",
-     "time": "2026-11-20 17:30"
-    }
-   ],
-   "id": "20261123-28"
-  },
-  {
-   "title": "[속보] 11월 1∼20일 수출 774억달러, 101.5% 증가…일평균 95.2%↑",
-   "media_count": 3,
-   "media": [
-    "연합뉴스",
-    "한겨레",
-    "한국경제"
-   ],
-   "latest": "2026-11-23 10:15",
-   "items": [
-    {
-     "source": "한겨레",
-     "title": "11월 1~20일 수출 774억달러 신기록…반도체가 절반 이상",
-     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288577.html",
-     "time": "2026-11-23 10:15"
-    },
-    {
-     "source": "한국경제",
-     "title": "[속보] 11월 1∼20일 수출 774억달러, 101.5% 증가…일평균 95.2%↑",
-     "link": "https://www.hankyung.com/article/2026112332227",
-     "time": "2026-11-23 09:08"
-    },
-    {
-     "source": "연합뉴스",
-     "title": "[1보] 11월 1∼20일 수출 774억달러, 101.5% 증가…일평균 95.2%↑",
-     "link": "https://www.yna.co.kr/view/AKR20261123030600002",
-     "time": "2026-11-23 09:03"
-    }
-   ],
-   "id": "20261123-29"
+   "id": "20261124-14"
   },
   {
    "title": "집 가진 가구 중 21%가 ‘1인 가구’…역대 최고 비중",
@@ -1277,7 +801,7 @@
      "time": "2026-11-22 09:34"
     }
    ],
-   "id": "20261123-30"
+   "id": "20261124-15"
   },
   {
    "title": "여성 임금, 남성의 72%…한국 남녀 임금 격차 OECD 최고",
@@ -1308,38 +832,7 @@
      "time": "2026-11-23 05:53"
     }
    ],
-   "id": "20261123-31"
-  },
-  {
-   "title": "한전도 해킹당했다…65만명 주민번호·계좌·카드번호 유출",
-   "media_count": 3,
-   "media": [
-    "경향신문",
-    "동아일보",
-    "매일경제"
-   ],
-   "latest": "2026-11-23 10:15",
-   "items": [
-    {
-     "source": "경향신문",
-     "title": "한전도 해킹당했다…65만명 주민번호·계좌·카드번호 유출",
-     "link": "https://www.khan.co.kr/article/202611221907001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
-     "time": "2026-11-23 10:15"
-    },
-    {
-     "source": "매일경제",
-     "title": "“전기요금 내려고 입력했던 내 정보가”…한전, 이번엔 65만명 고객정보 유출",
-     "link": "https://www.mk.co.kr/news/it/12215723",
-     "time": "2026-11-23 03:25"
-    },
-    {
-     "source": "동아일보",
-     "title": "컬리, 큐레이터 1만699명 개인정보 유출…일부 계좌·주민번호 포함",
-     "link": "https://www.donga.com/news/Economy/article/all/20261120/135063156/1",
-     "time": "2026-11-20 18:28"
-    }
-   ],
-   "id": "20261123-32"
+   "id": "20261124-16"
   },
   {
    "title": "테슬라 돌풍에 대중국 자동차 무역적자 6조 원 역대 최대",
@@ -1382,7 +875,316 @@
      "time": "2026-11-22 06:13"
     }
    ],
-   "id": "20261123-33"
+   "id": "20261124-17"
+  },
+  {
+   "title": "서울 집값 상승에도 내집마련 기간 14→12년…왜 줄었나",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "매일경제",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-24 00:14",
+   "items": [
+    {
+     "source": "매일경제",
+     "title": "“집값 뛰는데 이거 맞아?”…서울 집값 상승에도 내집마련 기간 14→12년",
+     "link": "https://www.mk.co.kr/news/economy/12216142",
+     "time": "2026-11-24 00:14"
+    },
+    {
+     "source": "SBS",
+     "title": "서울 집값 상승에도 내집마련 기간 14→12년…왜 줄었나",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008857542&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-22 11:11"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "서울 집값 상승에도 내집마련 기간 14→12년…왜 줄었나",
+     "link": "https://www.yna.co.kr/view/AKR20261121044900003",
+     "time": "2026-11-22 06:21"
+    }
+   ],
+   "id": "20261124-18"
+  },
+  {
+   "title": "은행 맘대로 서비스 중단…공정위, 불공정 약관 제동",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "매일경제",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-24 02:39",
+   "items": [
+    {
+     "source": "매일경제",
+     "title": "은행 맘대로 서비스 중단…공정위, 불공정 약관 제동",
+     "link": "https://www.mk.co.kr/news/economy/12216362",
+     "time": "2026-11-24 02:39"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "은행 마음대로 서비스 중단 안 돼…공정위, 불공정약관 시정요청",
+     "link": "https://www.yna.co.kr/view/AKR20261123036800002",
+     "time": "2026-11-23 10:00"
+    },
+    {
+     "source": "뉴시스",
+     "title": "은행 일방적 서비스 중단·계약 해지 '제동'…공정위, 약관 73개 시정 요청",
+     "link": "https://www.newsis.com/view/NISX20261123_0003878757",
+     "time": "2026-11-23 10:00"
+    }
+   ],
+   "id": "20261124-19"
+  },
+  {
+   "title": "젠슨 황 엔비디아 CEO 즉시 복귀…이사회 만장일치 결정",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "동아일보",
+    "한국경제"
+   ],
+   "latest": "2026-11-24 10:33",
+   "items": [
+    {
+     "source": "뉴시스",
+     "title": "'젠슨 황 복귀 불가' 6일 만에 번복…엔비디아 이사회 독립성 도마",
+     "link": "https://www.newsis.com/view/NISX20261124_0003880412",
+     "time": "2026-11-24 10:33"
+    },
+    {
+     "source": "뉴시스",
+     "title": "\"엔비디아 임시 CEO도 젠슨 황 복귀 논의 몰랐다\"",
+     "link": "https://www.newsis.com/view/NISX20261124_0003880293",
+     "time": "2026-11-24 10:10"
+    },
+    {
+     "source": "뉴시스",
+     "title": "\"젠슨 황의 엔비디아 복귀 놀랍지 않다\"-NYT",
+     "link": "https://www.newsis.com/view/NISX20261124_0003880148",
+     "time": "2026-11-24 07:32"
+    },
+    {
+     "source": "동아일보",
+     "title": "젠슨 황, 엔비디아 CEO 복귀… 사임 11일만",
+     "link": "https://www.donga.com/news/Inter/article/all/20261124/135077736/2",
+     "time": "2026-11-24 04:30"
+    },
+    {
+     "source": "뉴시스",
+     "title": "트럼프 \"젠슨 황 복귀, 엔비디아 이사회와 직간접 소통\"(종합)",
+     "link": "https://www.newsis.com/view/NISX20261124_0003880084",
+     "time": "2026-11-24 01:19"
+    },
+    {
+     "source": "한국경제",
+     "title": "[속보] 젠슨 황 \"엔비디아 복귀 영광…가족의 사랑에 감사\"",
+     "link": "https://www.hankyung.com/article/2026112353457",
+     "time": "2026-11-23 23:25"
+    },
+    {
+     "source": "뉴시스",
+     "title": "젠슨 황 엔비디아 CEO 즉시 복귀…이사회 만장일치 결정",
+     "link": "https://www.newsis.com/view/NISX20261123_0003880064",
+     "time": "2026-11-23 23:13"
+    },
+    {
+     "source": "뉴시스",
+     "title": "[속보] 젠슨 황 엔비디아 CEO 즉시 복귀…이사회 만장일치 결정",
+     "link": "https://www.newsis.com/view/NISX20261123_0003880063",
+     "time": "2026-11-23 23:00"
+    }
+   ],
+   "id": "20261124-20"
+  },
+  {
+   "title": "공공택지 보상 협조하면 지장물 보상금 최대 30% 더 받는다",
+   "media_count": 3,
+   "media": [
+    "뉴시스",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "공공주택 보상 협조하면 최대 30% 장려금 추가 지급",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288796.html",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "공공택지 보상 협조하면 지장물 보상금 최대 30% 더 받는다",
+     "link": "https://www.yna.co.kr/view/AKR20261124068700003",
+     "time": "2026-11-24 11:00"
+    },
+    {
+     "source": "뉴시스",
+     "title": "공공택지 보상 협조하면 최대 30% 더…국토부, 하위법령 개정 추진",
+     "link": "https://www.newsis.com/view/NISX20261124_0003880336",
+     "time": "2026-11-24 11:00"
+    }
+   ],
+   "id": "20261124-21"
+  },
+  {
+   "title": "증시 급랭에도…한은 금통위 점도표 예상 ‘금리 추가 인상’에 무게",
+   "media_count": 3,
+   "media": [
+    "동아일보",
+    "연합뉴스",
+    "한겨레"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "한겨레",
+     "title": "증시 급랭에도…한은 금통위 점도표 예상 ‘금리 추가 인상’에 무게",
+     "link": "https://www.hani.co.kr/arti/economy/economy_general/1288662.html",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "동아일보",
+     "title": "한은 26일 금리 인상 전망… 증시→예적금 ‘머니무브’ 빨라질듯",
+     "link": "https://www.donga.com/news/Economy/article/all/20261124/135077731/2",
+     "time": "2026-11-24 04:30"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "한은, 석 달 만에 금리 인상 재개 전망…\"내년까지 긴축\"",
+     "link": "https://www.yna.co.kr/view/AKR20261121021600002",
+     "time": "2026-11-22 05:45"
+    }
+   ],
+   "id": "20261124-22"
+  },
+  {
+   "title": "젠슨 황, 사임 11일 만에 복귀…엔비디아 \"역량 충분\"",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "뉴시스",
+    "한국경제"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "젠슨 황 11일 만에 복귀, 가죽은 아니지만, 여전히 점퍼",
+     "link": "https://www.khan.co.kr/article/202611241027001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "한국경제",
+     "title": "젠슨 황, 사임 11일 만에 복귀…엔비디아 \"역량 충분\"",
+     "link": "https://www.hankyung.com/article/202611245387i",
+     "time": "2026-11-24 00:35"
+    },
+    {
+     "source": "뉴시스",
+     "title": "젠슨 황, 엔비디아 CEO 즉시 복귀…사임 11일 만(종합)",
+     "link": "https://www.newsis.com/view/NISX20261123_0003880079",
+     "time": "2026-11-24 00:28"
+    }
+   ],
+   "id": "20261124-23"
+  },
+  {
+   "title": "전기차 미보유자 49% \"향후 5년 내 전기차 구매 의향\"",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "연합뉴스"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "전기차 미보유자 49% “5년 안에 산다”…관심 1년 새 두 배 넘게&#8593;",
+     "link": "https://www.khan.co.kr/article/202611240953001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "SBS",
+     "title": "전기차 미보유자 49% \"향후 5년 내 전기차 구매 의향\"",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008860884&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-24 13:28"
+    },
+    {
+     "source": "연합뉴스",
+     "title": "전기차 미보유자 49% \"향후 5년 내 전기차 구매 의향\"",
+     "link": "https://www.yna.co.kr/view/AKR20261124045600003",
+     "time": "2026-11-24 09:51"
+    }
+   ],
+   "id": "20261124-24"
+  },
+  {
+   "title": "“젠슨 황 복귀 결정 과정서 경영진 배제···트럼프 압박 영향”",
+   "media_count": 3,
+   "media": [
+    "경향신문",
+    "뉴시스",
+    "한국경제"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "“젠슨 황 복귀 결정 과정서 경영진 배제···트럼프 압박 영향”",
+     "link": "https://www.khan.co.kr/article/202611240837001/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "뉴시스",
+     "title": "[속보] 트럼프 \"젠슨 황 복귀, 올바른 결정…수출통제 내부 조사는 계속해야\"",
+     "link": "https://www.newsis.com/view/NISX20261123_0003880068",
+     "time": "2026-11-23 23:15"
+    },
+    {
+     "source": "한국경제",
+     "title": "베선트, 젠슨 황 엔비디아 복귀 배제 안 해…입장 변화",
+     "link": "https://www.hankyung.com/article/202611233126i",
+     "time": "2026-11-23 08:49"
+    }
+   ],
+   "id": "20261124-25"
+  },
+  {
+   "title": "코스피 4700 턱걸이",
+   "media_count": 3,
+   "media": [
+    "SBS",
+    "경향신문",
+    "동아일보"
+   ],
+   "latest": "2026-11-24 14:04",
+   "items": [
+    {
+     "source": "경향신문",
+     "title": "코스피 4700 턱걸이",
+     "link": "https://www.khan.co.kr/article/202611232123015/?utm_source=khan_rss&utm_medium=rss&utm_campaign=economy_news",
+     "time": "2026-11-24 14:04"
+    },
+    {
+     "source": "동아일보",
+     "title": "코스피 4700 턱걸이… AI 수익성 우려에 반도체 수요 기대 주춤",
+     "link": "https://www.donga.com/news/Economy/article/all/20261124/135077727/2",
+     "time": "2026-11-24 04:30"
+    },
+    {
+     "source": "SBS",
+     "title": "코스피 4,700선 턱걸이…코스닥 2년 만에 최저",
+     "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008859262&plink=RSSLINK&cooper=RSSREADER",
+     "time": "2026-11-23 17:07"
+    }
+   ],
+   "id": "20261124-26"
   }
  ]
 }
